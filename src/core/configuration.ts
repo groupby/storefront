@@ -150,6 +150,10 @@ namespace Configuration {
      */
     searchCharMinLimit?: number;
     /**
+     * whether to use the first term as a category search
+     */
+    showCategoryValuesForFirstMatch?: boolean;
+    /**
      * number of suggestions to request
      */
     suggestionCount?: number;

@@ -19,18 +19,27 @@ namespace Adapter {
     Config.extractAutocompleteProductArea(config) || Adapter.extractArea(config);
 
   // tslint:disable-next-line max-line-length
-  export const extractSuggestions = ({ result }: any, query: string, category: string, labels: { [key: string]: string }): Actions.Payload.Autocomplete.Suggestions => {
+  export const extractSuggestions = ({ result }: any, query: string, category: string, labels: { [key: string]: string }, config: Configuration): Actions.Payload.Autocomplete.Suggestions => {
+
     const searchTerms = result.searchTerms || [];
     const navigations = result.navigations || [];
-    const hasCategory = category && searchTerms[0] && Adapter.termsMatch(searchTerms[0].value, query);
+    let hasCategory = category && searchTerms[0] && Adapter.termsMatch(searchTerms[0].value, query);
+    let categoryValues = hasCategory
+      ? [{ matchAll: true }, ...Adapter.extractCategoryValues(searchTerms[0], category)]
+      : [];
+    if ( Config.extractSaytCategoriesForFirstMatch(config) ) {
+      hasCategory = category && searchTerms[0];
+      categoryValues = (hasCategory && searchTerms[0].additionalInfo)
+        ? [{ matchAll: true }, ...Adapter.extractCategoryValues(searchTerms[0], category)]
+        : [{ matchAll: true }];
+    }
     // tslint:disable-next-line max-line-length
-    const categoryValues = hasCategory ? [{ matchAll: true }, ...Adapter.extractCategoryValues(searchTerms[0], category)] : [];
     if (hasCategory) {
       searchTerms[0].disabled = true;
     }
     return {
       categoryValues,
-      suggestions: searchTerms.map(({ value, disabled }) => ({ value, disabled })),
+      suggestions: searchTerms.map(({ value, disabled, additionalInfo }) => ({ value, disabled, additionalInfo })),
       navigations: navigations.map(({ name: field, values: refinements }) =>
         ({ field, label: labels[field] || field, refinements }))
     };
