@@ -310,6 +310,14 @@ suite('selectors', ({ expect, stub }) => {
     });
   });
 
+  describe('template()', () => {
+    it('should return template', () => {
+      const template = { a: 'b' };
+
+      expect(Selectors.template(<any>{ data: { present: { template } } })).to.eql(template);
+    });
+  });
+
   describe('products()', () => {
     it('should return all products', () => {
       const products = [{ data: { a: 'b' } }];
@@ -545,6 +553,17 @@ suite('selectors', ({ expect, stub }) => {
       const autocompleteSelector = stub(Selectors, 'autocomplete').returns({ products });
 
       expect(Selectors.autocompleteProducts(state)).to.eql(['c', 'd']);
+      expect(autocompleteSelector).to.be.calledWith(state);
+    });
+  });
+
+  describe('autocompleteTemplate()', () => {
+    it('should return the current autocomplete template', () => {
+      const state: any = { a: 'b' };
+      const template = [{ data: 'c' }, { data: 'd' }];
+      const autocompleteSelector = stub(Selectors, 'autocomplete').returns({ template });
+
+      expect(Selectors.autocompleteTemplate(state)).to.eql(template);
       expect(autocompleteSelector).to.be.calledWith(state);
     });
   });

@@ -134,6 +134,12 @@ namespace Selectors {
     (Selectors.page(state) - 1) * pagesize;
 
   /**
+   * Returns the template.
+   */
+  export const template = (state: Store.State) =>
+    state.data.present.template;
+
+  /**
    * Returns the current products
    */
   export const products = (state: Store.State) =>
@@ -323,6 +329,12 @@ namespace Selectors {
    */
   export const autocompleteProducts = (state: Store.State) =>
     Search.extractData(Selectors.autocomplete(state).products);
+
+  /**
+   * Returns the current autocomplete template.
+   */
+  export const autocompleteTemplate = (state: Store.State) =>
+    Selectors.autocomplete(state).template;
 
   /**
    * Returns the current session location.
