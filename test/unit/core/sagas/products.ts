@@ -11,7 +11,7 @@ import Selectors from '../../../../src/core/selectors';
 import * as utils from '../../../../src/core/utils';
 import suite from '../../_suite';
 
-suite('products saga', ({ expect, spy, stub }) => {
+suite('products saga', ({ sinon, expect, spy, stub }) => {
   const iNavDefaults = {
     navigations: {
       sort: false
@@ -569,6 +569,7 @@ suite('products saga', ({ expect, spy, stub }) => {
         };
         stub(Requests, 'search').returns({ e: 'f' });
         stub(Selectors, 'productsWithMetadata').returns([{ index: 1 }, { index: 2 }, { index: 3 }]);
+        stub(Selectors, 'recordCount').returns(50);
 
         const task = Tasks.fetchMoreProducts(flux, action);
 
@@ -579,6 +580,49 @@ suite('products saga', ({ expect, spy, stub }) => {
           e: 'f',
           pageSize,
           skip: 3
+        }));
+        expect(task.next(results).value).to.eql(effects.put(receiveMoreProductsAction));
+        expect(receiveMoreProducts).to.be.calledWithExactly(results);
+        expect(emit).to.be.calledWithExactly(Events.BEACON_SEARCH, id);
+        expect(task.next().value).to.eql(effects.put(infiniteScrollRequestStateAction));
+        expect(infiniteScrollRequestState).to.be.calledTwice.calledWithExactly({ isFetchingForward: false });
+        task.next();
+      });
+
+      it('should return more products when fetching forward and there are currently no products', () => {
+        const id = '41892';
+        const pageSize = 14;
+        const emit = spy();
+        const saveState = spy();
+        const search = () => null;
+        const bridge = { search };
+        const action: any = { payload: { amount: pageSize, forward: true } };
+        const receiveMoreProductsAction: any = { c: 'd' };
+        const receiveMoreProducts = spy(() => receiveMoreProductsAction);
+        const infiniteScrollRequestStateAction: any = { e: 'f' };
+        const infiniteScrollRequestState = spy(() => infiniteScrollRequestStateAction);
+        const state = { e: 'f' };
+        const records = ['g', 'h'];
+        const results = { records, id };
+        const flux: any = {
+          emit,
+          saveState,
+          clients: { bridge },
+          actions: { receiveMoreProducts, infiniteScrollRequestState }
+        };
+        stub(Requests, 'search').returns({ e: 'f' });
+        stub(Selectors, 'productsWithMetadata').returns([]);
+        stub(Selectors, 'recordCount').returns(50);
+
+        const task = Tasks.fetchMoreProducts(flux, action);
+
+        expect(task.next().value).to.eql(effects.select());
+        expect(task.next(state).value).to.eql(effects.put(infiniteScrollRequestStateAction));
+        expect(infiniteScrollRequestState).to.be.calledOnce.calledWithExactly({ isFetchingForward: true });
+        expect(task.next().value).to.eql(effects.call([bridge, search], {
+          e: 'f',
+          pageSize,
+          skip: 0
         }));
         expect(task.next(results).value).to.eql(effects.put(receiveMoreProductsAction));
         expect(receiveMoreProducts).to.be.calledWithExactly(results);
@@ -611,6 +655,7 @@ suite('products saga', ({ expect, spy, stub }) => {
         };
         stub(Requests, 'search').returns({ e: 'f' });
         stub(Selectors, 'productsWithMetadata').returns([{ index: 15 }, { index: 16 }, { index: 17 }]);
+        stub(Selectors, 'recordCount').returns(50);
 
         const task = Tasks.fetchMoreProducts(flux, action);
 
@@ -627,6 +672,76 @@ suite('products saga', ({ expect, spy, stub }) => {
         expect(emit).to.be.calledWithExactly(Events.BEACON_SEARCH, id);
         expect(task.next().value).to.eql(effects.put(infiniteScrollRequestStateAction));
         expect(infiniteScrollRequestState).to.be.calledTwice.calledWithExactly({ isFetchingBackward: false });
+      });
+
+      it('should throw error when skipping forward past the last record', () => {
+        const products = [{ index: 1 }, { index: 2 }, { index: 3 }];
+        const pageSize = 14;
+        const action: any = { payload: { amount: pageSize, forward: true } };
+        const receiveMoreProductsAction: any = { c: 'd' };
+        const receiveMoreProducts = spy(() => receiveMoreProductsAction);
+        const infiniteScrollRequestStateAction: any = { e: 'f' };
+        const infiniteScrollRequestState = spy(() => infiniteScrollRequestStateAction);
+        const state = { e: 'f' };
+        const flux: any = {
+          actions: { receiveMoreProducts, infiniteScrollRequestState }
+        };
+        stub(Selectors, 'recordCount').returns(products.length);
+
+        const task = Tasks.fetchMoreProducts(flux, action);
+
+        expect(task.next().value).to.eql(effects.select());
+        task.next(state);
+        expect(infiniteScrollRequestState).not.to.be.called;
+        expect(receiveMoreProducts).to.be.calledWith(sinon.match.instanceOf(Error));
+        task.next();
+      });
+
+      it('should throw error when skipping backwards past the first record', () => {
+        const products = [{ index: 1 }, { index: 2 }, { index: 3 }];
+        const pageSize = 14;
+        const action: any = { payload: { amount: pageSize, forward: false } };
+        const receiveMoreProductsAction: any = { c: 'd' };
+        const receiveMoreProducts = spy(() => receiveMoreProductsAction);
+        const infiniteScrollRequestStateAction: any = { e: 'f' };
+        const infiniteScrollRequestState = spy(() => infiniteScrollRequestStateAction);
+        const state = { e: 'f' };
+        const flux: any = {
+          actions: { receiveMoreProducts, infiniteScrollRequestState }
+        };
+        stub(Selectors, 'productsWithMetadata').returns(products);
+        stub(Selectors, 'recordCount').returns(50);
+
+        const task = Tasks.fetchMoreProducts(flux, action);
+
+        expect(task.next().value).to.eql(effects.select());
+        task.next(state);
+        expect(infiniteScrollRequestState).not.to.be.called;
+        expect(receiveMoreProducts).to.be.calledWith(sinon.match.instanceOf(Error));
+        task.next();
+      });
+
+      it('should throw error when skipping backwards and there are currently no products', () => {
+        const pageSize = 14;
+        const action: any = { payload: { amount: pageSize, forward: false } };
+        const receiveMoreProductsAction: any = { c: 'd' };
+        const receiveMoreProducts = spy(() => receiveMoreProductsAction);
+        const infiniteScrollRequestStateAction: any = { e: 'f' };
+        const infiniteScrollRequestState = spy(() => infiniteScrollRequestStateAction);
+        const state = { e: 'f' };
+        const flux: any = {
+          actions: { receiveMoreProducts, infiniteScrollRequestState }
+        };
+        stub(Selectors, 'productsWithMetadata').returns([]);
+        stub(Selectors, 'recordCount').returns(50);
+
+        const task = Tasks.fetchMoreProducts(flux, action);
+
+        expect(task.next().value).to.eql(effects.select());
+        task.next(state);
+        expect(infiniteScrollRequestState).not.to.be.called;
+        expect(receiveMoreProducts).to.be.calledWith(sinon.match.instanceOf(Error));
+        task.next();
       });
 
       it('should throw error on failure', () => {
