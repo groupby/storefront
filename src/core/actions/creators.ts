@@ -277,11 +277,16 @@ namespace ActionCreators {
    * @return {[type]}       - Actions with relevant data.
    */
   export function search(query?: string) {
-    return (state: Store.State): Actions.Search => <any>[
-      ActionCreators.resetPage(),
-      ...ActionCreators.resetRefinements(true),
-      ...ActionCreators.updateQuery(query || Selectors.query(state))
-    ];
+    return (state: Store.State): Actions.Search => {
+      const actions: any = [ActionCreators.resetPage()];
+      if (Selectors.config(state).search.useDefaultCollection) {
+        actions.push(ActionCreators.selectCollection(Selectors.defaultCollection(state)));
+      }
+      // tslint:disable-next-line max-line-length
+      actions.push(...ActionCreators.resetRefinements(true), ...ActionCreators.updateQuery(query || Selectors.query(state)));
+
+      return actions;
+    };
   }
 
   /**
