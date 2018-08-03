@@ -129,12 +129,15 @@ namespace Configuration {
     /**
      * default request values
      */
-    defaults?: Partial<Request> | ((request: Partial<Request>) => Partial<Request>);
+    defaults?: Configuration.SearchDefaults;
     /**
      * override any computed request value
      */
-    overrides?: Partial<Request> | ((request: Partial<Request>) => Partial<Request>);
+    overrides?: Configuration.SearchOverrides;
   }
+
+  export type SearchDefaults = Partial<Request> | ((request: Partial<Request>) => Partial<Request>);
+  export type SearchOverrides = Request | ((currReq: Request, prevReq: Request) => Request);
 
   export interface Autocomplete {
     /**
@@ -199,18 +202,26 @@ namespace Configuration {
      */
     defaults?: {
       // tslint:disable-next-line max-line-length
-      suggestions?: QueryTimeAutocompleteConfig | ((config: QueryTimeAutocompleteConfig) => QueryTimeAutocompleteConfig);
-      products?: QueryTimeProductSearchConfig | ((config: QueryTimeProductSearchConfig) => QueryTimeProductSearchConfig);
+      suggestions?: Configuration.AutocompleteSuggestionsDefaults;
+      products?: Configuration.AutocompleteProductsDefaults;
     };
     /**
      * override any computed request value
      */
     overrides?: {
       // tslint:disable-next-line max-line-length
-      suggestions?: QueryTimeAutocompleteConfig | ((config: QueryTimeAutocompleteConfig) => QueryTimeAutocompleteConfig);
-      products?: QueryTimeProductSearchConfig | ((config: QueryTimeProductSearchConfig) => QueryTimeProductSearchConfig);
+      suggestions?: Configuration.AutocompleteSuggestionsOverrides;
+      // tslint:disable-next-line max-line-length
+      products?: Configuration.AutocompleteProductsOverrides;
     };
   }
+
+  // tslint:disable:max-line-length
+  export type AutocompleteSuggestionsDefaults = QueryTimeAutocompleteConfig | ((config: QueryTimeAutocompleteConfig) => QueryTimeAutocompleteConfig);
+  export type AutocompleteSuggestionsOverrides = QueryTimeAutocompleteConfig | ((currConfig: QueryTimeAutocompleteConfig, prevConfig: QueryTimeAutocompleteConfig) => QueryTimeAutocompleteConfig);
+  export type AutocompleteProductsDefaults = QueryTimeProductSearchConfig | ((config: QueryTimeProductSearchConfig) => QueryTimeProductSearchConfig);
+  export type AutocompleteProductsOverrides = QueryTimeProductSearchConfig | ((currConfig: QueryTimeProductSearchConfig, prevConfig?: QueryTimeProductSearchConfig) => QueryTimeProductSearchConfig);
+  // tslint:enable:max-line-length
 
   export namespace Autocomplete {
     export interface Recommendations {

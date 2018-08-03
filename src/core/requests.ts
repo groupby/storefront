@@ -8,10 +8,29 @@ import SearchAdapter, { MAX_RECORDS } from './adapters/search';
 import AppConfig from './configuration';
 import Selectors from './selectors';
 import Store from './store';
+import { normalizeToFunction } from './utils';
 
 namespace Requests {
+  export interface PastRequests {
+    search: Request;
+    autocompleteSuggestions: QueryTimeProductSearchConfig;
+    autocompleteProducts: QueryTimeProductSearchConfig;
+  }
 
-  export const search = (state: Store.State): Request => {
+  export const pastReqs: Requests.PastRequests = {
+    search: <Request>{},
+    autocompleteSuggestions: <QueryTimeProductSearchConfig>{},
+    autocompleteProducts: <QueryTimeProductSearchConfig>{}
+  };
+
+  // tslint:disable-next-line max-line-length
+  export const override = <T>(overrideConfig: (currReq: T, prevReq: T) => T, pastReq: keyof Requests.PastRequests): ((r: T) => T) =>
+    (r: T) => overrideConfig(r, <T>pastReqs[pastReq]);
+
+  export const setPastState = <T>(pastReq: keyof Requests.PastRequests): ((request: T) => T) =>
+    (request) => pastReqs[pastReq] = request;
+
+  export const search = (state: Store.State, addOverride: boolean = true): Request => {
     const config = Selectors.config(state);
     const sort = Selectors.sort(state);
     const pageSize = Selectors.pageSize(state);
@@ -37,7 +56,16 @@ namespace Requests {
       request.biasing = PastPurchaseAdapter.pastPurchaseBiasing(state);
     }
 
-    return <Request>Requests.chain(config.search.defaults, request, config.search.overrides);
+    const requestTransformer = [Configuration.searchDefaults(config), normalizeToFunction(request)];
+
+    if (addOverride) {
+      requestTransformer.push(
+        Requests.override(Configuration.searchOverrides(config), 'search'),
+        Requests.setPastState('search')
+      );
+    }
+
+    return <Request>Requests.chain(...requestTransformer);
   };
 
   // tslint:disable-next-line max-line-length
@@ -58,19 +86,28 @@ namespace Requests {
     return <Request>request;
   };
 
-  export const autocompleteSuggestions = (config: AppConfig): QueryTimeAutocompleteConfig =>
-    Requests.chain(config.autocomplete.defaults.suggestions, {
+  export const autocompleteSuggestions = (config: AppConfig): QueryTimeAutocompleteConfig => {
+    const normalizedRequest = normalizeToFunction({
       language: Autocomplete.extractLanguage(config),
       numSearchTerms: Configuration.extractAutocompleteSuggestionCount(config),
       numNavigations: Configuration.extractAutocompleteNavigationCount(config),
       sortAlphabetically: Configuration.isAutocompleteAlphabeticallySorted(config),
       fuzzyMatch: Configuration.isAutocompleteMatchingFuzzily(config)
-    }, config.autocomplete.overrides.suggestions);
+    });
 
-  export const autocompleteProducts = (state: Store.State): QueryTimeProductSearchConfig => {
+    return Requests.chain(
+      Configuration.autocompleteSuggestionsDefaults(config),
+      normalizedRequest,
+      Requests.override(Configuration.autocompleteSuggestionsOverrides(config), 'autocompleteSuggestions'),
+      Requests.setPastState('autocompleteSuggestions')
+    );
+  };
+
+  export const autocompleteProducts = (state: Store.State): Request => {
     const config = Selectors.config(state);
-    let request = {
-      ...Requests.search(state),
+
+    let request: Request = {
+      ...Requests.search(state, false),
       refinements: [],
       skip: 0,
       sort: undefined,
@@ -83,7 +120,12 @@ namespace Requests {
       request = Requests.realTimeBiasing(state, request);
     }
 
-    return Requests.chain(config.autocomplete.defaults.products, request, config.autocomplete.overrides.products);
+    return Requests.chain(
+      Configuration.autocompleteProductsDefaults(config),
+      normalizeToFunction(request),
+      Requests.override(Configuration.autocompleteProductsOverrides(config), 'autocompleteProducts'),
+      Requests.setPastState('autocompleteProducts')
+    );
   };
 
   // tslint:disable-next-line max-line-length
@@ -99,14 +141,8 @@ namespace Requests {
     };
   };
 
-  export const chain = (...objs: Array<object | ((obj: object) => object)>) =>
-    objs.reduce((final, obj) => {
-      if (typeof obj === 'function') {
-        return obj(final) || final;
-      } else {
-        return Object.assign(final, obj);
-      }
-    }, {});
+  export const chain = <T>(...fns: Array<(...obj: any[]) => T>): T =>
+    fns.reduce((final, fn) => fn(final) || final, <T>{});
 }
 
 export default Requests;
