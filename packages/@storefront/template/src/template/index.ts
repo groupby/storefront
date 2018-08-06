@@ -22,11 +22,12 @@ class Template {
   }
 
   updateZones = (template: Store.Template) => {
-    if (this.state.rule !== template.rule) {
+    if (this.state.name !== template.name) {
       const isActive = template.name === this.props.target;
 
       this.set({
         isActive,
+        name: template.name,
         rule: template.rule,
         zones: isActive ? template.zones : {},
       });
@@ -42,6 +43,7 @@ namespace Template {
 
   export interface State {
     isActive: boolean;
+    name?: string,
     rule?: string;
     zones: { [key: string]: Store.Zone };
   }
