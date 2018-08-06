@@ -60,25 +60,26 @@ suite('Template', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvideA
 
       template.updateZones(<any>{ name: target, rule, zones });
 
-      expect(set).to.be.calledWith({ zones, rule, isActive: true });
+      expect(set).to.be.calledWith({ zones, name: target, rule, isActive: true });
     });
 
     it('should set inactive state', () => {
       const name = 'banner';
       const set = (template.set = spy());
-      template.state = <any>{ rule: 'toy banner' };
+      template.state = <any>{ name: 'toy banner' };
       template.props = { target: 'default' };
 
       template.updateZones(<any>{ name });
 
-      expect(set).to.be.calledWith({ zones: {}, rule: undefined, isActive: false });
+      expect(set).to.be.calledWith({ zones: {}, name, rule: undefined, isActive: false });
     });
 
     it('should not call set()', () => {
       template.set = () => expect.fail();
-      template.props = { target: 'top rated' };
+      template.state = <any>{ name: 'top-rated' };
+      template.props = { target: 'top-rated' };
 
-      template.updateZones(<any>{ name: 'banner' });
+      template.updateZones(<any>{ name: 'top-rated' });
     });
   });
 });
