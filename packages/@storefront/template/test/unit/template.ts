@@ -51,6 +51,18 @@ suite('Template', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvideA
   });
 
   describe('updateZones()', () => {
+    it('should allow `default` to be targeted', () => {
+      const target = 'default';
+      const zones = {};
+      const set = (template.set = spy());
+      template.state = <any>{ name: undefined };
+      template.props = { target };
+
+      template.updateZones(<any>{ name: target, zones });
+
+      expect(set).to.be.calledWith({ zones, name: target, rule: undefined, isActive: true });
+    });
+
     it('should set active state', () => {
       const target = 'banner';
       const rule = 'toy banner';
