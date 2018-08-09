@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>RecommendationsResponse | @storefront/flux-capacitor</title>
+	<title>Details | @storefront/flux-capacitor</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,10 +56,13 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="recommendationsresponse.html">RecommendationsResponse</a>
+					<a href="../modules/configuration.html">Configuration</a>
+				</li>
+				<li>
+					<a href="configuration.details.html">Details</a>
 				</li>
 			</ul>
-			<h1>Interface RecommendationsResponse</h1>
+			<h1>Interface Details</h1>
 		</div>
 	</div>
 </header>
@@ -70,7 +73,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">RecommendationsResponse</span>
+						<span class="target">Details</span>
 					</li>
 				</ul>
 			</section>
@@ -81,9 +84,7 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="recommendationsresponse.html#result" class="tsd-kind-icon">result</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="recommendationsresponse.html#servertimestamp" class="tsd-kind-icon">server<wbr>Timestamp</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="recommendationsresponse.html#status" class="tsd-kind-icon">status</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="configuration.details.html#alwaysfetch" class="tsd-kind-icon">always<wbr>Fetch</a></li>
 							</ul>
 						</section>
 					</div>
@@ -92,48 +93,14 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="result" class="tsd-anchor"></a>
-					<h3>result</h3>
-					<div class="tsd-signature tsd-kind-icon">result<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<a name="alwaysfetch" class="tsd-anchor"></a>
+					<h3>always<wbr>Fetch</h3>
+					<div class="tsd-signature tsd-kind-icon">always<wbr>Fetch<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/groupby/flux-capacitor/blob/d79e431/src/core/types.ts#L7">core/types.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/groupby/flux-capacitor/blob/d79e431/src/core/configuration.ts#L411">core/configuration.ts:411</a></li>
 						</ul>
 					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="servertimestamp" class="tsd-anchor"></a>
-					<h3>server<wbr>Timestamp</h3>
-					<div class="tsd-signature tsd-kind-icon">server<wbr>Timestamp<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/groupby/flux-capacitor/blob/d79e431/src/core/types.ts#L8">core/types.ts:8</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="status" class="tsd-anchor"></a>
-					<h3>status</h3>
-					<div class="tsd-signature tsd-kind-icon">status<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/groupby/flux-capacitor/blob/d79e431/src/core/types.ts#L2">core/types.ts:2</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter">
-								<h5>additional<wbr>Info<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span></h5>
-							</li>
-							<li class="tsd-parameter">
-								<h5>code<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
-							</li>
-							<li class="tsd-parameter">
-								<h5>message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-							</li>
-						</ul>
-					</div>
 				</section>
 			</section>
 		</div>
@@ -143,28 +110,171 @@
 					<li class="globals  ">
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
+					<li class="label tsd-is-external">
+						<span>Internals</span>
+					</li>
+					<li class="current tsd-kind-module">
+						<a href="../modules/configuration.html">Configuration</a>
+						<ul>
+							<li class=" tsd-kind-module tsd-parent-kind-module">
+								<a href="../modules/configuration.autocomplete.html">Autocomplete</a>
+							</li>
+							<li class=" tsd-kind-module tsd-parent-kind-module">
+								<a href="../modules/configuration.personalization.html">Personalization</a>
+							</li>
+							<li class=" tsd-kind-module tsd-parent-kind-module">
+								<a href="../modules/configuration.recommendations.html">Recommendations</a>
+							</li>
+						</ul>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/events.html">Events</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/observer.html">Observer</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/requests.html">Requests</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/selectors.html">Selectors</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/storesections.html">Store<wbr>Sections</a>
+					</li>
+					<li class="label tsd-is-external">
+						<span>Externals</span>
+					</li>
+					<li class=" tsd-kind-module tsd-is-external tsd-is-not-exported">
+						<a href="../modules/_redux_.html">"redux"</a>
+					</li>
+					<li class=" tsd-kind-module tsd-is-external">
+						<a href="../modules/actioncreators.html">Action<wbr>Creators</a>
+					</li>
+					<li class=" tsd-kind-module tsd-is-external">
+						<a href="../modules/actions.html">Actions</a>
+					</li>
+					<li class=" tsd-kind-module tsd-is-external">
+						<a href="../modules/adapter.html">Adapter</a>
+					</li>
+					<li class=" tsd-kind-module tsd-is-external">
+						<a href="../modules/middleware.html">Middleware</a>
+					</li>
+					<li class=" tsd-kind-module tsd-is-external">
+						<a href="../modules/page.html">Page</a>
+					</li>
+					<li class=" tsd-kind-module tsd-is-external">
+						<a href="../modules/pastpurchases.html">Past<wbr>Purchases</a>
+					</li>
+					<li class=" tsd-kind-module tsd-is-external">
+						<a href="../modules/payload.html">Payload</a>
+					</li>
+					<li class=" tsd-kind-module tsd-is-external">
+						<a href="../modules/personalization.html">Personalization</a>
+					</li>
+					<li class=" tsd-kind-module tsd-is-external">
+						<a href="../modules/recommendations.html">Recommendations</a>
+					</li>
+					<li class=" tsd-kind-module tsd-is-external">
+						<a href="../modules/store.html">Store</a>
+					</li>
+					<li class=" tsd-kind-module tsd-is-external">
+						<a href="../modules/tasks.html">Tasks</a>
+					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="configuration.bridge.html" class="tsd-kind-icon">Bridge</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="configuration.clients.html" class="tsd-kind-icon">Clients</a>
+					</li>
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-interface">
-						<a href="recommendationsresponse.html" class="tsd-kind-icon">Recommendations<wbr>Response</a>
+					<li class="current tsd-kind-interface tsd-parent-kind-module">
+						<a href="configuration.details.html" class="tsd-kind-icon">Details</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="recommendationsresponse.html#result" class="tsd-kind-icon">result</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="recommendationsresponse.html#servertimestamp" class="tsd-kind-icon">server<wbr>Timestamp</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="recommendationsresponse.html#status" class="tsd-kind-icon">status</a>
+								<a href="configuration.details.html#alwaysfetch" class="tsd-kind-icon">always<wbr>Fetch</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="configuration.history.html" class="tsd-kind-icon">History</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="configuration.search.html" class="tsd-kind-icon">Search</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="../modules/configuration.html#autocompleteproductsdefaults" class="tsd-kind-icon">Autocomplete<wbr>Products<wbr>Defaults</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="../modules/configuration.html#autocompleteproductsoverrides" class="tsd-kind-icon">Autocomplete<wbr>Products<wbr>Overrides</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="../modules/configuration.html#autocompletesuggestionsdefaults" class="tsd-kind-icon">Autocomplete<wbr>Suggestions<wbr>Defaults</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="../modules/configuration.html#autocompletesuggestionsoverrides" class="tsd-kind-icon">Autocomplete<wbr>Suggestions<wbr>Overrides</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="../modules/configuration.html#recommendationmode" class="tsd-kind-icon">Recommendation<wbr>Mode</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="../modules/configuration.html#searchdefaults" class="tsd-kind-icon">Search<wbr>Defaults</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="../modules/configuration.html#searchoverrides" class="tsd-kind-icon">Search<wbr>Overrides</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="../modules/configuration.html#valueoptions" class="tsd-kind-icon">Value<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-property tsd-parent-kind-module">
+						<a href="../modules/configuration.html#area" class="tsd-kind-icon">area</a>
+					</li>
+					<li class=" tsd-kind-property tsd-parent-kind-module">
+						<a href="../modules/configuration.html#autocomplete-1" class="tsd-kind-icon">autocomplete</a>
+					</li>
+					<li class=" tsd-kind-property tsd-parent-kind-module">
+						<a href="../modules/configuration.html#collection" class="tsd-kind-icon">collection</a>
+					</li>
+					<li class=" tsd-kind-property tsd-parent-kind-module">
+						<a href="../modules/configuration.html#customerid" class="tsd-kind-icon">customer<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-property tsd-parent-kind-module">
+						<a href="../modules/configuration.html#details-1" class="tsd-kind-icon">details</a>
+					</li>
+					<li class=" tsd-kind-property tsd-parent-kind-module">
+						<a href="../modules/configuration.html#history-1" class="tsd-kind-icon">history</a>
+					</li>
+					<li class=" tsd-kind-property tsd-parent-kind-module">
+						<a href="../modules/configuration.html#language" class="tsd-kind-icon">language</a>
+					</li>
+					<li class=" tsd-kind-property tsd-parent-kind-module">
+						<a href="../modules/configuration.html#network" class="tsd-kind-icon">network</a>
+					</li>
+					<li class=" tsd-kind-property tsd-parent-kind-module">
+						<a href="../modules/configuration.html#personalization-1" class="tsd-kind-icon">personalization</a>
+					</li>
+					<li class=" tsd-kind-property tsd-parent-kind-module">
+						<a href="../modules/configuration.html#recommendations-1" class="tsd-kind-icon">recommendations</a>
+					</li>
+					<li class=" tsd-kind-property tsd-parent-kind-module">
+						<a href="../modules/configuration.html#search-1" class="tsd-kind-icon">search</a>
+					</li>
+					<li class=" tsd-kind-property tsd-parent-kind-module">
+						<a href="../modules/configuration.html#sessionid" class="tsd-kind-icon">session<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-property tsd-parent-kind-module">
+						<a href="../modules/configuration.html#visitorid" class="tsd-kind-icon">visitor<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal tsd-parent-kind-module">
+						<a href="../modules/configuration.html#recommendation_modes" class="tsd-kind-icon">RECOMMENDATION_<wbr>MODES</a>
+					</li>
 				</ul>
 			</nav>
 		</div>
