@@ -187,8 +187,16 @@ suite('FluxCapacitor', ({ expect, spy, stub }) => {
     });
 
     describe('detailsWithRouting()', () => {
-      it('should call setDetails() action', () => {
-        const product: any = { a: 'b' };
+      it('should call fetchProductDetails() action if alwaysFetch is true', () => {
+        const product: any = { a: 'b', id: '1235' };
+        stub(flux, 'config').get(() => ({ details: { alwaysFetch: true } }));
+
+        expectDispatch(() => flux.detailsWithRouting(product), 'fetchProductDetails', product.id);
+      });
+
+      it('should call setDetails() action if alwaysFetch is false', () => {
+        const product: any = { a: 'b', id: '1235' };
+        stub(flux, 'config').get(() => ({ details: { alwaysFetch: false } }));
 
         expectDispatch(() => flux.detailsWithRouting(product), 'setDetails', product);
       });
