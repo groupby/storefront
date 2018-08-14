@@ -471,7 +471,7 @@ namespace ActionCreators {
       const receiveProductsAction = createAction(Actions.RECEIVE_PRODUCTS, res);
 
       return handleError(receiveProductsAction, () => {
-        const recordCount = SearchAdapter.extractRecordCount(res);
+        const limitedRecordCount = SearchAdapter.extractRecordCount(res.totalRecordCount);
 
         return [
           receiveProductsAction,
@@ -479,12 +479,12 @@ namespace ActionCreators {
           ActionCreators.receiveProductRecords(SearchAdapter.augmentProducts(res)),
           ActionCreators.receiveNavigations(
             SearchAdapter.pruneRefinements(SearchAdapter.combineNavigations(res), state)),
-          ActionCreators.receiveRecordCount(recordCount),
+          ActionCreators.receiveRecordCount(res.totalRecordCount),
           ActionCreators.receiveCollectionCount({
             collection: Selectors.collection(state),
-            count: recordCount
+            count: res.totalRecordCount
           }),
-          ActionCreators.receivePage(recordCount)(state),
+          ActionCreators.receivePage(limitedRecordCount)(state),
           ActionCreators.receiveTemplate(SearchAdapter.extractTemplate(res.template)),
         ];
       });
