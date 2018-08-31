@@ -2,8 +2,9 @@ import * as effects from 'redux-saga/effects';
 import * as sinon from 'sinon';
 import Actions from '../../../../src/core/actions';
 import Events from '../../../../src/core/events';
-import Requests from '../../../../src/core/requests';
+import { productDetailsRequest } from '../../../../src/core/requests';
 import sagaCreator, { Tasks } from '../../../../src/core/sagas/product-details';
+import Requests from '../../../../src/core/sagas/requests';
 import Selectors from '../../../../src/core/selectors';
 import suite from '../../_suite';
 
@@ -26,25 +27,25 @@ suite('product details saga', ({ expect, spy, stub }) => {
     describe('fetchProductDetails()', () => {
       it('should call setDetails', () => {
         const id = '123';
-        const config: any = { a: 'b' };
         const search = () => null;
-        const bridge = { search };
         const record = { allMeta: { e: 'f' } };
         const request = { g: 'h' };
         const setDetailsAction: any = { a: 'b' };
         const setDetails = spy(() => setDetailsAction);
-        const flux: any = { clients: { bridge }, actions: { setDetails } };
-
-        const task = Tasks.fetchProductDetails(flux, <any>{ payload: id });
-
-        expect(task.next().value).to.eql(effects.select(Requests.search));
-        expect(task.next(request).value).to.eql(effects.call([bridge, search], {
-          g: 'h',
+        const flux: any = { actions: { setDetails } };
+        const searchRequest = stub(Requests, 'search').returns({ records: [record] });
+        const state = { a: 'b' };
+        stub(productDetailsRequest, 'composeRequest').withArgs(state, {
           query: null,
           pageSize: 1,
           skip: 0,
           refinements: [{ navigationName: 'id', type: 'Value', value: id }]
-        }));
+        }).returns(request);
+
+        const task = Tasks.fetchProductDetails(flux, <any>{ payload: id });
+
+        expect(task.next().value).to.eql(effects.select());
+        expect(task.next(state).value).to.eql(effects.call(searchRequest, flux, request));
         expect(task.next({ records: [record] }).value).to.eql(
           effects.put(setDetailsAction)
         );
@@ -57,9 +58,9 @@ suite('product details saga', ({ expect, spy, stub }) => {
         const updateDetailsAction: any = { a: 'b' };
         const updateDetails = spy(() => updateDetailsAction);
         const flux: any = {
-          clients: { bridge: { search: () => null } },
           actions: { updateDetails }
         };
+        stub(productDetailsRequest, 'composeRequest').returns({ records: [] });
 
         const task = Tasks.fetchProductDetails(flux, <any>{});
 
@@ -75,7 +76,6 @@ suite('product details saga', ({ expect, spy, stub }) => {
         const updateDetailsAction: any = { a: 'b' };
         const updateDetails = spy(() => updateDetailsAction);
         const flux: any = {
-          clients: { bridge: { search: () => null } },
           actions: { updateDetails }
         };
 

@@ -31,9 +31,10 @@ namespace Payload {
 
   export interface Query {
     corrected?: string;
-    related: string[];
-    didYouMean: string[];
-    rewrites: string[];
+    related?: string[];
+    didYouMean?: string[];
+    rewrites?: string[];
+    original?: string;
   }
 
   // note: Isn't getting the right type in generated doc for some reason
@@ -49,6 +50,11 @@ namespace Payload {
   }
 
   export namespace Autocomplete {
+    export interface Products {
+      query: string;
+      refinements: Payload.Autocomplete.Refinement[];
+    }
+
     export interface Suggestions {
       suggestions: Store.Autocomplete.Suggestion[];
       categoryValues: string[];

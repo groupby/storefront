@@ -1,27 +1,27 @@
 import * as effects from 'redux-saga/effects';
 import FluxCapacitor from '../../flux-capacitor';
 import Actions from '../actions';
-import SearchAdapter from '../adapters/search';
 import Events from '../events';
-import Requests from '../requests';
-import Selectors from '../selectors';
+import { productDetailsRequest } from '../requests';
 import Store from '../store';
 import * as utils from '../utils';
+import Requests from './requests';
 
 export namespace Tasks {
   export function* fetchProductDetails(flux: FluxCapacitor, { payload: id }: Actions.FetchProductDetails) {
     try {
-      const request = yield effects.select(Requests.search);
-      const { records, template } = yield effects.call(
-        [flux.clients.bridge, flux.clients.bridge.search],
+      const state = yield effects.select();
+      const requestBody =  productDetailsRequest.composeRequest(
+        state,
         {
-          ...request,
           query: null,
           pageSize: 1,
           skip: 0,
           refinements: [{ navigationName: 'id', type: 'Value', value: id }]
         }
       );
+      const { records, template } = yield effects.call(Requests.search, flux, requestBody);
+
       if (records.length !== 0) {
         const [record] = records;
         yield effects.put(flux.actions.setDetails(record, template));

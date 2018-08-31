@@ -1,18 +1,15 @@
 import * as effects from 'redux-saga/effects';
 import FluxCapacitor from '../../flux-capacitor';
 import Actions from '../actions';
-import Adapter from '../adapters/search';
-import Requests from '../requests';
-import Selectors from '../selectors';
+import { collectionRequest } from '../requests';
+import Requests from './requests';
 
 export namespace Tasks {
   export function* fetchCount(flux: FluxCapacitor, { payload: collection }: Actions.FetchCollectionCount) {
     try {
-      const request = yield effects.select(Requests.search);
-      const res = yield effects.call([flux.clients.bridge, flux.clients.bridge.search], {
-        ...request,
-        collection
-      });
+      const state = yield effects.select();
+      const requestBody = collectionRequest.composeRequest(state, { collection });
+      const res = yield effects.call(Requests.search, flux, requestBody);
 
       yield effects.put(flux.actions.receiveCollectionCount({
         collection,

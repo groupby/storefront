@@ -1,12 +1,13 @@
 import * as effects from 'redux-saga/effects';
 import Actions from '../../../../src/core/actions';
 import ConfigAdapter from '../../../../src/core/adapters/configuration';
-import PastPurchaseAdapter from '../../../../src/core/adapters/pastPurchases';
+import PastPurchaseAdapter from '../../../../src/core/adapters/past-purchases';
 import RecommendationsAdapter from '../../../../src/core/adapters/recommendations';
 import SearchAdapter from '../../../../src/core/adapters/search';
 import { receivePage } from '../../../../src/core/reducers/data/page';
-import Requests from '../../../../src/core/requests';
+import * as RequestBuilders from '../../../../src/core/requests';
 import sagaCreator, { MissingPayloadError, Tasks } from '../../../../src/core/sagas/recommendations';
+import Requests from '../../../../src/core/sagas/requests';
 import Selectors from '../../../../src/core/selectors';
 import * as utils from '../../../../src/core/utils';
 import suite from '../../_suite';
@@ -40,79 +41,44 @@ suite('recommendations saga', ({ expect, spy, stub }) => {
         const location = { minSize: 10 };
         const config = { customerId, recommendations: { productSuggestions: { productCount }, location, idField } };
         const state = { c: 'd' };
-        const search = () => null;
-        const bridge = { search };
+        const records = ['a', 'b', 'c'];
         const receiveRecommendationsProductsAction: any = { a: 'b' };
         const receiveRecommendationsProducts = spy(() => receiveRecommendationsProductsAction);
         const recommendationsPromise = Promise.resolve();
         const recommendationsResponse = { result: [{ productId: '123' }, {}, { productId: '456' }] };
-        const flux: any = { clients: { bridge }, actions: { receiveRecommendationsProducts }, };
-        const url = `https://${customerId}.groupbycloud.com/wisdom/v2/public/recommendations/products/_getPopular`;
-        const searchRequestSelector = stub(Requests, 'search').returns({ e: 'f' });
+        const flux: any = { actions: { receiveRecommendationsProducts }, };
+        const recommendationsRequest = stub(Requests, 'recommendations').returns(recommendationsResponse);
+        const searchRequest = stub(Requests, 'search').returns({ records });
         const augmentProducts = stub(SearchAdapter, 'augmentProducts').returns(['x', 'x', 'x']);
         const matchExact = 'match exact';
-        const fetch = stub(utils, 'fetch');
-        const originalBody = {
-          size: productCount,
-          type: 'viewProduct',
-          target: idField
-        };
-        const request = {
-          method: 'POST',
-          body: JSON.stringify(matchExact)
-        };
-        const records = ['a', 'b', 'c'];
+        const requestBody = { c: 'd' };
+        stub(RequestBuilders.recommendationsProductIDsRequest, 'composeRequest').withArgs(state).returns(matchExact);
+        stub(RequestBuilders.recommendationsProductsRequest, 'composeRequest').withArgs(state, {
+          pageSize: productCount,
+          includedNavigations: [],
+          skip: 0,
+          refinements: [
+            { navigationName: idField, type: 'Value', value: '123' },
+            { navigationName: idField, type: 'Value', value: '456' }
+          ]
+        }).returns(requestBody);
 
         const task = Tasks.fetchProducts(flux, <any>{ payload: {} });
-        const addLocationToRequest = stub(RecommendationsAdapter, 'addLocationToRequest').returns(matchExact);
 
         expect(task.next().value).to.eql(effects.select());
         expect(task.next(state).value).to.eql(effects.select(Selectors.config));
-        expect(task.next(config).value).to.eql(effects.call(fetch, url, request));
-        expect(addLocationToRequest).to.be.calledWith(originalBody);
+        expect(task.next(config).value).to.eql(effects.call(recommendationsRequest, {
+          customerId: config.customerId,
+          endpoint: 'products',
+          mode: 'Popular',
+          body: matchExact
+        }));
         expect(task.next({ json: () => recommendationsPromise }).value).to.eql(recommendationsPromise);
-        expect(task.next(recommendationsResponse).value).to.eql(effects.call(
-          [bridge, search],
-          {
-            e: 'f',
-            pageSize: productCount,
-            includedNavigations: [],
-            skip: 0,
-            refinements: [
-              { navigationName: idField, type: 'Value', value: '123' },
-              { navigationName: idField, type: 'Value', value: '456' }
-            ]
-          }
-        ));
+        expect(task.next(recommendationsResponse).value).to.eql(effects.call(searchRequest, flux, requestBody));
         expect(task.next({ records }).value).to.eql(effects.put(receiveRecommendationsProductsAction));
-        expect(searchRequestSelector).to.be.calledWithExactly(state);
         expect(receiveRecommendationsProducts).to.be.calledWithExactly(['x', 'x', 'x']);
         expect(augmentProducts).to.be.calledWithExactly({ records });
         task.next();
-      });
-
-      it('should make request against specified endpoint', () => {
-        const customerId = 'myCustomer';
-        const productCount = 8;
-        const idField = 'myId';
-        const productSuggestions = { productCount, mode: 'trending' };
-        const location = { minSize: 10 };
-        const config = { customerId, recommendations: { productSuggestions, location, idField } };
-        const url = `https://${customerId}.groupbycloud.com/wisdom/v2/public/recommendations/products/_getTrending`;
-        const matchExact = 'match exact';
-        const request = {
-          method: 'POST',
-          body: JSON.stringify(matchExact)
-        };
-        const records = ['a', 'b', 'c'];
-        const fetch = stub(utils, 'fetch');
-        stub(RecommendationsAdapter, 'addLocationToRequest').returns(matchExact);
-
-        const task = Tasks.fetchProducts(<any>{}, <any>{ payload: {} });
-
-        task.next();
-        task.next();
-        expect(task.next(config).value).to.eql(effects.call(fetch, url, request));
       });
 
       it('should not return past purchases for 0 productCount', () => {
@@ -120,8 +86,6 @@ suite('recommendations saga', ({ expect, spy, stub }) => {
         const productCount = 0;
         const productSuggestions = { productCount };
         const config = { customerId, recommendations: { productSuggestions } };
-        const flux: any = { config, store: { getState: () => 1 } };
-        stub(Selectors, 'pastPurchases').returns([]);
 
         const task = Tasks.fetchProducts(<any>{}, <any>{ payload: {} });
 
@@ -148,30 +112,30 @@ suite('recommendations saga', ({ expect, spy, stub }) => {
     describe('fetchSkus()', () => {
       it('should fetch skus', () => {
         const securedPayload = 'secured';
-        const body = 'asdf';
         const customerId = 'id';
         const endpoint = 'end';
         const query = 'query';
         const jsonResult = 'json';
         const ret = { result: 'returned' };
         const secure = stub(ConfigAdapter, 'extractSecuredPayload').returns(securedPayload);
-        const buildBody = stub(RecommendationsAdapter, 'buildBody').returns(body);
-        const fetch = stub(utils, 'fetch');
+        const ppRequest = stub(Requests, 'pastPurchases').returns({ json: () => jsonResult });
 
         const task = Tasks.fetchSkus({ customerId }, endpoint, query);
 
         // tslint:disable-next-line max-line-length
-        expect(task.next().value).to.eql(effects.call(fetch, `https://${customerId}.groupbycloud.com/orders/v1/public/skus/${endpoint}`, body));
-        expect(buildBody).to.be.calledWithExactly({ securedPayload, query });
+        expect(task.next().value).to.eql(effects.call(ppRequest, {
+          customerId,
+          endpoint,
+          body: { securedPayload, query }
+        }));
         expect(task.next({ json: () => jsonResult }).value).to.eql(jsonResult);
         expect(task.next(ret).value).to.eql(ret.result);
       });
 
       it('should throw error if no secured payload', () => {
         const securedPayload = null;
-        const body = 'asdf';
         const customerId = 'id';
-        const secure = stub(ConfigAdapter, 'extractSecuredPayload').returns(securedPayload);
+        stub(ConfigAdapter, 'extractSecuredPayload').returns(securedPayload);
 
         const task = Tasks.fetchSkus({ customerId }, 'endpoint');
 
@@ -186,11 +150,7 @@ suite('recommendations saga', ({ expect, spy, stub }) => {
 
       it('should throw error if falsy result', () => {
         const securedPayload = 'secured';
-        const body = 'asdf';
-        const ret = 'returned';
-        const secure = stub(ConfigAdapter, 'extractSecuredPayload').returns(securedPayload);
-        const buildBody = stub(RecommendationsAdapter, 'buildBody').returns(body);
-        const fetch = stub(utils, 'fetch');
+        stub(ConfigAdapter, 'extractSecuredPayload').returns(securedPayload);
 
         const task = Tasks.fetchSkus({ customerId: 'id' }, 'endpoint', 'query');
 
@@ -207,17 +167,12 @@ suite('recommendations saga', ({ expect, spy, stub }) => {
     });
 
     describe('fetchProductsFromSkus()', () => {
-      const search = () => null;
-      const bridge = { search };
-      const flux: any = { clients: { bridge } };
-      const sku1 = 123;
-      const sku2 = 234;
-      const skus: any = [{ sku: sku1 }, { sku: sku2 }];
-      const request: any = {};
-      const ret = 'returned';
-      const ids = [sku1, sku2];
-
       it('should fetch products from skus', () => {
+        const sku1 = 123;
+        const sku2 = 234;
+        const ids = [sku1, sku2];
+        const skus: any = [{ sku: sku1 }, { sku: sku2 }];
+        const flux: any = {};
         const newRequest = {
           biasing: {
             restrictToIds: ids,
@@ -225,10 +180,9 @@ suite('recommendations saga', ({ expect, spy, stub }) => {
           sort: [{ type: 'ByIds', ids }],
         };
 
-        const task = Tasks.fetchProductsFromSkus(flux, skus, request);
+        const req = Tasks.fetchProductsFromSkus(flux, skus);
 
-        expect(task.next().value).to.eql(effects.call(<any>[bridge, search], newRequest));
-        expect(task.next(ret).value).to.eql(ret);
+        expect(req).to.eql(newRequest);
       });
     });
 
@@ -334,32 +288,39 @@ suite('recommendations saga', ({ expect, spy, stub }) => {
           receivePastPurchaseCurrentRecordCount,
         };
         const flux: any = { actions, saveState, store: { getState } };
-        const query = 'past';
-        const config = { b: 2 };
         const result = [1, 2, 3];
         const request = { c: 3 };
-        const transformedNav = ['f'];
         const totalRecordCount = 100;
         const productData = { selectedNavigation: [2, 3, 5], totalRecordCount };
         const currentPage = 2;
         const pageSize = 18;
+        const pastPurchaseSkus = [1, 2, 3, 4,];
+        const pastPurchasesFromSkus = { a: 'b' };
+        const state = { c: 'd' };
         const augmentProducts = stub(SearchAdapter, 'augmentProducts').returns(productData);
-        const extractPage = stub(SearchAdapter, 'extractPage').returns(productData);
         const extractRecordCount = stub(SearchAdapter, 'extractRecordCount').returns(productData);
         const pastPurchasePage = stub(Selectors, 'pastPurchasePage').returns(currentPage);
-        const pastPurchasePageSize = stub(Selectors, 'pastPurchasePageSize').returns(pageSize);
+        const searchRequest = stub(Requests, 'search').returns(result);
+        stub(Tasks, 'fetchProductsFromSkus').withArgs(flux, pastPurchaseSkus).returns(pastPurchasesFromSkus);
+        stub(RequestBuilders.pastPurchaseProductsRequest, 'composeRequest')
+          .withArgs(state, {
+            query: '',
+            refinements: [],
+            ...pastPurchasesFromSkus,
+          })
+          .returns(request);
 
         const task = Tasks.fetchPastPurchaseProducts(flux, <any>{});
 
         expect(task.next().value).to.eql(effects.select(Selectors.pastPurchases));
-        expect(task.next(result).value).to.eql(effects.select(Requests.pastPurchaseProducts, false));
-        expect(task.next(request).value).to.eql(effects.call(<any>Tasks.fetchProductsFromSkus, flux, result, request));
+        expect(task.next(pastPurchaseSkus).value).to.eql(effects.select());
+        expect(task.next(state).value).to.eql(effects.call(searchRequest, flux, request));
         expect(task.next(productData).value).to.eql(effects.put(<any>[
           receivePastPurchasePage(),
           receivePastPurchaseCurrentRecordCount(),
           receivePastPurchaseProducts(),
         ]));
-        expect(task.next([]).value).to.be.undefined;
+        task.next();
 
         expect(augmentProducts).to.be.calledWithExactly(productData);
         expect(receivePastPurchasePage).to.be.calledWithExactly(productData, currentPage);
@@ -378,29 +339,38 @@ suite('recommendations saga', ({ expect, spy, stub }) => {
           receivePastPurchaseRefinements,
         };
         const flux: any = { actions, saveState, store: { getState } };
-        const query = 'past';
         const config = { b: 2 };
         const result = [1, 2, 3];
         const request = { c: 3 };
         const transformedNav = ['f'];
         const productData = { selectedNavigation: [2, 3, 5], };
-        const augmentProducts = stub(SearchAdapter, 'augmentProducts').returns(productData);
+        const pastPurchaseSkus = [1, 2, 3, 4,];
+        const pastPurchasesFromSkus = { a: 'b' };
+        const state = { c: 'd' };
         const combineNavigations = stub(SearchAdapter, 'combineNavigations').returns(productData);
         const navigations = stub(PastPurchaseAdapter, 'pastPurchaseNavigations').returns(transformedNav);
+        const searchRequest = stub(Requests, 'search').returns(result);
+        stub(Tasks, 'fetchProductsFromSkus').withArgs(flux, pastPurchaseSkus).returns(pastPurchasesFromSkus);
+        stub(RequestBuilders.pastPurchaseProductsRequest, 'composeRequest')
+          .withArgs(state, {
+            query: '',
+            refinements: [],
+            ...pastPurchasesFromSkus,
+          })
+          .returns(request);
 
         const task = Tasks.fetchPastPurchaseProducts(flux, <any>{}, true);
 
         task.next();
-        expect(task.next(result).value).to.eql(effects.select(Requests.pastPurchaseProducts, true));
-        task.next(request);
-        expect(task.next(productData).value).to.eql(effects.select(Selectors.config));
+        task.next(pastPurchaseSkus);
+        expect(task.next(state).value).to.eql(effects.call(searchRequest, flux, request));
+        expect(task.next(request).value).to.eql(effects.select(Selectors.config));
         expect(task.next(config).value).to.eql(effects.put(<any>[
           receivePastPurchaseAllRecordCount(),
           receivePastPurchaseRefinements(),
         ]));
-        expect(task.next([]).value).to.be.undefined;
+        task.next();
 
-        expect(combineNavigations).to.be.calledWithExactly(productData);
         expect(saveState).to.not.be.called;
         expect(navigations).to.be.calledWithExactly(config, productData);
       });
@@ -409,7 +379,6 @@ suite('recommendations saga', ({ expect, spy, stub }) => {
     describe('fetchMorePastPurchaseProducts()', () => {
       it('should return more products when fetching forward', () => {
         const pageSize = 14;
-        const emit = spy();
         const action: any = { payload: { amount: pageSize, forward: true } };
         const receiveMorePastProductsAction: any = { c: 'd' };
         const receiveMorePastPurchaseProducts = spy(() => receiveMorePastProductsAction);
@@ -421,25 +390,32 @@ suite('recommendations saga', ({ expect, spy, stub }) => {
         const records = ['g', 'h'];
         const results = { records, totalRecordCount: 1 };
         const flux: any = {
-          emit,
           actions: {
             receiveMorePastPurchaseProducts,
             infiniteScrollRequestState,
             receivePastPurchaseCurrentRecordCount,
           }
         };
-        stub(Requests, 'pastPurchaseProducts').returns(results);
+        const pastPurchaseSkus = [1,2,3,4,5];
+        const request = { c: 'd' };
+        const pastPurchasesFromSkus = { e: 'f' };
+        const pastPurchaseSkusSelector = stub(Selectors, 'pastPurchases').returns(pastPurchaseSkus);
+        const searchRequest = stub(Requests, 'search').returns(results);
         stub(Selectors, 'pastPurchaseProductsWithMetadata').returns([{ index: 1 }, { index: 2 }, { index: 3 }]);
-        const pastPurchaseSkusSelector = stub(Selectors, 'pastPurchases');
+        stub(Tasks, 'fetchProductsFromSkus').withArgs(flux, pastPurchaseSkus).returns(pastPurchasesFromSkus);
+        stub(RequestBuilders.pastPurchaseProductsRequest, 'composeRequest').withArgs(state, {
+          pageSize,
+          skip: 3,
+          ...pastPurchasesFromSkus,
+        }).returns(request);
 
         const task = Tasks.fetchMorePastPurchaseProducts(flux, action);
 
         expect(task.next().value).to.eql(effects.select());
-        expect(task.next().value).to.eql(effects.select(pastPurchaseSkusSelector));
-        expect(task.next(state).value).to.eql(effects.put(infiniteScrollRequestStateAction));
+        expect(task.next(state).value).to.eql(effects.select(pastPurchaseSkusSelector));
+        expect(task.next(pastPurchaseSkus).value).to.eql(effects.put(infiniteScrollRequestStateAction));
         expect(infiniteScrollRequestState).to.be.calledOnce.calledWithExactly({ isFetchingForward: true });
-        expect(task.next().value).to.eql(effects.select(Requests.pastPurchaseProducts, false, { pageSize, skip: 3 }));
-        expect(task.next(results).value).to.eql(effects.call(<any>Tasks.fetchProductsFromSkus, flux, state, results));
+        expect(task.next(request).value).to.eql(effects.call(searchRequest, flux, request));
         expect(task.next(results).value).to.eql(effects.put(<any>[
           receivePastPurchaseCurrentRecordCountAction,
           receiveMorePastProductsAction,
@@ -447,6 +423,7 @@ suite('recommendations saga', ({ expect, spy, stub }) => {
         expect(task.next().value).to.eql(effects.put(infiniteScrollRequestStateAction));
         expect(infiniteScrollRequestState).to.be.calledTwice.calledWithExactly({ isFetchingForward: false });
         task.next();
+
       });
 
       it('should return previous products when fetching backward', () => {
@@ -470,19 +447,27 @@ suite('recommendations saga', ({ expect, spy, stub }) => {
             receivePastPurchaseCurrentRecordCount,
           }
         };
-        stub(Requests, 'pastPurchaseProducts').returns(results);
+        const pastPurchaseSkus = [1,2,3,4,5];
+        const request = { c: 'd' };
+        const pastPurchasesFromSkus = { e: 'f' };
+        const pastPurchaseSkusSelector = stub(Selectors, 'pastPurchases').returns(pastPurchasesFromSkus);
+        const searchRequest = stub(Requests, 'search').returns(results);
         stub(Selectors, 'pastPurchaseProductsWithMetadata').returns([{ index: 11 }, { index: 12 }, { index: 13 }]);
         stub(Selectors, 'pastPurchasePageSize').returns(10);
-        const pastPurchaseSkusSelector = stub(Selectors, 'pastPurchases');
+        stub(Tasks, 'fetchProductsFromSkus').withArgs(flux, pastPurchaseSkus).returns(pastPurchasesFromSkus);
+        stub(RequestBuilders.pastPurchaseProductsRequest, 'composeRequest').withArgs(state, {
+          pageSize,
+          skip: 0,
+          ...pastPurchasesFromSkus,
+        }).returns(request);
 
         const task = Tasks.fetchMorePastPurchaseProducts(flux, action);
 
         expect(task.next().value).to.eql(effects.select());
-        expect(task.next().value).to.eql(effects.select(pastPurchaseSkusSelector));
-        expect(task.next(state).value).to.eql(effects.put(infiniteScrollRequestStateAction));
+        expect(task.next(state).value).to.eql(effects.select(pastPurchaseSkusSelector));
+        expect(task.next(pastPurchaseSkus).value).to.eql(effects.put(infiniteScrollRequestStateAction));
         expect(infiniteScrollRequestState).to.be.calledOnce.calledWithExactly({ isFetchingBackward: true });
-        expect(task.next().value).to.eql(effects.select(Requests.pastPurchaseProducts, false, { pageSize, skip: 0 }));
-        expect(task.next(results).value).to.eql(effects.call(<any>Tasks.fetchProductsFromSkus, flux, state, results));
+        expect(task.next(request).value).to.eql(effects.call(searchRequest, flux, request));
         expect(task.next(results).value).to.eql(effects.put(<any>[
           receivePastPurchaseCurrentRecordCountAction,
           receiveMorePastProductsAction,
@@ -516,35 +501,38 @@ suite('recommendations saga', ({ expect, spy, stub }) => {
         const flux: any = { actions: { receiveSaytPastPurchases } };
         const payload = { a: 1 };
         const action: any = { payload };
-        const config = { b: 2 };
-        const data = [];
+        const state = { a: 'b' };
 
         const task = Tasks.fetchSaytPastPurchases(flux, action);
 
-        expect(task.next().value).to.eql(effects.select(Selectors.config));
-        expect(task.next(config).value).to.eql(effects.select(Selectors.pastPurchases));
-        expect(task.next(data).value).to.eql(effects.put(receiveSaytPastPurchases()));
+        expect(task.next().value).to.eql(effects.select());
+        expect(task.next(state).value).to.eql(effects.select(Selectors.pastPurchases));
+        expect(task.next([]).value).to.eql(effects.put(receiveSaytPastPurchases()));
         expect(task.next().value).to.be.undefined;
         expect(receiveSaytPastPurchases).to.be.calledWith([]);
       });
 
-      it('should call fetchSaytPastPurchases', () => {
+      it('should make a request', () => {
         const receiveSaytPastPurchases = spy(() => 1);
         const flux: any = { actions: { receiveSaytPastPurchases } };
         const payload = 'q';
         const action: any = { payload };
-        const config = { b: 2 };
+        const state = { b: 'c' };
         const result = [1, 2, 3];
         const productData = { c: 3 };
         const request = { d: 4, query: payload };
+        const pastPurchaseSkus = [1,2,3,4,5];
         const augmentProducts = stub(SearchAdapter, 'augmentProducts').returns(productData);
+        const searchRequest = stub(Requests, 'search').returns(result);
+        const t = stub(RequestBuilders.autocompletePastPurchaseRequest, 'composeRequest')
+          .withArgs(state, { query: payload }).returns(request);
+        stub(Selectors, 'pastPurchases').returns(pastPurchaseSkus);
 
         const task = Tasks.fetchSaytPastPurchases(flux, action);
 
-        expect(task.next().value).to.eql(effects.select(Selectors.config));
-        expect(task.next(config).value).to.eql(effects.select(Selectors.pastPurchases));
-        expect(task.next(result).value).to.eql(effects.select(Requests.autocompleteProducts));
-        expect(task.next(request).value).to.eql(effects.call(<any>Tasks.fetchProductsFromSkus, flux, result, request));
+        expect(task.next().value).to.eql(effects.select());
+        expect(task.next(state).value).to.eql(effects.select(Selectors.pastPurchases));
+        expect(task.next(pastPurchaseSkus).value).to.eql(effects.call(searchRequest, flux, request));
         expect(task.next(productData).value).to.eql(effects.put(receiveSaytPastPurchases()));
         expect(task.next().value).to.be.undefined;
         expect(receiveSaytPastPurchases).to.be.calledWithExactly(productData);

@@ -10,11 +10,6 @@ namespace Recommendations {
   export const buildUrl = (customerId: string, endpoint: string, mode: string) =>
     `https://${customerId}.groupbycloud.com/wisdom/v2/public/recommendations/${endpoint}/_get${mode}`;
 
-  export const buildBody = (body: RecommendationsBody | RecommendationsRequest | PastPurchaseRequest) => ({
-    method: 'POST',
-    body: JSON.stringify(body)
-  });
-
   export const sortNavigations = ({ results, navigations }: Navigations): Navigation[] =>
     sortBasedOn(results, navigations, (unsorted, sorted) => unsorted.name === sorted.name);
 
@@ -65,7 +60,7 @@ namespace Recommendations {
   };
 
   // tslint:disable-next-line max-line-length
-  export const addLocationToRequest = (request: RecommendationsRequest, state: Store.State): RecommendationsBody | RecommendationsRequest => {
+  export const addLocationToRequest = (request: RecommendationsRequest, state: Store.State): Request => {
     const locationConfig = ConfigurationAdapter.extractLocation(Selectors.config(state));
     const location = Selectors.location(state);
     if (locationConfig && location) {
@@ -100,6 +95,8 @@ namespace Recommendations {
       return request;
     }
   };
+
+  export type Request = RecommendationsBody | RecommendationsRequest;
 
   export interface RecommendationsRequest {
     size?: number;

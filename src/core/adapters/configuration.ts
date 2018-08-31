@@ -5,10 +5,10 @@ import * as AreaReducer from '../reducers/data/area';
 import * as AutocompleteReducer from '../reducers/data/autocomplete';
 import * as CollectionsReducer from '../reducers/data/collections';
 import * as PageReducer from '../reducers/data/page';
-import * as PastPurchaseReducer from '../reducers/data/pastPurchases';
+import * as PastPurchaseReducer from '../reducers/data/past-purchases';
 import * as PersonalizationAdapter from '../reducers/data/personalization';
 import Store from '../store';
-import { normalizeToFunction } from '../utils';
+import { normalizeToFunction, GenericTransformer } from '../utils';
 
 namespace Adapter {
 
@@ -194,23 +194,25 @@ namespace Adapter {
     }
   };
 
-  export const searchDefaults = (config: Configuration) =>
-    normalizeToFunction(config.search.defaults);
+  export type Override<T = object> = (config: Configuration) => GenericTransformer<T>;
 
-  export const searchOverrides = (config: Configuration) =>
+  export const searchOverrides: Override<Request> = (config) =>
     normalizeToFunction(config.search.overrides);
 
-  export const autocompleteSuggestionsDefaults = (config: Configuration) =>
-    normalizeToFunction(config.autocomplete.defaults.suggestions);
-
-  export const autocompleteSuggestionsOverrides = (config: Configuration) =>
+  export const autocompleteSuggestionsOverrides: Override<any> = (config) =>
     normalizeToFunction(config.autocomplete.overrides.suggestions);
 
-  export const autocompleteProductsDefaults = (config: Configuration) =>
-    normalizeToFunction(config.autocomplete.defaults.products);
-
-  export const autocompleteProductsOverrides = (config: Configuration) =>
+  export const autocompleteProductsOverrides: Override<any> = (config) =>
     normalizeToFunction(config.autocomplete.overrides.products);
+
+  export const collectionOverrides: Override<Request> = (config) =>
+    normalizeToFunction(config.collections.overrides);
+
+  export const detailsOverrides: Override<Request> = (config) =>
+    normalizeToFunction(config.details.overrides);
+
+  export const refinementsOverrides: Override<Request> = (config) =>
+    normalizeToFunction(config.refinements.overrides);
 }
 
 export default Adapter;

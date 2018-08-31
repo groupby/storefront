@@ -3,7 +3,7 @@ import SearchAdapter from '../../../../src/core/adapters/search';
 import { DEFAULT_AREA } from '../../../../src/core/reducers/data/area';
 import { DEFAULT_COLLECTION } from '../../../../src/core/reducers/data/collections';
 import * as PageReducer from '../../../../src/core/reducers/data/page';
-import * as PastPurchaseReducer from '../../../../src/core/reducers/data/pastPurchases';
+import * as PastPurchaseReducer from '../../../../src/core/reducers/data/past-purchases';
 import suite from '../../_suite';
 
 suite('Configuration Adapter', ({ expect, stub }) => {
@@ -472,22 +472,6 @@ suite('Configuration Adapter', ({ expect, stub }) => {
     });
   });
 
-  describe('searchDefaults()', () => {
-    it('should return the search defaults function', () => {
-      const state: any = { search: { defaults: (r) => r } };
-
-      expect(Adapter.searchDefaults(state)).to.eql(state.search.defaults);
-    });
-
-    it('should return a function that mixes in the defaults with a given object', () => {
-      const defaults: any = { a: 'b' };
-      const state: any = { search: { defaults } };
-      const o: any = { c: 'd' };
-
-      expect(Adapter.searchDefaults(state)(o)).to.eql({ ...o, ...defaults });
-    });
-  });
-
   describe('searchOverrides()', () => {
     it('should return the search overrides function', () => {
       const state: any = { search: { overrides: (r) => r } };
@@ -501,22 +485,6 @@ suite('Configuration Adapter', ({ expect, stub }) => {
       const o: any = { c: 'd' };
 
       expect(Adapter.searchOverrides(state)(o)).to.eql({ ...o, ...overrides });
-    });
-  });
-
-  describe('autocompleteSuggestionsDefaults()', () => {
-    it('should return the autocomplete suggestions defaults function', () => {
-      const state: any = { autocomplete: { defaults: { suggestions: (r) => r } } };
-
-      expect(Adapter.autocompleteSuggestionsDefaults(state)).to.eql(state.autocomplete.defaults.suggestions);
-    });
-
-    it('should return a function that mixes in the defaults with a given object', () => {
-      const suggestions: any = { a: 'b' };
-      const state: any = { autocomplete: { defaults: { suggestions } } };
-      const o: any = { c: 'd' };
-
-      expect(Adapter.autocompleteSuggestionsDefaults(state)(o)).to.eql({ ...o, ...suggestions });
     });
   });
 
@@ -536,22 +504,6 @@ suite('Configuration Adapter', ({ expect, stub }) => {
     });
   });
 
-  describe('autocompleteProductsDefaults()', () => {
-    it('should return the autocomplete products defaults function', () => {
-      const state: any = { autocomplete: { defaults: { products: (r) => r } } };
-
-      expect(Adapter.autocompleteProductsDefaults(state)).to.eql(state.autocomplete.defaults.products);
-    });
-
-    it('should return a function that mixes in the defaults with a given object', () => {
-      const products: any = { a: 'b' };
-      const state: any = { autocomplete: { defaults: { products } } };
-      const o: any = { c: 'd' };
-
-      expect(Adapter.autocompleteProductsDefaults(state)(o)).to.eql({ ...o, ...products });
-    });
-  });
-
   describe('autocompleteProductsOverrides()', () => {
     it('should return the autocomplete products overrides function', () => {
       const state: any = { autocomplete: { overrides: { products: (r) => r } } };
@@ -565,6 +517,88 @@ suite('Configuration Adapter', ({ expect, stub }) => {
       const o: any = { c: 'd' };
 
       expect(Adapter.autocompleteProductsOverrides(state)(o)).to.eql({ ...o, ...products });
+    });
+  });
+
+  describe('searchOverrides()', () => {
+    it('should return a normalized function', () => {
+      const overrides = { a: 'b' };
+      const config: any = {
+        search: {
+          overrides
+        }
+      };
+
+      expect(Adapter.searchOverrides(config)(<any>{})).to.eql(overrides);
+    });
+  });
+
+  describe('autocompleteSuggestionsOverrides()', () => {
+    it('should return a normalized function', () => {
+      const overrides = { c: 'd' };
+      const config: any = {
+        autocomplete: {
+          overrides: {
+            suggestions: overrides
+          }
+        }
+      };
+
+      expect(Adapter.autocompleteSuggestionsOverrides(config)(<any>{})).to.eql(overrides);
+    });
+  });
+
+  describe('autocompleteProductsOverrides()', () => {
+    it('should return a normalized function', () => {
+      const overrides = { a: 'b' };
+      const config: any = {
+        autocomplete: {
+          overrides: {
+            products: overrides
+          }
+        }
+      };
+
+      expect(Adapter.autocompleteProductsOverrides(config)(<any>{})).to.eql(overrides);
+    });
+  });
+
+  describe('collectionOverrides()', () => {
+    it('should return a normalized function', () => {
+      const overrides = { a: 'b' };
+      const config: any = {
+        collections: {
+          overrides
+        }
+      };
+
+      expect(Adapter.collectionOverrides(config)(<any>{})).to.eql(overrides);
+    });
+  });
+
+  describe('detailsOverrides()', () => {
+    it('should return a normalized function', () => {
+      const overrides = { a: 'b' };
+      const config: any = {
+        details: {
+          overrides
+        }
+      };
+
+      expect(Adapter.detailsOverrides(config)(<any>{})).to.eql(overrides);
+    });
+  });
+
+  describe('refinementsOverrides', () => {
+    it('should return a normalized function', () => {
+      const overrides = { a: 'b' };
+      const config: any = {
+        refinements: {
+          overrides
+        }
+      };
+
+      expect(Adapter.refinementsOverrides(config)(<any>{})).to.eql(overrides);
     });
   });
 });

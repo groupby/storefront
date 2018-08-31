@@ -5,20 +5,19 @@ import * as utils from '../actions/utils';
 import RecommendationsAdapter from '../adapters/recommendations';
 import Adapter from '../adapters/refinements';
 import Events from '../events';
-import Requests from '../requests';
+import { refinementsRequest } from '../requests';
 import Selectors from '../selectors';
 import Store from '../store';
+import Requests from './requests';
 
 export namespace Tasks {
   export function* fetchMoreRefinements(flux: FluxCapacitor, action: Actions.FetchMoreRefinements) {
     try {
       const state: Store.State = yield effects.select();
       const config = yield effects.select(Selectors.config);
-      const res = yield effects.call(
-        [flux.clients.bridge, flux.clients.bridge.refinements],
-        Requests.search(state),
-        action.payload
-      );
+      const requestBody = refinementsRequest.composeRequest(state);
+      const res = yield effects.call(Requests.refinements, flux, requestBody, action.payload);
+
       flux.emit(Events.BEACON_MORE_REFINEMENTS, action.payload);
       res.navigation = RecommendationsAdapter.sortAndPinNavigations(
         [res.navigation],

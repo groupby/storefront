@@ -1,15 +1,17 @@
+import { SelectedRefinement } from 'groupby-api';
 import * as effects from 'redux-saga/effects';
 import FluxCapacitor from '../../flux-capacitor';
 import Actions from '../actions';
 import Adapter from '../adapters/autocomplete';
 import ConfigAdapter from '../adapters/configuration';
-import RecommendationsAdapter from '../adapters/recommendations';
-import SearchAdapter from '../adapters/search';
 import Configuration from '../configuration';
-import Requests from '../requests';
+import {
+  autocompleteProductsRequest,
+  autocompleteSuggestionsRequest,
+  recommendationsSuggestionsRequest
+} from '../requests';
 import Selectors from '../selectors';
-import Store from '../store';
-import { fetch } from '../utils';
+import Requests from './requests';
 
 export namespace Tasks {
   // tslint:disable-next-line max-line-length
@@ -18,33 +20,31 @@ export namespace Tasks {
       const state = yield effects.select();
       const config = yield effects.select(Selectors.config);
       const field = Selectors.autocompleteCategoryField(state);
+      const requestBody = autocompleteSuggestionsRequest.composeRequest(state);
       const suggestionsRequest = effects.call(
-        [flux.clients.sayt, flux.clients.sayt.autocomplete],
+        Requests.autocomplete,
+        flux,
         query,
-        Requests.autocompleteSuggestions(config)
+        requestBody
       );
+      const requests = [suggestionsRequest];
 
       const recommendationsConfig = config.autocomplete.recommendations;
-      // fall back to default mode "popular" if not provided
-      // "popular" default will likely provide the most consistently strong data
-      const suggestionMode = Configuration.RECOMMENDATION_MODES[recommendationsConfig.suggestionMode || 'popular'];
-      // tslint:disable-next-line max-line-length
-      const trendingUrl = RecommendationsAdapter.buildUrl(config.customerId, 'searches', suggestionMode);
-      const trendingBody = {
-        size: recommendationsConfig.suggestionCount,
-        matchPartial: {
-          and: [{
-            search: { query }
-          }]
-        }
-      };
-      const trendingRequest = effects.call(fetch, trendingUrl, {
-        method: 'POST',
-        body: JSON.stringify(
-          RecommendationsAdapter.addLocationToRequest(trendingBody, state))
-      });
-      const requests = [suggestionsRequest];
+
       if (recommendationsConfig.suggestionCount > 0) {
+        const body = recommendationsSuggestionsRequest.composeRequest(state, { query });
+        const trendingRequest = effects.call(
+          Requests.recommendations,
+          {
+            customerId: config.customerId,
+            endpoint: 'searches',
+            // fall back to default mode "popular" if not provided
+            // "popular" default will likely provide the most consistently strong data
+            mode: Configuration.RECOMMENDATION_MODES[recommendationsConfig.suggestionMode || 'popular'],
+            body
+          }
+        );
+
         requests.push(trendingRequest);
       }
 
@@ -66,19 +66,14 @@ export namespace Tasks {
   // tslint:disable-next-line max-line-length
   export function* fetchProducts(flux: FluxCapacitor, { payload: { query, refinements } }: Actions.FetchAutocompleteProducts) {
     try {
-      const request = yield effects.select(Requests.autocompleteProducts);
-      const overrideRefinements = request.refinements;
-      const originalRefinements = refinements.map(({ field, ...rest }) =>
-        ({ type: 'Value', navigationName: field, ...rest }));
-      const mergedRefinements = [...originalRefinements, ...overrideRefinements];
-      const res = yield effects.call(
-        [flux.clients.bridge, flux.clients.bridge.search],
-        {
-          ...request,
-          query,
-          refinements: mergedRefinements,
-        }
+      const state = yield effects.select();
+      const requestRefinements = refinements.map(({ field, ...rest }) =>
+        (<SelectedRefinement>{ ...rest, type: 'Value', navigationName: field }));
+      const requestBody = autocompleteProductsRequest.composeRequest(
+        state,
+        { refinements: requestRefinements, query }
       );
+      const res = yield effects.call(Requests.search, flux, requestBody);
 
       yield effects.put(<any>flux.actions.receiveAutocompleteProducts(res));
     } catch (e) {
