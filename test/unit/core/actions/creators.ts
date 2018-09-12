@@ -40,6 +40,15 @@ suite('ActionCreators', ({ expect, spy, stub }) => {
     expect(createAction).to.be.calledWithExactly(...args);
   }
 
+  // tslint:disable-next-line max-line-length
+  function itShouldAcceptAnOptionsObject<T>(creator: (options: object) => Actions.Action<T, any> | Actions.Action<T, any>[], expectedActionType: T, additionalProperties: object = {}) {
+    it('should accept an options object', () => {
+      const options: any = { a: 'b' };
+
+      expectAction(creator(options), expectedActionType, { ...additionalProperties, ...options });
+    });
+  }
+
   beforeEach(() => createAction = stub(utils, 'createAction').returns(ACTION));
 
   describe('application action creators', () => {
@@ -54,18 +63,22 @@ suite('ActionCreators', ({ expect, spy, stub }) => {
 
   describe('fetch action creators', () => {
     describe('fetchMoreRefinements()', () => {
+      itShouldAcceptAnOptionsObject(ActionCreators.fetchMoreRefinements, Actions.FETCH_MORE_REFINEMENTS);
+
       it('should return an action', () => {
         const navigationId = 'brand';
 
         const action = ActionCreators.fetchMoreRefinements(navigationId);
 
-        expectAction(action, Actions.FETCH_MORE_REFINEMENTS, navigationId);
+        expectAction(action, Actions.FETCH_MORE_REFINEMENTS, { navigationId });
       });
     });
 
     describe('fetchProducts()', () => {
+      itShouldAcceptAnOptionsObject(ActionCreators.fetchProducts, Actions.FETCH_PRODUCTS);
+
       it('should return an action', () => {
-        expectAction(ActionCreators.fetchProducts(), Actions.FETCH_PRODUCTS, null);
+        expectAction(ActionCreators.fetchProducts(), Actions.FETCH_PRODUCTS, {});
       });
     });
 
@@ -73,9 +86,21 @@ suite('ActionCreators', ({ expect, spy, stub }) => {
       it('should return an action', () => {
         expectAction(ActionCreators.fetchProductsWhenHydrated(), Actions.FETCH_PRODUCTS_WHEN_HYDRATED, ACTION);
       });
+
+      it('should accept an options object', () => {
+        const options: any = { a: 'b' };
+        const fetchProducts = stub(ActionCreators, 'fetchProducts').returns(ACTION);
+
+        const action = ActionCreators.fetchProductsWhenHydrated(options);
+
+        expect(fetchProducts).to.be.calledWith(options);
+        expectAction(action, Actions.FETCH_PRODUCTS_WHEN_HYDRATED, ACTION);
+      });
     });
 
     describe('fetchMoreProducts()', () => {
+      itShouldAcceptAnOptionsObject(ActionCreators.fetchMoreProducts, Actions.FETCH_MORE_PRODUCTS, { forward: true });
+
       it('should return an action', () => {
         const amount = 15;
 
@@ -84,30 +109,34 @@ suite('ActionCreators', ({ expect, spy, stub }) => {
     });
 
     describe('fetchPastPurchases()', () => {
-      it('should return an action with null', () => {
-        expectAction(ActionCreators.fetchPastPurchases(), Actions.FETCH_PAST_PURCHASES, null);
+      itShouldAcceptAnOptionsObject(ActionCreators.fetchPastPurchases, Actions.FETCH_PAST_PURCHASES);
+
+      it('should return an action with an empty object', () => {
+        expectAction(ActionCreators.fetchPastPurchases(), Actions.FETCH_PAST_PURCHASES, {});
       });
 
       it('should return an action with query', () => {
         const query = 'hat';
 
-        expectAction(ActionCreators.fetchPastPurchases(query), Actions.FETCH_PAST_PURCHASES, query);
+        expectAction(ActionCreators.fetchPastPurchases(query), Actions.FETCH_PAST_PURCHASES, { query });
       });
     });
 
     describe('fetchPastPurchaseProducts()', () => {
-      it('should return an action with null', () => {
-        expectAction(ActionCreators.fetchPastPurchaseProducts(), Actions.FETCH_PAST_PURCHASE_PRODUCTS, null);
-      });
+      itShouldAcceptAnOptionsObject(ActionCreators.fetchPastPurchaseProducts, Actions.FETCH_PAST_PURCHASE_PRODUCTS);
 
-      it('should return an action with query', () => {
-        const query = 'hat';
-
-        expectAction(ActionCreators.fetchPastPurchaseProducts(query), Actions.FETCH_PAST_PURCHASE_PRODUCTS, query);
+      it('should return an action with an empty object', () => {
+        expectAction(ActionCreators.fetchPastPurchaseProducts(), Actions.FETCH_PAST_PURCHASE_PRODUCTS, {});
       });
     });
 
     describe('fetchMorePastPurchaseProducts()', () => {
+      itShouldAcceptAnOptionsObject(
+        ActionCreators.fetchMorePastPurchaseProducts,
+        Actions.FETCH_MORE_PAST_PURCHASE_PRODUCTS,
+        { forward: true }
+      );
+
       it('should return an action with amount and forward true', () => {
         const amount = 50;
 
@@ -129,36 +158,54 @@ suite('ActionCreators', ({ expect, spy, stub }) => {
     });
 
     describe('fetchPastPurchaseNavigations()', () => {
+      itShouldAcceptAnOptionsObject(
+        ActionCreators.fetchPastPurchaseNavigations,
+        Actions.FETCH_PAST_PURCHASE_NAVIGATIONS
+      );
+
       it('should return an action', () => {
-        expectAction(ActionCreators.fetchPastPurchaseNavigations(), Actions.FETCH_PAST_PURCHASE_NAVIGATIONS, null);
+        expectAction(ActionCreators.fetchPastPurchaseNavigations(), Actions.FETCH_PAST_PURCHASE_NAVIGATIONS, {});
       });
     });
 
     describe('fetchSaytPastPurchases()', () => {
+      itShouldAcceptAnOptionsObject(ActionCreators.fetchSaytPastPurchases, Actions.FETCH_SAYT_PAST_PURCHASES);
+
       it('should return an action', () => {
         const query = 'hat';
 
-        expectAction(ActionCreators.fetchSaytPastPurchases(query), Actions.FETCH_SAYT_PAST_PURCHASES, query);
+        expectAction(ActionCreators.fetchSaytPastPurchases(query), Actions.FETCH_SAYT_PAST_PURCHASES, { query });
       });
     });
 
     describe('fetchAutocompleteSuggestions()', () => {
+      itShouldAcceptAnOptionsObject(
+        ActionCreators.fetchAutocompleteSuggestions,
+        Actions.FETCH_AUTOCOMPLETE_SUGGESTIONS
+      );
+
       it('should return an action', () => {
         const query = 'barbie';
 
         const action = ActionCreators.fetchAutocompleteSuggestions(query);
 
-        expectAction(action, Actions.FETCH_AUTOCOMPLETE_SUGGESTIONS, query);
+        expectAction(action, Actions.FETCH_AUTOCOMPLETE_SUGGESTIONS, { query });
       });
 
       it('should apply validators to FETCH_AUTOCOMPLETE_SUGGESTIONS', () => {
         expectValidators(ActionCreators.fetchAutocompleteSuggestions(''), Actions.FETCH_AUTOCOMPLETE_SUGGESTIONS, {
-          payload: validators.isString
+          query: validators.isString
         });
       });
     });
 
     describe('fetchAutocompleteProducts()', () => {
+      itShouldAcceptAnOptionsObject(
+        ActionCreators.fetchAutocompleteProducts,
+        Actions.FETCH_AUTOCOMPLETE_PRODUCTS,
+        { refinements: [] }
+      );
+
       it('should return an action', () => {
         const query = 'barbie';
         const refinements: any[] = ['a', 'b'];
@@ -182,34 +229,46 @@ suite('ActionCreators', ({ expect, spy, stub }) => {
     });
 
     describe('fetchCollectionCount()', () => {
+      itShouldAcceptAnOptionsObject(ActionCreators.fetchCollectionCount, Actions.FETCH_COLLECTION_COUNT);
+
       it('should return an action', () => {
         const collection = 'products';
 
-        expectAction(ActionCreators.fetchCollectionCount(collection), Actions.FETCH_COLLECTION_COUNT, collection);
+        expectAction(ActionCreators.fetchCollectionCount(collection), Actions.FETCH_COLLECTION_COUNT, { collection });
       });
     });
 
     describe('fetchProductDetails()', () => {
+      itShouldAcceptAnOptionsObject(ActionCreators.fetchProductDetails, Actions.FETCH_PRODUCT_DETAILS);
+
       it('should return an action', () => {
         const id = '12345';
 
-        expectAction(ActionCreators.fetchProductDetails(id), Actions.FETCH_PRODUCT_DETAILS, id);
+        expectAction(ActionCreators.fetchProductDetails(id), Actions.FETCH_PRODUCT_DETAILS, { id });
       });
     });
 
     describe('fetchRecommendationsProducts()', () => {
+      itShouldAcceptAnOptionsObject(
+        ActionCreators.fetchRecommendationsProducts,
+        Actions.FETCH_RECOMMENDATIONS_PRODUCTS
+      );
+
       it('should return an action', () => {
-        expectAction(ActionCreators.fetchRecommendationsProducts(), Actions.FETCH_RECOMMENDATIONS_PRODUCTS, null);
+        expectAction(ActionCreators.fetchRecommendationsProducts(), Actions.FETCH_RECOMMENDATIONS_PRODUCTS, {});
       });
     });
 
     describe('fetchPastPurchases()', () => {
+      itShouldAcceptAnOptionsObject(ActionCreators.fetchPastPurchases, Actions.FETCH_PAST_PURCHASES);
+
       it('should return an action', () => {
-        expectAction(ActionCreators.fetchPastPurchases('query'), Actions.FETCH_PAST_PURCHASES, 'query');
+        const query = 'query';
+        expectAction(ActionCreators.fetchPastPurchases(query), Actions.FETCH_PAST_PURCHASES, { query });
       });
 
-      it('should return an action when query is null', () => {
-        expectAction(ActionCreators.fetchPastPurchases(), Actions.FETCH_PAST_PURCHASES, null);
+      it('should return an action when no arguments are given', () => {
+        expectAction(ActionCreators.fetchPastPurchases(), Actions.FETCH_PAST_PURCHASES, {});
       });
     });
   });

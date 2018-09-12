@@ -59,7 +59,7 @@ suite('refinements saga', ({ expect, spy, stub }) => {
         stub(RecommendationsAdapter, 'sortAndPinNavigations')
           .withArgs([results.navigation], [], config).returns(results);
 
-        const task = Tasks.fetchMoreRefinements(flux, <any>{ payload: navigationId });
+        const task = Tasks.fetchMoreRefinements(flux, <any>{ payload: { navigationId } });
 
         expect(task.next().value).to.eql(effects.select());
         expect(task.next(state).value).to.eql(effects.select(Selectors.config));
@@ -69,6 +69,24 @@ suite('refinements saga', ({ expect, spy, stub }) => {
         expect(receiveMoreRefinements).to.be.calledWithExactly(navigationId, mergedRefinements, selected);
         expect(flux.emit).to.be.calledWithExactly(Events.BEACON_MORE_REFINEMENTS, navigationId);
         task.next();
+      });
+
+      it('should override request', () => {
+        const state = { c: 'd' };
+        const override = { a: 'b' };
+        const action: any = {
+          payload: {
+            request: override
+          }
+        };
+        const composeRequest = stub(refinementsRequest, 'composeRequest');
+
+        const task = Tasks.fetchMoreRefinements(<any>{}, action);
+
+        task.next();
+        task.next(state);
+        task.next();
+        expect(composeRequest).to.be.calledWith(state, override);
       });
 
       it('should handle request failure', () => {

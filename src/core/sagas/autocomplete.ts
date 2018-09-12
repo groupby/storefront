@@ -15,12 +15,12 @@ import Requests from './requests';
 
 export namespace Tasks {
   // tslint:disable-next-line max-line-length
-  export function* fetchSuggestions(flux: FluxCapacitor, { payload: query }: Actions.FetchAutocompleteSuggestions) {
+  export function* fetchSuggestions(flux: FluxCapacitor, { payload: { query, request } }: Actions.FetchAutocompleteSuggestions) {
     try {
       const state = yield effects.select();
       const config = yield effects.select(Selectors.config);
       const field = Selectors.autocompleteCategoryField(state);
-      const requestBody = autocompleteSuggestionsRequest.composeRequest(state);
+      const requestBody = autocompleteSuggestionsRequest.composeRequest(state, request);
       const suggestionsRequest = effects.call(
         Requests.autocomplete,
         flux,
@@ -32,7 +32,7 @@ export namespace Tasks {
       const recommendationsConfig = config.autocomplete.recommendations;
 
       if (recommendationsConfig.suggestionCount > 0) {
-        const body = recommendationsSuggestionsRequest.composeRequest(state, { query });
+        const body = recommendationsSuggestionsRequest.composeRequest(state, { query, ...request });
         const trendingRequest = effects.call(
           Requests.recommendations,
           {
@@ -64,14 +64,14 @@ export namespace Tasks {
   }
 
   // tslint:disable-next-line max-line-length
-  export function* fetchProducts(flux: FluxCapacitor, { payload: { query, refinements } }: Actions.FetchAutocompleteProducts) {
+  export function* fetchProducts(flux: FluxCapacitor, { payload: { query, refinements, request } }: Actions.FetchAutocompleteProducts) {
     try {
       const state = yield effects.select();
       const requestRefinements = refinements.map(({ field, ...rest }) =>
         (<SelectedRefinement>{ ...rest, type: 'Value', navigationName: field }));
       const requestBody = autocompleteProductsRequest.composeRequest(
         state,
-        { refinements: requestRefinements, query }
+        { refinements: requestRefinements, query, ...request }
       );
       const res = yield effects.call(Requests.search, flux, requestBody);
 

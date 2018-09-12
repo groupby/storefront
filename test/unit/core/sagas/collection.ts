@@ -35,13 +35,26 @@ suite('collection saga', ({ expect, spy, stub }) => {
         const state = { a: 'b' };
         stub(collectionRequest, 'composeRequest').withArgs(state, { collection }).returns(request);
 
-        const task = Tasks.fetchCount(flux, <any>{ payload: collection });
+        const task = Tasks.fetchCount(flux, <any>{ payload: { collection } });
 
         expect(task.next().value).to.eql(effects.select());
         expect(task.next(state).value).to.eql(effects.call(searchRequest, flux, request));
         expect(task.next(response).value).to.eql(effects.put(receiveCollectionCountAction));
         expect(receiveCollectionCount).to.be.calledWithExactly({ collection, count: recordCount });
         task.next();
+      });
+
+      it('should override request', () => {
+        const collection = 'myCollection';
+        const state = { a: 'b' };
+        const override = { c: 'd' };
+        const composeRequest = stub(collectionRequest, 'composeRequest');
+
+        const task = Tasks.fetchCount(null, <any>{ payload: { collection, request: override } });
+
+        task.next();
+        task.next(state);
+        expect(composeRequest).to.be.calledWith(state, { collection, ...override });
       });
 
       it('should handle request failure', () => {
@@ -52,7 +65,7 @@ suite('collection saga', ({ expect, spy, stub }) => {
           actions: { receiveCollectionCount }
         };
 
-        const task = Tasks.fetchCount(flux, <any>{});
+        const task = Tasks.fetchCount(flux, <any>{ payload: {} });
 
         task.next();
         expect(task.throw(error).value).to.eql(effects.put(receiveCollectionCountAction));

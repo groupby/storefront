@@ -10,7 +10,7 @@ import {
   autocompletePastPurchaseRequest,
   pastPurchaseProductsRequest,
   recommendationsProductsRequest,
-  recommendationsProductIDsRequest
+  recommendationsProductIdsRequest
 } from '../requests';
 import Selectors from '../selectors';
 import Store from '../store';
@@ -34,7 +34,7 @@ export namespace Tasks {
       const { idField, productSuggestions: productConfig } = config.recommendations;
       const productCount = productConfig.productCount;
       if (productCount > 0) {
-        const body = recommendationsProductIDsRequest.composeRequest(state);
+        const body = recommendationsProductIdsRequest.composeRequest(state, action.payload.request);
         const recommendationsResponse = yield effects.call(
           Requests.recommendations,
           {
@@ -109,16 +109,17 @@ export namespace Tasks {
   }
 
   // tslint:disable-next-line max-line-length
-  export function* fetchPastPurchaseProducts(flux: FluxCapacitor, action: Actions.FetchPastPurchaseProducts, getNavigations: boolean = false) {
+  export function* fetchPastPurchaseProducts(flux: FluxCapacitor, getNavigations: boolean, action: Actions.FetchPastPurchaseProducts) {
     try {
       const pastPurchaseSkus: Store.PastPurchases.PastPurchaseProduct[] = yield effects.select(Selectors.pastPurchases);
       if (pastPurchaseSkus.length > 0) {
         const state = yield effects.select();
-        const pastPurchasesFromSkus = Tasks.fetchProductsFromSkus(flux, pastPurchaseSkus);
+        const pastPurchasesFromSkus = Tasks.buildRequestFromSkus(flux, pastPurchaseSkus);
         const request = pastPurchaseProductsRequest.composeRequest(state, {
           query: '',
           refinements: [],
-          ...pastPurchasesFromSkus
+          ...pastPurchasesFromSkus,
+          ...action.payload.request
         });
         const results = yield effects.call(Requests.search, flux, request);
         if (getNavigations) {
@@ -162,11 +163,12 @@ export namespace Tasks {
         yield effects.put(<any>flux.actions.infiniteScrollRequestState({ isFetchingBackward: true }));
       }
 
-      const pastPurchasesFromSkus = Tasks.fetchProductsFromSkus(flux, pastPurchaseSkus);
+      const pastPurchasesFromSkus = Tasks.buildRequestFromSkus(flux, pastPurchaseSkus);
       const request = pastPurchaseProductsRequest.composeRequest(state, {
         pageSize,
         skip,
-        ...pastPurchasesFromSkus
+        ...pastPurchasesFromSkus,
+        ...action.payload.request
       });
       const result = yield effects.call(Requests.search, flux, request);
 
@@ -184,13 +186,14 @@ export namespace Tasks {
     }
   }
 
-  export function* fetchSaytPastPurchases(flux: FluxCapacitor, { payload }: Actions.FetchSaytPastPurchases) {
+  // tslint:disable-next-line max-line-length
+  export function* fetchSaytPastPurchases(flux: FluxCapacitor, { payload: { query, request } }: Actions.FetchSaytPastPurchases) {
     try {
       const state = yield effects.select();
       const pastPurchaseSkus = yield effects.select(Selectors.pastPurchases);
       if (pastPurchaseSkus.length > 0) {
-        const request = autocompletePastPurchaseRequest.composeRequest(state, { query: payload });
-        const results = yield effects.call(Requests.search, flux, request);
+        const req = autocompletePastPurchaseRequest.composeRequest(state, { query, ...request });
+        const results = yield effects.call(Requests.search, flux, req);
         yield effects.put(flux.actions.receiveSaytPastPurchases(SearchAdapter.augmentProducts(results)));
       } else {
         yield effects.put(flux.actions.receiveSaytPastPurchases([]));
@@ -200,7 +203,8 @@ export namespace Tasks {
     }
   }
 
-  export function fetchProductsFromSkus(flux: FluxCapacitor, skus: Store.PastPurchases.PastPurchaseProduct[]) {
+  // tslint:disable-next-line max-line-length
+  export function buildRequestFromSkus(flux: FluxCapacitor, skus: Store.PastPurchases.PastPurchaseProduct[]): Partial<Request> {
     const ids: string[] = skus.map(({ sku }) => sku);
 
     return {
@@ -215,8 +219,8 @@ export namespace Tasks {
 export default (flux: FluxCapacitor) => function* recommendationsSaga() {
   yield effects.takeLatest(Actions.FETCH_RECOMMENDATIONS_PRODUCTS, Tasks.fetchProducts, flux);
   yield effects.takeLatest(Actions.FETCH_PAST_PURCHASES, Tasks.fetchPastPurchases, flux);
-  yield effects.takeLatest(Actions.FETCH_PAST_PURCHASE_PRODUCTS, Tasks.fetchPastPurchaseProducts, flux);
-  yield effects.takeLatest(Actions.FETCH_PAST_PURCHASE_NAVIGATIONS, Tasks.fetchPastPurchaseProducts, flux, null, true);
+  yield effects.takeLatest(Actions.FETCH_PAST_PURCHASE_PRODUCTS, Tasks.fetchPastPurchaseProducts, flux, false);
+  yield effects.takeLatest(Actions.FETCH_PAST_PURCHASE_NAVIGATIONS, Tasks.fetchPastPurchaseProducts, flux, true);
   yield effects.takeLatest(Actions.FETCH_SAYT_PAST_PURCHASES, Tasks.fetchSaytPastPurchases, flux);
   yield effects.takeEvery(Actions.FETCH_MORE_PAST_PURCHASE_PRODUCTS, Tasks.fetchMorePastPurchaseProducts, flux);
 };

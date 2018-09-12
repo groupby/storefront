@@ -85,35 +85,35 @@ namespace Actions {
 
   // fetch actions
   export const FETCH_MORE_REFINEMENTS = 'FETCH_MORE_REFINEMENTS';
-  export type FetchMoreRefinements = Action<typeof FETCH_MORE_REFINEMENTS, string>;
+  export type FetchMoreRefinements = Action<typeof FETCH_MORE_REFINEMENTS, Payload.Fetch.MoreRefinements>;
   export const FETCH_PRODUCTS = 'FETCH_PRODUCTS';
-  export type FetchProducts = Action<typeof FETCH_PRODUCTS>;
+  export type FetchProducts = Action<typeof FETCH_PRODUCTS, Payload.Fetch.Override>;
   export const FETCH_PRODUCTS_WITHOUT_HISTORY = 'FETCH_PRODUCTS_WITHOUT_HISTORY';
-  export type FetchProductsWithoutHistory = Action<typeof FETCH_PRODUCTS_WITHOUT_HISTORY>;
+  export type FetchProductsWithoutHistory = Action<typeof FETCH_PRODUCTS_WITHOUT_HISTORY, Payload.Fetch.Override>;
   export const FETCH_PRODUCTS_WHEN_HYDRATED = 'FETCH_PRODUCTS_WHEN_HYDRATED';
   export type FetchProductsWhenHydrated = Action<typeof FETCH_PRODUCTS_WHEN_HYDRATED, Actions.FetchProducts>;
   export const FETCH_MORE_PRODUCTS = 'FETCH_MORE_PRODUCTS';
-  export type FetchMoreProducts = Action<typeof FETCH_MORE_PRODUCTS, { amount: number, forward: boolean }>;
+  export type FetchMoreProducts = Action<typeof FETCH_MORE_PRODUCTS, Payload.Fetch.MoreProducts>;
   export const FETCH_AUTOCOMPLETE_SUGGESTIONS = 'FETCH_AUTOCOMPLETE_SUGGESTIONS';
-  export type FetchAutocompleteSuggestions = Action<typeof FETCH_AUTOCOMPLETE_SUGGESTIONS, string>;
+  export type FetchAutocompleteSuggestions = Action<typeof FETCH_AUTOCOMPLETE_SUGGESTIONS, Payload.Fetch.AutocompleteSuggestions>;
   export const FETCH_AUTOCOMPLETE_PRODUCTS = 'FETCH_AUTOCOMPLETE_PRODUCTS';
-  export type FetchAutocompleteProducts = Action<typeof FETCH_AUTOCOMPLETE_PRODUCTS, Payload.Autocomplete.Products>;
+  export type FetchAutocompleteProducts = Action<typeof FETCH_AUTOCOMPLETE_PRODUCTS, Payload.Fetch.AutocompleteProducts>;
   export const FETCH_COLLECTION_COUNT = 'FETCH_COLLECTION_COUNT';
-  export type FetchCollectionCount = Action<typeof FETCH_COLLECTION_COUNT, string>;
+  export type FetchCollectionCount = Action<typeof FETCH_COLLECTION_COUNT, Payload.Fetch.CollectionCount>;
   export const FETCH_PRODUCT_DETAILS = 'FETCH_PRODUCT_DETAILS';
-  export type FetchProductDetails = Action<typeof FETCH_PRODUCT_DETAILS, string>;
+  export type FetchProductDetails = Action<typeof FETCH_PRODUCT_DETAILS, Payload.Fetch.Details>;
   export const FETCH_RECOMMENDATIONS_PRODUCTS = 'FETCH_RECOMMENDATIONS_PRODUCTS';
-  export type FetchRecommendationsProducts = Action<typeof FETCH_RECOMMENDATIONS_PRODUCTS, string>;
+  export type FetchRecommendationsProducts = Action<typeof FETCH_RECOMMENDATIONS_PRODUCTS, Payload.Fetch.Override>;
   export const FETCH_PAST_PURCHASES = 'FETCH_PAST_PURCHASES';
-  export type FetchPastPurchases = Action<typeof FETCH_PAST_PURCHASES>;
+  export type FetchPastPurchases = Action<typeof FETCH_PAST_PURCHASES, Payload.Fetch.PastPurchases>;
   export const FETCH_PAST_PURCHASE_PRODUCTS = 'FETCH_PAST_PURCHASE_PRODUCTS';
-  export type FetchPastPurchaseProducts = Action<typeof FETCH_PAST_PURCHASE_PRODUCTS, string | null>;
+  export type FetchPastPurchaseProducts = Action<typeof FETCH_PAST_PURCHASE_PRODUCTS, Payload.Fetch.PastPurchases>;
   export const FETCH_MORE_PAST_PURCHASE_PRODUCTS = 'FETCH_MORE_PAST_PURCHASE_PRODUCTS';
-  export type FetchMorePastPurchaseProducts = Action<typeof FETCH_MORE_PAST_PURCHASE_PRODUCTS, { amount: number, forward: boolean }>;
+  export type FetchMorePastPurchaseProducts = Action<typeof FETCH_MORE_PAST_PURCHASE_PRODUCTS, Payload.Fetch.MorePastPurchases>;
   export const FETCH_PAST_PURCHASE_NAVIGATIONS = 'FETCH_PAST_PURCHASE_NAVIGATIONS';
-  export type FetchPastPurchaseNavigations = Action<typeof FETCH_PAST_PURCHASE_NAVIGATIONS>;
+  export type FetchPastPurchaseNavigations = Action<typeof FETCH_PAST_PURCHASE_NAVIGATIONS, Payload.Fetch.Override>;
   export const FETCH_SAYT_PAST_PURCHASES = 'FETCH_SAYT_PAST_PURCHASES';
-  export type FetchSaytPastPurchases = Action<typeof FETCH_SAYT_PAST_PURCHASES, string>;
+  export type FetchSaytPastPurchases = Action<typeof FETCH_SAYT_PAST_PURCHASES, Payload.Fetch.PastPurchases>;
 
   // response actions
   export const RECEIVE_MORE_REFINEMENTS = 'RECEIVE_MORE_REFINEMENTS';
