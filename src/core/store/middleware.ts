@@ -1,5 +1,6 @@
 import * as cuid from 'cuid';
 import { applyMiddleware, compose, createStore, Middleware as ReduxMiddleware, Store } from 'redux';
+import { batchActions, batchMiddleware, batchStoreEnhancer } from 'redux-batch-enhancer';
 import { ActionCreators as ReduxActionCreators } from 'redux-undo';
 import * as validatorMiddleware from 'redux-validator';
 import FluxCapacitor from '../../flux-capacitor';
@@ -152,18 +153,20 @@ export namespace Middleware {
     };
   }
 
-  export function batchMiddleware(store: Store<any>) {
+  export function arrayMiddleware() {
     return (next) => (action) => {
-      if (Array.isArray(action)) {
-        return action.map(batchMiddleware(store)(next));
-      } else {
-        return Middleware.thunkEvaluator(store)(next)(action);
-      }
+      return next(Array.isArray(action) ? batchActions(action) : action);
     };
   }
 
   export function create(sagaMiddleware: any, flux: FluxCapacitor): any {
+    const normalizingMiddleware = [
+      thunkEvaluator,
+      arrayMiddleware,
+      batchMiddleware,
+    ];
     const middleware = [
+      ...normalizingMiddleware,
       Middleware.injectStateIntoRehydrate,
       Middleware.validator,
       Middleware.idGenerator('recallId', RECALL_CHANGE_ACTIONS),
@@ -172,7 +175,7 @@ export namespace Middleware {
       Middleware.checkPastPurchaseSkus(flux),
       sagaMiddleware,
       personalizationAnalyzer,
-      batchMiddleware,
+      ...normalizingMiddleware,
       saveStateAnalyzer,
     ];
 
@@ -184,19 +187,10 @@ export namespace Middleware {
     const composeEnhancers = global && global['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] || compose;
 
     return composeEnhancers(
-      applyMiddleware(
-        batchMiddleware,
-        saveStateAnalyzer,
-        pastPurchaseProductAnalyzer
-      ),
-      applyMiddleware(
-        batchMiddleware,
-        ...middleware
-      ),
-      applyMiddleware(
-        batchMiddleware,
-        Middleware.validator
-      ),
+      applyMiddleware(...normalizingMiddleware, saveStateAnalyzer, pastPurchaseProductAnalyzer),
+      applyMiddleware(...middleware),
+      applyMiddleware(...normalizingMiddleware, Middleware.validator),
+      batchStoreEnhancer,
     );
   }
 }
