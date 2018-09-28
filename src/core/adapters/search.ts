@@ -3,8 +3,11 @@ import {
   PageInfo,
   RangeRefinement,
   Record,
+  Refinement,
   Results,
+  SelectedRangeRefinement,
   SelectedRefinement,
+  SelectedValueRefinement,
   SortType,
   Template,
   ValueRefinement,
@@ -53,20 +56,22 @@ namespace Adapter {
       .reduce((metadata, keyValue) => Object.assign(metadata, { [keyValue.key]: keyValue.value }), {}),
   });
 
-  export const refinementsMatch = (lhs: Store.Refinement, rhs: SelectedRefinement, type: string = rhs.type) => {
+  // tslint:disable-next-line max-line-length
+  export const refinementsMatch = (lhs: Store.Refinement, rhs: Refinement | SelectedRefinement, type: string = rhs.type) => {
     if (type === 'Value') {
-      return (<any>lhs).value === (<any>rhs).value;
+      return (<Store.ValueRefinement>lhs).value === (<ValueRefinement | SelectedValueRefinement>rhs).value;
     } else {
-      return (<any>lhs).low === (<any>rhs).low && (<any>lhs).high === (<any>rhs).high;
+      return (<Store.RangeRefinement>lhs).low === (<RangeRefinement | SelectedRangeRefinement>rhs).low
+        && (<Store.RangeRefinement>lhs).high === (<RangeRefinement | SelectedRangeRefinement>rhs).high;
     }
   };
 
   export const mergeSelectedRefinements = (available: Store.Navigation, selected: Navigation) => {
     available.selected = [];
 
-    selected.refinements.forEach((refinement) => {
+    selected.refinements.forEach((refinement: Refinement) => {
       const index = available.refinements.findIndex((availableRef) =>
-        Adapter.refinementsMatch(<any>availableRef, <any>refinement));
+        Adapter.refinementsMatch(availableRef, refinement));
 
       if (index !== -1) {
         available.selected.push(index);
@@ -98,16 +103,17 @@ namespace Adapter {
     }) : navigations;
   };
 
-  export const filterExcludedNavigations = (navigations: Navigation[]): Navigation[] => {
+  export const filterExcludedRefinements = (refinements: Refinement[]): Refinement[] => {
+    return refinements.filter((ref) => !ref.exclude);
+  };
+
+  export const filterNavigations = (navigations: Navigation[]): Navigation[] => {
     return navigations
       .map((navigation) => {
-        const refinements = navigation.refinements.filter((ref: any) => !ref.exclude);
+        const refinements = filterExcludedRefinements(navigation.refinements);
         return navigation = { ...navigation, refinements };
       })
-      .reduce((acc, cur) => {
-        if (cur.refinements.length > 0) acc = [...acc, cur];
-        return acc;
-      }, []);
+      .filter((nav) => nav.refinements.length > 0 && !nav.ignored);
   };
 
   // tslint:disable-next-line max-line-length
@@ -115,7 +121,7 @@ namespace Adapter {
     let navigations = available.reduce((map, navigation) =>
       Object.assign(map, { [navigation.name]: Adapter.extractNavigation(navigation) }), {});
 
-    const filteredNavigations = filterExcludedNavigations(selected);
+    const filteredNavigations = filterNavigations(selected);
 
     filteredNavigations.forEach((selectedNav) => {
       const availableNav = navigations[selectedNav.name];
@@ -124,7 +130,7 @@ namespace Adapter {
         Adapter.mergeSelectedRefinements(availableNav, selectedNav);
       } else {
         const navigation = Adapter.extractNavigation(selectedNav);
-        navigation.selected = <any[]>Object.keys(Array(navigation.refinements.length).fill(0))
+        navigation.selected = Object.keys(Array(navigation.refinements.length).fill(0))
           .map((value) => Number(value));
         navigations = { [selectedNav.name]: navigation, ...navigations };
       }
