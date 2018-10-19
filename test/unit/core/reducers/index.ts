@@ -5,6 +5,7 @@ import suite from '../../_suite';
 
 suite('reducers', ({ expect, stub }) => {
   it('should handle REFRESH_STATE action', () => {
+    const session = { c: 'd' };
     const payload = {
       a: 'b',
       data: {
@@ -19,7 +20,7 @@ suite('reducers', ({ expect, stub }) => {
     };
     const oldState = <any>{
       data: {
-        past: [],
+        past: [{ a: 'b' }],
         present: {
           personalization: { biasing: 'not' },
           autocomplete: {},
@@ -27,39 +28,27 @@ suite('reducers', ({ expect, stub }) => {
         },
         future: []
       },
-      session: {
-        config: {
-          history: {
-            length: 5
-          }
-        }
-      }
+      session,
     };
     const newState = {
       a: 'b',
       data: {
-        past: [{ personalization: { biasing: 'bias' }, autocomplete: { c: 'd' }, details: { data: '3' } }],
+        past: [],
         present: { personalization: { biasing: 'not' }, autocomplete: {}, details: { data: '3' } },
         future: []
       },
-      session: {
-        config: {
-          history: {
-            length: 5
-          }
-        }
-      }
+      session,
     };
 
     expect(reducer(oldState, { type: Actions.REFRESH_STATE, payload })).to.eql(newState);
   });
 
-  it('should keep the correct length of past', () => {
-    const historyLength = 2;
+  it('should preserve session', () => {
+    const session = { c: 'd' };
     const payload = {
       a: 'b',
       data: {
-        past: [{ a: 1 }, { b: 2 }],
+        past: [{ a: 1 }],
         present: { personalization: { biasing: 2 }, autocomplete: {}, details: { data: 2 } },
         future: []
       }
@@ -69,67 +58,35 @@ suite('reducers', ({ expect, stub }) => {
       data: {
         present: { personalization: { biasing: 1 }, autocomplete: {}, details: { data: 1 } },
       },
-      session: {
-        config: { history: { length: historyLength } }
-      }
+      session,
     };
 
-    expect(reducer(oldState, { type: Actions.REFRESH_STATE, payload }).data.past.length).to.eq(historyLength);
+    expect(reducer(oldState, { type: Actions.REFRESH_STATE, payload }).session).to.eq(session);
   });
 
-  it('should keep the correct length of past if history should be 0', () => {
-    const historyLength = 0;
-    const payload = {
-      a: 'b',
-      data: {
-        past: [],
-        present: { personalization: { biasing: 2 }, autocomplete: {}, details: { data: 2 } },
-        future: []
-      }
-    };
-    const oldState = <any>{
-      a: 'b',
-      data: {
-        present: { personalization: { biasing: 1 }, autocomplete: {}, details: { data: 1 } },
-      },
-      session: {
-        config: { history: { length: historyLength } }
-      }
-    };
-
-    expect(reducer(oldState, { type: Actions.REFRESH_STATE, payload }).data.past).to.eql([]);
-  });
-
-  describe('undo on HISTORY_UPDATE_ACTIONS', () => {
+  it('should advance history on SAVE_STATE', () => {
     const state = { a: 'b' };
     const present = { c: 'd' };
+    stub(dataReducers, 'default').returns(state);
 
-    beforeEach(() => {
-      stub(dataReducers, 'default').returns(state);
-    });
-
-    reducers.HISTORY_UPDATE_ACTIONS.forEach((action) => {
-      it(`should add to the past object on ${action}`, () => {
-        const updated = reducer(<any>{
-          session: {
-            config: {
-              history: {
-                length: 1
-              }
-            }
-          },
-          data: {
-            past: [],
-            present,
-            future: []
+    const updated = reducer(<any>{
+      session: {
+        config: {
+          history: {
+            length: 1
           }
-        }, <any>{ type: action });
+        }
+      },
+      data: {
+        past: [],
+        present,
+        future: []
+      }
+    }, <any>{ type: Actions.SAVE_STATE });
 
-        expect(updated.data.future).to.eql([]);
-        expect(updated.data.past).to.eql([present]);
-        expect(updated.data.present).to.eq(state);
-      });
-    });
+    expect(updated.data.future).to.eql([]);
+    expect(updated.data.past).to.eql([present]);
+    expect(updated.data.present).to.eq(state);
   });
 
   it('should return default', () => {

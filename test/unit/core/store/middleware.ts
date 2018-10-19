@@ -1,10 +1,11 @@
 import * as redux from 'redux';
-import { batchActions, batchMiddleware, batchStoreEnhancer } from 'redux-batch-enhancer';
+import { batchActions, batchMiddleware, batchStoreEnhancer, POP, PUSH } from 'redux-batch-enhancer';
 import reduxLogger from 'redux-logger';
 import { ActionCreators as ReduxActionCreators } from 'redux-undo';
 import * as sinon from 'sinon';
 import Actions from '../../../../src/core/actions';
 import ActionCreators from '../../../../src/core/actions/creators';
+import { handleError } from '../../../../src/core/actions/utils';
 import ConfigurationAdapter from '../../../../src/core/adapters/configuration';
 import PersonalizationAdapter from '../../../../src/core/adapters/personalization';
 import Events from '../../../../src/core/events';
@@ -15,14 +16,21 @@ import Middleware, {
   PAST_PURCHASES_SEARCH_CHANGE_ACTIONS,
   PERSONALIZATION_CHANGE_ACTIONS,
   RECALL_CHANGE_ACTIONS,
+  SAVE_STATE_ACTIONS,
   SEARCH_CHANGE_ACTIONS,
+  UNDOABLE_ACTIONS,
 } from '../../../../src/core/store/middleware';
 import suite from '../../_suite';
 
 suite('Middleware', ({ expect, spy, stub }) => {
   let next: sinon.SinonSpy;
+  let saveStateAnalyzer;
 
-  beforeEach(() => next = spy());
+  beforeEach(() => {
+    next = spy();
+    saveStateAnalyzer = Middleware.saveStateAnalyzer();
+    stub(Middleware, 'saveStateAnalyzer').returns(saveStateAnalyzer);
+  });
 
   describe('create()', () => {
     const sagaMiddleware = { a: 'b' };
@@ -34,6 +42,7 @@ suite('Middleware', ({ expect, spy, stub }) => {
       Middleware.thunkEvaluator,
       Middleware.arrayMiddleware,
       batchMiddleware,
+      saveStateAnalyzer,
       Middleware.injectStateIntoRehydrate,
       Middleware.validator,
       idGeneratorMiddleware,
@@ -69,6 +78,7 @@ suite('Middleware', ({ expect, spy, stub }) => {
       const applyMiddleware = stub(redux, 'applyMiddleware');
       applyMiddleware.withArgs(
         ...normalizingMiddleware,
+        saveStateAnalyzer,
         Middleware.injectStateIntoRehydrate,
         Middleware.validator,
         idGeneratorMiddleware,
@@ -159,13 +169,13 @@ suite('Middleware', ({ expect, spy, stub }) => {
   });
 
   describe('errorHandler()', () => {
-    it('should emit ERROR_FETCH_ACTION on error', () => {
+    it('should emit ERROR_ACTION if error is not present in UNDOABLE_ACTIONS', () => {
       const payload = { a: 'b' };
       const emit = spy();
 
       const error = Middleware.errorHandler(<any>{ emit })(null)(() => null)(<any>{ error: true, payload });
 
-      expect(emit).to.be.calledWith(Events.ERROR_FETCH_ACTION, payload);
+      expect(emit).to.be.calledWith(Events.ERROR_ACTION, payload);
       expect(error).to.eq(payload);
     });
 
@@ -177,15 +187,19 @@ suite('Middleware', ({ expect, spy, stub }) => {
       expect(next).to.be.calledWith(action);
     });
 
-    it('should handle failed RECEIVE_PRODUCTS action', () => {
-      const action = { type: Actions.RECEIVE_PRODUCTS, error: true };
-      const undoAction = { a: 'b' };
-      const next = spy();
-      stub(ReduxActionCreators, 'undo').returns(undoAction);
+    UNDOABLE_ACTIONS.forEach((type) => {
+      it(`should handle failed ${type} action`, () => {
+        const undoAction = { a: 'b' };
+        const payload = { c: 'd' };
+        const action = { type, error: true, payload };
+        const emit = spy();
+        stub(ReduxActionCreators, 'undo').returns(undoAction);
 
-      Middleware.errorHandler(<any>{})(null)(next)(action);
+        Middleware.errorHandler(<any>{ emit })(null)(next)(action);
 
-      expect(next).to.be.calledWith(undoAction);
+        expect(emit).to.be.calledWith(Events.ERROR_FETCH_ACTION, payload);
+        expect(next).to.be.calledWith(undoAction);
+      });
     });
   });
 
@@ -304,7 +318,6 @@ suite('Middleware', ({ expect, spy, stub }) => {
       const action = { a: 'b', type: 'NOT_VALID_ACTION' };
       const config = stub(Selectors, 'config').returns(conf);
       const enabled = stub(ConfigurationAdapter, 'isRealTimeBiasEnabled').returns(true);
-      const next = spy();
       const getState = spy(() => state);
 
       Middleware.personalizationAnalyzer(<any>{ getState })(next)(action);
@@ -319,7 +332,6 @@ suite('Middleware', ({ expect, spy, stub }) => {
       const action = { a: 'b', type: PERSONALIZATION_CHANGE_ACTIONS[0] };
       const config = stub(Selectors, 'config').returns(conf);
       const enabled = stub(ConfigurationAdapter, 'isRealTimeBiasEnabled').returns(false);
-      const next = spy();
       const getState = spy(() => state);
 
       Middleware.personalizationAnalyzer(<any>{ getState })(next)(action);
@@ -334,7 +346,6 @@ suite('Middleware', ({ expect, spy, stub }) => {
       const config = stub(Selectors, 'config').returns(conf);
       const updateBiasing = stub(ActionCreators, 'updateBiasing').returns(returnAction);
       const extract = stub(PersonalizationAdapter, 'extractBias').returns(null);
-      const next = spy();
       const getState = spy(() => state);
       stub(ConfigurationAdapter, 'isRealTimeBiasEnabled').returns(true);
 
@@ -352,7 +363,6 @@ suite('Middleware', ({ expect, spy, stub }) => {
       const config = stub(Selectors, 'config').returns(conf);
       const updateBiasing = stub(ActionCreators, 'updateBiasing').returns(returnAction);
       const extract = stub(PersonalizationAdapter, 'extractBias').returns(extracted);
-      const next = spy();
       const getState = spy(() => state);
       stub(ConfigurationAdapter, 'isRealTimeBiasEnabled').returns(true);
 
@@ -361,6 +371,98 @@ suite('Middleware', ({ expect, spy, stub }) => {
       expect(next).to.be.calledWith([action, returnAction]);
       expect(extract).to.be.calledWithExactly(action, state);
       expect(updateBiasing).to.be.calledWithExactly(extracted);
+    });
+  });
+
+  describe('saveStateAnalyzer()', () => {
+    function sequentiallyCallSaveStateAnalyzer(...callArgs: Array<any[]>) {
+      callArgs.forEach(([dispatch, type]) => saveStateAnalyzer(<any>{ dispatch })(() => null)({ type }));
+    }
+
+    SAVE_STATE_ACTIONS.forEach((actionName) => {
+      it(`should dispatch a SAVE_STATE action on ${actionName}`, () => {
+        const dispatch = spy();
+        const action = { type: actionName };
+
+        saveStateAnalyzer(<any>{ dispatch })(() => null)(action);
+
+        expect(dispatch).to.be.calledWith({ type: Actions.SAVE_STATE });
+      });
+    });
+
+    it('should dispatch SAVE_STATE action for the first SAVE_STATE_ACTIONS action in every batch', () => {
+      const dispatchToBeCalled = spy();
+      const unwantedDispatch = spy();
+
+      sequentiallyCallSaveStateAnalyzer(
+        [unwantedDispatch, PUSH],
+        [dispatchToBeCalled, SAVE_STATE_ACTIONS[0]],
+        [unwantedDispatch, SAVE_STATE_ACTIONS[1]],
+        [unwantedDispatch, PUSH],
+        [unwantedDispatch, SAVE_STATE_ACTIONS[2]],
+        [unwantedDispatch, POP],
+        [unwantedDispatch, POP],
+        [unwantedDispatch, PUSH],
+        [unwantedDispatch, 'noop'],
+        [dispatchToBeCalled, SAVE_STATE_ACTIONS[3]],
+        [unwantedDispatch, SAVE_STATE_ACTIONS[4]],
+        [unwantedDispatch, POP]
+      );
+
+      expect(dispatchToBeCalled).to.be.calledTwice.and.calledWith({ type: Actions.SAVE_STATE });
+      expect(unwantedDispatch).to.not.be.called;
+    });
+
+    it('should dispatch SAVE_STATE action for the first SAVE_STATE_ACTIONS action in a nested batch', () => {
+      const dispatchToBeCalled = spy();
+      const unwantedDispatch = spy();
+
+      sequentiallyCallSaveStateAnalyzer(
+        [unwantedDispatch, PUSH],
+        [unwantedDispatch, 'noop'],
+        [unwantedDispatch, PUSH],
+        [dispatchToBeCalled, SAVE_STATE_ACTIONS[3]],
+        [unwantedDispatch, POP],
+        [unwantedDispatch, POP]
+      );
+
+      expect(dispatchToBeCalled).to.be.calledOnce.and.calledWith({ type: Actions.SAVE_STATE });
+      expect(unwantedDispatch).to.not.be.called;
+    });
+
+    // tslint:disable-next-line max-line-length
+    it('should dispatch SAVE_STATE action for the first SAVE_STATE_ACTIONS action in a batch and for all SAVE_STATE_ACTIONS not in a batch', () => {
+      const dispatchToBeCalled = spy();
+      const unwantedDispatch = spy();
+
+      sequentiallyCallSaveStateAnalyzer(
+        [dispatchToBeCalled, SAVE_STATE_ACTIONS[0]],
+        [unwantedDispatch, PUSH],
+        [unwantedDispatch, 'noop' ],
+        [dispatchToBeCalled, SAVE_STATE_ACTIONS[0]],
+        [unwantedDispatch, SAVE_STATE_ACTIONS[1]],
+        [unwantedDispatch, POP],
+        [dispatchToBeCalled, SAVE_STATE_ACTIONS[0]]
+      );
+
+      expect(dispatchToBeCalled).to.have.calledThrice.and.calledWith({ type: Actions.SAVE_STATE });
+      expect(unwantedDispatch).to.not.be.called;
+    });
+
+    it('should not dispatch SAVE_STATE action', () => {
+      const dispatch = spy();
+
+      saveStateAnalyzer(<any>{ dispatch })(() => null)({ type: 'noop' });
+
+      expect(dispatch).to.not.be.called;
+    });
+
+    it('should pass the action forward', () => {
+      const action = { type: 'test' };
+
+      saveStateAnalyzer(<any>{ dispatch: () => null })(next)(action);
+
+      expect(next).to.be.calledWith(action);
     });
   });
 });

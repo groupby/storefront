@@ -1,6 +1,6 @@
 import * as cuid from 'cuid';
 import { applyMiddleware, compose, createStore, Middleware as ReduxMiddleware, Store } from 'redux';
-import { batchActions, batchMiddleware, batchStoreEnhancer } from 'redux-batch-enhancer';
+import { batchActions, batchMiddleware, batchStoreEnhancer, POP, PUSH } from 'redux-batch-enhancer';
 import { ActionCreators as ReduxActionCreators } from 'redux-undo';
 import * as validatorMiddleware from 'redux-validator';
 import FluxCapacitor from '../../flux-capacitor';
@@ -18,11 +18,6 @@ export const RECALL_CHANGE_ACTIONS = [
   Actions.ADD_REFINEMENT,
   Actions.SELECT_REFINEMENT,
   Actions.DESELECT_REFINEMENT,
-];
-
-export const PAST_PURCHASE_SKU_ACTIONS = [
-  Actions.FETCH_PAST_PURCHASE_PRODUCTS,
-  Actions.FETCH_SAYT_PAST_PURCHASES,
 ];
 
 export const SEARCH_CHANGE_ACTIONS = [
@@ -43,13 +38,34 @@ export const PAST_PURCHASES_SEARCH_CHANGE_ACTIONS = [
   Actions.UPDATE_PAST_PURCHASE_PAGE_SIZE,
 ];
 
+export const DETAILS_CHANGE_ACTIONS = [
+  Actions.UPDATE_DETAILS,
+];
+
+export const SAVE_STATE_ACTIONS = [
+  ...SEARCH_CHANGE_ACTIONS,
+  ...PAST_PURCHASES_SEARCH_CHANGE_ACTIONS,
+  ...DETAILS_CHANGE_ACTIONS
+];
+
 export const PERSONALIZATION_CHANGE_ACTIONS = [
   Actions.SELECT_REFINEMENT,
   Actions.ADD_REFINEMENT,
 ];
 
-export const DETAILS_CHANGE_ACTIONS = [
-  Actions.UPDATE_DETAILS,
+export const PAST_PURCHASE_SKU_ACTIONS = [
+  Actions.FETCH_PAST_PURCHASE_PRODUCTS,
+  Actions.FETCH_SAYT_PAST_PURCHASES,
+];
+
+export const UNDOABLE_ACTIONS = [
+  Actions.RECEIVE_PRODUCTS,
+  Actions.RECEIVE_RECOMMENDATIONS_PRODUCTS,
+  Actions.RECEIVE_COLLECTION_COUNT,
+  Actions.RECEIVE_NAVIGATION_SORT,
+  Actions.RECEIVE_MORE_REFINEMENTS,
+  Actions.RECEIVE_PAST_PURCHASE_PRODUCTS,
+  Actions.RECEIVE_PAST_PURCHASE_REFINEMENTS,
 ];
 
 export namespace Middleware {
@@ -65,11 +81,12 @@ export namespace Middleware {
   export function errorHandler(flux: FluxCapacitor): ReduxMiddleware {
     return (store) => (next) => (action) => {
       if (action.error) {
-        switch (action.type) {
-          case Actions.RECEIVE_PRODUCTS: return next(ReduxActionCreators.undo());
-          default:
-            flux.emit(Events.ERROR_FETCH_ACTION, action.payload);
-            return action.payload;
+        if (UNDOABLE_ACTIONS.includes(action.type)) {
+          flux.emit(Events.ERROR_FETCH_ACTION, action.payload);
+          return next(ReduxActionCreators.undo());
+        } else {
+          flux.emit(Events.ERROR_ACTION, action.payload);
+          return action.payload;
         }
       } else {
         return next(action);
@@ -116,6 +133,27 @@ export namespace Middleware {
     };
   }
 
+  export function saveStateAnalyzer() {
+    let hasDispatched = false;
+    let batchLevel = 0;
+    return ({ dispatch }: Store<any>) => (next) => (action) => {
+      if (action.type === PUSH) {
+        batchLevel++;
+      } else if (action.type === POP) {
+        batchLevel--;
+      } else if (SAVE_STATE_ACTIONS.includes(action.type) && !hasDispatched) {
+        hasDispatched = true;
+        dispatch({ type: Actions.SAVE_STATE });
+      }
+
+      if (batchLevel === 0) {
+        hasDispatched = false;
+      }
+
+      return next(action);
+    };
+  }
+
   export function thunkEvaluator({ getState }: Store<any>) {
     return (next) => (thunkAction) => {
       if (typeof thunkAction === 'function') {
@@ -140,6 +178,7 @@ export namespace Middleware {
     ];
     const middleware = [
       ...normalizingMiddleware,
+      Middleware.saveStateAnalyzer(),
       Middleware.injectStateIntoRehydrate,
       Middleware.validator,
       Middleware.idGenerator('recallId', RECALL_CHANGE_ACTIONS),
