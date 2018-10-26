@@ -11,6 +11,11 @@
     "moduleResolution": "node",
     "target": "es2015",
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
-  }
+    "experimentalDecorators": true,
+    "outDir": "esnext",
+    "sourceMap": true
+  },
+  "include": [
+    "src"
+  ]
 }

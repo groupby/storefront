@@ -14,7 +14,9 @@
     "target": "ES5",
     "declaration": true,
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "outDir": "dist",
+    "sourceMap": true
   },
   "exclude": [
     "node_modules",
@@ -23,5 +25,8 @@
   "formatCodeOptions": {
     "indentSize": 2,
     "tabSize": 2
-  }
+  },
+  "include": [
+    "src"
+  ]
 }

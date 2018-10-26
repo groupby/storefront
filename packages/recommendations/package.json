@@ -24,16 +24,31 @@
   ],
   "scripts": {
     "prepare": "install-self-peers -- --ignore-scripts",
-    "build": "npm start build && npm run esnext",
-    "start": "start-runner -p re-start/presets/typescript",
-    "esnext": "npm start build -- -- --compileOpts.configFile tsconfig.esnext.json --outDir esnext",
-    "dev": "npm start dev",
-    "test": "npm start test",
-    "tdd": "npm start tdd",
-    "prepush": "npm start prepush",
+    "build": "./scripts/build.sh",
+    "dev": "nodemon --watch src --exec npm run build",
+    "test": "nyc mocha --recursive --require ts-node/register --require source-map-support/register './test/**/*.ts'",
+    "tdd": "nodemon --watch src --watch test --exec npm test",
+    "prepush": "npm test",
     "prepublishOnly": "npm run build",
     "docs": "typedoc src/**/*.ts",
-    "docs:json": "npm run docs -- --json component.docs.json"
+    "docs:json": "npm run docs -- --json component.docs.json",
+    "uploadCoverage": "npm test && codecov"
+  },
+  "nyc": {
+    "extension": [
+      ".ts"
+    ],
+    "include": [
+      "src/**/*.ts"
+    ],
+    "reporter": [
+      "lcov",
+      "text-summary"
+    ],
+    "all": true
+  },
+  "nodemonConfig": {
+    "ext": "ts,json,html,css"
   },
   "prettier": {
     "printWidth": 120,
@@ -42,42 +57,6 @@
     "arrowParens": "always",
     "jsxBracketSameLine": true,
     "singleQuote": true
-  },
-  "release": {
-    "verifyConditions": "condition-circle"
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    },
-    "restart": {
-      "watchFiles": "src/**/*.{ts,html,css}",
-      "copyFiles": "src/**/*.{html,css}",
-      "testFiles": [
-        "test/bootstrap.ts",
-        "test/**/*.ts"
-      ],
-      "releaseOpts": {
-        "public": true
-      }
-    }
-  },
-  "devDependencies": {
-    "@storefront/testing": "1.1.0",
-    "@team-griffin/install-self-peers": "^1.1.1",
-    "@types/node": "^8.0.5",
-    "chai": "^4.0.2",
-    "condition-circle": "^1.5.0",
-    "cz-conventional-changelog": "^2.0.0",
-    "husky": "^0.14.1",
-    "prettier": "^1.12.1",
-    "re-start": "^1.14.8",
-    "start-simple-cli": "^4.1.1",
-    "tslint": "^5.2.0",
-    "tslint-config-groupby": "^1.0.0",
-    "tslint-config-prettier": "^1.12.0",
-    "typedoc": "^0.8.0",
-    "typescript": "^2.3.2"
   },
   "peerDependencies": {
     "@storefront/core": "~1.47.0"
