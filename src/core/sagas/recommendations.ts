@@ -28,7 +28,7 @@ export class MissingPayloadError extends Error {
 
 export namespace Tasks {
   // tslint:disable-next-line max-line-length
-  export function* fetchProducts(flux: FluxCapacitor, action: Actions.FetchRecommendationsProducts) {
+  export function* fetchRecommendationsProducts(flux: FluxCapacitor, action: Actions.FetchRecommendationsProducts) {
     try {
       const state = yield effects.select();
       const config = yield effects.select(Selectors.config);
@@ -70,7 +70,7 @@ export namespace Tasks {
     }
   }
 
-  export function* fetchSkus(config: Configuration, endpoint: string, query?: string) {
+  export function* fetchPastPurchaseSkus(config: Configuration, endpoint: string, query?: string) {
     const securedPayload = ConfigAdapter.extractSecuredPayload(config);
     if (securedPayload) {
       const response = yield effects.call(
@@ -96,9 +96,11 @@ export namespace Tasks {
       const config: Configuration = yield effects.select(Selectors.config);
       const productCount = ConfigAdapter.extractPastPurchaseProductCount(config);
       if (productCount > 0) {
-        const result = yield effects.call(fetchSkus, config, 'popular');
-        yield effects.put(flux.actions.receivePastPurchaseSkus(result));
-        yield effects.put(flux.actions.fetchPastPurchaseNavigations());
+        const result = yield effects.call(fetchPastPurchaseSkus, config, 'popular');
+        yield effects.put(<any>[
+          flux.actions.receivePastPurchaseAllRecordCount(result.length),
+          flux.actions.receivePastPurchaseSkus(result)
+        ]);
       } else {
         yield effects.put(flux.actions.receivePastPurchaseSkus([]));
       }
@@ -109,42 +111,31 @@ export namespace Tasks {
     }
   }
 
-  // tslint:disable-next-line max-line-length
-  export function* fetchPastPurchaseProducts(flux: FluxCapacitor, getNavigations: boolean, action: Actions.FetchPastPurchaseProducts) {
+  export function* fetchPastPurchaseProducts(flux: FluxCapacitor, action: Actions.FetchPastPurchaseProducts) {
     try {
       const pastPurchaseSkus: Store.PastPurchases.PastPurchaseProduct[] = yield effects.select(Selectors.pastPurchases);
       if (pastPurchaseSkus.length > 0) {
         const state = yield effects.select();
         const pastPurchasesFromSkus = Tasks.buildRequestFromSkus(flux, pastPurchaseSkus);
         const request = pastPurchaseProductsRequest.composeRequest(state, {
-          query: '',
           ...pastPurchasesFromSkus,
           ...action.payload.request
         });
         const results = yield effects.call(Requests.search, flux, request);
         const pageSize = request.pageSize;
-        if (getNavigations) {
-          const navigations = PastPurchaseAdapter.pastPurchaseNavigations(
-            yield effects.select(Selectors.config), SearchAdapter.combineNavigations(results)
-          );
-          yield effects.put(<any>[
-            flux.actions.receivePastPurchaseAllRecordCount(results.totalRecordCount),
-            flux.actions.receivePastPurchaseRefinements(navigations),
-          ]);
-        } else {
-          yield effects.put(<any>[
-            flux.actions.updatePastPurchasePageSize(pageSize),
-            flux.actions.receivePastPurchasePage(
-              SearchAdapter.extractRecordCount(results.totalRecordCount),
-              PageAdapter.currentPage(request.skip, pageSize),
-              pageSize
-            ),
-            flux.actions.receivePastPurchaseCurrentRecordCount(results.totalRecordCount),
-            flux.actions.receivePastPurchaseProducts(SearchAdapter.augmentProducts(results)),
-            flux.actions.receivePastPurchaseTemplate(SearchAdapter.extractTemplate(results.template))
-          ]);
-          flux.replaceState(utils.Routes.PAST_PURCHASE);
-        }
+        yield effects.put(<any>[
+          flux.actions.updatePastPurchasePageSize(pageSize),
+          flux.actions.receivePastPurchasePage(
+            SearchAdapter.extractRecordCount(results.totalRecordCount),
+            PageAdapter.currentPage(request.skip, pageSize),
+            pageSize
+          ),
+          flux.actions.receivePastPurchaseCurrentRecordCount(results.totalRecordCount),
+          flux.actions.receivePastPurchaseProducts(SearchAdapter.augmentProducts(results)),
+          flux.actions.receivePastPurchaseTemplate(SearchAdapter.extractTemplate(results.template)),
+          flux.actions.receivePastPurchaseRefinements(SearchAdapter.combineNavigations(results)),
+        ]);
+        flux.replaceState(utils.Routes.PAST_PURCHASE);
       }
     } catch (e) {
       return effects.put(flux.actions.receivePastPurchaseProducts(e));
@@ -221,10 +212,9 @@ export namespace Tasks {
 }
 
 export default (flux: FluxCapacitor) => function* recommendationsSaga() {
-  yield effects.takeLatest(Actions.FETCH_RECOMMENDATIONS_PRODUCTS, Tasks.fetchProducts, flux);
+  yield effects.takeLatest(Actions.FETCH_RECOMMENDATIONS_PRODUCTS, Tasks.fetchRecommendationsProducts, flux);
   yield effects.takeLatest(Actions.FETCH_PAST_PURCHASES, Tasks.fetchPastPurchases, flux);
-  yield effects.takeLatest(Actions.FETCH_PAST_PURCHASE_PRODUCTS, Tasks.fetchPastPurchaseProducts, flux, false);
-  yield effects.takeLatest(Actions.FETCH_PAST_PURCHASE_NAVIGATIONS, Tasks.fetchPastPurchaseProducts, flux, true);
+  yield effects.takeLatest(Actions.FETCH_PAST_PURCHASE_PRODUCTS, Tasks.fetchPastPurchaseProducts, flux);
   yield effects.takeLatest(Actions.FETCH_SAYT_PAST_PURCHASES, Tasks.fetchSaytPastPurchases, flux);
   yield effects.takeEvery(Actions.FETCH_MORE_PAST_PURCHASE_PRODUCTS, Tasks.fetchMorePastPurchaseProducts, flux);
 };
