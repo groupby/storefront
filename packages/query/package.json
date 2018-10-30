@@ -1,6 +1,6 @@
 {
   "name": "@storefront/query",
-  "version": "0.0.12-development",
+  "version": "1.35.9",
   "description": "StoreFront query component",
   "keywords": [
     "storefront",

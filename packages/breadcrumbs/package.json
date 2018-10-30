@@ -1,6 +1,6 @@
 {
   "name": "@storefront/breadcrumbs",
-  "version": "0.0.10-development",
+  "version": "1.29.2",
   "description": "StoreFront breadcrumbs component",
   "keywords": [
     "storefront",

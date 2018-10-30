@@ -1,6 +1,6 @@
 {
   "name": "@storefront/collections",
-  "version": "0.0.11-development",
+  "version": "1.28.3",
   "description": "StoreFront collections component",
   "keywords": [
     "storefront",

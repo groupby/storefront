@@ -1,6 +1,6 @@
 {
   "name": "@storefront/paging",
-  "version": "0.0.10-development",
+  "version": "1.29.4",
   "description": "StoreFront paging component",
   "keywords": [
     "storefront",

@@ -1,6 +1,6 @@
 {
   "name": "@storefront/infinite-scroll",
-  "version": "0.0.0-development",
+  "version": "1.2.3",
   "description": "StoreFront infinite-scroll component",
   "keywords": [
     "storefront",

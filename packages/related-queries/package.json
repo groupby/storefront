@@ -1,6 +1,6 @@
 {
   "name": "@storefront/related-queries",
-  "version": "0.0.7-development",
+  "version": "1.28.6",
   "description": "StoreFront related-queries component",
   "keywords": [
     "storefront",
