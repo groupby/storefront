@@ -24,7 +24,8 @@ info() {
   echo "===>" "$@"
 }
 
-cd "${BASH_SOURCE%/*}/.."
+# Only allow this script to run in package directories
+node -e 'process.exit(require("./package.json").private === true)' || die 'Not in a package directory.'
 
 while getopts ":t:h" opt; do
   case "$opt" in

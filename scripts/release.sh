@@ -46,7 +46,8 @@ EXIT CODES:
 EOF
 }
 
-cd "${BASH_SOURCE%/*}/.."
+# Only allow this script to run in package directories
+node -e 'process.exit(require("./package.json").private === true)' || die 'Not in a package directory.'
 
 while getopts "h" opt; do
   case "$opt" in
@@ -73,7 +74,7 @@ case "$release_type" in
     die -c 3 "Could not detect potential release in the CHANGELOG."
     ;;
   *)
-    die -c 4 "Unsupported release type: ${release_type}"
+    die -c 4 "Unsupported release type: ${release_type}."
     ;;
 esac
 
