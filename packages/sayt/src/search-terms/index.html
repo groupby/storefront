@@ -1,0 +1,7 @@
+<gb-list items="{props.suggestions}" item-alias="suggestion" item-props="{{_consumes: 'autocomplete', onClick: props.onClick}}">
+  <gb-link if="{!item.disabled}" class="gb-autocomplete-target {gb-trending: item.trending}" data-query="{item.value}" onmouseenter="{$autocomplete.onHover}" on-click="{props.onClick(item.value)}" _consumes="sayt,suggestion">
+    <yield>
+      <gb-raw content="{$sayt.highlight($suggestion.value, '<b>$&</b>')}"></gb-raw>
+    </yield>
+  </gb-link>
+</gb-list>

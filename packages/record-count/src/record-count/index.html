@@ -1,0 +1,4 @@
+<yield>
+  <h2 if="{!state.hasResults}">{props.labels.noResults}</h2>
+  <h2 if="{state.hasResults}">Showing {state.from} to {state.to} of {state.total}{state.query ? ' for ' + state.query : ''}</h2>
+</yield>

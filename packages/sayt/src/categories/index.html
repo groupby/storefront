@@ -1,0 +1,11 @@
+<gb-list items="{props.values}" item-alias="categoryValue" item-props="{{_consumes: 'autocomplete', onClick: state.onClick}}">
+  <gb-link class="gb-autocomplete-target" data-match-all="{item.matchAll}" data-refinement="{item.value}" onmouseenter="{$autocomplete.onHover}" on-click="{props.onClick(item)}" _consumes="sayt,saytCategories,categoryValue">
+    <yield>
+      <gb-raw content="{$sayt.highlight($saytCategories.query, '<b>$&</b>')}"></gb-raw>
+      in
+      <span class="gb-autocomplete-category">
+        {$categoryValue.matchAll ? 'All Departments' : $categoryValue.value}
+      </span>
+    </yield>
+  </gb-link>
+</gb-list>

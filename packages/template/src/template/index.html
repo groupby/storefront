@@ -1,0 +1,5 @@
+<div if="{state.isActive}">
+  <yield>
+    <div each="{zone, name in state.zones}" data-is="gb-{zone.type.replace('_', '-')}-zone" zone="{zone}"></div>
+  </yield>
+</div>

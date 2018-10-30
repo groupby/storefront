@@ -1,0 +1,17 @@
+<ul ref="wrapper" class="gb-list__wrapper {isGrid ? 'gb-list__wrapper--grid' : 'gb-list__wrapper--column'}">
+  <li data-is="gb-list-item" class="load first-loader" _consumes="infiniteList" if="{props.isFetchingBackward}" _props="{childProps()}">
+    <gb-infinite-loader label="{$infiniteList.loaderLabel}"></gb-infinite-loader>
+  </li>
+  <li data-is="gb-list-item" class="load" _consumes="infiniteList" if="{props.loadMore && props.prevExists}" _props="{childProps()}">
+    <gb-button class="load-prev" on-click="{$infiniteList.clickPrev}">Load Previous</gb-button>
+  </li>
+  <li data-is="gb-list-item" class="gb-list__item" each="{item, i in props.items}" _props="{parent.childProps()}">
+    <yield/>
+  </li>
+  <li data-is="gb-list-item" class="load second-loader" _consumes="infiniteList" if="{props.isFetchingForward}" _props="{childProps()}">
+    <gb-infinite-loader label="{$infiniteList.loaderLabel}"></gb-infinite-loader>
+  </li>
+  <li data-is="gb-list-item" class="load" _consumes="infiniteList" if="{props.loadMore && props.moreExists}" _props="{childProps()}">
+    <gb-button class="load-more" on-click="{$infiniteList.clickMore}">Load More</gb-button>
+  </li>
+</ul>

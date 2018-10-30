@@ -1,0 +1,7 @@
+<yield>
+  <h4>{state.label}</h4>
+  <gb-list items="{state.refinements}" item-alias="refinement">
+    <gb-refinement-crumb _props="{item}"></gb-refinement-crumb>
+    <gb-clear-refinement field="{item.field}" index="{item.index}"></gb-clear-refinement>
+  </gb-list>
+</yield>

@@ -1,0 +1,5 @@
+<gb-link url="{props.link()}" on-click="{props.onClick}" _consumes="product">
+  <img riot-src="{$product.data.image}" alt="" />
+</gb-link>
+<gb-link url="{props.link()}" on-click="{props.onClick}" _consumes="product">{$product.data.title}</gb-link>
+<p>{props.data.price}</p>

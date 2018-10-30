@@ -1,0 +1,14 @@
+gb-icon.gb-ui i,
+[data-is="gb-icon"].gb-ui i {
+  font-style: normal;
+}
+
+gb-icon.gb-ui .gb-icon__plus::after,
+[data-is="gb-icon"].gb-ui .gb-icon__plus::after {
+  content: "+";
+}
+
+gb-icon.gb-ui .gb-icon__minus::after,
+[data-is="gb-icon"].gb-ui .gb-icon__minus::after {
+  content: "-";
+}

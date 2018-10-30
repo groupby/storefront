@@ -1,0 +1,8 @@
+{/* Prefer show to if on state that changes to prevent child element re-initalization */ ''}
+<div show="{state.isActive}">
+  <yield>
+    <gb-recommendations show="{state.showRecommendations}"></gb-recommendations>
+    <gb-sayt-autocomplete show="{!state.showRecommendations}" _props="{props}"></gb-sayt-autocomplete>
+    <gb-sayt-products show="{state.showProducts && !state.showRecommendations}"></gb-sayt-products>
+  </yield>
+</div>

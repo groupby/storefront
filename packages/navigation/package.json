@@ -1,0 +1,86 @@
+{
+  "name": "@storefront/navigation",
+  "version": "0.0.15-development",
+  "description": "StoreFront navigation component",
+  "keywords": [
+    "storefront",
+    "storefront-component"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/groupby/storefront-navigation.git"
+  },
+  "bugs": {
+    "url": "https://github.com/groupby/storefront-navigation/issues"
+  },
+  "homepage": "https://github.com/groupby/storefront-navigation#readme",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "module:esnext": "esnext/index.js",
+  "files": [
+    "dist/",
+    "esnext/",
+    "src/"
+  ],
+  "scripts": {
+    "prepare": "install-self-peers -- --ignore-scripts",
+    "build": "npm start build && npm run esnext",
+    "start": "start-runner -p re-start/presets/typescript",
+    "esnext": "npm start build -- -- --compileOpts.configFile tsconfig.esnext.json --outDir esnext",
+    "dev": "npm start dev",
+    "test": "npm start test",
+    "tdd": "npm start tdd",
+    "prepush": "npm start prepush",
+    "prepublishOnly": "npm run build",
+    "docs": "typedoc src/**/*.ts",
+    "docs:json": "npm run docs -- --json component.docs.json"
+  },
+  "prettier": {
+    "printWidth": 120,
+    "parser": "typescript",
+    "trailingComma": "es5",
+    "arrowParens": "always",
+    "jsxBracketSameLine": true,
+    "singleQuote": true
+  },
+  "release": {
+    "verifyConditions": "condition-circle"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    },
+    "restart": {
+      "watchFiles": "src/**/*.{ts,html,css}",
+      "copyFiles": "src/**/*.{html,css}",
+      "testFiles": [
+        "test/bootstrap.ts",
+        "test/**/*.ts"
+      ],
+      "releaseOpts": {
+        "public": true
+      }
+    }
+  },
+  "devDependencies": {
+    "@storefront/testing": "1.1.0",
+    "@team-griffin/install-self-peers": "^1.1.1",
+    "@types/node": "^8.0.5",
+    "chai": "^4.0.2",
+    "condition-circle": "^1.5.0",
+    "cz-conventional-changelog": "^2.0.0",
+    "husky": "^0.14.1",
+    "prettier": "^1.12.1",
+    "re-start": "^1.14.8",
+    "start-simple-cli": "^4.1.1",
+    "tslint": "^5.2.0",
+    "tslint-config-groupby": "^1.0.0",
+    "tslint-config-prettier": "^1.12.0",
+    "typedoc": "^0.8.0",
+    "typescript": "^2.3.2"
+  },
+  "peerDependencies": {
+    "@storefront/core": "~1.47.0",
+    "@storefront/structure": "^1.16.0"
+  }
+}

@@ -1,0 +1,11 @@
+gb-range-selector.gb-ui input[type="number"]::-webkit-outer-spin-button,
+gb-range-selector.gb-ui input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+gb-range-selector.gb-ui input[type="number"] {
+  -moz-appearance:textfield;
+}

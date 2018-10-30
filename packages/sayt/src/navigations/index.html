@@ -1,0 +1,5 @@
+<gb-list items="{props.items}" item-alias="navigation" item-props="{{onClick: state.onClick}}">
+  <gb-sayt-refinements on-click="{props.onClick}" _props="{item}">
+    <yield/>
+  </gb-sayt-refinements>
+</gb-list>

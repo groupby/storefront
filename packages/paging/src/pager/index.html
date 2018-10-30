@@ -1,0 +1,7 @@
+<gb-link class="gb-pager {gb-disabled: $paging.backDisabled}" on-click="{$paging.prevPage}" _consumes="paging">
+  <span if="{$paging.showLabels}">{$paging.labels.prev}</span>
+</gb-link>
+<yield/>
+<gb-link class="gb-pager {gb-disabled: $paging.forwardDisabled}" on-click="{$paging.nextPage}" _consumes="paging">
+  <span if="{$paging.showLabels}">{$paging.labels.next}</span>
+</gb-link>

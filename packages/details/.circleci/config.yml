@@ -1,0 +1,111 @@
+defaults:
+  node_cache: &node_cache
+    key: node_cache-{{ .Branch }}-{{ checksum "yarn.lock" }}-{{ checksum "package.json" }}
+  build_cache: &build_cache
+    key: build_cache-{{ .Branch }}-{{ epoch }}
+
+version: 2
+
+jobs:
+  build:
+    docker:
+      - image: kkarczmarczyk/node-yarn
+    steps:
+      - checkout
+      - restore_cache:
+          <<: *node_cache
+      - run:
+          name: Dependencies
+          command: apt install -y rsync
+      - run:
+          name: Install
+          command: yarn
+      - run:
+          name: Build
+          command: yarn build
+      - save_cache:
+          <<: *node_cache
+          paths:
+            - ~/project/node_modules
+      - save_cache:
+          <<: *build_cache
+          paths:
+            - ~/project/dist
+            - ~/project/esnext
+  unit_test:
+    docker:
+      - image: kkarczmarczyk/node-yarn
+    steps:
+      - checkout
+      - restore_cache:
+          <<: *node_cache
+      - run:
+          name: Test
+          command: yarn test
+      - run:
+          name: Upload coverage
+          command: yarn uploadCoverage
+  release:
+    docker:
+      - image: kkarczmarczyk/node-yarn
+    steps:
+      - checkout
+      - restore_cache:
+          <<: *node_cache
+      - restore_cache:
+          key: build_cache-{{ .Branch }}
+      - run:
+          name: Setup Git user
+          command: |
+            git config --global user.email "ops@groupbyinc.com"
+            git config --global user.name "GroupBy Ops"
+            git config --global push.default simple
+      - run:
+          name: Install dependencies
+          command: apt install -y ed
+      - run:
+          name: Release
+          command: ./scripts/release.sh
+      - persist_to_workspace:
+          root: ~/
+          paths:
+              - project
+  publish:
+    docker:
+      - image: kkarczmarczyk/node-yarn
+    steps:
+      - attach_workspace:
+          at: ~/
+      - restore_cache:
+          <<: *node_cache
+      - restore_cache:
+          key: build_cache-{{ .Branch }}
+      - run:
+          name: Authenticate with registry
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
+      - run:
+          name: Publish
+          command: ./scripts/publish.sh
+
+workflows:
+  version: 2
+
+  build_test_release:
+    jobs:
+      - build
+      - unit_test:
+          requires:
+            - build
+      - release:
+          requires:
+            - unit_test
+          filters:
+            branches:
+              only: master
+      - publish:
+          context: org-global
+          requires:
+            - release
+          filters:
+            branches:
+              only: master

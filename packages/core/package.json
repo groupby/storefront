@@ -1,0 +1,103 @@
+{
+  "name": "@storefront/core",
+  "version": "0.0.32-development",
+  "description": "Core library for StoreFront components",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/groupby/storefront-core.git"
+  },
+  "bugs": {
+    "url": "https://github.com/groupby/storefront-core/issues"
+  },
+  "homepage": "https://github.com/groupby/storefront-core#readme",
+  "author": "Ben Teichman <ben.teichman@groupbyinc.com>",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "module:esnext": "esnext/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist/",
+    "esnext/",
+    "src/"
+  ],
+  "scripts": {
+    "start": "start-runner -p re-start/presets/typescript",
+    "build": "npm start build && npm run esnext",
+    "esnext": "npm start build -- -- --compileOpts.configFile tsconfig.esnext.json --outDir esnext",
+    "dev": "npm start dev",
+    "test": "npm start test",
+    "tdd": "npm start tdd",
+    "prepush": "npm start prepush",
+    "prepublish": "npm run build",
+    "docs": "typedoc src/**/*.ts",
+    "docs:json": "npm run docs -- --json component.docs.json"
+  },
+  "prettier": {
+    "printWidth": 120,
+    "parser": "typescript",
+    "trailingComma": "es5",
+    "arrowParens": "always",
+    "jsxBracketSameLine": true,
+    "singleQuote": true
+  },
+  "release": {
+    "verifyConditions": "condition-circle"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    },
+    "restart": {
+      "testFiles": [
+        "test/bootstrap.ts",
+        "test/unit/**/*.ts"
+      ],
+      "releaseOpts": {
+        "public": true
+      }
+    }
+  },
+  "devDependencies": {
+    "@types/chai": "^4.0.0",
+    "@types/mocha": "^2.2.41",
+    "@types/node": "^8.0.0",
+    "@types/sinon": "^4.0.0",
+    "@types/sinon-chai": "^2.7.28",
+    "chai": "^4.0.0",
+    "condition-circle": "^1.5.0",
+    "cz-conventional-changelog": "^2.0.0",
+    "husky": "^0.14.1",
+    "mocha-suite": "^1.0.11",
+    "prettier": "^1.12.1",
+    "re-start": "^1.14.8",
+    "sinon": "^4.0.1",
+    "sinon-chai": "^2.11.0",
+    "start-simple-cli": "^4.1.1",
+    "tslint": "^5.2.0",
+    "tslint-config-groupby": "^1.0.0",
+    "tslint-config-prettier": "^1.12.0",
+    "typedoc": "^0.9.0",
+    "typescript": "^2.4.2"
+  },
+  "dependencies": {
+    "@storefront/flux-capacitor": "1.63.0",
+    "@types/clone": "^0.1.30",
+    "@types/deep-assign": "^0.1.0",
+    "@types/js-cookie": "^2.0.28",
+    "@types/lodash": "^4.14.70",
+    "@types/loglevel": "~1.4.29",
+    "@types/riot": "^3.6.1",
+    "clone": "^2.1.1",
+    "gb-tracker-client": "3.5.5",
+    "js-cookie": "^2.1.4",
+    "lodash.camelcase": "^4.3.0",
+    "lodash.merge": "^4.6.0",
+    "loglevel": "~1.4.1",
+    "moize": "^5.2.3",
+    "riot": "^3.9.5",
+    "url-parse": "^1.1.9"
+  },
+  "peerDependencies": {
+    "groupby-api": "^2.5.0"
+  }
+}

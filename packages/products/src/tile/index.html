@@ -1,0 +1,12 @@
+<div class="gb-product-tile">
+  <a href="{props.link()}" onclick="{props.onClick}"><img riot-src="{props.data.image}" alt="" class="gb-product-tile__image"></a>
+  <div class="gb-product-tile__content">
+    <h3 class="gb-product-tile__content__title"><a href="{props.link()}" onclick="{props.onClick}">{props.data.title}</a></h3>
+    <span class="gb-product-tile__content__price">{props.data.price}</span>
+    <div class="gb-product-tile__content__description">
+      {props.data.shortDescription}
+    </div>
+    <div class="gb-product-tile__content__inventory"></div>
+    <div class="gb-product-tile__content__rating"></div>
+  </div>
+</div>
