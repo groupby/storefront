@@ -67,7 +67,7 @@ done
 shift $((OPTIND - 1))
 
 info "Generating docs..."
-npm run docs
+yarn docs
 git add ./docs
 
 release() {
