@@ -2,6 +2,8 @@
 
 set -eo pipefail
 
+new_version=
+
 die() {
   local exit_code=1
   local OPTIND=1
@@ -41,9 +43,13 @@ EXIT CODES:
 - 0: Success
 - 1: General error
 - 2: Usage error
-- 3: No release detected
-- 4: Unsupported release type
+- 3: Unsupported release type
 EOF
+}
+
+git_push() {
+  info "Pushing..."
+  git push --no-verify origin HEAD "$@"
 }
 
 # Only allow this script to run in package directories
@@ -62,20 +68,21 @@ shift $((OPTIND - 1))
 
 info "Generating docs..."
 npm run docs
-# git commit -m "Generate docs" ${CI:+'-m' "[ci skip]"} ./docs
+git add ./docs
 
 release() {
   info "Determining the release type..."
-  release_type="$(sed -n '/## \[Unreleased\] \[\(.*\)\]/ s//\1/p' CHANGELOG.md)"
+  local release_type="$(sed -n '/## \[Unreleased\] \[\(.*\)\]/ s//\1/p' CHANGELOG.md)"
   case "$release_type" in
     major | minor | patch | premajor | preminor | prepatch | prerelease | from-git)
       : # valid; do nothing
       ;;
     '')
-      die -c 3 "Could not detect potential release in the CHANGELOG."
+      info "Could not detect potential release in the CHANGELOG."
+      return
       ;;
     *)
-      die -c 4 "Unsupported release type: ${release_type}."
+      die -c 3 "Unsupported release type: ${release_type}."
       ;;
   esac
 
@@ -91,16 +98,29 @@ w
 q
 EOF
 
-  info "Committing changes..."
-  git commit -m "Release version ${new_version}" ${CI:+'-m' "[ci skip]"} package.json CHANGELOG.md
+  git add package.json CHANGELOG.md
 }
 release
 
-info "Tagging commit..."
-sed -n '/## \[/,//p' CHANGELOG.md | sed -e '$d' -e 's/^##* *//' -e $'1a\\\n\\\n' |
-git tag -a "$new_version" -F -
+# Commit based on what has been added
+if [[ -n "$new_version" ]]; then
+  info "Committing release changes..."
+  git commit -m "[Auto] Release version ${new_version}" ${CI:+'-m' "[ci skip]"}
 
-info "Pushing..."
-git push --no-verify origin HEAD "$new_version"
+  info "Tagging commit..."
+  sed -n '/## \[/,//p' CHANGELOG.md | sed -e '$d' -e 's/^##* *//' -e $'1a\\\n\\\n' |
+  git tag -a "$new_version" -F -
 
-info "Done."
+  git_push "$new_version"
+
+  info "Done."
+elif git status --porcelain | grep -q "^M  $(git rev-parse --show-prefix)docs"; then
+  info "Committing docs changes..."
+  git commit -m "[Auto] Generate docs" ${CI:+'-m' "[ci skip]"}
+
+  git_push
+
+  info "Done."
+else
+  info "Nothing to commit."
+fi
