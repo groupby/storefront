@@ -62,36 +62,39 @@ shift $((OPTIND - 1))
 
 info "Generating docs..."
 npm run docs
-git commit -m "Generate docs" ${CI:+'-m' "[ci skip]"} ./docs
+# git commit -m "Generate docs" ${CI:+'-m' "[ci skip]"} ./docs
 
-info "Determining the release type..."
-release_type="$(sed -n '/## \[Unreleased\] \[\(.*\)\]/ s//\1/p' CHANGELOG.md)"
-case "$release_type" in
-  major | minor | patch | premajor | preminor | prepatch | prerelease | from-git)
-    : # valid; do nothing
-    ;;
-  '')
-    die -c 3 "Could not detect potential release in the CHANGELOG."
-    ;;
-  *)
-    die -c 4 "Unsupported release type: ${release_type}."
-    ;;
-esac
+release() {
+  info "Determining the release type..."
+  release_type="$(sed -n '/## \[Unreleased\] \[\(.*\)\]/ s//\1/p' CHANGELOG.md)"
+  case "$release_type" in
+    major | minor | patch | premajor | preminor | prepatch | prerelease | from-git)
+      : # valid; do nothing
+      ;;
+    '')
+      die -c 3 "Could not detect potential release in the CHANGELOG."
+      ;;
+    *)
+      die -c 4 "Unsupported release type: ${release_type}."
+      ;;
+  esac
 
-info "Bumping version in package.json..."
-new_version="$(npm version "$release_type" --no-git-tag-version)"
-info "New version: ${new_version}"
+  info "Bumping version in package.json..."
+  new_version="$(npm version "$release_type" --no-git-tag-version)"
+  info "New version: ${new_version}"
 
-info "Updating changelog..."
-ed -s CHANGELOG.md <<EOF
+  info "Updating changelog..."
+  ed -s CHANGELOG.md <<EOF
 H
 /\[Unreleased\].*/ s//[${new_version#v}] - $(date +%F)/
 w
 q
 EOF
 
-info "Committing changes..."
-git commit -m "Release version ${new_version}" ${CI:+'-m' "[ci skip]"} package.json CHANGELOG.md
+  info "Committing changes..."
+  git commit -m "Release version ${new_version}" ${CI:+'-m' "[ci skip]"} package.json CHANGELOG.md
+}
+release
 
 info "Tagging commit..."
 sed -n '/## \[/,//p' CHANGELOG.md | sed -e '$d' -e 's/^##* *//' -e $'1a\\\n\\\n' |
