@@ -1,0 +1,36 @@
+defaults:
+  image: &image
+    docker:
+      - image: circleci/node
+  yarn_cache: &yarn_cache
+    key: yarn_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+
+version: 2
+
+jobs:
+  build:
+    <<: *image
+    steps:
+      - checkout
+      - restore_cache:
+          <<: *yarn_cache
+      - run:
+          name: Dependencies
+          command: apt install -y rsync
+      - run:
+          name: Install
+          command: yarn
+      - save_cache:
+          <<: *yarn_cache
+          paths:
+            - ~/.cache/yarn
+      - run:
+          name: Build
+          command: yarn workspaces run build
+      - persist_to_workspace:
+         root: ~/
+         paths:
+           - project
+
+workflows:
+  version: 2
