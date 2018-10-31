@@ -31,6 +31,20 @@ jobs:
          root: ~/
          paths:
            - project
+  unit_test:
+    <<: *image
+    steps:
+      - attach_workspace:
+          at: ~/
+      - restore_cache:
+          <<: yarn_cache
+      - run:
+          name: Test
+          command: yarn workspaces run test
+      - run:
+          name: Upload coverage
+          command: yarn uploadCoverage
+
 
 workflows:
   version: 2
