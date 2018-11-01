@@ -4,6 +4,29 @@ defaults:
       - image: circleci/node
   yarn_cache: &yarn_cache
     key: yarn_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+  unit_test: &unit_test
+    <<: *image
+    steps:
+      - attach_workspace:
+          at: ~/
+      - restore_cache:
+          <<: *yarn_cache
+      - run:
+          name: Test
+          command: |
+            package="${CIRCLE_JOB#unit_test_}"
+            package="${package//_/-}"
+
+            cd "packages/${package}"
+            yarn test
+      - run:
+          name: Upload coverage
+          command: |
+            package="${CIRCLE_JOB#unit_test_}"
+            package="${package//_/-}"
+
+            cd "packages/${package}"
+            yarn uploadCoverage
   requires_build: &requires_build
     requires:
       - build
@@ -34,19 +57,44 @@ jobs:
          root: ~/
          paths:
            - project
-  unit_test:
-    <<: *image
-    steps:
-      - attach_workspace:
-          at: ~/
-      - restore_cache:
-          <<: yarn_cache
-      - run:
-          name: Test
-          command: yarn workspaces run test
-      - run:
-          name: Upload coverage
-          command: yarn uploadCoverage
+  unit_test_flux_capacitor:
+    <<: *unit_test
+  unit_test_core:
+    <<: *unit_test
+  unit_test_structure:
+    <<: *unit_test
+  unit_test_breadcrumbs:
+    <<: *unit_test
+  unit_test_collections:
+    <<: *unit_test
+  unit_test_details:
+    <<: *unit_test
+  unit_test_did_you_mean:
+    <<: *unit_test
+  unit_test_infinite_scroll:
+    <<: *unit_test
+  unit_test_navigation:
+    <<: *unit_test
+  unit_test_page_size:
+    <<: *unit_test
+  unit_test_paging:
+    <<: *unit_test
+  unit_test_products:
+    <<: *unit_test
+  unit_test_query:
+    <<: *unit_test
+  unit_test_recommendations:
+    <<: *unit_test
+  unit_test_record_count:
+    <<: *unit_test
+  unit_test_related_queries:
+    <<: *unit_test
+  unit_test_sayt:
+    <<: *unit_test
+  unit_test_sort:
+    <<: *unit_test
+  unit_test_template:
+    <<: *unit_test
 
 
 workflows:
