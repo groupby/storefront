@@ -52,45 +52,44 @@ jobs:
 workflows:
   version: 2
 
-    build_test:
-      jobs:
-        - build
-        - unit_test_flux_capacitor:
-            <<: *requires_build
-        - unit_test_core:
-            <<: *requires_build
-        - unit_test_structure:
-            <<: *requires_build
-        - unit_test_breadcrumbs:
-            <<: *requires_build
-        - unit_test_collections:
-            <<: *requires_build
-        - unit_test_details:
-            <<: *requires_build
-        - unit_test_did_you_mean:
-            <<: *requires_build
-        - unit_test_infinite_scroll:
-            <<: *requires_build
-        - unit_test_navigation:
-            <<: *requires_build
-        - unit_test_page_size:
-            <<: *requires_build
-        - unit_test_paging:
-            <<: *requires_build
-        - unit_test_products:
-            <<: *requires_build
-        - unit_test_query:
-            <<: *requires_build
-        - unit_test_recommendations:
-            <<: *requires_build
-        - unit_test_record_count:
-            <<: *requires_build
-        - unit_test_related_queries:
-            <<: *requires_build
-        - unit_test_sayt:
-            <<: *requires_build
-        - unit_test_sort:
-            <<: *requires_build
-        - unit_test_template:
-            <<: *requires_build
-
+  build_test:
+    jobs:
+      - build
+      - unit_test_flux_capacitor:
+          <<: *requires_build
+      - unit_test_core:
+          <<: *requires_build
+      - unit_test_structure:
+          <<: *requires_build
+      - unit_test_breadcrumbs:
+          <<: *requires_build
+      - unit_test_collections:
+          <<: *requires_build
+      - unit_test_details:
+          <<: *requires_build
+      - unit_test_did_you_mean:
+          <<: *requires_build
+      - unit_test_infinite_scroll:
+          <<: *requires_build
+      - unit_test_navigation:
+          <<: *requires_build
+      - unit_test_page_size:
+          <<: *requires_build
+      - unit_test_paging:
+          <<: *requires_build
+      - unit_test_products:
+          <<: *requires_build
+      - unit_test_query:
+          <<: *requires_build
+      - unit_test_recommendations:
+          <<: *requires_build
+      - unit_test_record_count:
+          <<: *requires_build
+      - unit_test_related_queries:
+          <<: *requires_build
+      - unit_test_sayt:
+          <<: *requires_build
+      - unit_test_sort:
+          <<: *requires_build
+      - unit_test_template:
+          <<: *requires_build
