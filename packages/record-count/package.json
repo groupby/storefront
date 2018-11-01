@@ -33,8 +33,7 @@
     "prepush": "npm test",
     "prepublishOnly": "npm run build",
     "docs": "typedoc src/**/*.ts",
-    "docs:json": "npm run docs -- --json component.docs.json",
-    "uploadCoverage": "npm test && codecov"
+    "docs:json": "npm run docs -- --json component.docs.json"
   },
   "nyc": {
     "extension": [

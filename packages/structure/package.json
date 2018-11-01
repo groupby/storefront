@@ -29,7 +29,6 @@
     "dev": "nodemon --watch src --exec npm run build",
     "test": "nyc mocha --recursive --require ts-node/register --require source-map-support/register './test/**/*.ts'",
     "uploadCoverage": "codecov -y ../../codecov.yml",
-    "uploadCoverage": "npm test && codecov",
     "tdd": "nodemon --watch src --watch test --exec npm test",
     "prepush": "npm test",
     "prepublishOnly": "npm run build",
