@@ -42,7 +42,7 @@ jobs:
           <<: *yarn_cache
       - run:
           name: Dependencies
-          command: apt install -y rsync
+          command: sudo apt install -y rsync
       - run:
           name: Install
           command: yarn
