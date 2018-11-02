@@ -4,6 +4,36 @@ defaults:
       - image: circleci/node
   yarn_cache: &yarn_cache
     key: yarn_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+  build: &build
+    <<: *image
+    steps:
+      - attach_workspace:
+          at: ~/
+      - checkout
+      - restore_cache:
+          <<: *yarn_cache
+      - run:
+          name: Dependencies
+          command: sudo apt install -y rsync
+      - run:
+          name: Install
+          command: yarn
+      - save_cache:
+          <<: *yarn_cache
+          paths:
+            - ~/.cache/yarn
+      - run:
+          name: Build
+          command: |
+            package="${CIRCLE_JOB#build_}"
+            package="${package//_/-}"
+
+            cd "packages/${package}"
+            yarn build
+      - persist_to_workspace:
+         root: ~/
+         paths:
+           - project
   unit_test: &unit_test
     <<: *image
     steps:
@@ -27,36 +57,59 @@ defaults:
 
             cd "packages/${package}"
             yarn uploadCoverage
+  requires_build_structure: &requires_build_structure
+    requires:
+      - build_structure
   requires_build: &requires_build
     requires:
-      - build
+      - build_final
 
 version: 2
 
 jobs:
-  build:
+  build_breadcrumbs:
+    <<: *build
+  build_collections:
+    <<: *build
+  build_core:
+    <<: *build
+  build_details:
+    <<: *build
+  build_did_you_mean:
+    <<: *build
+  build_flux_capacitor:
+    <<: *build
+  build_infinite_scroll:
+    <<: *build
+  build_navigation:
+    <<: *build
+  build_page_size:
+    <<: *build
+  build_paging:
+    <<: *build
+  build_products:
+    <<: *build
+  build_query:
+    <<: *build
+  build_recommendations:
+    <<: *build
+  build_record_count:
+    <<: *build
+  build_related_queries:
+    <<: *build
+  build_sayt:
+    <<: *build
+  build_sort:
+    <<: *build
+  build_structure:
+    <<: *build
+  build_template:
+    <<: *build
+  build_final:
     <<: *image
     steps:
-      - checkout
-      - restore_cache:
-          <<: *yarn_cache
-      - run:
-          name: Dependencies
-          command: sudo apt install -y rsync
-      - run:
-          name: Install
-          command: yarn
-      - save_cache:
-          <<: *yarn_cache
-          paths:
-            - ~/.cache/yarn
-      - run:
-          name: Build
-          command: yarn workspaces run build
-      - persist_to_workspace:
-         root: ~/
-         paths:
-           - project
+      - run: exit 0
+
   unit_test_flux_capacitor:
     <<: *unit_test
   unit_test_core:
@@ -102,7 +155,67 @@ workflows:
 
   build_test:
     jobs:
-      - build
+      - build_flux_capacitor
+      - build_core:
+          requires:
+            - build_flux_capacitor
+      - build_structure:
+          requires:
+            - build_core
+      - build_breadcrumbs:
+          <<: *requires_build_structure
+      - build_collections:
+          <<: *requires_build_structure
+      - build_details:
+          <<: *requires_build_structure
+      - build_did_you_mean:
+          <<: *requires_build_structure
+      - build_infinite_scroll:
+          <<: *requires_build_structure
+      - build_navigation:
+          <<: *requires_build_structure
+      - build_page_size:
+          <<: *requires_build_structure
+      - build_paging:
+          <<: *requires_build_structure
+      - build_products:
+          <<: *requires_build_structure
+      - build_query:
+          <<: *requires_build_structure
+      - build_recommendations:
+          <<: *requires_build_structure
+      - build_record_count:
+          <<: *requires_build_structure
+      - build_related_queries:
+          <<: *requires_build_structure
+      - build_sayt:
+          <<: *requires_build_structure
+      - build_sort:
+          <<: *requires_build_structure
+      - build_template:
+          <<: *requires_build_structure
+      - build_final:
+          requires:
+            - build_flux_capacitor
+            - build_core
+            - build_structure
+            - build_breadcrumbs
+            - build_collections
+            - build_details
+            - build_did_you_mean
+            - build_infinite_scroll
+            - build_navigation
+            - build_page_size
+            - build_paging
+            - build_products
+            - build_query
+            - build_recommendations
+            - build_record_count
+            - build_related_queries
+            - build_sayt
+            - build_sort
+            - build_template
+
       - unit_test_flux_capacitor:
           <<: *requires_build
       - unit_test_core:
