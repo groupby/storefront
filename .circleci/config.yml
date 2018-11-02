@@ -4,6 +4,10 @@ defaults:
       - image: circleci/node
   yarn_cache: &yarn_cache
     key: yarn_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+  build_cache: &build_cache
+    key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch}}-{{ checksum "../workflow-start" }}-{{ epoch }}
+  build_cache_partial: &build_cache_partial
+    key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch}}-{{ checksum "../workflow-start" }}-
   build: &build
     <<: *image
     steps:
