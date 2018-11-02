@@ -78,6 +78,7 @@ defaults:
   unit_test: &unit_test
     <<: *image
     steps:
+      - checkout
       - attach_workspace:
           at: ~/
       - restore_cache:
@@ -207,6 +208,10 @@ jobs:
       - save_cache:
           key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-all-{{ epoch }}
           paths: *build_paths
+      - save_cache:
+          <<: *yarn_cache
+          paths:
+            - ~/.cache/yarn
 
   unit_test_flux_capacitor:
     <<: *unit_test
