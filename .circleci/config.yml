@@ -39,7 +39,7 @@ defaults:
     <<: *image
     steps:
       - attach_workspace:
-          at: ~/
+          at: ~/project
       - restore_cache:
           <<: *yarn_cache
       - run:
