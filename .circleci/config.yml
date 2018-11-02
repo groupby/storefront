@@ -7,9 +7,9 @@ defaults:
   build: &build
     <<: *image
     steps:
-      - attach_workspace:
-          at: ~/
       - checkout
+      - attach_workspace:
+          at: ~/project
       - restore_cache:
           <<: *yarn_cache
       - run:
@@ -31,9 +31,10 @@ defaults:
             cd "packages/${package}"
             yarn build
       - persist_to_workspace:
-         root: ~/
+         root: ~/project
          paths:
-           - project
+           - packages/*/dist
+           - packages/*/esnext
   unit_test: &unit_test
     <<: *image
     steps:
@@ -41,6 +42,9 @@ defaults:
           at: ~/
       - restore_cache:
           <<: *yarn_cache
+      - run:
+          name: Install
+          command: yarn
       - run:
           name: Test
           command: |
