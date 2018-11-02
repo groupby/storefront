@@ -4,18 +4,55 @@ defaults:
       - image: circleci/node
   yarn_cache: &yarn_cache
     key: yarn_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
-  build_cache: &build_cache
-    key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch}}-{{ checksum "../workflow-start" }}-{{ epoch }}
-  build_cache_partial: &build_cache_partial
-    key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch}}-{{ checksum "../workflow-start" }}-
+  build_paths: &build_paths
+    - packages/breadcrumbs/dist
+    - packages/breadcrumbs/esnext
+    - packages/collections/dist
+    - packages/collections/esnext
+    - packages/core/dist
+    - packages/core/esnext
+    - packages/details/dist
+    - packages/details/esnext
+    - packages/did-you-mean/dist
+    - packages/did-you-mean/esnext
+    - packages/flux-capacitor/dist
+    - packages/flux-capacitor/esnext
+    - packages/infinite-scroll/dist
+    - packages/infinite-scroll/esnext
+    - packages/navigation/dist
+    - packages/navigation/esnext
+    - packages/page-size/dist
+    - packages/page-size/esnext
+    - packages/paging/dist
+    - packages/paging/esnext
+    - packages/products/dist
+    - packages/products/esnext
+    - packages/query/dist
+    - packages/query/esnext
+    - packages/recommendations/dist
+    - packages/recommendations/esnext
+    - packages/record-count/dist
+    - packages/record-count/esnext
+    - packages/related-queries/dist
+    - packages/related-queries/esnext
+    - packages/sayt/dist
+    - packages/sayt/esnext
+    - packages/sort/dist
+    - packages/sort/esnext
+    - packages/structure/dist
+    - packages/structure/esnext
+    - packages/template/dist
+    - packages/template/esnext
   build: &build
     <<: *image
     steps:
       - checkout
       - attach_workspace:
-          at: ~/project
+          at: ~/
       - restore_cache:
           <<: *yarn_cache
+      - restore_cache:
+          key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-
       - run:
           name: Dependencies
           command: sudo apt install -y rsync
@@ -34,18 +71,19 @@ defaults:
 
             cd "packages/${package}"
             yarn build
-      - persist_to_workspace:
-         root: ~/project
-         paths:
-           - packages/*/dist
-           - packages/*/esnext
+      - save_cache:
+          key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-{{ .Environment.CIRCLE_JOB }}-{{ epoch }}
+          paths: *build_paths
+
   unit_test: &unit_test
     <<: *image
     steps:
       - attach_workspace:
-          at: ~/project
+          at: ~/
       - restore_cache:
           <<: *yarn_cache
+      - restore_cache:
+          key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-all-
       - run:
           name: Install
           command: yarn
@@ -75,6 +113,15 @@ defaults:
 version: 2
 
 jobs:
+  generate_cache_key_file:
+    <<: *image
+    working_directory: ~/
+    steps:
+      - run: date +%s > workflow-start
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - workflow-start
   build_breadcrumbs:
     <<: *build
   build_collections:
@@ -116,7 +163,49 @@ jobs:
   build_final:
     <<: *image
     steps:
-      - run: exit 0
+      - attach_workspace:
+          at: ~/
+      - restore_cache:
+          key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_breadcrumbs-
+      - restore_cache:
+          key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_collections-
+      - restore_cache:
+          key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_core-
+      - restore_cache:
+          key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_details-
+      - restore_cache:
+          key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_did_you_mean-
+      - restore_cache:
+          key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_flux_capacitor-
+      - restore_cache:
+          key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_infinite_scroll-
+      - restore_cache:
+          key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_navigation-
+      - restore_cache:
+          key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_page_size-
+      - restore_cache:
+          key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_paging-
+      - restore_cache:
+          key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_products-
+      - restore_cache:
+          key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_query-
+      - restore_cache:
+          key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_recommendations-
+      - restore_cache:
+          key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_record_count-
+      - restore_cache:
+          key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_related_queries-
+      - restore_cache:
+          key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_sayt-
+      - restore_cache:
+          key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_sort-
+      - restore_cache:
+          key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_structure-
+      - restore_cache:
+          key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_template-
+      - save_cache:
+          key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-all-{{ epoch }}
+          paths: *build_paths
 
   unit_test_flux_capacitor:
     <<: *unit_test
@@ -163,7 +252,10 @@ workflows:
 
   build_test:
     jobs:
-      - build_flux_capacitor
+      - generate_cache_key_file
+      - build_flux_capacitor:
+          requires:
+            - generate_cache_key_file
       - build_core:
           requires:
             - build_flux_capacitor
