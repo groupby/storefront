@@ -43,7 +43,26 @@ defaults:
     - packages/structure/esnext
     - packages/template/dist
     - packages/template/esnext
-  build: &build
+  requires_build_structure: &requires_build_structure
+    requires:
+      - build_structure
+  requires_build: &requires_build
+    requires:
+      - build_final
+
+version: 2.1
+
+jobs:
+  generate_cache_key_file:
+    <<: *image
+    working_directory: ~/
+    steps:
+      - run: date +%s > workflow-start
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - workflow-start
+  build:
     <<: *image
     steps:
       - checkout
@@ -74,93 +93,6 @@ defaults:
       - save_cache:
           key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-{{ .Environment.CIRCLE_JOB }}-{{ epoch }}
           paths: *build_paths
-
-  unit_test: &unit_test
-    <<: *image
-    steps:
-      - checkout
-      - attach_workspace:
-          at: ~/
-      - restore_cache:
-          <<: *yarn_cache
-      - restore_cache:
-          key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-all-
-      - run:
-          name: Install
-          command: yarn
-      - run:
-          name: Test
-          command: |
-            package="${CIRCLE_JOB#unit_test_}"
-            package="${package//_/-}"
-
-            cd "packages/${package}"
-            yarn test
-      - run:
-          name: Upload coverage
-          command: |
-            package="${CIRCLE_JOB#unit_test_}"
-            package="${package//_/-}"
-
-            cd "packages/${package}"
-            yarn uploadCoverage
-  requires_build_structure: &requires_build_structure
-    requires:
-      - build_structure
-  requires_build: &requires_build
-    requires:
-      - build_final
-
-version: 2.1
-
-jobs:
-  generate_cache_key_file:
-    <<: *image
-    working_directory: ~/
-    steps:
-      - run: date +%s > workflow-start
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - workflow-start
-  build:
-    <<: *build
-  build_breadcrumbs:
-    <<: *build
-  build_collections:
-    <<: *build
-  build_core:
-    <<: *build
-  build_details:
-    <<: *build
-  build_did_you_mean:
-    <<: *build
-  build_infinite_scroll:
-    <<: *build
-  build_navigation:
-    <<: *build
-  build_page_size:
-    <<: *build
-  build_paging:
-    <<: *build
-  build_products:
-    <<: *build
-  build_query:
-    <<: *build
-  build_recommendations:
-    <<: *build
-  build_record_count:
-    <<: *build
-  build_related_queries:
-    <<: *build
-  build_sayt:
-    <<: *build
-  build_sort:
-    <<: *build
-  build_structure:
-    <<: *build
-  build_template:
-    <<: *build
   build_final:
     <<: *image
     steps:
@@ -212,46 +144,35 @@ jobs:
           <<: *yarn_cache
           paths:
             - ~/.cache/yarn
+  unit_test:
+    <<: *image
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/
+      - restore_cache:
+          <<: *yarn_cache
+      - restore_cache:
+          key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-all-
+      - run:
+          name: Install
+          command: yarn
+      - run:
+          name: Test
+          command: |
+            package="${CIRCLE_JOB#unit_test_}"
+            package="${package//_/-}"
 
-  unit_test_flux_capacitor:
-    <<: *unit_test
-  unit_test_core:
-    <<: *unit_test
-  unit_test_structure:
-    <<: *unit_test
-  unit_test_breadcrumbs:
-    <<: *unit_test
-  unit_test_collections:
-    <<: *unit_test
-  unit_test_details:
-    <<: *unit_test
-  unit_test_did_you_mean:
-    <<: *unit_test
-  unit_test_infinite_scroll:
-    <<: *unit_test
-  unit_test_navigation:
-    <<: *unit_test
-  unit_test_page_size:
-    <<: *unit_test
-  unit_test_paging:
-    <<: *unit_test
-  unit_test_products:
-    <<: *unit_test
-  unit_test_query:
-    <<: *unit_test
-  unit_test_recommendations:
-    <<: *unit_test
-  unit_test_record_count:
-    <<: *unit_test
-  unit_test_related_queries:
-    <<: *unit_test
-  unit_test_sayt:
-    <<: *unit_test
-  unit_test_sort:
-    <<: *unit_test
-  unit_test_template:
-    <<: *unit_test
+            cd "packages/${package}"
+            yarn test
+      - run:
+          name: Upload coverage
+          command: |
+            package="${CIRCLE_JOB#unit_test_}"
+            package="${package//_/-}"
 
+            cd "packages/${package}"
+            yarn uploadCoverage
 
 workflows:
   version: 2
@@ -263,43 +184,61 @@ workflows:
           name: build_flux_capacitor
           requires:
             - generate_cache_key_file
-      - build_core:
+      - build:
+          name: build_core
           requires:
             - build_flux_capacitor
-      - build_structure:
+      - build:
+          name: build_structure
           requires:
             - build_core
-      - build_breadcrumbs:
+      - build:
+          name: build_breadcrumbs
           <<: *requires_build_structure
-      - build_collections:
+      - build:
+          name: build_collections
           <<: *requires_build_structure
-      - build_details:
+      - build:
+          name: build_details
           <<: *requires_build_structure
-      - build_did_you_mean:
+      - build:
+          name: build_did_you_mean
           <<: *requires_build_structure
-      - build_infinite_scroll:
+      - build:
+          name: build_infinite_scroll
           <<: *requires_build_structure
-      - build_navigation:
+      - build:
+          name: build_navigation
           <<: *requires_build_structure
-      - build_page_size:
+      - build:
+          name: build_page_size
           <<: *requires_build_structure
-      - build_paging:
+      - build:
+          name: build_paging
           <<: *requires_build_structure
-      - build_products:
+      - build:
+          name: build_products
           <<: *requires_build_structure
-      - build_query:
+      - build:
+          name: build_query
           <<: *requires_build_structure
-      - build_recommendations:
+      - build:
+          name: build_recommendations
           <<: *requires_build_structure
-      - build_record_count:
+      - build:
+          name: build_record_count
           <<: *requires_build_structure
-      - build_related_queries:
+      - build:
+          name: build_related_queries
           <<: *requires_build_structure
-      - build_sayt:
+      - build:
+          name: build_sayt
           <<: *requires_build_structure
-      - build_sort:
+      - build:
+          name: build_sort
           <<: *requires_build_structure
-      - build_template:
+      - build:
+          name: build_template
           <<: *requires_build_structure
       - build_final:
           requires:
@@ -323,41 +262,60 @@ workflows:
             - build_sort
             - build_template
 
-      - unit_test_flux_capacitor:
+      - unit_test:
+          name: unit_test_flux_capacitor
           <<: *requires_build
-      - unit_test_core:
+      - unit_test:
+          name: unit_test_core
           <<: *requires_build
-      - unit_test_structure:
+      - unit_test:
+          name: unit_test_structure
           <<: *requires_build
-      - unit_test_breadcrumbs:
+      - unit_test:
+          name: unit_test_breadcrumbs
           <<: *requires_build
-      - unit_test_collections:
+      - unit_test:
+          name: unit_test_collections
           <<: *requires_build
-      - unit_test_details:
+      - unit_test:
+          name: unit_test_details
           <<: *requires_build
-      - unit_test_did_you_mean:
+      - unit_test:
+          name: unit_test_did_you_mean
           <<: *requires_build
-      - unit_test_infinite_scroll:
+      - unit_test:
+          name: unit_test_infinite_scroll
           <<: *requires_build
-      - unit_test_navigation:
+      - unit_test:
+          name: unit_test_navigation
           <<: *requires_build
-      - unit_test_page_size:
+      - unit_test:
+          name: unit_test_page_size
           <<: *requires_build
-      - unit_test_paging:
+      - unit_test:
+          name: unit_test_paging
           <<: *requires_build
-      - unit_test_products:
+      - unit_test:
+          name: unit_test_products
           <<: *requires_build
-      - unit_test_query:
+      - unit_test:
+          name: unit_test_query
           <<: *requires_build
-      - unit_test_recommendations:
+      - unit_test:
+          name: unit_test_recommendations
           <<: *requires_build
-      - unit_test_record_count:
+      - unit_test:
+          name: unit_test_record_count
           <<: *requires_build
-      - unit_test_related_queries:
+      - unit_test:
+          name: unit_test_related_queries
           <<: *requires_build
-      - unit_test_sayt:
+      - unit_test:
+          name: unit_test_sayt
           <<: *requires_build
-      - unit_test_sort:
+      - unit_test:
+          name: unit_test_sort
           <<: *requires_build
-      - unit_test_template:
+      - unit_test:
+          name: unit_test_template
           <<: *requires_build
