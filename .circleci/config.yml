@@ -173,10 +173,10 @@ jobs:
 
             cd "packages/${package}"
             yarn uploadCoverage
-    unit_test_final:
-      <<: *image
-      steps:
-        - run: exit 0
+  unit_test_final:
+    <<: *image
+    steps:
+      - run: exit 0
 
 workflows:
   version: 2
