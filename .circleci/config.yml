@@ -123,6 +123,8 @@ jobs:
           root: ~/
           paths:
             - workflow-start
+  build:
+    <<: *build
   build_breadcrumbs:
     <<: *build
   build_collections:
@@ -252,7 +254,7 @@ jobs:
 
 
 workflows:
-  version: 2
+  version: 2.1
 
   build_test:
     jobs:
