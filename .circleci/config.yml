@@ -6,45 +6,14 @@ defaults:
     key: yarn_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
   build_final_cache: &build_final_cache
     key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-all-{{ epoch }}
-  build_paths: &build_paths
-    - packages/@storefront/breadcrumbs/dist
-    - packages/@storefront/breadcrumbs/esnext
-    - packages/@storefront/collections/dist
-    - packages/@storefront/collections/esnext
-    - packages/@storefront/core/dist
-    - packages/@storefront/core/esnext
-    - packages/@storefront/details/dist
-    - packages/@storefront/details/esnext
-    - packages/@storefront/did-you-mean/dist
-    - packages/@storefront/did-you-mean/esnext
-    - packages/@storefront/flux-capacitor/dist
-    - packages/@storefront/flux-capacitor/esnext
-    - packages/@storefront/infinite-scroll/dist
-    - packages/@storefront/infinite-scroll/esnext
-    - packages/@storefront/navigation/dist
-    - packages/@storefront/navigation/esnext
-    - packages/@storefront/page-size/dist
-    - packages/@storefront/page-size/esnext
-    - packages/@storefront/paging/dist
-    - packages/@storefront/paging/esnext
-    - packages/@storefront/products/dist
-    - packages/@storefront/products/esnext
-    - packages/@storefront/query/dist
-    - packages/@storefront/query/esnext
-    - packages/@storefront/recommendations/dist
-    - packages/@storefront/recommendations/esnext
-    - packages/@storefront/record-count/dist
-    - packages/@storefront/record-count/esnext
-    - packages/@storefront/related-queries/dist
-    - packages/@storefront/related-queries/esnext
-    - packages/@storefront/sayt/dist
-    - packages/@storefront/sayt/esnext
-    - packages/@storefront/sort/dist
-    - packages/@storefront/sort/esnext
-    - packages/@storefront/structure/dist
-    - packages/@storefront/structure/esnext
-    - packages/@storefront/template/dist
-    - packages/@storefront/template/esnext
+  archive_build: &archive_build
+    name: Archive build
+    command: tar cf ../build.tar packages/@storefront/*/{dist,esnext}
+  extract_build_archive: &extract_build_archive
+    name: Extract archive
+    command: |
+      [[ ! -r ../build.tar ]] || tar xf ../build.tar
+
   yarn_install: &yarn_install
     name: Install
     command: yarn
@@ -78,6 +47,7 @@ jobs:
           <<: *yarn_cache
       - restore_cache:
           key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-
+      - run: *extract_build_archive
       - run:
           name: Dependencies
           command: sudo apt install -y rsync
@@ -95,9 +65,11 @@ jobs:
 
             cd "packages/@storefront/${package}"
             yarn build
+      - run: *archive_build
       - save_cache:
           key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-{{ .Environment.CIRCLE_JOB }}-{{ epoch }}
-          paths: *build_paths
+          paths:
+            - ~/build.tar
   build_final:
     <<: *image
     steps:
@@ -106,45 +78,66 @@ jobs:
           at: ~/
       - restore_cache:
           key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_breadcrumbs-
+      - run: *extract_build_archive
       - restore_cache:
           key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_collections-
+      - run: *extract_build_archive
       - restore_cache:
           key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_core-
+      - run: *extract_build_archive
       - restore_cache:
           key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_details-
+      - run: *extract_build_archive
       - restore_cache:
           key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_did_you_mean-
+      - run: *extract_build_archive
       - restore_cache:
           key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_flux_capacitor-
+      - run: *extract_build_archive
       - restore_cache:
           key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_infinite_scroll-
+      - run: *extract_build_archive
       - restore_cache:
           key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_navigation-
+      - run: *extract_build_archive
       - restore_cache:
           key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_page_size-
+      - run: *extract_build_archive
       - restore_cache:
           key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_paging-
+      - run: *extract_build_archive
       - restore_cache:
           key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_products-
+      - run: *extract_build_archive
       - restore_cache:
           key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_query-
+      - run: *extract_build_archive
       - restore_cache:
           key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_recommendations-
+      - run: *extract_build_archive
       - restore_cache:
           key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_record_count-
+      - run: *extract_build_archive
       - restore_cache:
           key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_related_queries-
+      - run: *extract_build_archive
       - restore_cache:
           key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_sayt-
+      - run: *extract_build_archive
       - restore_cache:
           key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_sort-
+      - run: *extract_build_archive
       - restore_cache:
           key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_structure-
+      - run: *extract_build_archive
       - restore_cache:
           key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_template-
+      - run: *extract_build_archive
+      - run: *archive_build
       - save_cache:
           key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-all-{{ epoch }}
-          paths: *build_paths
+          paths:
+            - ~/build.tar
       - save_cache:
           <<: *yarn_cache
           paths:
@@ -160,6 +153,7 @@ jobs:
           <<: *yarn_cache
       - restore_cache:
           key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-all-
+      - run: *extract_build_archive
       - run:
           <<: *yarn_install
       - run:
