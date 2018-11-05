@@ -111,7 +111,7 @@ defaults:
     requires:
       - build_final
 
-version: 2
+version: 2.1
 
 jobs:
   generate_cache_key_file:
@@ -254,7 +254,7 @@ jobs:
 
 
 workflows:
-  version: 2.1
+  version: 2
 
   build_test:
     jobs:
