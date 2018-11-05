@@ -2,8 +2,6 @@
 
 set -eo pipefail
 
-new_version=
-
 die() {
   local exit_code=1
   local OPTIND=1
@@ -47,11 +45,6 @@ EXIT CODES:
 EOF
 }
 
-git_push() {
-  info "Pushing..."
-  git push --no-verify origin HEAD "$@"
-}
-
 # Only allow this script to run in package directories
 node -e 'process.exit(require("./package.json").private === true)' || die 'Not in a package directory.'
 
@@ -66,61 +59,41 @@ done
 
 shift $((OPTIND - 1))
 
-info "Generating docs..."
-yarn docs
-git add ./docs
+info "Determining the release type..."
+release_type="$(sed -n '/## \[Unreleased\] \[\(.*\)\]/ s//\1/p' CHANGELOG.md)"
+case "$release_type" in
+  major | minor | patch | premajor | preminor | prepatch | prerelease | from-git)
+    : # valid; do nothing
+    ;;
+  '')
+    info "Could not detect potential release in the CHANGELOG."
+    exit 0
+    ;;
+  *)
+    die -c 3 "Unsupported release type: ${release_type}."
+    ;;
+esac
 
-release() {
-  info "Determining the release type..."
-  local release_type="$(sed -n '/## \[Unreleased\] \[\(.*\)\]/ s//\1/p' CHANGELOG.md)"
-  case "$release_type" in
-    major | minor | patch | premajor | preminor | prepatch | prerelease | from-git)
-      : # valid; do nothing
-      ;;
-    '')
-      info "Could not detect potential release in the CHANGELOG."
-      return
-      ;;
-    *)
-      die -c 3 "Unsupported release type: ${release_type}."
-      ;;
-  esac
+info "Bumping version in package.json..."
+new_version="$(npm version "$release_type" --no-git-tag-version)"
+info "New version: ${new_version}"
 
-  info "Bumping version in package.json..."
-  new_version="$(npm version "$release_type" --no-git-tag-version)"
-  info "New version: ${new_version}"
-
-  info "Updating changelog..."
-  ed -s CHANGELOG.md <<EOF
+info "Updating changelog..."
+ed -s CHANGELOG.md <<EOF
 H
 /\[Unreleased\].*/ s//[${new_version#v}] - $(date +%F)/
 w
 q
 EOF
 
-  git add package.json CHANGELOG.md
-}
-release
+info "Committing changes..."
+git commit -m "Release version ${new_version}" ${CI:+'-m' "[ci skip]"} package.json CHANGELOG.md
 
-# Commit based on what has been added
-if [[ -n "$new_version" ]]; then
-  info "Committing release changes..."
-  git commit -m "[Auto] Release version ${new_version}" ${CI:+'-m' "[ci skip]"}
+info "Tagging commit..."
+sed -n '/## \[/,//p' CHANGELOG.md | sed -e '$d' -e 's/^##* *//' -e $'1a\\\n\\\n' |
+git tag -a "$new_version" -F -
 
-  info "Tagging commit..."
-  sed -n '/## \[/,//p' CHANGELOG.md | sed -e '$d' -e 's/^##* *//' -e $'1a\\\n\\\n' |
-  git tag -a "$new_version" -F -
+info "Pushing..."
+git push --no-verify origin HEAD "$new_version"
 
-  git_push "$new_version"
-
-  info "Done."
-elif git status --porcelain | grep -q "^M  $(git rev-parse --show-prefix)docs"; then
-  info "Committing docs changes..."
-  git commit -m "[Auto] Generate docs" ${CI:+'-m' "[ci skip]"}
-
-  git_push
-
-  info "Done."
-else
-  info "Nothing to commit."
-fi
+info "Done."
