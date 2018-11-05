@@ -173,6 +173,10 @@ jobs:
 
             cd "packages/${package}"
             yarn uploadCoverage
+    unit_test_final:
+      <<: *image
+      steps:
+        - run: exit 0
 
 workflows:
   version: 2
@@ -319,3 +323,24 @@ workflows:
       - unit_test:
           name: unit_test_template
           <<: *requires_build
+      - unit_test_final:
+          requires:
+            - unit_test_flux_capacitor
+            - unit_test_core
+            - unit_test_structure
+            - unit_test_breadcrumbs
+            - unit_test_collections
+            - unit_test_details
+            - unit_test_did_you_mean
+            - unit_test_infinite_scroll
+            - unit_test_navigation
+            - unit_test_page_size
+            - unit_test_paging
+            - unit_test_products
+            - unit_test_query
+            - unit_test_recommendations
+            - unit_test_record_count
+            - unit_test_related_queries
+            - unit_test_sayt
+            - unit_test_sort
+            - unit_test_template
