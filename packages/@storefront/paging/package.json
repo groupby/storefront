@@ -1,0 +1,65 @@
+{
+  "name": "@storefront/paging",
+  "version": "1.29.4",
+  "description": "StoreFront paging component",
+  "keywords": [
+    "storefront",
+    "storefront-component"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/groupby/storefront-paging.git"
+  },
+  "bugs": {
+    "url": "https://github.com/groupby/storefront-paging/issues"
+  },
+  "homepage": "https://github.com/groupby/storefront-paging#readme",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "module:esnext": "esnext/index.js",
+  "files": [
+    "dist/",
+    "esnext/",
+    "src/"
+  ],
+  "scripts": {
+    "prepare": "install-self-peers -- --ignore-scripts",
+    "build": "../../../scripts/build.sh",
+    "dev": "nodemon --watch src --exec npm run build",
+    "test": "nyc mocha --recursive --require ts-node/register --require source-map-support/register './test/**/*.ts'",
+    "uploadCoverage": "codecov -y ../../codecov.yml",
+    "tdd": "nodemon --watch src --watch test --exec npm test",
+    "prepush": "npm test",
+    "prepublishOnly": "npm run build",
+    "docs": "typedoc src/**/*.ts",
+    "docs:json": "npm run docs -- --json component.docs.json",
+    "uploadCoverage": "npm test && codecov"
+  },
+  "nyc": {
+    "extension": [
+      ".ts"
+    ],
+    "include": [
+      "src/**/*.ts"
+    ],
+    "reporter": [
+      "lcov",
+      "text-summary"
+    ],
+    "all": true
+  },
+  "nodemonConfig": {
+    "ext": "ts,json,html,css"
+  },
+  "prettier": {
+    "printWidth": 120,
+    "parser": "typescript",
+    "trailingComma": "es5",
+    "arrowParens": "always",
+    "jsxBracketSameLine": true,
+    "singleQuote": true
+  },
+  "peerDependencies": {
+    "@storefront/core": "~1.47.0"
+  }
+}
