@@ -133,8 +133,6 @@ jobs:
     <<: *build
   build_did_you_mean:
     <<: *build
-  build_flux_capacitor:
-    <<: *build
   build_infinite_scroll:
     <<: *build
   build_navigation:
@@ -259,7 +257,8 @@ workflows:
   build_test:
     jobs:
       - generate_cache_key_file
-      - build_flux_capacitor:
+      - build:
+          name: build_flux_capacitor
           requires:
             - generate_cache_key_file
       - build_core:
