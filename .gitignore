@@ -6,10 +6,10 @@ coverage/
 typings/
 .scratch/
 .nyc_output/
-packages/*/src/**/*.js
-packages/*/src/**/*.d.ts
-packages/*/test/**/*.js
-packages/*/test/**/*.d.ts
+packages/@storefront/*/src/**/*.js
+packages/@storefront/*/src/**/*.d.ts
+packages/@storefront/*/test/**/*.js
+packages/@storefront/*/test/**/*.d.ts
 
 package-lock.json
 *.log

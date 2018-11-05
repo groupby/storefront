@@ -7,44 +7,44 @@ defaults:
   build_final_cache: &build_final_cache
     key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-all-{{ epoch }}
   build_paths: &build_paths
-    - packages/breadcrumbs/dist
-    - packages/breadcrumbs/esnext
-    - packages/collections/dist
-    - packages/collections/esnext
-    - packages/core/dist
-    - packages/core/esnext
-    - packages/details/dist
-    - packages/details/esnext
-    - packages/did-you-mean/dist
-    - packages/did-you-mean/esnext
-    - packages/flux-capacitor/dist
-    - packages/flux-capacitor/esnext
-    - packages/infinite-scroll/dist
-    - packages/infinite-scroll/esnext
-    - packages/navigation/dist
-    - packages/navigation/esnext
-    - packages/page-size/dist
-    - packages/page-size/esnext
-    - packages/paging/dist
-    - packages/paging/esnext
-    - packages/products/dist
-    - packages/products/esnext
-    - packages/query/dist
-    - packages/query/esnext
-    - packages/recommendations/dist
-    - packages/recommendations/esnext
-    - packages/record-count/dist
-    - packages/record-count/esnext
-    - packages/related-queries/dist
-    - packages/related-queries/esnext
-    - packages/sayt/dist
-    - packages/sayt/esnext
-    - packages/sort/dist
-    - packages/sort/esnext
-    - packages/structure/dist
-    - packages/structure/esnext
-    - packages/template/dist
-    - packages/template/esnext
+    - packages/@storefront/breadcrumbs/dist
+    - packages/@storefront/breadcrumbs/esnext
+    - packages/@storefront/collections/dist
+    - packages/@storefront/collections/esnext
+    - packages/@storefront/core/dist
+    - packages/@storefront/core/esnext
+    - packages/@storefront/details/dist
+    - packages/@storefront/details/esnext
+    - packages/@storefront/did-you-mean/dist
+    - packages/@storefront/did-you-mean/esnext
+    - packages/@storefront/flux-capacitor/dist
+    - packages/@storefront/flux-capacitor/esnext
+    - packages/@storefront/infinite-scroll/dist
+    - packages/@storefront/infinite-scroll/esnext
+    - packages/@storefront/navigation/dist
+    - packages/@storefront/navigation/esnext
+    - packages/@storefront/page-size/dist
+    - packages/@storefront/page-size/esnext
+    - packages/@storefront/paging/dist
+    - packages/@storefront/paging/esnext
+    - packages/@storefront/products/dist
+    - packages/@storefront/products/esnext
+    - packages/@storefront/query/dist
+    - packages/@storefront/query/esnext
+    - packages/@storefront/recommendations/dist
+    - packages/@storefront/recommendations/esnext
+    - packages/@storefront/record-count/dist
+    - packages/@storefront/record-count/esnext
+    - packages/@storefront/related-queries/dist
+    - packages/@storefront/related-queries/esnext
+    - packages/@storefront/sayt/dist
+    - packages/@storefront/sayt/esnext
+    - packages/@storefront/sort/dist
+    - packages/@storefront/sort/esnext
+    - packages/@storefront/structure/dist
+    - packages/@storefront/structure/esnext
+    - packages/@storefront/template/dist
+    - packages/@storefront/template/esnext
   yarn_install: &yarn_install
     name: Install
     command: yarn
@@ -93,7 +93,7 @@ jobs:
             package="${CIRCLE_JOB#build_}"
             package="${package//_/-}"
 
-            cd "packages/${package}"
+            cd "packages/@storefront/${package}"
             yarn build
       - save_cache:
           key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-{{ .Environment.CIRCLE_JOB }}-{{ epoch }}
@@ -168,7 +168,7 @@ jobs:
             package="${CIRCLE_JOB#unit_test_}"
             package="${package//_/-}"
 
-            cd "packages/${package}"
+            cd "packages/@storefront/${package}"
             yarn test
       - run:
           name: Upload coverage
@@ -176,7 +176,7 @@ jobs:
             package="${CIRCLE_JOB#unit_test_}"
             package="${package//_/-}"
 
-            cd "packages/${package}"
+            cd "packages/@storefront/${package}"
             yarn uploadCoverage
   unit_test_final:
     <<: *image
