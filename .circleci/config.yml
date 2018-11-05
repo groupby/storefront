@@ -8,11 +8,11 @@ defaults:
     key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-all-{{ epoch }}
   archive_build: &archive_build
     name: Archive build
-    command: tar cf ../build.tar packages/@storefront/*/{dist,esnext}
+    command: tar cvf ../build.tar packages/@storefront/*/{dist,esnext}
   extract_build_archive: &extract_build_archive
     name: Extract archive
     command: |
-      [[ ! -r ../build.tar ]] || tar xf ../build.tar
+      [[ ! -r ../build.tar ]] || tar xvf ../build.tar
 
   yarn_install: &yarn_install
     name: Install
