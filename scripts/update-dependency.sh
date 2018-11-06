@@ -4,7 +4,7 @@ set -eo pipefail
 
 src="$1"
 release_type="$2"
-dest="$3"
+target="$3"
 
 die() {
   local exit_code=1
@@ -29,20 +29,44 @@ info() {
   echo "===>" "$@"
 }
 
+print_usage() {
+  cat <<EOF
+Usage: ${0##*/} <src> <release_type> <target>
+       ${0##*/} -h
+Updates the CHANGELOG.md and package.json for the target package based on the source.
+
+src           The name of the source package.
+release_type  The semver release type.
+target        The name of the target package.
+EOF
+}
+
+while getopts "h" opt; do
+  case "$opt" in
+    h)
+      print_usage
+      exit 0
+      ;;
+  esac
+done
+
+shift $((OPTIND - 1))
+
 cd "${BASH_SOURCE%/*}/../packages/@storefront"
 
 
 # Validate inputs
+if (( $# != 3 )); then
+  print_usage >&2
+  exit 2
+fi
 
-[[ -d "$src" ]] || die -c 2 "No source specified."
-[[ -d "$dest" ]] || die -c 2 "No destination specified."
+[[ -d "$src" ]] || die -c 3 "Source does not exist: ${src}"
+[[ -d "$target" ]] || die -c 3 "Target does not exist: ${target}"
 
 case "$release_type" in
   major | minor | patch | premajor | preminor | prepatch | prerelease | from-git)
     : # valid; do nothing
-    ;;
-  '')
-    die -c 2 "No release type specified."
     ;;
   *)
     die -c 3 "Unsupported release type: ${release_type}."
@@ -52,7 +76,7 @@ esac
 
 version="$(node -p 'require("./'"$src"'/package.json").version')"
 
-cd "$dest"
+cd "$target"
 
 # Update source package version
 ed -s package.json <<EOF
