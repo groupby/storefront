@@ -49,4 +49,41 @@ case "$release_type" in
     ;;
 esac
 
+cd "$dest"
 
+version="$(node -p 'require("./'"$src"'/package.json").version')"
+source_release_type="$(sed -n '/## \[Unreleased\] \[\(.*\)\]/ s//\1/p' CHANGELOG.md)"
+
+# Add Unreleased section if necessary
+if [[ -z "$source_release_type" ]]; then
+  ed -s CHANGELOG.md <<EOF
+H
+/^## \[/i
+## [Unreleased] [${release_type}]
+
+.
+w
+q
+EOF
+fi
+
+# Add Changed section if necessary
+if ! sed -n '/## \[/,//p' CHANGELOG.md | sed '$d' | grep -q '^### Changed'; then
+  ed -s CHANGELOG.md <<EOF
+H
+/^## \[Unreleased/a
+### Changed
+
+.
+w
+q
+EOF
+
+# Add the dependency update entry
+ed -s CHANGELOG.md <<EOF
+H
+/^### Changed/a
+- Update @storefront/${src} to ${version}.
+w
+q
+EOF
