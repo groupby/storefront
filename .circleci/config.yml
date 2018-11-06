@@ -273,7 +273,13 @@ jobs:
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
       - run:
           name: Publish
-          command: ../../../scripts/publish.sh
+          command: |
+            package="${CIRCLE_JOB#release_}"
+            package="${package//_/-}"
+
+            cd "packages/@storefront/${package}"
+
+            ../../../scripts/publish.sh
 
 workflows:
   version: 2
