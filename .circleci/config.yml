@@ -515,6 +515,7 @@ workflows:
             - docs
       - publish:
           name: publish_flux_capacitor
+          context: org-global
           requires:
             - release_flux_capacitor
 
