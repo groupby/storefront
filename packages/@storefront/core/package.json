@@ -27,7 +27,7 @@
     "uploadCoverage": "codecov -p ../../.. -y ../../../codecov.yml",
     "tdd": "nodemon --watch src --watch test --exec npm test",
     "prepush": "npm test",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "[ -n \"$CI\" ] || npm run build"
   },
   "nyc": {
     "extension": [
