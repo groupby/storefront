@@ -275,6 +275,7 @@ jobs:
           command: sudo apt install -y ed
       - run:
           name: Run release script
+          # TODO: Maybe add the version number in commit
           command: |
             package="${CIRCLE_JOB#bump_dependency_}"
             src="${package%%__*}"
