@@ -91,9 +91,11 @@ git commit -m "Release version ${new_version}" ${CI:+'-m' "[ci skip]"} package.j
 
 info "Tagging commit..."
 sed -n '/## \[/,//p' CHANGELOG.md | sed -e '$d' -e 's/^##* *//' -e $'1a\\\n\\\n' |
-git tag -a "$new_version" -F -
+tag_name="$(node -p 'require("./package.json").name.split("/").pop()')/${new_version}"
+
+git tag -a "$tag_name" -F -
 
 info "Pushing..."
-git push --no-verify origin HEAD "$new_version"
+git push --no-verify origin HEAD "$tag_name"
 
 info "Done."
