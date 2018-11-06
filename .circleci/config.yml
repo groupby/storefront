@@ -231,6 +231,32 @@ jobs:
           name: Push
           command: git push -u origin HEAD
 
+  release_flux_capacitor:
+    <<: *image
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/
+      - restore_cache:
+          <<: *yarn_cache
+      - restore_cache: *build_final_cache_partial
+      - run: *extract_build_archive
+      - run:
+          <<: *yarn_install
+      - run: *setup_git
+      - run:
+          name: Checkout release branch
+          command:  git checkout "$(cat ../branch-name)/master"
+      - run:
+          name: Run release script
+          command: |
+            package="${CIRCLE_JOB#release_}"
+            package="${package//_/-}"
+
+            cd "packages/@storefront/${package}"
+
+            ../../../release.sh
+
 workflows:
   version: 2
 
@@ -405,7 +431,13 @@ workflows:
             branches:
               only:
                 - master
-                - SF-1143
+                - /SF-1143(-.*)?/
+
       - docs:
           requires:
             - setup_release_branch
+
+      - release_flux_capacitor:
+          requires:
+            - docs
+
