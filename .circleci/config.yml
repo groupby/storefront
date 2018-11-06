@@ -217,7 +217,9 @@ jobs:
           command: yarn docs
       - run:
           name: Commit
-          command: git commit -m "Generate docs" -m "[ci skip]"
+          command: |
+            git add docs
+            git commit -m "Generate docs" -m "[ci skip]"
       - run:
           name: Push
           command: git push
