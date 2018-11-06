@@ -279,8 +279,10 @@ jobs:
           command: |
             package="${CIRCLE_JOB#bump_dependency_}"
             src="${package%%__*}"
-            release_type="$(sed -n 's/'"$src"' \(.*\)/\1/p' ../releases)"
+            src="${src//_/-}"
             target="${package##*__}"
+            target="${target//_/-}"
+            release_type="$(sed -n 's/'"$src"' \(.*\)/\1/p' ../releases)"
 
             [[ -z "$release_type" ]] || ./scripts/update-dependency.sh "$src" "$release_type" "$target"
 
@@ -499,3 +501,7 @@ workflows:
           name: publish_flux_capacitor
           requires:
             - release_flux_capacitor
+      - bump_dependency:
+          name: bump_dependency_flux_capacitor__core
+          requires:
+            - publish_flux_capacitor
