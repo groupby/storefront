@@ -231,7 +231,7 @@ jobs:
           name: Push
           command: git push -u origin HEAD
 
-  release_flux_capacitor:
+  release_base:
     <<: *image
     steps:
       - checkout
@@ -248,6 +248,9 @@ jobs:
           name: Checkout release branch
           command:  git checkout "$(cat ../branch-name)/master"
       - run:
+          name: Install dependencies
+          command: sudo apt install -y ed
+      - run:
           name: Run release script
           command: |
             package="${CIRCLE_JOB#release_}"
@@ -255,7 +258,22 @@ jobs:
 
             cd "packages/@storefront/${package}"
 
-            ../../../release.sh
+            ../../../scripts/release.sh
+
+  publish:
+    <<: *image
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/
+      - restore_cache: *build_final_cache_partial
+      - run: *extract_build_archive
+      - run:
+          name: Authenticate with registry
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
+      - run:
+          name: Publish
+          command: ../../../scripts/publish.sh
 
 workflows:
   version: 2
@@ -437,7 +455,13 @@ workflows:
           requires:
             - setup_release_branch
 
-      - release_flux_capacitor:
+      - release_base:
+          name: release_flux_capacitor
           requires:
             - docs
+
+      - publish:
+          name: publish_flux_capacitor
+          requires:
+            - release_flux_capacitor
 
