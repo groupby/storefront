@@ -280,7 +280,10 @@ workflows:
 
   build_test_release:
     jobs:
-      - generate_cache_key_file
+      - generate_cache_key_file:
+          filters:
+            branches:
+              ignore: /release\/.*/
       - build:
           name: build_flux_capacitor
           requires:
