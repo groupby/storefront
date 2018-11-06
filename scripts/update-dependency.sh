@@ -54,6 +54,14 @@ version="$(node -p 'require("./'"$src"'/package.json").version')"
 
 cd "$dest"
 
+# Update source package version
+ed -s package.json <<EOF
+H
+/@storefront\/${src}/s/[0-9]*\.[0-9]*\.[0-9]*/${version}/
+w
+q
+EOF
+
 source_release_type="$(sed -n '/## \[Unreleased\] \[\(.*\)\]/ s//\1/p' CHANGELOG.md)"
 
 # Add Unreleased section if necessary
