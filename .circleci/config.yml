@@ -198,6 +198,10 @@ jobs:
       - run:
           name: Push branch
           command: git push -u origin HEAD
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - branch-name
 
   docs:
     <<: *image
@@ -213,6 +217,9 @@ jobs:
           <<: *yarn_install
       - run: *setup_git
       - run:
+          name: Checkout release branch
+          command:  git checkout "$(cat ../branch-name)/master"
+      - run:
           name: Docs
           command: yarn docs
       - run:
@@ -222,7 +229,7 @@ jobs:
             git commit -m "Generate docs" -m "[ci skip]"
       - run:
           name: Push
-          command: git push
+          command: git push -u origin HEAD
 
 workflows:
   version: 2
@@ -402,4 +409,3 @@ workflows:
       - docs:
           requires:
             - setup_release_branch
-
