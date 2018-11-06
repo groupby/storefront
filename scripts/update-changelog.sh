@@ -31,6 +31,22 @@ info() {
 
 cd "${BASH_SOURCE%*/}/../packages/@storefront"
 
+
+# Validate inputs
+
 [[ -d "$src" ]] || die -c 2 "No source specified."
-[[ -n "$release_type" ]] || die -c 2 "No release type specified."
 [[ -d "$dest" ]] || die -c 2 "No destination specified."
+
+case "$release_type" in
+  major | minor | patch | premajor | preminor | prepatch | prerelease | from-git)
+    : # valid; do nothing
+    ;;
+  '')
+    die -c 2 "No release type specified."
+    ;;
+  *)
+    die -c 3 "Unsupported release type: ${release_type}."
+    ;;
+esac
+
+
