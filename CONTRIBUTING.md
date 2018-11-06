@@ -13,20 +13,20 @@ changelog in the following format, removing any inapplicable sections:
 
 ```md
 ## [Unreleased] [<release type>]
-### Added
-- <Describe additions>
-
 ### Changed
 - <Describe changes>
-
-### Deprecated
-- <Describe deprecations>
 
 ### Removed
 - <Describe removals>
 
+### Added
+- <Describe additions>
+
 ### Fixed
 - <Describe fixes>
+
+### Deprecated
+- <Describe deprecations>
 
 ### Security
 - <Describe security fixes>
