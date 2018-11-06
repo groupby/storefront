@@ -260,6 +260,8 @@ jobs:
 
             release_type="$(sed -n '/## \[Unreleased\] \[\(.*\)\]/ s//\1/p' CHANGELOG.md)"
 
+            touch ~/releases
+
             if ../../../scripts/release.sh; then
               echo "$package" "$release_type" >> ~/releases
             elif ec=$?; (( ec == 4 )); then
