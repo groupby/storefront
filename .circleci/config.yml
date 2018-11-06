@@ -279,7 +279,7 @@ jobs:
 
             cd "packages/@storefront/${package}"
 
-            ../../../scripts/publish.sh
+            ../../../scripts/publish.sh -t tmp
 
 workflows:
   version: 2
