@@ -90,9 +90,8 @@ info "Committing changes..."
 git commit -m "Release version ${new_version}" ${CI:+'-m' "[ci skip]"} package.json CHANGELOG.md
 
 info "Tagging commit..."
-sed -n '/## \[/,//p' CHANGELOG.md | sed -e '$d' -e 's/^##* *//' -e $'1a\\\n\\\n' |
 tag_name="$(node -p 'require("./package.json").name.split("/").pop()')/${new_version}"
-
+sed -n '/## \[/,//p' CHANGELOG.md | sed -e '$d' -e 's/^##* *//' -e $'1a\\\n\\\n' |
 git tag -a "$tag_name" -F -
 
 info "Pushing..."
