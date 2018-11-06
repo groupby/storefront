@@ -112,7 +112,7 @@ fi
 ed -s CHANGELOG.md <<EOF
 H
 /^### Changed/a
-- Update @storefront/${src} to ${version}.
+- Update \`@storefront/${src}\` to ${version}.
 .
 w
 q
