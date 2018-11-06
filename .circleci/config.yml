@@ -258,7 +258,19 @@ jobs:
 
             cd "packages/@storefront/${package}"
 
-            ../../../scripts/release.sh
+            release_type="$(sed -n '/## \[Unreleased\] \[\(.*\)\]/ s//\1/p' CHANGELOG.md)"
+
+            if ../../../scripts/release.sh; then
+              echo "$package" "$release_type" >> ~/releases
+            elif ec=$?; (( ec == 4 )); then
+              exit 0
+            else
+              exit $ec
+            fi
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - releases
 
   bump_dependency:
     <<: *image
