@@ -284,9 +284,12 @@ jobs:
             target="${target//_/-}"
             release_type="$(sed -n 's/'"$src"' \(.*\)/\1/p' ../releases)"
 
-            [[ -z "$release_type" ]] || ./scripts/update-dependency.sh "$src" "$release_type" "$target"
+            if [[ -n "$release_type" ]]; then
+              ./scripts/update-dependency.sh "$src" "$release_type" "$target"
 
-            git commit -am "Bump $src dependency in $target"
+              git commit -am "Bump $src dependency in $target"
+              git push -u origin HEAD
+            fi
 
   publish:
     <<: *image
@@ -496,12 +499,16 @@ workflows:
           name: release_flux_capacitor
           requires:
             - docs
-
       - publish:
           name: publish_flux_capacitor
           requires:
             - release_flux_capacitor
+
       - bump_dependency:
           name: bump_dependency_flux_capacitor__core
           requires:
             - publish_flux_capacitor
+      - release_base:
+          name: release_core
+          requires:
+            - bump_dependency_flux_capacitor__core
