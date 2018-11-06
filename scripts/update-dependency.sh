@@ -70,7 +70,6 @@ if [[ -z "$source_release_type" ]]; then
 H
 /^## \\[/i
 ## [Unreleased] [${release_type}]
-
 .
 w
 q
