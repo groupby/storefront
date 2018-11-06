@@ -17,6 +17,13 @@ defaults:
   yarn_install: &yarn_install
     name: Install
     command: yarn
+  setup_git: &setup_git
+    name: Setup Git user
+    command: |
+      git config --global user.email "ops@groupbyinc.com"
+      git config --global user.name "GroupBy Ops"
+      git config --global push.default simple
+
   requires_build_structure: &requires_build_structure
     requires:
       - build_structure
@@ -204,6 +211,7 @@ jobs:
       - run: *extract_build_archive
       - run:
           <<: *yarn_install
+      - run: *setup_git
       - run:
           name: Docs
           command: yarn docs
