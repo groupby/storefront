@@ -260,6 +260,31 @@ jobs:
 
             ../../../scripts/release.sh
 
+  bump_dependency:
+    <<: *image
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/
+      - run: *setup_git
+      - run:
+          name: Checkout release branch
+          command:  git checkout "$(cat ../branch-name)/master"
+      - run:
+          name: Install dependencies
+          command: sudo apt install -y ed
+      - run:
+          name: Run release script
+          command: |
+            package="${CIRCLE_JOB#bump_dependency_}"
+            src="${package%%__*}"
+            release_type="$(sed -n 's/'"$src"' \(.*\)/\1/p' ../releases)"
+            target="${package##*__}"
+
+            [[ -z "$release_type" ]] || ./scripts/update-dependency.sh "$src" "$release_type" "$target"
+
+            git commit -am "Bump $src dependency in $target"
+
   publish:
     <<: *image
     steps:
@@ -473,4 +498,3 @@ workflows:
           name: publish_flux_capacitor
           requires:
             - release_flux_capacitor
-
