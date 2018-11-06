@@ -29,7 +29,7 @@ info() {
   echo "===>" "$@"
 }
 
-cd "${BASH_SOURCE%*/}/../packages/@storefront"
+cd "${BASH_SOURCE%/*}/../packages/@storefront"
 
 
 # Validate inputs
@@ -49,21 +49,42 @@ case "$release_type" in
     ;;
 esac
 
-cd "$dest"
 
 version="$(node -p 'require("./'"$src"'/package.json").version')"
+
+cd "$dest"
+
 source_release_type="$(sed -n '/## \[Unreleased\] \[\(.*\)\]/ s//\1/p' CHANGELOG.md)"
 
 # Add Unreleased section if necessary
 if [[ -z "$source_release_type" ]]; then
   ed -s CHANGELOG.md <<EOF
 H
-/^## \[/i
+/^## \\[/i
 ## [Unreleased] [${release_type}]
 
 .
 w
 q
+EOF
+else
+  hierarchy='from-git
+prerelease
+prepatch
+patch
+preminor
+minor
+premajor
+major'
+
+  if ! sed "/^${release_type}\$/q" <<<"$hierarchy" | grep -q "^${source_release_type}\$"; then
+    release_type="$source_release_type"
+  fi
+
+  ed -s CHANGELOG.md <<EOF
+H
+/^## \\[Unreleased/c
+## [Unreleased] [${release_type}]
 EOF
 fi
 
@@ -71,19 +92,21 @@ fi
 if ! sed -n '/## \[/,//p' CHANGELOG.md | sed '$d' | grep -q '^### Changed'; then
   ed -s CHANGELOG.md <<EOF
 H
-/^## \[Unreleased/a
+/^## \\[Unreleased/a
 ### Changed
 
 .
 w
 q
 EOF
+fi
 
 # Add the dependency update entry
 ed -s CHANGELOG.md <<EOF
 H
 /^### Changed/a
 - Update @storefront/${src} to ${version}.
+.
 w
 q
 EOF
