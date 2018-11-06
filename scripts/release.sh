@@ -42,6 +42,7 @@ EXIT CODES:
 - 1: General error
 - 2: Usage error
 - 3: Unsupported release type
+- 4: No release detected
 EOF
 }
 
@@ -66,8 +67,7 @@ case "$release_type" in
     : # valid; do nothing
     ;;
   '')
-    info "Could not detect potential release in the CHANGELOG."
-    exit 0
+    die -c 4 "Could not detect potential release in the CHANGELOG."
     ;;
   *)
     die -c 3 "Unsupported release type: ${release_type}."
