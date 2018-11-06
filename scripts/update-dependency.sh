@@ -57,7 +57,7 @@ cd "$dest"
 # Update source package version
 ed -s package.json <<EOF
 H
-/@storefront\/${src}/s/[0-9]*\.[0-9]*\.[0-9]*/${version}/
+/@storefront\/${src}/s/[0-9]*\.[0-9]*\.[0-9]*\(-[^"]*\)\{0,1\}/${version}/
 w
 q
 EOF
