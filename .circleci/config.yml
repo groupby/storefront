@@ -319,7 +319,7 @@ jobs:
       - run:
           name: Publish
           command: |
-            package="${CIRCLE_JOB#release_}"
+            package="${CIRCLE_JOB#publish_}"
             package="${package//_/-}"
 
             cd "packages/@storefront/${package}"
