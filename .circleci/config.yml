@@ -4,8 +4,8 @@ defaults:
       - image: circleci/node
   yarn_cache: &yarn_cache
     key: yarn_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
-  build_final_cache: &build_final_cache
-    key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-all-{{ epoch }}
+  build_final_cache_partial: &build_final_cache_partial
+    key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-all-
   archive_build: &archive_build
     name: Archive build
     command: tar cvf ../build.tar packages/@storefront/*/{dist,esnext}
@@ -151,8 +151,7 @@ jobs:
           at: ~/
       - restore_cache:
           <<: *yarn_cache
-      - restore_cache:
-          key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-all-
+      - restore_cache: *build_final_cache_partial
       - run: *extract_build_archive
       - run:
           <<: *yarn_install
@@ -201,8 +200,7 @@ jobs:
           at: ~/
       - restore_cache:
           <<: *yarn_cache
-      - restore_cache:
-          <<: *build_final_cache
+      - restore_cache: *build_final_cache_partial
       - run:
           <<: *yarn_install
       - run:
