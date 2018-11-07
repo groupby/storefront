@@ -2,9 +2,6 @@
 
 set -eo pipefail
 
-src="$1"
-release_type="$2"
-target="$3"
 version=
 
 die() {
@@ -72,6 +69,10 @@ if (( $# != 3 )); then
   print_usage >&2
   exit 2
 fi
+
+src="$1"
+release_type="$2"
+target="$3"
 
 [[ -d "$src" ]] || die -c 3 "Source does not exist: ${src}"
 [[ -d "$target" ]] || die -c 3 "Target does not exist: ${target}"
