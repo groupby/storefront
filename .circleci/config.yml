@@ -254,7 +254,7 @@ jobs:
             package="${package//_/-}"
             branch_prefix="$(cat ../branch-name)"
 
-            git checkout -b "${branch_prefix}/${package}" "${branch_prefix}/master"
+            git checkout -b "${branch_prefix}/${package}" "origin/${branch_prefix}/master"
             git push -u origin HEAD
 
             cd "packages/@storefront/${package}"
