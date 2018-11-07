@@ -324,7 +324,11 @@ jobs:
 
             cd "packages/@storefront/${package}"
 
-            ../../../scripts/publish.sh -t tmp
+            if grep -q -F "$package" ~/releases; then
+              ../../../scripts/publish.sh -t tmp
+            else
+              echo "Nothing to publish"
+            fi
 
 workflows:
   version: 2
