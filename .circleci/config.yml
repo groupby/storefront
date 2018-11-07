@@ -303,6 +303,8 @@ jobs:
 
               git commit -am "Bump ${src} dependency in ${target} to ${version}"
               git push -u origin HEAD
+            else
+              echo "Nothing to bump."
             fi
 
   publish:
