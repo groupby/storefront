@@ -245,9 +245,6 @@ jobs:
           <<: *yarn_install
       - run: *setup_git
       - run:
-          name: Checkout release branch
-          command:  git checkout "$(cat ../branch-name)/master"
-      - run:
           name: Install dependencies
           command: sudo apt install -y ed
       - run:
@@ -255,18 +252,27 @@ jobs:
           command: |
             package="${CIRCLE_JOB#release_}"
             package="${package//_/-}"
+            branch_prefix="$(cat ../branch-name)"
+
+            git checkout -b "${branch_prefix}/${package}" "${branch_prefix}/master"
+            git push -u origin HEAD
 
             cd "packages/@storefront/${package}"
 
             touch ~/releases
 
             if ../../../scripts/release.sh -o ~/releases; then
-              : # Do nothing
+              exit_code=0
             elif ec=$?; (( ec == 4 )); then
-              exit 0
+              exit_code=0
             else
-              exit $ec
+              exit_code=$ec
             fi
+
+            git checkout "${branch_prefix}/master"
+            git merge "${branch_prefix}/${package}"
+
+            exit $exit_code
       - persist_to_workspace:
           root: ~/
           paths:
@@ -323,6 +329,8 @@ jobs:
           command: |
             package="${CIRCLE_JOB#publish_}"
             package="${package//_/-}"
+
+            git checkout "${branch_prefix}/${package}" "${branch_prefix}/master"
 
             cd "packages/@storefront/${package}"
 
