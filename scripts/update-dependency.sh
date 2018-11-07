@@ -5,6 +5,7 @@ set -eo pipefail
 src="$1"
 release_type="$2"
 target="$3"
+version=
 
 die() {
   local exit_code=1
@@ -39,13 +40,22 @@ src           The name of the source package.
 release_type  The semver release type.
 target        The name of the target package.
 EOF
+  sed -n '/^[[:space:]]*###/ s//   /p' "$BASH_SOURCE"
 }
 
-while getopts "h" opt; do
+while getopts ":n:h" opt; do
   case "$opt" in
+    ### -n version	The version number to bump to.
+    n)
+      version="$OPTARG"
+      ;;
+    ### -h	Print this help.
     h)
       print_usage
       exit 0
+      ;;
+    \?)
+      die -c 2 "Invalid option: -${OPTARG}"
       ;;
   esac
 done
@@ -74,7 +84,8 @@ case "$release_type" in
 esac
 
 
-version="$(node -p 'require("./'"$src"'/package.json").version')"
+# Default to the version in the source's package.json
+: ${version:="$(node -p 'require("./'"$src"'/package.json").version')"}
 
 cd "$target"
 
