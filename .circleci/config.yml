@@ -231,7 +231,7 @@ jobs:
           name: Push
           command: git push -u origin HEAD
 
-  release_base:
+  release:
     <<: *image
     steps:
       - checkout
@@ -269,14 +269,29 @@ jobs:
               exit_code=$ec
             fi
 
-            git checkout "${branch_prefix}/master"
-            git merge "${branch_prefix}/${package}"
-
             exit $exit_code
       - persist_to_workspace:
           root: ~/
           paths:
             - releases
+
+  merge_base:
+    <<: *image
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/
+      - run: *setup_git
+      - run:
+          name: Merge into release branch
+          command: |
+            package="${CIRCLE_JOB#merge_}"
+            package="${package//_/-}"
+            branch_prefix="$(cat ../branch-name)"
+
+            git checkout "${branch_prefix}/master"
+            git merge "origin/${branch_prefix}/${package}"
+            git push -u origin HEAD
 
   bump_dependency:
     <<: *image
@@ -329,8 +344,9 @@ jobs:
           command: |
             package="${CIRCLE_JOB#publish_}"
             package="${package//_/-}"
+            branch_prefix="$(cat ../branch-name)"
 
-            git checkout "${branch_prefix}/${package}" "${branch_prefix}/master"
+            git checkout "${branch_prefix}/${package}"
 
             cd "packages/@storefront/${package}"
 
@@ -523,40 +539,52 @@ workflows:
           requires:
             - setup_release_branch
 
-      - release_base:
+      - release:
           name: release_flux_capacitor
           requires:
             - docs
+      - merge_base:
+          name: merge_flux_capacitor
+          requires:
+            - release_flux_capacitor
       - publish:
           name: publish_flux_capacitor
           context: org-global
           requires:
-            - release_flux_capacitor
+            - merge_flux_capacitor
 
       - bump_dependency:
           name: bump_dependency_flux_capacitor__core
           requires:
             - publish_flux_capacitor
-      - release_base:
+      - release:
           name: release_core
           requires:
             - bump_dependency_flux_capacitor__core
+      - merge_base:
+          name: merge_core
+          requires:
+            - release_core
       - publish:
           name: publish_core
           context: org-global
           requires:
-            - release_core
+            - merge_core
 
       - bump_dependency:
           name: bump_dependency_core__structure
           requires:
             - publish_core
-      - release_base:
+      - release:
           name: release_structure
           requires:
             - bump_dependency_core__structure
+      - merge_base:
+          name: merge_structure
+          requires:
+            - release_structure
       - publish:
           name: publish_structure
           context: org-global
           requires:
-            - release_structure
+            - merge_structure
