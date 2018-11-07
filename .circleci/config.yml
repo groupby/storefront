@@ -295,8 +295,8 @@ jobs:
             target="${package##*__}"
             target="${target//_/-}"
 
-            version="$(grep -F "$src" ~/releases | cut -d ' ' -f 2)"
-            release_type="$(grep -F "$src" ~/releases | cut -d ' ' -f 3)"
+            version="$({ grep -F "$src" ~/releases || true; } | cut -d ' ' -f 2)"
+            release_type="$({ grep -F "$src" ~/releases || true; } | cut -d ' ' -f 3)"
 
             if [[ -n "$release_type" ]]; then
               ./scripts/update-dependency.sh -n "$version" "$src" "$release_type" "$target"
@@ -327,7 +327,7 @@ jobs:
             if grep -q -F "$package" ~/releases; then
               ../../../scripts/publish.sh -t tmp
             else
-              echo "Nothing to publish"
+              echo "Nothing to publish."
             fi
 
 workflows:
