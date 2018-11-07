@@ -32,13 +32,15 @@ info() {
 
 print_usage() {
   cat <<EOF
-Usage: ${0##*/} <src> <release_type> <target>
+Usage: ${0##*/} [OPTIONS] <src> <release_type> <target>
        ${0##*/} -h
 Updates the CHANGELOG.md and package.json for the target package based on the source.
 
 src           The name of the source package.
 release_type  The semver release type.
 target        The name of the target package.
+
+OPTIONS
 EOF
   sed -n '/^[[:space:]]*###/ s//   /p' "$BASH_SOURCE"
 }
