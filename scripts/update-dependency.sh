@@ -91,7 +91,7 @@ cd "$target"
 
 version_range="$(grep -F "@storefront/${src}" package.json | cut -d \" -f 4)"
 
-if npx semver -r "${version_range}" "${version}" > /dev/null; then
+if npx semver -p -r "${version_range}" "${version}" > /dev/null; then
   echo "Version to bump (${version}) is within acceptable range ${version_range}. Exiting without bumping."
   exit 0
 fi
