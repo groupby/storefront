@@ -533,3 +533,22 @@ workflows:
           name: release_core
           requires:
             - bump_dependency_flux_capacitor__core
+      - publish:
+          name: publish_core
+          context: org-global
+          requires:
+            - release_core
+
+      - bump_dependency:
+          name: bump_dependency_core__structure
+          requires:
+            - publish_core
+      - release_base:
+          name: release_structure
+          requires:
+            - bump_dependency_core__structure
+      - publish:
+          name: publish_structure
+          context: org-global
+          requires:
+            - release_structure
