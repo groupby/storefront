@@ -294,12 +294,14 @@ jobs:
             src="${src//_/-}"
             target="${package##*__}"
             target="${target//_/-}"
-            release_type="$(sed -n 's/'"$src"' \(.*\)/\1/p' ../releases)"
+
+            version="$(grep -F "$src" ~/releases | cut -d ' ' -f 2)"
+            release_type="$(grep -F "$src" ~/releases | cut -d ' ' -f 3)"
 
             if [[ -n "$release_type" ]]; then
-              ./scripts/update-dependency.sh "$src" "$release_type" "$target"
+              ./scripts/update-dependency.sh -n "$version" "$src" "$release_type" "$target"
 
-              git commit -am "Bump $src dependency in $target"
+              git commit -am "Bump ${src} dependency in ${target} to ${version}"
               git push -u origin HEAD
             fi
 
