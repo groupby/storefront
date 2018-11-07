@@ -2,6 +2,8 @@
 
 set -eo pipefail
 
+release_outfile="/dev/stdout"
+
 die() {
   local exit_code=1
   local OPTIND=1
@@ -27,7 +29,7 @@ info() {
 
 print_usage() {
   cat <<EOF
-Usage: ${0##*/}
+Usage: ${0##*/} [OPTIONS]
        ${0##*/} -h
 Creates a release.
 
@@ -36,6 +38,12 @@ This performs the following steps:
 2. Bumps the version number in package.json
 3. Finalizes the release in CHANGELOG.md
 4. Creates a git tag
+
+OPTIONS
+EOF
+  sed -n '/^[[:space:]]*###/ s//   /p' "$BASH_SOURCE"
+
+  cat <<EOF
 
 EXIT CODES:
 - 0: Success
@@ -49,11 +57,19 @@ EOF
 # Only allow this script to run in package directories
 node -e 'process.exit(require("./package.json").private === true)' || die 'Not in a package directory.'
 
-while getopts "h" opt; do
+while getopts ":ho:" opt; do
   case "$opt" in
+    ### -o file	Append release info to file in the following format: package_name version release_type
+    o)
+      release_outfile="$OPTARG"
+      ;;
+    ### -h	Print this help.
     h)
       print_usage
       exit 0
+      ;;
+    \?)
+      die -c 2 "Invalid option: -${OPTARG}"
       ;;
   esac
 done
@@ -89,12 +105,16 @@ EOF
 info "Committing changes..."
 git commit -m "Release version ${new_version}" ${CI:+'-m' "[ci skip]"} package.json CHANGELOG.md
 
+package_name="$(node -p 'require("./package.json").name.split("/").pop()')"
+
 info "Tagging commit..."
-tag_name="$(node -p 'require("./package.json").name.split("/").pop()')/${new_version}"
+tag_name="${package_name}/${new_version}"
 sed -n '/## \[/,//p' CHANGELOG.md | sed -e '$d' -e 's/^##* *//' -e $'1a\\\n\\\n' |
 git tag -a "$tag_name" -F -
 
 info "Pushing..."
 git push --no-verify origin HEAD "$tag_name"
+
+echo "$package_name" "${new_version#v}" "$release_type" >> "$release_outfile"
 
 info "Done."
