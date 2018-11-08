@@ -311,6 +311,8 @@ jobs:
             package="${package//_/-}"
             branch_prefix="$(cat ../branch-name)"
 
+            git checkout "${branch_prefix}/${package}"
+
             cd "packages/@storefront/${package}"
 
             touch ~/releases
