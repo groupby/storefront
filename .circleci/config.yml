@@ -203,6 +203,28 @@ jobs:
           paths:
             - branch-name
 
+  setup_package_branch:
+    <<: *image
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Create branch
+          command:
+            package="${CIRCLE_JOB#setup_package_branch_}"
+            package="${package//_/-}"
+            branch_prefix="$(cat ../branch-name)"
+
+            git checkout -b "${branch_prefix}/${package}" "origin/${branch_prefix}/master"
+      - run:
+          name: Push branch
+          command: git push -u origin HEAD
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - branch-name
+
   docs:
     <<: *image
     steps:
@@ -288,9 +310,6 @@ jobs:
             package="${CIRCLE_JOB#release_}"
             package="${package//_/-}"
             branch_prefix="$(cat ../branch-name)"
-
-            git checkout -b "${branch_prefix}/${package}" "origin/${branch_prefix}/master"
-            git push -u origin HEAD
 
             cd "packages/@storefront/${package}"
 
@@ -558,10 +577,15 @@ workflows:
           requires:
             - setup_release_branch
 
+      # flux-capacitor
+      - setup_package_branch:
+          name: setup_package_branch_flux_capacitor
+          requires:
+            - docs
       - release:
           name: release_flux_capacitor
           requires:
-            - docs
+            - setup_package_branch_flux_capacitor
       - merge_base:
           name: merge_flux_capacitor
           requires:
@@ -572,10 +596,15 @@ workflows:
           requires:
             - merge_flux_capacitor
 
+      # core
+      - setup_package_branch:
+          name: setup_package_branch_core
+          requires:
+            - publish_flux_capacitor
       - bump_dependency:
           name: bump_dependency_flux_capacitor__core
           requires:
-            - publish_flux_capacitor
+            - setup_package_branch_core
       - release:
           name: release_core
           requires:
@@ -590,10 +619,15 @@ workflows:
           requires:
             - merge_core
 
+      # structure
+      - setup_package_branch:
+          name: setup_package_branch_structure
+          requires:
+            - publish_core
       - bump_dependency:
           name: bump_dependency_core__structure
           requires:
-            - publish_core
+            - setup_package_branch_structure
       - release:
           name: release_structure
           requires:
@@ -609,10 +643,14 @@ workflows:
             - merge_structure
 
       # breadcrumbs
+      - setup_package_branch:
+          name: setup_package_branch_breadcrumbs
+          requires:
+            - publish_structure
       - bump_dependency:
           name: bump_dependency_core__breadcrumbs
           requires:
-            - publish_structure
+            - setup_package_branch_breadcrumbs
       - release:
           name: release_breadcrumbs
           requires:
@@ -624,10 +662,14 @@ workflows:
             - release_breadcrumbs
 
       # collections
+      - setup_package_branch:
+          name: setup_package_branch_collections
+          requires:
+            - publish_structure
       - bump_dependency:
           name: bump_dependency_core__collections
           requires:
-            - publish_structure
+            - setup_package_branch_collections
       - release:
           name: release_collections
           requires:
@@ -639,10 +681,14 @@ workflows:
             - release_collections
 
       # details
+      - setup_package_branch:
+          name: setup_package_branch_details
+          requires:
+            - publish_structure
       - bump_dependency:
           name: bump_dependency_core__details
           requires:
-            - publish_structure
+            - setup_package_branch_details
       - release:
           name: release_details
           requires:
@@ -654,10 +700,14 @@ workflows:
             - release_details
 
       # did-you-mean
+      - setup_package_branch:
+          name: setup_package_branch_did_you_mean
+          requires:
+            - publish_structure
       - bump_dependency:
           name: bump_dependency_core__did_you_mean
           requires:
-            - publish_structure
+            - setup_package_branch_did_you_mean
       - release:
           name: release_did_you_mean
           requires:
@@ -669,10 +719,14 @@ workflows:
             - release_did_you_mean
 
       # infinite-scroll
+      - setup_package_branch:
+          name: setup_package_branch_infinite_scroll
+          requires:
+            - publish_structure
       - bump_dependency:
           name: bump_dependency_core__infinite_scroll
           requires:
-            - publish_structure
+            - setup_package_branch_infinite_scroll
       - bump_dependency:
           name: bump_dependency_structure__infinite_scroll
           requires:
@@ -688,10 +742,14 @@ workflows:
             - release_infinite_scroll
 
       # navigation
+      - setup_package_branch:
+          name: setup_package_branch_navigation
+          requires:
+            - publish_structure
       - bump_dependency:
           name: bump_dependency_core__navigation
           requires:
-            - publish_structure
+            - setup_package_branch_navigation
       - bump_dependency:
           name: bump_dependency_structure__navigation
           requires:
@@ -707,10 +765,14 @@ workflows:
             - release_navigation
 
       # page-size
+      - setup_package_branch:
+          name: setup_package_branch_page_size
+          requires:
+            - publish_structure
       - bump_dependency:
           name: bump_dependency_core__page_size
           requires:
-            - publish_structure
+            - setup_package_branch_page_size
       - release:
           name: release_page_size
           requires:
@@ -722,10 +784,14 @@ workflows:
             - release_page_size
 
       # paging
+      - setup_package_branch:
+          name: setup_package_branch_paging
+          requires:
+            - publish_structure
       - bump_dependency:
           name: bump_dependency_core__paging
           requires:
-            - publish_structure
+            - setup_package_branch_paging
       - release:
           name: release_paging
           requires:
@@ -737,10 +803,14 @@ workflows:
             - release_paging
 
       # products
+      - setup_package_branch:
+          name: setup_package_branch_products
+          requires:
+            - publish_structure
       - bump_dependency:
           name: bump_dependency_core__products
           requires:
-            - publish_structure
+            - setup_package_branch_products
       - release:
           name: release_products
           requires:
@@ -752,10 +822,14 @@ workflows:
             - release_products
 
       # query
+      - setup_package_branch:
+          name: setup_package_branch_query
+          requires:
+            - publish_structure
       - bump_dependency:
           name: bump_dependency_core__query
           requires:
-            - publish_structure
+            - setup_package_branch_query
       - release:
           name: release_query
           requires:
@@ -767,10 +841,14 @@ workflows:
             - release_query
 
       # recommendations
+      - setup_package_branch:
+          name: setup_package_branch_recommendations
+          requires:
+            - publish_structure
       - bump_dependency:
           name: bump_dependency_core__recommendations
           requires:
-            - publish_structure
+            - setup_package_branch_recommendations
       - release:
           name: release_recommendations
           requires:
@@ -782,10 +860,14 @@ workflows:
             - release_recommendations
 
       # record-count
+      - setup_package_branch:
+          name: setup_package_branch_record_count
+          requires:
+            - publish_structure
       - bump_dependency:
           name: bump_dependency_core__record_count
           requires:
-            - publish_structure
+            - setup_package_branch_record_count
       - release:
           name: release_record_count
           requires:
@@ -797,10 +879,14 @@ workflows:
             - release_record_count
 
       # related-queries
+      - setup_package_branch:
+          name: setup_package_branch_related_queries
+          requires:
+            - publish_structure
       - bump_dependency:
           name: bump_dependency_core__related_queries
           requires:
-            - publish_structure
+            - setup_package_branch_related_queries
       - release:
           name: release_related_queries
           requires:
@@ -812,10 +898,14 @@ workflows:
             - release_related_queries
 
       # sayt
+      - setup_package_branch:
+          name: setup_package_branch_sayt
+          requires:
+            - publish_structure
       - bump_dependency:
           name: bump_dependency_core__sayt
           requires:
-            - publish_structure
+            - setup_package_branch_sayt
       - release:
           name: release_sayt
           requires:
@@ -827,10 +917,14 @@ workflows:
             - release_sayt
 
       # sort
+      - setup_package_branch:
+          name: setup_package_branch_sort
+          requires:
+            - publish_structure
       - bump_dependency:
           name: bump_dependency_core__sort
           requires:
-            - publish_structure
+            - setup_package_branch_sort
       - release:
           name: release_sort
           requires:
@@ -842,10 +936,14 @@ workflows:
             - release_sort
 
       # template
+      - setup_package_branch:
+          name: setup_package_branch_template
+          requires:
+            - publish_structure
       - bump_dependency:
           name: bump_dependency_core__template
           requires:
-            - publish_structure
+            - setup_package_branch_template
       - release:
           name: release_template
           requires:
