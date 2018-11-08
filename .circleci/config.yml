@@ -588,3 +588,252 @@ workflows:
           context: org-global
           requires:
             - merge_structure
+
+      # breadcrumbs
+      - bump_dependency:
+          name: bump_dependency_core__breadcrumbs
+          requires:
+            - publish_structure
+      - release:
+          name: release_breadcrumbs
+          requires:
+            - bump_dependency_core__breadcrumbs
+      - publish:
+          name: publish_breadcrumbs
+          context: org-global
+          requires:
+            - release_breadcrumbs
+
+      # collections
+      - bump_dependency:
+          name: bump_dependency_core__collections
+          requires:
+            - publish_structure
+      - release:
+          name: release_collections
+          requires:
+            - bump_dependency_core__collections
+      - publish:
+          name: publish_collections
+          context: org-global
+          requires:
+            - release_collections
+
+      # details
+      - bump_dependency:
+          name: bump_dependency_core__details
+          requires:
+            - publish_structure
+      - release:
+          name: release_details
+          requires:
+            - bump_dependency_core__details
+      - publish:
+          name: publish_details
+          context: org-global
+          requires:
+            - release_details
+
+      # did-you-mean
+      - bump_dependency:
+          name: bump_dependency_core__did_you_mean
+          requires:
+            - publish_structure
+      - release:
+          name: release_did_you_mean
+          requires:
+            - bump_dependency_core__did_you_mean
+      - publish:
+          name: publish_did_you_mean
+          context: org-global
+          requires:
+            - release_did_you_mean
+
+      # infinite-scroll
+      - bump_dependency:
+          name: bump_dependency_core__infinite_scroll
+          requires:
+            - publish_structure
+      - bump_dependency:
+          name: bump_dependency_structure__infinite_scroll
+          requires:
+            - bump_dependency_core__infinite_scroll
+      - release:
+          name: release_infinite_scroll
+          requires:
+            - bump_dependency_structure__infinite_scroll
+      - publish:
+          name: publish_infinite_scroll
+          context: org-global
+          requires:
+            - release_infinite_scroll
+
+      # navigation
+      - bump_dependency:
+          name: bump_dependency_core__navigation
+          requires:
+            - publish_structure
+      - bump_dependency:
+          name: bump_dependency_structure__navigation
+          requires:
+            - bump_dependency_core__navigation
+      - release:
+          name: release_navigation
+          requires:
+            - bump_dependency_structure__navigation
+      - publish:
+          name: publish_navigation
+          context: org-global
+          requires:
+            - release_navigation
+
+      # page-size
+      - bump_dependency:
+          name: bump_dependency_core__page_size
+          requires:
+            - publish_structure
+      - release:
+          name: release_page_size
+          requires:
+            - bump_dependency_core__page_size
+      - publish:
+          name: publish_page_size
+          context: org-global
+          requires:
+            - release_page_size
+
+      # paging
+      - bump_dependency:
+          name: bump_dependency_core__paging
+          requires:
+            - publish_structure
+      - release:
+          name: release_paging
+          requires:
+            - bump_dependency_core__paging
+      - publish:
+          name: publish_paging
+          context: org-global
+          requires:
+            - release_paging
+
+      # products
+      - bump_dependency:
+          name: bump_dependency_core__products
+          requires:
+            - publish_structure
+      - release:
+          name: release_products
+          requires:
+            - bump_dependency_core__products
+      - publish:
+          name: publish_products
+          context: org-global
+          requires:
+            - release_products
+
+      # query
+      - bump_dependency:
+          name: bump_dependency_core__query
+          requires:
+            - publish_structure
+      - release:
+          name: release_query
+          requires:
+            - bump_dependency_core__query
+      - publish:
+          name: publish_query
+          context: org-global
+          requires:
+            - release_query
+
+      # recommendations
+      - bump_dependency:
+          name: bump_dependency_core__recommendations
+          requires:
+            - publish_structure
+      - release:
+          name: release_recommendations
+          requires:
+            - bump_dependency_core__recommendations
+      - publish:
+          name: publish_recommendations
+          context: org-global
+          requires:
+            - release_recommendations
+
+      # record-count
+      - bump_dependency:
+          name: bump_dependency_core__record_count
+          requires:
+            - publish_structure
+      - release:
+          name: release_record_count
+          requires:
+            - bump_dependency_core__record_count
+      - publish:
+          name: publish_record_count
+          context: org-global
+          requires:
+            - release_record_count
+
+      # related-queries
+      - bump_dependency:
+          name: bump_dependency_core__related_queries
+          requires:
+            - publish_structure
+      - release:
+          name: release_related_queries
+          requires:
+            - bump_dependency_core__related_queries
+      - publish:
+          name: publish_related_queries
+          context: org-global
+          requires:
+            - release_related_queries
+
+      # sayt
+      - bump_dependency:
+          name: bump_dependency_core__sayt
+          requires:
+            - publish_structure
+      - release:
+          name: release_sayt
+          requires:
+            - bump_dependency_core__sayt
+      - publish:
+          name: publish_sayt
+          context: org-global
+          requires:
+            - release_sayt
+
+      # sort
+      - bump_dependency:
+          name: bump_dependency_core__sort
+          requires:
+            - publish_structure
+      - release:
+          name: release_sort
+          requires:
+            - bump_dependency_core__sort
+      - publish:
+          name: publish_sort
+          context: org-global
+          requires:
+            - release_sort
+
+      # template
+      - bump_dependency:
+          name: bump_dependency_core__template
+          requires:
+            - publish_structure
+      - release:
+          name: release_template
+          requires:
+            - bump_dependency_core__template
+      - publish:
+          name: publish_template
+          context: org-global
+          requires:
+            - release_template
+
