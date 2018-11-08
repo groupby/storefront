@@ -379,7 +379,7 @@ jobs:
 
             git checkout "${branch_prefix}/master"
             find packages/@storefront/ -mindepth 1 -maxdepth 1 -type d |
-              sed 's#^packages/@storefront/#'"$brach_prefix"'#' |
+              sed 's#^packages/@storefront/#'"$branch_prefix"'#' |
               sort |
               xargs git merge -m "Merge component release branches"
             git push -u origin HEAD
