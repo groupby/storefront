@@ -328,6 +328,25 @@ jobs:
             git merge "origin/${branch_prefix}/${package}"
             git push -u origin HEAD
 
+  merge_components:
+    <<: *image
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/
+      - run: *setup_git
+      - run:
+          name: Merge into release branch
+          command: |
+            branch_prefix="$(cat ../branch-name)"
+
+            git checkout "${branch_prefix}/master"
+            find packages/@storefront/ -mindepth 1 -maxdepth 1 -type d |
+              sed 's#^packages/@storefront/#'"$brach_prefix"'#' |
+              sort |
+              xargs git merge -m "Merge component release branches"
+            git push -u origin HEAD
+
   publish:
     <<: *image
     steps:
@@ -837,3 +856,21 @@ workflows:
           requires:
             - release_template
 
+      - merge_components:
+          requires:
+            - publish_breadcrumbs
+            - publish_collections
+            - publish_details
+            - publish_did_you_mean
+            - publish_infinite_scroll
+            - publish_navigation
+            - publish_page_size
+            - publish_paging
+            - publish_products
+            - publish_query
+            - publish_recommendations
+            - publish_record_count
+            - publish_related_queries
+            - publish_sayt
+            - publish_sort
+            - publish_template
