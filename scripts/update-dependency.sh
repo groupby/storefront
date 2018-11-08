@@ -92,9 +92,12 @@ esac
 
 cd "$target"
 
-version_range="$(grep -F "@storefront/${src}" package.json | cut -d \" -f 4)"
+version_range="$({ grep -F "@storefront/${src}" package.json || true; } | cut -d \" -f 4)"
 
-if npx semver -p -r "${version_range}" "${version}" > /dev/null; then
+if [[ -z "$version_range" ]]; then
+  echo "Nothing to bump: ${target} does not depend on ${src}."
+  exit 0
+elif npx semver -p -r "${version_range}" "${version}" > /dev/null; then
   echo "Version to bump (${version}) is within acceptable range ${version_range}. Exiting without bumping."
   exit 0
 fi
