@@ -445,7 +445,7 @@ jobs:
       - run: *setup_git
       - run:
           name: Delete release branches
-          command: git branch -r --list "origin/$(cat ../branch-name)/*" | xargs git push --delete
+          command: git branch -r --list "origin/$(cat ../branch-name)/*" | xargs git push --delete origin
 
 workflows:
   version: 2
