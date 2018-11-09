@@ -624,7 +624,6 @@ workflows:
             branches:
               only:
                 - master
-                - /SF-1143(-.*)?/
 
       - docs:
           requires:
