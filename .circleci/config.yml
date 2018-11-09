@@ -24,6 +24,9 @@ defaults:
       git config --global user.name "GroupBy Ops"
       git config --global push.default simple
 
+      cp .circleci/prepare-commit-msg .git/hooks/prepare-commit-msg
+      chmod +x .git/hooks/prepare-commit-msg
+
   requires_build_structure: &requires_build_structure
     requires:
       - build_structure
@@ -267,7 +270,7 @@ jobs:
           name: Commit
           command: |
             git add docs
-            git commit -m "Generate docs" -m "[ci skip]"
+            git commit -m "Generate docs"
       - run:
           name: Push
           command: git push -u origin HEAD
@@ -401,7 +404,7 @@ jobs:
             git checkout "$CIRCLE_BRANCH"
             git pull origin "$CIRCLE_BRANCH"
 
-            git merge --no-ff --no-edit -m "Merge branch '${release_branch}' into ${CIRCLE_BRANCH}" -m "[ci skip]" "origin/${release_branch}"
+            git merge --no-ff -m "Merge branch '${release_branch}' into ${CIRCLE_BRANCH}" "origin/${release_branch}"
 
             git push -u origin HEAD
 

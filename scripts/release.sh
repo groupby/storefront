@@ -103,7 +103,7 @@ q
 EOF
 
 info "Committing changes..."
-git commit -m "Release version ${new_version}" ${CI:+'-m' "[ci skip]"} package.json CHANGELOG.md
+git commit -m "Release version ${new_version}" package.json CHANGELOG.md
 
 package_name="$(node -p 'require("./package.json").name.split("/").pop()')"
 
