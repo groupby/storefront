@@ -299,6 +299,8 @@ jobs:
             release_type="$({ grep -F "$src" ~/releases || true; } | cut -d ' ' -f 3)"
 
             if [[ -n "$release_type" ]]; then
+              git checkout "$(cat ../branch-name)/${package}"
+
               ./scripts/update-dependency.sh -n "$version" "$src" "$release_type" "$target"
 
               git commit -am "Bump ${src} dependency in ${target} to ${version}"
