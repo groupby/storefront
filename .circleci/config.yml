@@ -299,7 +299,7 @@ jobs:
             release_type="$({ grep -F "$src" ~/releases || true; } | cut -d ' ' -f 3)"
 
             if [[ -n "$release_type" ]]; then
-              git checkout "$(cat ../branch-name)/${package}"
+              git checkout "$(cat ../branch-name)/${target}"
 
               ./scripts/update-dependency.sh -n "$version" "$src" "$release_type" "$target"
 
