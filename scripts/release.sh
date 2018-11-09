@@ -102,10 +102,10 @@ w
 q
 EOF
 
-info "Committing changes..."
-git commit -m "Release version ${new_version}" package.json CHANGELOG.md
-
 package_name="$(node -p 'require("./package.json").name.split("/").pop()')"
+
+info "Committing changes..."
+git commit -m "Bump ${package_name} to version ${new_version}" package.json CHANGELOG.md
 
 info "Tagging commit..."
 tag_name="${package_name}/${new_version}"
