@@ -447,6 +447,14 @@ jobs:
           name: Delete release branches
           command: git branch -r --list "origin/$(cat ../branch-name)/*" | sed 's#origin/##' | xargs git push --delete origin
 
+  ensure_no_running_release:
+    <<: *image
+    steps:
+      - run:
+          name: Install utilities
+          command: sudo apt install jq
+      - run: curl 'https://circleci.com/api/v1.1/project/github/groupby/storefront/tree/master?limit=1' | jq '.[0] | (.lifecycle == "finished" and .workflows.job_name == "cleanup")' | grep -q true
+
 workflows:
   version: 2
 
@@ -616,6 +624,14 @@ workflows:
             - unit_test_sayt
             - unit_test_sort
             - unit_test_template
+
+      - ensure_no_running_release:
+          requires:
+            - unit_test_final
+          filters:
+            branches:
+              ignore:
+                - master
 
       - setup_release_branch:
           requires:
