@@ -76,16 +76,14 @@ jobs:
       - checkout
       - attach_workspace:
           at: ~/
-      - restore_cache:
-          <<: *yarn_cache
+      - restore_cache: *yarn_cache
       - restore_cache:
           key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-
       - run: *extract_build_archive
       - run:
           name: Dependencies
           command: sudo apt install -y rsync
-      - run:
-          <<: *yarn_install
+      - run: *yarn_install
       - save_cache:
           <<: *yarn_cache
           paths:
@@ -182,12 +180,10 @@ jobs:
       - checkout
       - attach_workspace:
           at: ~/
-      - restore_cache:
-          <<: *yarn_cache
+      - restore_cache: *yarn_cache
       - restore_cache: *build_final_cache_partial
       - run: *extract_build_archive
-      - run:
-          <<: *yarn_install
+      - run: *yarn_install
       - run:
           name: Test
           command: |
@@ -253,12 +249,10 @@ jobs:
       - checkout
       - attach_workspace:
           at: ~/
-      - restore_cache:
-          <<: *yarn_cache
+      - restore_cache: *yarn_cache
       - restore_cache: *build_final_cache_partial
       - run: *extract_build_archive
-      - run:
-          <<: *yarn_install
+      - run: *yarn_install
       - run: *setup_git
       - run:
           name: Checkout release branch
@@ -318,12 +312,10 @@ jobs:
       - checkout
       - attach_workspace:
           at: ~/
-      - restore_cache:
-          <<: *yarn_cache
+      - restore_cache: *yarn_cache
       - restore_cache: *build_final_cache_partial
       - run: *extract_build_archive
-      - run:
-          <<: *yarn_install
+      - run: *yarn_install
       - run: *setup_git
       - run:
           name: Install dependencies
@@ -340,12 +332,10 @@ jobs:
       - checkout
       - attach_workspace:
           at: ~/
-      - restore_cache:
-          <<: *yarn_cache
+      - restore_cache: *yarn_cache
       - restore_cache: *build_final_cache_partial
       - run: *extract_build_archive
-      - run:
-          <<: *yarn_install
+      - run: *yarn_install
       - run: *setup_git
       - run:
           name: Install dependencies
@@ -464,6 +454,7 @@ workflows:
           filters:
             branches:
               ignore: /release\/.*/
+
       - build:
           name: build_flux_capacitor
           requires:
