@@ -384,6 +384,28 @@ jobs:
               xargs git merge -m "Merge component release branches"
             git push -u origin HEAD
 
+  merge_final:
+    <<: *image
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/
+      - run: *setup_git
+      - run:
+          name: Merge into source branch
+          command: |
+            release_branch="$(cat ../branch-name)/master"
+
+            git checkout "$CIRCLE_BRANCH"
+            git pull origin "$CIRCLE_BRANCH"
+
+            # create a local branch first so the message is nicer
+            git fetch origin "${release_branch}:${release_branch}"
+
+            git merge --no-ff --no-edit "$release_branch"
+
+            git push -u origin HEAD
+
   publish:
     <<: *image
     steps:
@@ -990,3 +1012,7 @@ workflows:
             - publish_sayt
             - publish_sort
             - publish_template
+
+      - merge_final:
+          requires:
+            - merge_components
