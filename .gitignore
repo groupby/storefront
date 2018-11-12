@@ -13,6 +13,7 @@ packages/*/test/**/*.d.ts
 
 package-lock.json
 *.log
+**/.*.swp
 *.docs.json
 .DS_Store
 startup.js
