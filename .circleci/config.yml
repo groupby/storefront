@@ -60,6 +60,10 @@ defaults:
 version: 2.1
 
 jobs:
+  ## Initialization jobs
+
+  ### generate_cache_key_file
+  ### Stores the current time in a file to use in unique cache keys for this workflow.
   generate_cache_key_file:
     <<: *image
     working_directory: ~/
@@ -70,6 +74,10 @@ jobs:
           paths:
             - workflow-start
 
+  ## Build jobs
+
+  ### build: build_{package}
+  ### Builds {package} and stores them in a cache.
   build:
     <<: *image
     steps:
@@ -101,6 +109,9 @@ jobs:
           key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-{{ .Environment.CIRCLE_JOB }}-{{ epoch }}
           paths:
             - ~/build.tar
+
+  ### build_final
+  ### Generates a cache that includes all built packages.
   build_final:
     <<: *image
     steps:
@@ -170,6 +181,10 @@ jobs:
           paths:
             - ~/build.tar
 
+  ## Unit test jobs
+
+  ### unit_test: unit_test_{package}
+  ### Runs the tests for {package}.
   unit_test:
     <<: *image
     steps:
@@ -196,11 +211,18 @@ jobs:
 
             cd "packages/@storefront/${package}"
             yarn uploadCoverage
+
+  ### unit_test_final
+  ### No-op. This job exists to fan in all the unit test jobs.
   unit_test_final:
     <<: *image
     steps:
       - run: exit 0
 
+  ## Branch jobs
+
+  ### setup_release_branch
+  ### Creates the main release branch and pushes it up to the remote repo.
   setup_release_branch:
     <<: *image
     steps:
@@ -221,6 +243,8 @@ jobs:
           paths:
             - branch-prefix
 
+  ### setup_package_branch: setup_package_branch_{package}
+  ### Creates the release branch for {package} and pushes it up to the remote repo.
   setup_package_branch:
     <<: *image
     steps:
@@ -239,6 +263,10 @@ jobs:
           name: Push branch
           command: git push -u origin HEAD
 
+  ## Docs job
+
+  ### docs
+  ### Generates docs for all packages, then commits and pushes to the main release branch.
   docs:
     <<: *image
     steps:
@@ -265,6 +293,11 @@ jobs:
           name: Push
           command: git push -u origin HEAD
 
+  ## Dependency jobs
+
+  ### bump_dependency: bump_dependency_{source}__{target}
+  ### Bumps the {source} version in the package.json of {target} and updates the changelog of {target}.
+  ### The result is committed and pushed to the release branch for {target}.
   bump_dependency:
     <<: *image
     steps:
@@ -301,6 +334,11 @@ jobs:
               echo "Nothing to bump."
             fi
 
+  ## Release jobs
+
+  ### release_base: release_{package}
+  ### Generates release commits and tags for {package}, persisting release metadata in a releases file.
+  ### This is intended to be used by packages that need to release in series (i.e. flux-capacitor, core, and structure).
   release_base:
     <<: *image
     steps:
@@ -321,6 +359,9 @@ jobs:
           paths:
             - releases
 
+  ### release_components: release_{package}
+  ### Generates release commits and tags for {package} without persisting release metadata.
+  ### This is intended to be used by packages that can be released in parallel (i.e. components).
   release_components:
     <<: *image
     steps:
@@ -337,6 +378,10 @@ jobs:
           command: sudo apt install -y ed
       - run: *run_release_script
 
+  ## Merge jobs
+
+  ### merge_base: merge_{package}
+  ### Merge the {package} release branch into the main release branch.
   merge_base:
     <<: *image
     steps:
@@ -355,6 +400,8 @@ jobs:
             git merge "origin/${branch_prefix}/${package}"
             git push -u origin HEAD
 
+  ### merge_components
+  ### Merge all component release branches as an octopus merge.
   merge_components:
     <<: *image
     steps:
@@ -374,6 +421,8 @@ jobs:
               xargs git merge -m "Merge component release branches"
             git push -u origin HEAD
 
+  ### merge_final
+  ### Merge the main release branch into the current CircleCI branch.
   merge_final:
     <<: *image
     steps:
@@ -393,6 +442,10 @@ jobs:
 
             git push -u origin HEAD
 
+  ## Publish job
+
+  ### publish: publish_{package}
+  ### Publishes {package} to npm.
   publish:
     <<: *image
     steps:
@@ -421,6 +474,10 @@ jobs:
               echo "Nothing to publish."
             fi
 
+  ## Miscellaneous jobs
+
+  ### cleanup
+  ### Deletes the release branches.
   cleanup:
     <<: *image
     steps:
@@ -432,6 +489,8 @@ jobs:
           name: Delete release branches
           command: git branch -r --list "origin/$(cat ../branch-prefix)/*" | sed 's#origin/##' | xargs git push --delete origin
 
+  ### ensure_no_running_release
+  ### Ensure that no workflows are currently running for commits on `master`.
   ensure_no_running_release:
     <<: *image
     steps:
