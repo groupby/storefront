@@ -39,7 +39,7 @@ defaults:
     command: |
       package="${CIRCLE_JOB#release_}"
       package="${package//_/-}"
-      branch_prefix="$(cat ../branch-name)"
+      branch_prefix="$(cat ../branch-prefix)"
 
       git checkout "${branch_prefix}/${package}"
 
@@ -169,10 +169,6 @@ jobs:
           key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-all-{{ epoch }}
           paths:
             - ~/build.tar
-      - save_cache:
-          <<: *yarn_cache
-          paths:
-            - ~/.cache/yarn
 
   unit_test:
     <<: *image
@@ -212,18 +208,18 @@ jobs:
       - attach_workspace:
           at: ~/
       - run:
-          name: Compute branch name
-          command: echo "release/$(cat ../workflow-start)" > ../branch-name
+          name: Compute branch prefix
+          command: echo "release/$(cat ../workflow-start)" > ../branch-prefix
       - run:
           name: Create branch
-          command: git checkout -b "$(cat ../branch-name)/master"
+          command: git checkout -b "$(cat ../branch-prefix)/master"
       - run:
           name: Push branch
           command: git push -u origin HEAD
       - persist_to_workspace:
           root: ~/
           paths:
-            - branch-name
+            - branch-prefix
 
   setup_package_branch:
     <<: *image
@@ -236,7 +232,7 @@ jobs:
           command:
             package="${CIRCLE_JOB#setup_package_branch_}"
             package="${package//_/-}"
-            branch_prefix="$(cat ../branch-name)"
+            branch_prefix="$(cat ../branch-prefix)"
 
             git checkout -b "${branch_prefix}/${package}" "origin/${branch_prefix}/master"
       - run:
@@ -256,7 +252,7 @@ jobs:
       - run: *setup_git
       - run:
           name: Checkout release branch
-          command:  git checkout "$(cat ../branch-name)/master"
+          command:  git checkout "$(cat ../branch-prefix)/master"
       - run:
           name: Docs
           command: yarn docs
@@ -278,7 +274,7 @@ jobs:
       - run: *setup_git
       - run:
           name: Checkout release branch
-          command:  git checkout "$(cat ../branch-name)/master"
+          command:  git checkout "$(cat ../branch-prefix)/master"
       - run:
           name: Install dependencies
           command: sudo apt install -y ed
@@ -296,7 +292,7 @@ jobs:
             release_type="$({ grep -F "$src" ~/releases || true; } | cut -d ' ' -f 3)"
 
             if [[ -n "$release_type" ]]; then
-              git checkout "$(cat ../branch-name)/${target}"
+              git checkout "$(cat ../branch-prefix)/${target}"
 
               ./scripts/update-dependency.sh -n "$version" "$src" "$release_type" "$target"
 
@@ -354,7 +350,7 @@ jobs:
           command: |
             package="${CIRCLE_JOB#merge_}"
             package="${package//_/-}"
-            branch_prefix="$(cat ../branch-name)"
+            branch_prefix="$(cat ../branch-prefix)"
 
             git checkout "${branch_prefix}/master"
             git merge "origin/${branch_prefix}/${package}"
@@ -370,7 +366,7 @@ jobs:
       - run:
           name: Merge into release branch
           command: |
-            branch_prefix="$(cat ../branch-name)"
+            branch_prefix="$(cat ../branch-prefix)"
 
             git checkout "${branch_prefix}/master"
             find packages/@storefront/ -mindepth 1 -maxdepth 1 -type d |
@@ -389,7 +385,7 @@ jobs:
       - run:
           name: Merge into source branch
           command: |
-            release_branch="$(cat ../branch-name)/master"
+            release_branch="$(cat ../branch-prefix)/master"
 
             git checkout "$CIRCLE_BRANCH"
             git pull origin "$CIRCLE_BRANCH"
@@ -414,7 +410,7 @@ jobs:
           command: |
             package="${CIRCLE_JOB#publish_}"
             package="${package//_/-}"
-            branch_prefix="$(cat ../branch-name)"
+            branch_prefix="$(cat ../branch-prefix)"
 
             git checkout "${branch_prefix}/${package}"
 
@@ -435,7 +431,7 @@ jobs:
       - run: *setup_git
       - run:
           name: Delete release branches
-          command: git branch -r --list "origin/$(cat ../branch-name)/*" | sed 's#origin/##' | xargs git push --delete origin
+          command: git branch -r --list "origin/$(cat ../branch-prefix)/*" | sed 's#origin/##' | xargs git push --delete origin
 
   ensure_no_running_release:
     <<: *image
