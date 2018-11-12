@@ -111,10 +111,10 @@ elif npx semver -p -r "${version_range}" "${version}" > /dev/null; then
   exit 0
 fi
 
-# Update source package version
+# Update version of source dependency in target package.json
 ed -s package.json <<EOF
 H
-/@storefront\/${src}/s/[0-9]*\.[0-9]*\.[0-9]*\(-[^"]*\)\{0,1\}/${version}/
+/@storefront\/${src}/ s/[0-9]*\.[0-9]*\.[0-9]*\(-[^"]*\)\{0,1\}/${version}/
 w
 q
 EOF
