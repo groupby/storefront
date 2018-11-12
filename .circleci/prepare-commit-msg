@@ -1,3 +1,6 @@
 #!/bin/sh
 
-printf "\n[ci skip]\n" >> "$1"
+tmp_message_file="$(mktemp)"
+
+sed '1s/^/[ci skip] /' "$1" >"$tmp_message_file"
+mv "$tmp_message_file" "$1"
