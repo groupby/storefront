@@ -708,10 +708,14 @@ workflows:
           name: bump_dependency_core__breadcrumbs
           requires:
             - setup_package_branch_breadcrumbs
+      - bump_dependency:
+          name: bump_dependency_structure__breadcrumbs
+          requires:
+            - bump_dependency_core__breadcrumbs
       - release_components:
           name: release_breadcrumbs
           requires:
-            - bump_dependency_core__breadcrumbs
+            - bump_dependency_structure__breadcrumbs
       - publish:
           name: publish_breadcrumbs
           context: org-global
@@ -727,10 +731,14 @@ workflows:
           name: bump_dependency_core__collections
           requires:
             - setup_package_branch_collections
+      - bump_dependency:
+          name: bump_dependency_structure__collections
+          requires:
+            - bump_dependency_core__collections
       - release_components:
           name: release_collections
           requires:
-            - bump_dependency_core__collections
+            - bump_dependency_structure__collections
       - publish:
           name: publish_collections
           context: org-global
@@ -746,10 +754,14 @@ workflows:
           name: bump_dependency_core__details
           requires:
             - setup_package_branch_details
+      - bump_dependency:
+          name: bump_dependency_structure__details
+          requires:
+            - bump_dependency_core__details
       - release_components:
           name: release_details
           requires:
-            - bump_dependency_core__details
+            - bump_dependency_structure__details
       - publish:
           name: publish_details
           context: org-global
@@ -765,10 +777,14 @@ workflows:
           name: bump_dependency_core__did_you_mean
           requires:
             - setup_package_branch_did_you_mean
+      - bump_dependency:
+          name: bump_dependency_structure__did_you_mean
+          requires:
+            - bump_dependency_core__did_you_mean
       - release_components:
           name: release_did_you_mean
           requires:
-            - bump_dependency_core__did_you_mean
+            - bump_dependency_structure__did_you_mean
       - publish:
           name: publish_did_you_mean
           context: org-global
@@ -830,10 +846,14 @@ workflows:
           name: bump_dependency_core__page_size
           requires:
             - setup_package_branch_page_size
+      - bump_dependency:
+          name: bump_dependency_structure__page_size
+          requires:
+            - bump_dependency_core__page_size
       - release_components:
           name: release_page_size
           requires:
-            - bump_dependency_core__page_size
+            - bump_dependency_structure__page_size
       - publish:
           name: publish_page_size
           context: org-global
@@ -849,10 +869,14 @@ workflows:
           name: bump_dependency_core__paging
           requires:
             - setup_package_branch_paging
+      - bump_dependency:
+          name: bump_dependency_structure__paging
+          requires:
+            - bump_dependency_core__paging
       - release_components:
           name: release_paging
           requires:
-            - bump_dependency_core__paging
+            - bump_dependency_structure__paging
       - publish:
           name: publish_paging
           context: org-global
@@ -868,10 +892,14 @@ workflows:
           name: bump_dependency_core__products
           requires:
             - setup_package_branch_products
+      - bump_dependency:
+          name: bump_dependency_structure__products
+          requires:
+            - bump_dependency_core__products
       - release_components:
           name: release_products
           requires:
-            - bump_dependency_core__products
+            - bump_dependency_structure__products
       - publish:
           name: publish_products
           context: org-global
@@ -887,10 +915,14 @@ workflows:
           name: bump_dependency_core__query
           requires:
             - setup_package_branch_query
+      - bump_dependency:
+          name: bump_dependency_structure__query
+          requires:
+            - bump_dependency_core__query
       - release_components:
           name: release_query
           requires:
-            - bump_dependency_core__query
+            - bump_dependency_structure__query
       - publish:
           name: publish_query
           context: org-global
@@ -906,10 +938,14 @@ workflows:
           name: bump_dependency_core__recommendations
           requires:
             - setup_package_branch_recommendations
+      - bump_dependency:
+          name: bump_dependency_structure__recommendations
+          requires:
+            - bump_dependency_core__recommendations
       - release_components:
           name: release_recommendations
           requires:
-            - bump_dependency_core__recommendations
+            - bump_dependency_structure__recommendations
       - publish:
           name: publish_recommendations
           context: org-global
@@ -925,10 +961,14 @@ workflows:
           name: bump_dependency_core__record_count
           requires:
             - setup_package_branch_record_count
+      - bump_dependency:
+          name: bump_dependency_structure__record_count
+          requires:
+            - bump_dependency_core__record_count
       - release_components:
           name: release_record_count
           requires:
-            - bump_dependency_core__record_count
+            - bump_dependency_structure__record_count
       - publish:
           name: publish_record_count
           context: org-global
@@ -944,10 +984,14 @@ workflows:
           name: bump_dependency_core__related_queries
           requires:
             - setup_package_branch_related_queries
+      - bump_dependency:
+          name: bump_dependency_structure__related_queries
+          requires:
+            - bump_dependency_core__related_queries
       - release_components:
           name: release_related_queries
           requires:
-            - bump_dependency_core__related_queries
+            - bump_dependency_structure__related_queries
       - publish:
           name: publish_related_queries
           context: org-global
@@ -963,10 +1007,14 @@ workflows:
           name: bump_dependency_core__sayt
           requires:
             - setup_package_branch_sayt
+      - bump_dependency:
+          name: bump_dependency_structure__sayt
+          requires:
+            - bump_dependency_core__sayt
       - release_components:
           name: release_sayt
           requires:
-            - bump_dependency_core__sayt
+            - bump_dependency_structure__sayt
       - publish:
           name: publish_sayt
           context: org-global
@@ -982,10 +1030,14 @@ workflows:
           name: bump_dependency_core__sort
           requires:
             - setup_package_branch_sort
+      - bump_dependency:
+          name: bump_dependency_structure__sort
+          requires:
+            - bump_dependency_core__sort
       - release_components:
           name: release_sort
           requires:
-            - bump_dependency_core__sort
+            - bump_dependency_structure__sort
       - publish:
           name: publish_sort
           context: org-global
@@ -1001,10 +1053,14 @@ workflows:
           name: bump_dependency_core__template
           requires:
             - setup_package_branch_template
+      - bump_dependency:
+          name: bump_dependency_structure__template
+          requires:
+            - bump_dependency_core__template
       - release_components:
           name: release_template
           requires:
-            - bump_dependency_core__template
+            - bump_dependency_structure__template
       - publish:
           name: publish_template
           context: org-global
