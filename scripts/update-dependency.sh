@@ -132,6 +132,7 @@ w
 q
 EOF
 else
+  # Hierarchy below is from least to most significant
   hierarchy='from-git
 prerelease
 prepatch
@@ -141,6 +142,9 @@ minor
 premajor
 major'
 
+  # If the $source_release_type is of greater significance than $release_type,
+  # it will not be found between the top of the hierarchy and $release_type.
+  # Keep the release type with the greater significance.
   if ! sed "/^${release_type}\$/q" <<<"$hierarchy" | grep -q "^${source_release_type}\$"; then
     release_type="$source_release_type"
   fi
