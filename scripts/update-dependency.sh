@@ -40,6 +40,15 @@ target        The name of the target package.
 OPTIONS
 EOF
   sed -n '/^[[:space:]]*###/ s//   /p' "$BASH_SOURCE"
+  cat <<EOF
+
+EXIT CODES:
+- 0: Success
+- 1: General error
+- 2: Usage error
+- 3: Directories provided do not exist
+- 4: Unsupported release type
+EOF
 }
 
 while getopts ":n:h" opt; do
@@ -82,7 +91,7 @@ case "$release_type" in
     : # valid; do nothing
     ;;
   *)
-    die -c 3 "Unsupported release type: ${release_type}."
+    die -c 4 "Unsupported release type: ${release_type}."
     ;;
 esac
 
