@@ -6,6 +6,7 @@ import { productDetailsRequest } from '../../../../src/core/requests';
 import sagaCreator, { Tasks } from '../../../../src/core/sagas/product-details';
 import Requests from '../../../../src/core/sagas/requests';
 import Selectors from '../../../../src/core/selectors';
+import * as utils from '../../../../src/core/utils';
 import suite from '../../_suite';
 
 suite('product details saga', ({ expect, spy, stub }) => {
@@ -33,7 +34,8 @@ suite('product details saga', ({ expect, spy, stub }) => {
         const receiveDetails = spy(() => receiveDetailsAction);
         const template = { c: 'd' };
         const emit = spy();
-        const flux: any = { actions: { receiveDetails }, emit };
+        const replaceState = spy();
+        const flux: any = { actions: { receiveDetails }, emit, replaceState };
         const searchRequest = stub(Requests, 'search').returns({ records: [record] });
         const state = { a: 'b' };
         stub(productDetailsRequest, 'composeRequest').withArgs(state, {
@@ -53,6 +55,7 @@ suite('product details saga', ({ expect, spy, stub }) => {
         expect(emit).to.be.calledWithExactly(Events.BEACON_VIEW_PRODUCT, record);
         expect(receiveDetails).to.be.calledWith({ data: record.allMeta, template });
         task.next();
+        expect(replaceState).to.be.calledWith(utils.Routes.DETAILS);
       });
 
       it('should handle product not found', () => {
