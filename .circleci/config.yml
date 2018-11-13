@@ -1,0 +1,1154 @@
+defaults:
+  image: &image
+    docker:
+      - image: circleci/node
+  yarn_cache: &yarn_cache
+    key: yarn_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+  build_final_cache_partial: &build_final_cache_partial
+    key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-all-
+  archive_build: &archive_build
+    name: Archive build
+    command: tar cvf ../build.tar packages/@storefront/*/{dist,esnext}
+  extract_build_archive: &extract_build_archive
+    name: Extract archive
+    command: |
+      [[ ! -r ../build.tar ]] || tar xvf ../build.tar
+
+  yarn_install: &yarn_install
+    name: Install
+    command: yarn
+  setup_git: &setup_git
+    name: Setup Git user
+    command: |
+      git config --global user.email "ops@groupbyinc.com"
+      git config --global user.name "GroupBy Ops"
+      git config --global push.default simple
+
+      cp .circleci/prepare-commit-msg .git/hooks/prepare-commit-msg
+      chmod +x .git/hooks/prepare-commit-msg
+
+  requires_build_structure: &requires_build_structure
+    requires:
+      - build_structure
+  requires_build: &requires_build
+    requires:
+      - build_final
+
+  run_release_script: &run_release_script
+    name: Run release script
+    command: |
+      package="${CIRCLE_JOB#release_}"
+      package="${package//_/-}"
+      branch_prefix="$(cat ../branch-prefix)"
+
+      git checkout "${branch_prefix}/${package}"
+
+      cd "packages/@storefront/${package}"
+
+      touch ~/releases
+
+      if ../../../scripts/release.sh -o ~/releases; then
+        exit_code=0
+      elif ec=$?; (( ec == 4 )); then
+        exit_code=0
+      else
+        exit_code=$ec
+      fi
+
+      exit $exit_code
+
+version: 2.1
+
+jobs:
+  ## Initialization jobs
+
+  ### generate_cache_key_file
+  ### Stores the current time in a file to use in unique cache keys for this workflow.
+  generate_cache_key_file:
+    <<: *image
+    working_directory: ~/
+    steps:
+      - run: date +%s > workflow-start
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - workflow-start
+
+  ## Build jobs
+
+  ### build: build_{package}
+  ### Builds {package} and stores them in a cache.
+  build:
+    <<: *image
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/
+      - restore_cache: *yarn_cache
+      - restore_cache:
+          key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-
+      - run: *extract_build_archive
+      - run:
+          name: Dependencies
+          command: sudo apt install -y rsync
+      - run: *yarn_install
+      - save_cache:
+          <<: *yarn_cache
+          paths:
+            - ~/.cache/yarn
+      - run:
+          name: Build
+          command: |
+            package="${CIRCLE_JOB#build_}"
+            package="${package//_/-}"
+
+            cd "packages/@storefront/${package}"
+            yarn build
+      - run: *archive_build
+      - save_cache:
+          key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-{{ .Environment.CIRCLE_JOB }}-{{ epoch }}
+          paths:
+            - ~/build.tar
+
+  ### build_final
+  ### Generates a cache that includes all built packages.
+  build_final:
+    <<: *image
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/
+      - restore_cache:
+          key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_breadcrumbs-
+      - run: *extract_build_archive
+      - restore_cache:
+          key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_collections-
+      - run: *extract_build_archive
+      - restore_cache:
+          key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_core-
+      - run: *extract_build_archive
+      - restore_cache:
+          key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_details-
+      - run: *extract_build_archive
+      - restore_cache:
+          key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_did_you_mean-
+      - run: *extract_build_archive
+      - restore_cache:
+          key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_flux_capacitor-
+      - run: *extract_build_archive
+      - restore_cache:
+          key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_infinite_scroll-
+      - run: *extract_build_archive
+      - restore_cache:
+          key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_navigation-
+      - run: *extract_build_archive
+      - restore_cache:
+          key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_page_size-
+      - run: *extract_build_archive
+      - restore_cache:
+          key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_paging-
+      - run: *extract_build_archive
+      - restore_cache:
+          key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_products-
+      - run: *extract_build_archive
+      - restore_cache:
+          key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_query-
+      - run: *extract_build_archive
+      - restore_cache:
+          key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_recommendations-
+      - run: *extract_build_archive
+      - restore_cache:
+          key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_record_count-
+      - run: *extract_build_archive
+      - restore_cache:
+          key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_related_queries-
+      - run: *extract_build_archive
+      - restore_cache:
+          key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_sayt-
+      - run: *extract_build_archive
+      - restore_cache:
+          key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_sort-
+      - run: *extract_build_archive
+      - restore_cache:
+          key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_structure-
+      - run: *extract_build_archive
+      - restore_cache:
+          key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-build_template-
+      - run: *extract_build_archive
+      - run: *archive_build
+      - save_cache:
+          key: build_cache-v{{ .Environment.CI_CACHE_VERSION }}-{{ .Branch }}-{{ .Revision }}-{{ checksum "../workflow-start" }}-all-{{ epoch }}
+          paths:
+            - ~/build.tar
+
+  ## Unit test jobs
+
+  ### unit_test: unit_test_{package}
+  ### Runs the tests for {package}.
+  unit_test:
+    <<: *image
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/
+      - restore_cache: *yarn_cache
+      - restore_cache: *build_final_cache_partial
+      - run: *extract_build_archive
+      - run: *yarn_install
+      - run:
+          name: Test
+          command: |
+            package="${CIRCLE_JOB#unit_test_}"
+            package="${package//_/-}"
+
+            cd "packages/@storefront/${package}"
+            yarn test
+      - run:
+          name: Upload coverage
+          command: |
+            package="${CIRCLE_JOB#unit_test_}"
+            package="${package//_/-}"
+
+            cd "packages/@storefront/${package}"
+            yarn uploadCoverage
+
+  ### unit_test_final
+  ### No-op. This job exists to fan in all the unit test jobs.
+  unit_test_final:
+    <<: *image
+    steps:
+      - run: exit 0
+
+  ## Branch jobs
+
+  ### setup_release_branch
+  ### Creates the main release branch and pushes it up to the remote repo.
+  setup_release_branch:
+    <<: *image
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Compute branch prefix
+          command: echo "release/$(cat ../workflow-start)" > ../branch-prefix
+      - run:
+          name: Create branch
+          command: git checkout -b "$(cat ../branch-prefix)/master"
+      - run:
+          name: Push branch
+          command: git push -u origin HEAD
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - branch-prefix
+
+  ### setup_package_branch: setup_package_branch_{package}
+  ### Creates the release branch for {package} and pushes it up to the remote repo.
+  setup_package_branch:
+    <<: *image
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Create branch
+          command:
+            package="${CIRCLE_JOB#setup_package_branch_}"
+            package="${package//_/-}"
+            branch_prefix="$(cat ../branch-prefix)"
+
+            git checkout -b "${branch_prefix}/${package}" "origin/${branch_prefix}/master"
+      - run:
+          name: Push branch
+          command: git push -u origin HEAD
+
+  ## Docs job
+
+  ### docs
+  ### Generates docs for all packages, then commits and pushes to the main release branch.
+  docs:
+    <<: *image
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/
+      - restore_cache: *yarn_cache
+      - restore_cache: *build_final_cache_partial
+      - run: *extract_build_archive
+      - run: *yarn_install
+      - run: *setup_git
+      - run:
+          name: Checkout release branch
+          command:  git checkout "$(cat ../branch-prefix)/master"
+      - run:
+          name: Docs
+          command: yarn docs
+      - run:
+          name: Commit
+          command: |
+            git add docs
+            git commit -m "Generate docs"
+      - run:
+          name: Push
+          command: git push -u origin HEAD
+
+  ## Dependency jobs
+
+  ### bump_dependency: bump_dependency_{source}__{target}
+  ### Bumps the {source} version in the package.json of {target} and updates the changelog of {target}.
+  ### The result is committed and pushed to the release branch for {target}.
+  bump_dependency:
+    <<: *image
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/
+      - run: *setup_git
+      - run:
+          name: Checkout release branch
+          command:  git checkout "$(cat ../branch-prefix)/master"
+      - run:
+          name: Install dependencies
+          command: sudo apt install -y ed
+      - run:
+          name: Bump package dependency
+          command: |
+            package="${CIRCLE_JOB#bump_dependency_}"
+            src="${package%%__*}"
+            src="${src//_/-}"
+            target="${package##*__}"
+            target="${target//_/-}"
+
+            version="$({ grep -F "$src" ~/releases || true; } | cut -d ' ' -f 2)"
+            release_type="$({ grep -F "$src" ~/releases || true; } | cut -d ' ' -f 3)"
+
+            if [[ -n "$release_type" ]]; then
+              git checkout "$(cat ../branch-prefix)/${target}"
+
+              ./scripts/update-dependency.sh -n "$version" "$src" "$release_type" "$target"
+
+              git commit -am "Bump ${src} dependency in ${target} to ${version}"
+              git push -u origin HEAD
+            else
+              echo "Nothing to bump."
+            fi
+
+  ## Release jobs
+
+  ### release_base: release_{package}
+  ### Generates release commits and tags for {package}, persisting release metadata in a releases file.
+  ### This is intended to be used by packages that need to release in series (i.e. flux-capacitor, core, and structure).
+  release_base:
+    <<: *image
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/
+      - restore_cache: *yarn_cache
+      - restore_cache: *build_final_cache_partial
+      - run: *extract_build_archive
+      - run: *yarn_install
+      - run: *setup_git
+      - run:
+          name: Install dependencies
+          command: sudo apt install -y ed
+      - run: *run_release_script
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - releases
+
+  ### release_components: release_{package}
+  ### Generates release commits and tags for {package} without persisting release metadata.
+  ### This is intended to be used by packages that can be released in parallel (i.e. components).
+  release_components:
+    <<: *image
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/
+      - restore_cache: *yarn_cache
+      - restore_cache: *build_final_cache_partial
+      - run: *extract_build_archive
+      - run: *yarn_install
+      - run: *setup_git
+      - run:
+          name: Install dependencies
+          command: sudo apt install -y ed
+      - run: *run_release_script
+
+  ## Merge jobs
+
+  ### merge_base: merge_{package}
+  ### Merge the {package} release branch into the main release branch.
+  merge_base:
+    <<: *image
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/
+      - run: *setup_git
+      - run:
+          name: Merge into release branch
+          command: |
+            package="${CIRCLE_JOB#merge_}"
+            package="${package//_/-}"
+            branch_prefix="$(cat ../branch-prefix)"
+
+            git checkout "${branch_prefix}/master"
+            git merge "origin/${branch_prefix}/${package}"
+            git push -u origin HEAD
+
+  ### merge_components
+  ### Merge all component release branches as an octopus merge.
+  merge_components:
+    <<: *image
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/
+      - run: *setup_git
+      - run:
+          name: Merge into release branch
+          command: |
+            branch_prefix="$(cat ../branch-prefix)"
+
+            git checkout "${branch_prefix}/master"
+            find packages/@storefront/ -mindepth 1 -maxdepth 1 -type d |
+              sed 's#^packages/@storefront#'"origin/${branch_prefix}"'#' |
+              sort |
+              xargs git merge -m "Merge component release branches"
+            git push -u origin HEAD
+
+  ### merge_final
+  ### Merge the main release branch into the current CircleCI branch.
+  merge_final:
+    <<: *image
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/
+      - run: *setup_git
+      - run:
+          name: Merge into source branch
+          command: |
+            release_branch="$(cat ../branch-prefix)/master"
+
+            git checkout "$CIRCLE_BRANCH"
+            git pull origin "$CIRCLE_BRANCH"
+
+            git merge --no-ff -m "Merge branch '${release_branch}' into ${CIRCLE_BRANCH}" "origin/${release_branch}"
+
+            git push -u origin HEAD
+
+  ## Publish job
+
+  ### publish: publish_{package}
+  ### Publishes {package} to npm.
+  publish:
+    <<: *image
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/
+      - restore_cache: *build_final_cache_partial
+      - run: *extract_build_archive
+      - run:
+          name: Authenticate with registry
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
+      - run:
+          name: Publish
+          command: |
+            package="${CIRCLE_JOB#publish_}"
+            package="${package//_/-}"
+            branch_prefix="$(cat ../branch-prefix)"
+
+            git checkout "${branch_prefix}/${package}"
+
+            cd "packages/@storefront/${package}"
+
+            if grep -q -F "$package" ~/releases; then
+              ../../../scripts/publish.sh -t tmp
+            else
+              echo "Nothing to publish."
+            fi
+
+  ## Miscellaneous jobs
+
+  ### cleanup
+  ### Deletes the release branches.
+  cleanup:
+    <<: *image
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/
+      - run: *setup_git
+      - run:
+          name: Delete release branches
+          command: git branch -r --list "origin/$(cat ../branch-prefix)/*" | sed 's#origin/##' | xargs git push --delete origin
+
+  ### ensure_no_running_release
+  ### Ensure that no workflows are currently running for commits on `master`.
+  ensure_no_running_release:
+    <<: *image
+    steps:
+      - run:
+          name: Install utilities
+          command: sudo apt install jq
+      - run: |
+          curl -s "https://circleci.com/api/v1.1/project/github/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/tree/master?limit=1" |
+          jq '.[0] | (.lifecycle == "finished" and .workflows.job_name == "cleanup")' |
+          grep -q true
+
+workflows:
+  version: 2
+
+  build_test_release:
+    jobs:
+      - generate_cache_key_file:
+          filters:
+            branches:
+              ignore: /release\/.*/
+
+      - build:
+          name: build_flux_capacitor
+          requires:
+            - generate_cache_key_file
+      - build:
+          name: build_core
+          requires:
+            - build_flux_capacitor
+      - build:
+          name: build_structure
+          requires:
+            - build_core
+      - build:
+          name: build_breadcrumbs
+          <<: *requires_build_structure
+      - build:
+          name: build_collections
+          <<: *requires_build_structure
+      - build:
+          name: build_details
+          <<: *requires_build_structure
+      - build:
+          name: build_did_you_mean
+          <<: *requires_build_structure
+      - build:
+          name: build_infinite_scroll
+          <<: *requires_build_structure
+      - build:
+          name: build_navigation
+          <<: *requires_build_structure
+      - build:
+          name: build_page_size
+          <<: *requires_build_structure
+      - build:
+          name: build_paging
+          <<: *requires_build_structure
+      - build:
+          name: build_products
+          <<: *requires_build_structure
+      - build:
+          name: build_query
+          <<: *requires_build_structure
+      - build:
+          name: build_recommendations
+          <<: *requires_build_structure
+      - build:
+          name: build_record_count
+          <<: *requires_build_structure
+      - build:
+          name: build_related_queries
+          <<: *requires_build_structure
+      - build:
+          name: build_sayt
+          <<: *requires_build_structure
+      - build:
+          name: build_sort
+          <<: *requires_build_structure
+      - build:
+          name: build_template
+          <<: *requires_build_structure
+      - build_final:
+          requires:
+            - build_flux_capacitor
+            - build_core
+            - build_structure
+            - build_breadcrumbs
+            - build_collections
+            - build_details
+            - build_did_you_mean
+            - build_infinite_scroll
+            - build_navigation
+            - build_page_size
+            - build_paging
+            - build_products
+            - build_query
+            - build_recommendations
+            - build_record_count
+            - build_related_queries
+            - build_sayt
+            - build_sort
+            - build_template
+
+      - unit_test:
+          name: unit_test_flux_capacitor
+          <<: *requires_build
+      - unit_test:
+          name: unit_test_core
+          <<: *requires_build
+      - unit_test:
+          name: unit_test_structure
+          <<: *requires_build
+      - unit_test:
+          name: unit_test_breadcrumbs
+          <<: *requires_build
+      - unit_test:
+          name: unit_test_collections
+          <<: *requires_build
+      - unit_test:
+          name: unit_test_details
+          <<: *requires_build
+      - unit_test:
+          name: unit_test_did_you_mean
+          <<: *requires_build
+      - unit_test:
+          name: unit_test_infinite_scroll
+          <<: *requires_build
+      - unit_test:
+          name: unit_test_navigation
+          <<: *requires_build
+      - unit_test:
+          name: unit_test_page_size
+          <<: *requires_build
+      - unit_test:
+          name: unit_test_paging
+          <<: *requires_build
+      - unit_test:
+          name: unit_test_products
+          <<: *requires_build
+      - unit_test:
+          name: unit_test_query
+          <<: *requires_build
+      - unit_test:
+          name: unit_test_recommendations
+          <<: *requires_build
+      - unit_test:
+          name: unit_test_record_count
+          <<: *requires_build
+      - unit_test:
+          name: unit_test_related_queries
+          <<: *requires_build
+      - unit_test:
+          name: unit_test_sayt
+          <<: *requires_build
+      - unit_test:
+          name: unit_test_sort
+          <<: *requires_build
+      - unit_test:
+          name: unit_test_template
+          <<: *requires_build
+      - unit_test_final:
+          requires:
+            - unit_test_flux_capacitor
+            - unit_test_core
+            - unit_test_structure
+            - unit_test_breadcrumbs
+            - unit_test_collections
+            - unit_test_details
+            - unit_test_did_you_mean
+            - unit_test_infinite_scroll
+            - unit_test_navigation
+            - unit_test_page_size
+            - unit_test_paging
+            - unit_test_products
+            - unit_test_query
+            - unit_test_recommendations
+            - unit_test_record_count
+            - unit_test_related_queries
+            - unit_test_sayt
+            - unit_test_sort
+            - unit_test_template
+
+      - ensure_no_running_release:
+          requires:
+            - unit_test_final
+          filters:
+            branches:
+              ignore:
+                - master
+
+      - setup_release_branch:
+          requires:
+            - unit_test_final
+          filters:
+            branches:
+              only:
+                - master
+
+      - docs:
+          requires:
+            - setup_release_branch
+
+      # flux-capacitor
+      - setup_package_branch:
+          name: setup_package_branch_flux_capacitor
+          requires:
+            - docs
+      - release_base:
+          name: release_flux_capacitor
+          requires:
+            - setup_package_branch_flux_capacitor
+      - merge_base:
+          name: merge_flux_capacitor
+          requires:
+            - release_flux_capacitor
+      - publish:
+          name: publish_flux_capacitor
+          context: org-global
+          requires:
+            - merge_flux_capacitor
+
+      # core
+      - setup_package_branch:
+          name: setup_package_branch_core
+          requires:
+            - publish_flux_capacitor
+      - bump_dependency:
+          name: bump_dependency_flux_capacitor__core
+          requires:
+            - setup_package_branch_core
+      - release_base:
+          name: release_core
+          requires:
+            - bump_dependency_flux_capacitor__core
+      - merge_base:
+          name: merge_core
+          requires:
+            - release_core
+      - publish:
+          name: publish_core
+          context: org-global
+          requires:
+            - merge_core
+
+      # structure
+      - setup_package_branch:
+          name: setup_package_branch_structure
+          requires:
+            - publish_core
+      - bump_dependency:
+          name: bump_dependency_core__structure
+          requires:
+            - setup_package_branch_structure
+      - release_base:
+          name: release_structure
+          requires:
+            - bump_dependency_core__structure
+      - merge_base:
+          name: merge_structure
+          requires:
+            - release_structure
+      - publish:
+          name: publish_structure
+          context: org-global
+          requires:
+            - merge_structure
+
+      # breadcrumbs
+      - setup_package_branch:
+          name: setup_package_branch_breadcrumbs
+          requires:
+            - publish_structure
+      - bump_dependency:
+          name: bump_dependency_core__breadcrumbs
+          requires:
+            - setup_package_branch_breadcrumbs
+      - bump_dependency:
+          name: bump_dependency_structure__breadcrumbs
+          requires:
+            - bump_dependency_core__breadcrumbs
+      - release_components:
+          name: release_breadcrumbs
+          requires:
+            - bump_dependency_structure__breadcrumbs
+      - publish:
+          name: publish_breadcrumbs
+          context: org-global
+          requires:
+            - release_breadcrumbs
+
+      # collections
+      - setup_package_branch:
+          name: setup_package_branch_collections
+          requires:
+            - publish_structure
+      - bump_dependency:
+          name: bump_dependency_core__collections
+          requires:
+            - setup_package_branch_collections
+      - bump_dependency:
+          name: bump_dependency_structure__collections
+          requires:
+            - bump_dependency_core__collections
+      - release_components:
+          name: release_collections
+          requires:
+            - bump_dependency_structure__collections
+      - publish:
+          name: publish_collections
+          context: org-global
+          requires:
+            - release_collections
+
+      # details
+      - setup_package_branch:
+          name: setup_package_branch_details
+          requires:
+            - publish_structure
+      - bump_dependency:
+          name: bump_dependency_core__details
+          requires:
+            - setup_package_branch_details
+      - bump_dependency:
+          name: bump_dependency_structure__details
+          requires:
+            - bump_dependency_core__details
+      - release_components:
+          name: release_details
+          requires:
+            - bump_dependency_structure__details
+      - publish:
+          name: publish_details
+          context: org-global
+          requires:
+            - release_details
+
+      # did-you-mean
+      - setup_package_branch:
+          name: setup_package_branch_did_you_mean
+          requires:
+            - publish_structure
+      - bump_dependency:
+          name: bump_dependency_core__did_you_mean
+          requires:
+            - setup_package_branch_did_you_mean
+      - bump_dependency:
+          name: bump_dependency_structure__did_you_mean
+          requires:
+            - bump_dependency_core__did_you_mean
+      - release_components:
+          name: release_did_you_mean
+          requires:
+            - bump_dependency_structure__did_you_mean
+      - publish:
+          name: publish_did_you_mean
+          context: org-global
+          requires:
+            - release_did_you_mean
+
+      # infinite-scroll
+      - setup_package_branch:
+          name: setup_package_branch_infinite_scroll
+          requires:
+            - publish_structure
+      - bump_dependency:
+          name: bump_dependency_core__infinite_scroll
+          requires:
+            - setup_package_branch_infinite_scroll
+      - bump_dependency:
+          name: bump_dependency_structure__infinite_scroll
+          requires:
+            - bump_dependency_core__infinite_scroll
+      - release_components:
+          name: release_infinite_scroll
+          requires:
+            - bump_dependency_structure__infinite_scroll
+      - publish:
+          name: publish_infinite_scroll
+          context: org-global
+          requires:
+            - release_infinite_scroll
+
+      # navigation
+      - setup_package_branch:
+          name: setup_package_branch_navigation
+          requires:
+            - publish_structure
+      - bump_dependency:
+          name: bump_dependency_core__navigation
+          requires:
+            - setup_package_branch_navigation
+      - bump_dependency:
+          name: bump_dependency_structure__navigation
+          requires:
+            - bump_dependency_core__navigation
+      - release_components:
+          name: release_navigation
+          requires:
+            - bump_dependency_structure__navigation
+      - publish:
+          name: publish_navigation
+          context: org-global
+          requires:
+            - release_navigation
+
+      # page-size
+      - setup_package_branch:
+          name: setup_package_branch_page_size
+          requires:
+            - publish_structure
+      - bump_dependency:
+          name: bump_dependency_core__page_size
+          requires:
+            - setup_package_branch_page_size
+      - bump_dependency:
+          name: bump_dependency_structure__page_size
+          requires:
+            - bump_dependency_core__page_size
+      - release_components:
+          name: release_page_size
+          requires:
+            - bump_dependency_structure__page_size
+      - publish:
+          name: publish_page_size
+          context: org-global
+          requires:
+            - release_page_size
+
+      # paging
+      - setup_package_branch:
+          name: setup_package_branch_paging
+          requires:
+            - publish_structure
+      - bump_dependency:
+          name: bump_dependency_core__paging
+          requires:
+            - setup_package_branch_paging
+      - bump_dependency:
+          name: bump_dependency_structure__paging
+          requires:
+            - bump_dependency_core__paging
+      - release_components:
+          name: release_paging
+          requires:
+            - bump_dependency_structure__paging
+      - publish:
+          name: publish_paging
+          context: org-global
+          requires:
+            - release_paging
+
+      # products
+      - setup_package_branch:
+          name: setup_package_branch_products
+          requires:
+            - publish_structure
+      - bump_dependency:
+          name: bump_dependency_core__products
+          requires:
+            - setup_package_branch_products
+      - bump_dependency:
+          name: bump_dependency_structure__products
+          requires:
+            - bump_dependency_core__products
+      - release_components:
+          name: release_products
+          requires:
+            - bump_dependency_structure__products
+      - publish:
+          name: publish_products
+          context: org-global
+          requires:
+            - release_products
+
+      # query
+      - setup_package_branch:
+          name: setup_package_branch_query
+          requires:
+            - publish_structure
+      - bump_dependency:
+          name: bump_dependency_core__query
+          requires:
+            - setup_package_branch_query
+      - bump_dependency:
+          name: bump_dependency_structure__query
+          requires:
+            - bump_dependency_core__query
+      - release_components:
+          name: release_query
+          requires:
+            - bump_dependency_structure__query
+      - publish:
+          name: publish_query
+          context: org-global
+          requires:
+            - release_query
+
+      # recommendations
+      - setup_package_branch:
+          name: setup_package_branch_recommendations
+          requires:
+            - publish_structure
+      - bump_dependency:
+          name: bump_dependency_core__recommendations
+          requires:
+            - setup_package_branch_recommendations
+      - bump_dependency:
+          name: bump_dependency_structure__recommendations
+          requires:
+            - bump_dependency_core__recommendations
+      - release_components:
+          name: release_recommendations
+          requires:
+            - bump_dependency_structure__recommendations
+      - publish:
+          name: publish_recommendations
+          context: org-global
+          requires:
+            - release_recommendations
+
+      # record-count
+      - setup_package_branch:
+          name: setup_package_branch_record_count
+          requires:
+            - publish_structure
+      - bump_dependency:
+          name: bump_dependency_core__record_count
+          requires:
+            - setup_package_branch_record_count
+      - bump_dependency:
+          name: bump_dependency_structure__record_count
+          requires:
+            - bump_dependency_core__record_count
+      - release_components:
+          name: release_record_count
+          requires:
+            - bump_dependency_structure__record_count
+      - publish:
+          name: publish_record_count
+          context: org-global
+          requires:
+            - release_record_count
+
+      # related-queries
+      - setup_package_branch:
+          name: setup_package_branch_related_queries
+          requires:
+            - publish_structure
+      - bump_dependency:
+          name: bump_dependency_core__related_queries
+          requires:
+            - setup_package_branch_related_queries
+      - bump_dependency:
+          name: bump_dependency_structure__related_queries
+          requires:
+            - bump_dependency_core__related_queries
+      - release_components:
+          name: release_related_queries
+          requires:
+            - bump_dependency_structure__related_queries
+      - publish:
+          name: publish_related_queries
+          context: org-global
+          requires:
+            - release_related_queries
+
+      # sayt
+      - setup_package_branch:
+          name: setup_package_branch_sayt
+          requires:
+            - publish_structure
+      - bump_dependency:
+          name: bump_dependency_core__sayt
+          requires:
+            - setup_package_branch_sayt
+      - bump_dependency:
+          name: bump_dependency_structure__sayt
+          requires:
+            - bump_dependency_core__sayt
+      - release_components:
+          name: release_sayt
+          requires:
+            - bump_dependency_structure__sayt
+      - publish:
+          name: publish_sayt
+          context: org-global
+          requires:
+            - release_sayt
+
+      # sort
+      - setup_package_branch:
+          name: setup_package_branch_sort
+          requires:
+            - publish_structure
+      - bump_dependency:
+          name: bump_dependency_core__sort
+          requires:
+            - setup_package_branch_sort
+      - bump_dependency:
+          name: bump_dependency_structure__sort
+          requires:
+            - bump_dependency_core__sort
+      - release_components:
+          name: release_sort
+          requires:
+            - bump_dependency_structure__sort
+      - publish:
+          name: publish_sort
+          context: org-global
+          requires:
+            - release_sort
+
+      # template
+      - setup_package_branch:
+          name: setup_package_branch_template
+          requires:
+            - publish_structure
+      - bump_dependency:
+          name: bump_dependency_core__template
+          requires:
+            - setup_package_branch_template
+      - bump_dependency:
+          name: bump_dependency_structure__template
+          requires:
+            - bump_dependency_core__template
+      - release_components:
+          name: release_template
+          requires:
+            - bump_dependency_structure__template
+      - publish:
+          name: publish_template
+          context: org-global
+          requires:
+            - release_template
+
+      - merge_components:
+          requires:
+            - publish_breadcrumbs
+            - publish_collections
+            - publish_details
+            - publish_did_you_mean
+            - publish_infinite_scroll
+            - publish_navigation
+            - publish_page_size
+            - publish_paging
+            - publish_products
+            - publish_query
+            - publish_recommendations
+            - publish_record_count
+            - publish_related_queries
+            - publish_sayt
+            - publish_sort
+            - publish_template
+
+      - merge_final:
+          requires:
+            - merge_components
+
+      - cleanup:
+          requires:
+            - merge_final

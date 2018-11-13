@@ -14,14 +14,16 @@
   "homepage": "https://github.com/groupby/storefront#readme",
   "license": "MIT",
   "workspaces": [
-    "packages/flux-capacitor",
-    "packages/core",
-    "packages/structure",
-    "packages/!(flux-capacitor|core|structure)"
+    "packages/@storefront/flux-capacitor",
+    "packages/@storefront/core",
+    "packages/@storefront/structure",
+    "packages/@storefront/!(flux-capacitor|core|structure)"
   ],
+  "scripts": {
+    "docs": "typedoc --readme none ."
+  },
   "devDependencies": {
     "@storefront/testing": "^1.2.1",
-    "@team-griffin/install-self-peers": "^1.1.1",
     "@types/node": "^8.0.18",
     "babel": "^6.23.0",
     "babel-preset-stage-3": "^6.24.1",
@@ -38,7 +40,8 @@
     "tslint": "^5.11.0",
     "tslint-config-groupby": "^1.0.0",
     "tslint-config-prettier": "^1.13.0",
-    "typedoc": "^0.9.0",
+    "typedoc": "^0.13.0",
+    "typedoc-plugin-monorepo": "github:groupby/typedoc-plugin-monorepo",
     "typescript": "^3.1.3"
   }
 }
