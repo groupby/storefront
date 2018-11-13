@@ -498,7 +498,7 @@ jobs:
           name: Install utilities
           command: sudo apt install jq
       - run: |
-          curl "https://circleci.com/api/v1.1/project/github/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/tree/master?limit=1" |
+          curl -s "https://circleci.com/api/v1.1/project/github/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/tree/master?limit=1" |
           jq '.[0] | (.lifecycle == "finished" and .workflows.job_name == "cleanup")' |
           grep -q true
 
