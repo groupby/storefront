@@ -67,8 +67,9 @@ namespace UrlUtils {
       collection = Selectors.collection(store),
       refinements: urlRefinements = [],
       sort: urlSort = Selectors.sort(store),
+      ...rest
     } = state;
-    const request: Partial<Request> = {};
+    const request: Partial<Request> = rest;
 
     if (query) {
       request.query = query;
@@ -134,22 +135,22 @@ namespace UrlUtils {
   };
 
   // tslint:disable-next-line max-line-length
-  export const getAllIds = (state: Store.Indexed<Store.Navigation> | Store.AvailableNavigations, request: UrlBeautifier.SearchUrlState) => {
+  export const getAllIds = (state: Store.Indexed<Store.Navigation> | Store.AvailableNavigations, { refinements = [] }) => {
     return state.allIds.concat(
-      ...request.refinements.map(({ field }) => field).filter((field) => !state.allIds.includes(field))
+      ...refinements.map(({ field }) => field).filter((field) => !state.allIds.includes(field))
     );
   };
 
   // tslint:disable-next-line max-line-length
-  export const getById = (state: Store.Indexed<Store.Navigation> | Store.AvailableNavigations, request: UrlBeautifier.SearchUrlState) => {
+  export const getById = (state: Store.Indexed<Store.Navigation> | Store.AvailableNavigations, { refinements = [] }) => {
     const byId = { ...state.byId };
 
-    request.refinements.forEach((refinement) => {
+    refinements.forEach((refinement) => {
       const field = refinement.field;
       const transformed =
         'low' in refinement ? { low: refinement['low'], high: refinement['high'] } : { value: refinement['value'] };
-      if (byId[field]) {
-        const navigation = byId[field];
+      const navigation = byId[field];
+      if (navigation) {
         const existingIndex = navigation.refinements
           .findIndex((ref) =>
             Adapters.Search.refinementsMatch(<any>transformed, <any>ref, navigation.range ? 'Range' : 'Value')

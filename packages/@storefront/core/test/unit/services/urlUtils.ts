@@ -145,6 +145,7 @@ suite('URL Service', ({ expect, spy, stub }) => {
           collection,
           refinements,
           sort,
+          a: 'b',
         };
         const store: any = {};
         stub(Adapters.Request, 'extractRefinement').returnsArg(1);
@@ -154,6 +155,7 @@ suite('URL Service', ({ expect, spy, stub }) => {
           collection,
           refinements,
           sort,
+          a: 'b',
         });
       });
 
@@ -324,6 +326,71 @@ suite('URL Service', ({ expect, spy, stub }) => {
         expect(Utils.pastPurchaseStateToRequest(state, store)).to.eql({
           collection,
           query,
+        });
+      });
+    });
+
+    describe('getAllIds()', () => {
+      it('should add unique request refinements to state allIds', () => {
+        const state: any = {
+          allIds: ['a', 'b', 'c'],
+        };
+        const request = { refinements: [{ field: 'd' }, { field: 'b' }, { field: 'e' }] };
+
+        expect(Utils.getAllIds(state, request)).to.eql([...state.allIds, 'd', 'e']);
+      });
+
+      it('should return state allIds when no request refinements exist', () => {
+        const state: any = {
+          allIds: ['a', 'b', 'c'],
+        };
+
+        expect(Utils.getAllIds(state, {})).to.eql(state.allIds);
+      });
+    });
+
+    describe('getById()', () => {
+      it('should add refinements to state byId', () => {
+        const state: any = {
+          byId: {
+            d: {
+              range: false,
+              refinements: [{ value: 'ok' }],
+              selected: [],
+            },
+            b: {
+              range: true,
+              refinements: [],
+              selected: [],
+            }
+          },
+        };
+        const request = {
+          refinements: [
+            { field: 'd', value: 'ok', type: 'Value' },
+            { field: 'b', low: 0, high: 10, type: 'Range' },
+            { field: 'e', value: 'hm', type: 'Value' }
+          ]
+        };
+
+        expect(Utils.getById(state, request)).to.eql({
+          d: {
+            range: false,
+            refinements: [{ value: 'ok' }],
+            selected: [0],
+          },
+          b: {
+            range: true,
+            refinements: [{ low: 0, high: 10 }],
+            selected: [0],
+          },
+          e: {
+            field: 'e',
+            label: 'e',
+            range: false,
+            refinements: [{ value: 'hm' }],
+            selected: [0],
+          }
         });
       });
     });
