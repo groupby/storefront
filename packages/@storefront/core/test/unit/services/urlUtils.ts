@@ -355,7 +355,7 @@ suite('URL Service', ({ expect, spy, stub }) => {
           byId: {
             d: {
               range: false,
-              refinements: [{ value: 'ok', type: 'Value' }],
+              refinements: [{ value: 'ok' }],
               selected: [],
             },
             b: {
@@ -375,10 +375,12 @@ suite('URL Service', ({ expect, spy, stub }) => {
 
         expect(Utils.getById(state, request)).to.eql({
           d: {
+            range: false,
             refinements: [{ value: 'ok' }],
             selected: [0],
           },
           b: {
+            range: true,
             refinements: [{ low: 0, high: 10 }],
             selected: [0],
           },
