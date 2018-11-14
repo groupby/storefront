@@ -1,6 +1,6 @@
 {
   "name": "@storefront/structure",
-  "version": "1.41.0",
+  "version": "1.41.1",
   "description": "Structural components for creating StoreFront components",
   "keywords": [
     "storefront",
