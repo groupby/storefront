@@ -149,8 +149,8 @@ namespace UrlUtils {
       const field = refinement.field;
       const transformed =
         'low' in refinement ? { low: refinement['low'], high: refinement['high'] } : { value: refinement['value'] };
-      if (byId[field]) {
-        const navigation = byId[field];
+      const navigation = byId[field];
+      if (navigation) {
         const existingIndex = navigation.refinements
           .findIndex((ref) =>
             Adapters.Search.refinementsMatch(<any>transformed, <any>ref, navigation.range ? 'Range' : 'Value')
