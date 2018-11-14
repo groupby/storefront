@@ -57,6 +57,6 @@
     "singleQuote": true
   },
   "peerDependencies": {
-    "@storefront/core": "~1.47.0"
+    "@storefront/core": "~1.51.5"
   }
 }
