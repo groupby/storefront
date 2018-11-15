@@ -478,7 +478,7 @@ jobs:
             cd "packages/@storefront/${package}"
 
             if grep -q -F "$package" ~/releases; then
-              ../../../scripts/publish.sh -t tmp
+              ../../../scripts/publish.sh
             else
               echo "Nothing to publish."
             fi
