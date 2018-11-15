@@ -119,7 +119,7 @@ w
 q
 EOF
 
-source_release_type="$(sed -n '/## \[Unreleased\] \[\(.*\)\]/ s//\1/p' CHANGELOG.md)"
+source_release_type="$(sed -n '/^## \[Unreleased\] \[\(.*\)\]/ s//\1/p' CHANGELOG.md)"
 
 # Add Unreleased section if necessary
 if [[ -z "$source_release_type" ]]; then
@@ -157,7 +157,7 @@ EOF
 fi
 
 # Add Changed section if necessary
-if ! sed -n '/## \[/,//p' CHANGELOG.md | sed '$d' | grep -q '^### Changed'; then
+if ! ed -s CHANGELOG.md <<<$'1;/^## \\[/;//-p' | grep -q '^### Changed'; then
   ed -s CHANGELOG.md <<EOF
 H
 /^## \\[Unreleased/a
