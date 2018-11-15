@@ -285,13 +285,16 @@ jobs:
           name: Docs
           command: yarn docs
       - run:
-          name: Commit
+          name: Commit and push
           command: |
             git add docs
-            git commit -m "Generate docs"
-      - run:
-          name: Push
-          command: git push -u origin HEAD
+
+            if git status --porcelain | grep -q '^M'; then
+              git commit -m "Generate docs"
+              git push -u origin HEAD
+            else
+              echo "No changes to commit."
+            fi
 
   ## Dependency jobs
 
@@ -328,8 +331,14 @@ jobs:
 
               ./scripts/update-dependency.sh -n "$version" "$src" "$release_type" "$target"
 
-              git commit -am "Bump ${src} dependency in ${target} to ${version}"
-              git push -u origin HEAD
+              git add "packages/@storefront/${target}"/{package.json,CHANGELOG.md}
+
+              if git status --porcelain | grep -q '^M'; then
+                git commit -am "Bump ${src} dependency in ${target} to ${version}"
+                git push -u origin HEAD
+              else
+                echo "No changes to commit."
+              fi
             else
               echo "Nothing to bump."
             fi
