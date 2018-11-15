@@ -464,6 +464,9 @@ jobs:
       - restore_cache: *build_final_cache_partial
       - run: *extract_build_archive
       - run:
+          name: Install utilities
+          command: sudo apt install jq
+      - run:
           name: Authenticate with registry
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
       - run:
@@ -477,7 +480,7 @@ jobs:
 
             cd "packages/@storefront/${package}"
 
-            if grep -q -F "$package" ~/releases; then
+            if ! npm view ".@$(jq -r .version package.json)" | grep -q .; then
               ../../../scripts/publish.sh
             else
               echo "Nothing to publish."
