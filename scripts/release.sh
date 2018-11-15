@@ -109,7 +109,7 @@ git commit -m "Bump ${package_name} to version ${new_version}" package.json CHAN
 
 info "Tagging commit..."
 tag_name="${package_name}/${new_version}"
-sed -n '/## \[/,//p' CHANGELOG.md | sed -e '$d' -e 's/^##* *//' -e $'1a\\\n\\\n' |
+ed -s CHANGELOG.md <<<$'1;/^## \\[/;//-p' | sed -e 's/^##* *//' -e $'1a\\\n\\\n' |
 git tag -a "$tag_name" -F -
 
 info "Pushing..."
