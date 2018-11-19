@@ -22,7 +22,7 @@ class Template {
   }
 
   updateZones = (template: Store.Template) => {
-    if (this.state.name !== template.name) {
+    if (this.state.name !== template.name || this.state.rule !== template.rule) {
       const isActive = template.name === this.props.target;
 
       this.set({
