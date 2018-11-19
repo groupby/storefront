@@ -14,7 +14,7 @@ export const extendable = <T extends Utils>(extendUtils: (utils: Utils) => T) =>
   suite<T, any>((tests) => {
     let sandbox: sinon.SinonSandbox;
 
-    beforeEach(() => (sandbox = sinon.sandbox.create()));
+    beforeEach(() => (sandbox = sinon.createSandbox()));
     afterEach(() => sandbox.restore());
 
     tests(

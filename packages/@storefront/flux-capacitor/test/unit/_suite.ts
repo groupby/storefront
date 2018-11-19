@@ -12,7 +12,7 @@ export interface Utils {
 export default suite<Utils, any>((tests) => {
   let sandbox: sinon.SinonSandbox;
 
-  beforeEach(() => sandbox = sinon.sandbox.create());
+  beforeEach(() => sandbox = sinon.createSandbox());
   afterEach(() => sandbox.restore());
 
   tests({
