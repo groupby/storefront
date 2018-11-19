@@ -9,19 +9,17 @@ import suite from '../../_suite';
 import Phase from '../../../../src/core/tag/phase';
 
 suite('Tag', ({ expect, spy, stub }) => {
+  let tag: any;
+
+  beforeEach(() => {
+    tag = new Tag();
+  });
+
   describe('Base Tag', () => {
-    let tag: Tag;
     // let tagAlias: Alias;
     let alias: sinon.SinonStub;
     let lifecycleAttach: sinon.SinonStub;
     let attach: sinon.SinonSpy;
-
-    beforeEach(() => {
-      // tagAlias = <any>{ attach: (attach = spy()) };
-      // alias = stub(aliasing, 'default').returns(tagAlias);
-      // lifecycleAttach = stub(Lifecycle, 'attach');
-      tag = new Tag();
-    });
 
     describe('set()', () => {
       it('should call update with state directly if state is true', () => {
@@ -174,16 +172,10 @@ suite('Tag', ({ expect, spy, stub }) => {
   });
 
   describe('subscribeWith', () => {
-    let tag: any;
-
-    beforeEach(() => {
-      tag = new Tag();
-    });
-
     it('should invoke `flux.all` with the events and callback', () => {
       const events = ['a', 'b', 'c'];
-      const all = sinon.spy();
-      const cb = sinon.spy();
+      const all: any = spy();
+      const cb = spy();
       tag.flux = { all };
       tag.one = () => null;
 
@@ -211,6 +203,25 @@ suite('Tag', ({ expect, spy, stub }) => {
       tag.subscribeWith(['a', 'b', 'c'], () => null);
 
       expect(tag.one).to.be.calledWith(Phase.UNMOUNT, tag._removeLookups);
+    });
+  });
+
+  describe('_removeLookups()', () => {
+    it('should call allOff for each lookup', () => {
+       const events = ['a', 'b', 'c', 'd', 'e', 'f'];     
+       const cb = () => null;     
+       const cb2 = () => null;     
+       const cb3 = () => null;     
+       tag._lookups = [ 
+         [ [events[0], events[1]], cb ], 
+         [ [events[2]], cb2 ], 
+         [ [events[3], events[4], events[5]], cb3 ] 
+       ];
+       tag.flux = { allOff: spy() };
+       
+       tag._removeLookups();
+
+       expect(tag.flux.allOff.args).to.eql(tag._lookups);
     });
   });
 });
