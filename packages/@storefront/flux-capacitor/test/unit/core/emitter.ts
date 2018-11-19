@@ -5,7 +5,7 @@ import Events from '../../../src/core/events';
 import * as utils from '../../../src/core/utils';
 import suite from '../_suite';
 
-suite.only('Emitter', ({ expect, spy, stub }) => {
+suite('Emitter', ({ expect, spy, stub }) => {
   let emitter;
 
   beforeEach(() => {
