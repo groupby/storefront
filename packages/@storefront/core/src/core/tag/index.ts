@@ -17,7 +17,7 @@ class Tag<P extends object = any, S extends object = any, A extends object = any
   _provides: Record<string, ((props: P & Tag.Props, state: S) => (aliases: A) => void)> = {};
   _consumes: string[] = [];
   _eventHandlers: [string, () => void][] = [];
-  _lookups: [string, () => void][] = [];
+  _lookups: [string[], () => void][] = [];
   isInitialized: boolean = false;
   props: P & Tag.Props = <any>{};
   state: S = <any>{};
@@ -52,8 +52,13 @@ class Tag<P extends object = any, S extends object = any, A extends object = any
   }
 
   subscribeWith<T>(events: string[], handler: (data?: T) => void) {
-    const key = this.flux.all(events, handler);
-    this._lookups.push([key, handler as any]);
+    this.flux.all(events, handler);
+
+    if (this._lookups.length === 0) {
+      this.one(Phase.UNMOUNT, this._removeLookups);
+    }
+
+    this._lookups.push([events, handler as any]);
   }
 
   provide(alias: string, resolve: (props: P, state: S, aliases: A) => void = (_, state) => state) {
@@ -79,6 +84,8 @@ class Tag<P extends object = any, S extends object = any, A extends object = any
   }
 
   _removeEventHandlers = () => this._eventHandlers.forEach(([event, handler]) => this.flux.off(event, handler));
+
+  _removeLookups = () => this._lookups.forEach(([events, handler]) => this.flux.allOff(events, handler));
 }
 
 interface Tag<P extends object, S extends object, A extends object>

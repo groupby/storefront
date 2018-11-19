@@ -6,6 +6,7 @@ import Tag, { TAG_DESC, TAG_META } from '../../../../src/core/tag';
 import TagUtils from '../../../../src/core/tag/utils';
 import * as utils from '../../../../src/core/utils';
 import suite from '../../_suite';
+import Phase from '../../../../src/core/tag/phase';
 
 suite('Tag', ({ expect, spy, stub }) => {
   describe('Base Tag', () => {
@@ -184,6 +185,7 @@ suite('Tag', ({ expect, spy, stub }) => {
       const all = sinon.spy();
       const cb = sinon.spy();
       tag.flux = { all };
+      tag.one = () => null;
 
       tag.subscribeWith(events, cb);
 
@@ -192,13 +194,23 @@ suite('Tag', ({ expect, spy, stub }) => {
 
     it('it should update the _lookups array', () => {
       const events = ['a', 'b', 'c'];
-      const key = 'a:b:c';
       const cb = spy();
-      tag.flux = { all: () => key };
+      tag.flux = { all: () => null };
+      tag.one = () => null;
 
       tag.subscribeWith(events, cb);
 
-      expect(tag._lookups).to.eql([[key, cb]]);
+      expect(tag._lookups).to.eql([[events, cb]]);
+    });
+
+    it('should register the unmount listener', () => {
+      tag.one = spy();
+      tag.flux = { all: () => null };
+      tag._removeLookups = spy();
+
+      tag.subscribeWith(['a', 'b', 'c'], () => null);
+
+      expect(tag.one).to.be.calledWith(Phase.UNMOUNT, tag._removeLookups);
     });
   });
 });
