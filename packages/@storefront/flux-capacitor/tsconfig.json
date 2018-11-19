@@ -6,7 +6,9 @@
       "ES2016.Array.Include"
     ],
     "types": [
-      "node"
+      "node",
+      "mocha",
+      "sinon-chai"
     ],
     "module": "commonjs",
     "moduleResolution": "node",
