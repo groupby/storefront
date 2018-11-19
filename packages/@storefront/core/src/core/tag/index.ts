@@ -17,6 +17,7 @@ class Tag<P extends object = any, S extends object = any, A extends object = any
   _provides: Record<string, ((props: P & Tag.Props, state: S) => (aliases: A) => void)> = {};
   _consumes: string[] = [];
   _eventHandlers: [string, () => void][] = [];
+  _lookups: [string, () => void][] = [];
   isInitialized: boolean = false;
   props: P & Tag.Props = <any>{};
   state: S = <any>{};
@@ -51,7 +52,8 @@ class Tag<P extends object = any, S extends object = any, A extends object = any
   }
 
   subscribeWith<T>(events: string[], handler: (data?: T) => void) {
-      this.flux.all(events, handler);
+    const key = this.flux.all(events, handler);
+    this._lookups.push([key, handler as any]);
   }
 
   provide(alias: string, resolve: (props: P, state: S, aliases: A) => void = (_, state) => state) {

@@ -189,5 +189,16 @@ suite('Tag', ({ expect, spy, stub }) => {
 
       expect(all).to.be.calledWith(events, cb);
     });
+
+    it('it should update the _lookups array', () => {
+      const events = ['a', 'b', 'c'];
+      const key = 'a:b:c';
+      const cb = spy();
+      tag.flux = { all: () => key };
+
+      tag.subscribeWith(events, cb);
+
+      expect(tag._lookups).to.eql([[key, cb]]);
+    });
   });
 });
