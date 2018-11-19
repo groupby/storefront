@@ -38,6 +38,8 @@ class Emitter extends EventEmitter {
     };
 
     this._lookups = events.reduce((acc, ev) => ({...acc, [ev]: this._lookups[ev] ? [...this._lookups[ev], key] : [key] }), this._lookups);
+
+    return key;
   }
 
   allOff(events: string[], cb: () => void) {

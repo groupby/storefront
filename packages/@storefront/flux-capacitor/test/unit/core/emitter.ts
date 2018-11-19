@@ -86,6 +86,15 @@ suite('Emitter', ({ expect, spy, stub }) => {
 
       expect(emitter._barriers[key]).to.eql({ events: { a: 0, b: 0 }, cbs: [{ cb, context: that }] });
     });
+
+    it('should return the key' , () => {
+      const events = ['a', 'b'];
+      const key = 'a:b';
+
+      const result = emitter.all(events, () => {});
+
+      expect(result).to.eq(key);
+    });
   });
 
   describe('allOff', () => {
