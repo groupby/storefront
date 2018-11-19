@@ -171,4 +171,23 @@ suite('Tag', ({ expect, spy, stub }) => {
       expect(clazz[TAG_DESC]).to.eq(description);
     });
   });
+
+  describe('subscribeWith', () => {
+    let tag: any;
+
+    beforeEach(() => {
+      tag = new Tag();
+    });
+
+    it('should invoke `flux.all` with the events and callback', () => {
+      const events = ['a', 'b', 'c'];
+      const all = sinon.spy();
+      const cb = sinon.spy();
+      tag.flux = { all };
+
+      tag.subscribeWith(events, cb);
+
+      expect(all).to.be.calledWith(events, cb);
+    });
+  });
 });

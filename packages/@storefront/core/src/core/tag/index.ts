@@ -50,6 +50,10 @@ class Tag<P extends object = any, S extends object = any, A extends object = any
     this.flux.once(event, handler);
   }
 
+  subscribeWith<T>(events: string[], handler: (data?: T) => void) {
+      this.flux.all(events, handler);
+  }
+
   provide(alias: string, resolve: (props: P, state: S, aliases: A) => void = (_, state) => state) {
     if (this.isInitialized) {
       throw new Error('cannot provide a new alias after the compontent has been initialized');
