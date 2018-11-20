@@ -204,6 +204,18 @@ suite('Tag', ({ expect, spy, stub }) => {
 
       expect(tag.one).to.be.calledWith(Phase.UNMOUNT, tag._removeLookups);
     });
+
+    it('should not re-register the unmount listener', () => {
+      tag.one = spy();
+      tag.flux = { all: () => null };
+      tag._lookups = [
+        [['a', 'b', 'c'], () => null]
+      ];
+
+      tag.subscribeWith(['d', 'e', 'f'], () => null);
+
+      expect(tag.one).to.not.be.called;
+    });
   });
 
   describe('_removeLookups()', () => {

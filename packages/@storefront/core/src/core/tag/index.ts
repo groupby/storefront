@@ -40,6 +40,7 @@ class Tag<P extends object = any, S extends object = any, A extends object = any
 
   subscribe<T>(event: string, handler: (data?: T) => void) {
     this.flux.on(event, handler);
+
     if (this._eventHandlers.length === 0) {
       this.one(Phase.UNMOUNT, this._removeEventHandlers);
     }
