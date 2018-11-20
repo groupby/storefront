@@ -220,17 +220,17 @@ suite('Tag', ({ expect, spy, stub }) => {
 
   describe('_removeLookups()', () => {
     it('should call allOff for each lookup', () => {
-       const events = ['a', 'b', 'c', 'd', 'e', 'f'];     
-       const cb = () => null;     
-       const cb2 = () => null;     
-       const cb3 = () => null;     
-       tag._lookups = [ 
-         [ [events[0], events[1]], cb ], 
-         [ [events[2]], cb2 ], 
-         [ [events[3], events[4], events[5]], cb3 ] 
+       const events = ['a', 'b', 'c', 'd', 'e', 'f'];
+       const cb = () => null;
+       const cb2 = () => null;
+       const cb3 = () => null;
+       tag._lookups = [
+         [ [events[0], events[1]], cb ],
+         [ [events[2]], cb2 ],
+         [ [events[3], events[4], events[5]], cb3 ]
        ];
        tag.flux = { allOff: spy() };
-       
+
        tag._removeLookups();
 
        expect(tag.flux.allOff.args).to.eql(tag._lookups);
