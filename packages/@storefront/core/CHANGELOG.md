@@ -6,7 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] [minor]
 ### Added
-- SF-1170: Add support for subscribeWith() method.
+- SF-1170: Add support for `subscribeWith()` method.
+  - Allows components to invoke callbacks after each event in a given collection has been emitted at least once.
 
 ## [1.51.5] - 2018-11-14
 ### Fixed

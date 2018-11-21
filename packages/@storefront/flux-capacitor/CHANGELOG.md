@@ -6,7 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] [minor]
 ### Added
-- SF-1170: Add support for all() and allOff() methods.
+- SF-1170: Add support for `all()` and `allOff()` methods.
+  - `all()` invokes a callback after each event in a given collection has been emitted at least once.
+  - `allOff()` removes a callback associated with a given collection of events.
 
 ## [1.63.1] - 2018-11-07
 ### Fixed
@@ -17,4 +19,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - SF-1146: Add pastPurchases and recommendations overrides.
   - Overrides accept either an object or function, like all the other overrides.
-
