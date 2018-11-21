@@ -105,7 +105,7 @@ suite('Emitter', ({ expect, spy, stub }) => {
       expect(emitter._barriers[key].cbs).to.eql([]);
     });
 
-    it('it should not affect unrelated barriers', () => {
+    it('should not affect unrelated barriers', () => {
       const events1 = ['a', 'b'];
       const events2 = ['b', 'c'];
       const key1 = 'a:b';
