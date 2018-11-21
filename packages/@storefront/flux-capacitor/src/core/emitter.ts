@@ -15,42 +15,41 @@ class Emitter extends EventEmitter {
     const keys = this._lookups[event] || [];
 
     keys.forEach((key) => {
-      const inc = this._barriers[key].events[event] + 1;
-      this._barriers[key].events = { ...this._barriers[key].events, [event]: inc };
+      this._barriers[key].events[event]++;
 
-      const shouldInvoke = Object.keys(this._barriers[key].events).every(ev => this._barriers[key].events[ev] >= 1);
+      const shouldInvoke = Object.keys(this._barriers[key].events).every((ev) => this._barriers[key].events[ev] > 0);
 
       if (shouldInvoke) {
-        this._barriers[key].cbs.forEach(({ cb, context }) => cb.apply(context));
-        this._barriers[key].events = Object.keys(this._barriers[key].events).reduce((acc, ev ) => ({ ...acc, [ev]: 0 }), {});
+        this._barriers[key].callbacks.forEach(({ callback, context }) => callback.apply(context));
+        this._barriers[key].events = Object.keys(this._barriers[key].events).reduce((acc, ev) => ({ ...acc, [ev]: 0 }), {});
       }
     });
 
     return result;
   }
 
-  all(events: string[], cb: () => void, context = this) {
+  all(events: string[], callback: () => void, context = this) {
     const key = this.generateKey(events);
 
     this._barriers[key] = {
       events: events.reduce((acc, ev) => ({ ...acc, [ev]: 0 }), {}),
-      cbs: this._barriers[key] ? [...this._barriers[key].cbs, { cb, context }] : [{ cb, context }],
+      callbacks: this._barriers[key] ? [...this._barriers[key].callbacks, { callback, context }] : [{ callback, context }],
     };
 
-    this._lookups = events.reduce((acc, ev) => ({...acc, [ev]: this._lookups[ev] ? [...this._lookups[ev], key] : [key] }), this._lookups);
+    this._lookups = events.reduce((acc, ev) => ({ ...acc, [ev]: this._lookups[ev] ? [...this._lookups[ev], key] : [key] }), this._lookups);
 
     return this;
   }
 
-  allOff(events: string[], cb: () => void) {
+  allOff(events: string[], callback: () => void) {
     const key = this.generateKey(events);
     const barrier = this._barriers[key];
 
     if (barrier) {
-      this._barriers[key].cbs = this._barriers[key].cbs.filter(({ cb: fn }) => fn !== cb);
+      barrier.callbacks = barrier.callbacks.filter(({ callback: fn }) => fn !== callback);
 
-      events.forEach(ev => {
-        this._lookups[ev] = this._lookups[ev].filter(k => k !== key);
+      events.forEach((ev) => {
+        this._lookups[ev] = this._lookups[ev].filter((k) => k !== key);
       });
     }
 
@@ -62,18 +61,18 @@ class Emitter extends EventEmitter {
   }
 }
 
-export interface E {
+export interface Events {
   [key: string]: number;
 }
 
 export interface Listener {
  context: any;
- cb: () => void;
+ callback: () => void;
 }
 
 export interface Barrier {
-  events: E;
-  cbs: Listener[];
+  events: Events;
+  callbacks: Listener[];
 }
 
 export interface Barriers {
