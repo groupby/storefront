@@ -21,22 +21,26 @@ class Emitter extends EventEmitter {
 
       if (shouldInvoke) {
         this._barriers[key].callbacks.forEach(({ callback, context }) => callback.apply(context));
-        this._barriers[key].events = Object.keys(this._barriers[key].events).reduce((acc, ev) => ({ ...acc, [ev]: 0 }), {});
+        // tslint:disable-next-line max-line-length
+        this._barriers[key].events = Object.keys(this._barriers[key].events).reduce((acc, ev) => Object.assign(acc, { [ev]: 0 }), {});
       }
     });
 
     return result;
   }
 
-  all(events: string[], callback: () => void, context = this) {
+  all(events: string[], callback: () => void, context: any = this) {
     const key = this.generateKey(events);
 
     this._barriers[key] = {
       events: events.reduce((acc, ev) => ({ ...acc, [ev]: 0 }), {}),
-      callbacks: this._barriers[key] ? [...this._barriers[key].callbacks, { callback, context }] : [{ callback, context }],
+      callbacks: this._barriers[key]
+        ? [...this._barriers[key].callbacks, { callback, context }]
+        : [{ callback, context }],
     };
 
-    this._lookups = events.reduce((acc, ev) => ({ ...acc, [ev]: this._lookups[ev] ? [...this._lookups[ev], key] : [key] }), this._lookups);
+    // tslint:disable-next-line max-line-length
+    this._lookups = events.reduce((acc, ev) => Object.assign(acc, { [ev]: this._lookups[ev] ? [...this._lookups[ev], key] : [key] }), this._lookups);
 
     return this;
   }
