@@ -51,34 +51,62 @@ suite('Template', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvideA
   });
 
   describe('updateZones()', () => {
-    it('should set active state', () => {
-      const target = 'banner';
-      const rule = 'toy banner';
+    it('should allow `default` to be targeted', () => {
+      const name = 'default';
+      const zones = {};
+      const set = (template.set = spy());
+      template.state = <any>{ name: undefined };
+      template.props = { target: name };
+
+      template.updateZones(<any>{ name, zones });
+
+      expect(set).to.be.calledWith({ name, zones, isActive: true, rule: undefined });
+    });
+
+    it('should update the active state based on the template name', () => {
+      const name = 'templateB';
+      const rule = 'Rule A';
       const zones = { a: 'b' };
       const set = (template.set = spy());
-      template.props = { target };
+      template.props = { target: name };
+      template.state = <any>{ name: 'templateA', rule };
 
-      template.updateZones(<any>{ name: target, rule, zones });
+      template.updateZones(<any>{ name, rule, zones });
 
-      expect(set).to.be.calledWith({ zones, rule, isActive: true });
+      expect(set).to.be.calledWith({ name, rule, zones, isActive: true });
+    });
+
+    it('should update the active state based on the rule name', () => {
+      const name = 'templateA';
+      const rule = 'Rule B';
+      const zones = { a: 'b' };
+      const set = (template.set = spy());
+      template.props = { target: name };
+      template.state = <any>{ name, rule: 'Rule A' };
+
+      template.updateZones(<any>{ name, rule, zones });
+
+      expect(set).to.be.calledWith({ name, rule, zones, isActive: true });
     });
 
     it('should set inactive state', () => {
       const name = 'banner';
       const set = (template.set = spy());
-      template.state = <any>{ rule: 'toy banner' };
+      template.state = <any>{ name: 'toy banner' };
       template.props = { target: 'default' };
 
       template.updateZones(<any>{ name });
 
-      expect(set).to.be.calledWith({ zones: {}, rule: undefined, isActive: false });
+      expect(set).to.be.calledWith({ zones: {}, name, rule: undefined, isActive: false });
     });
 
     it('should not call set()', () => {
+      const name = 'top-rated';
+      const rule = 'Top Rated Rule';
       template.set = () => expect.fail();
-      template.props = { target: 'top rated' };
+      template.state = <any>{ name, rule };
 
-      template.updateZones(<any>{ name: 'banner' });
+      template.updateZones(<any>{ name, rule });
     });
   });
 });
