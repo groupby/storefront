@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] [minor]
 ### Changed
-- SF-1190: Re-render component on rule or template change.
+- SF-1190: Re-render `gb-template` component on rule or template change.
 
 ## [1.29.7] - 2018-10-23
 ### Fixed
