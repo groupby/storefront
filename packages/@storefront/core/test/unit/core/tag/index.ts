@@ -225,9 +225,9 @@ suite('Tag', ({ expect, spy, stub }) => {
        const cb2 = () => null;
        const cb3 = () => null;
        tag._lookups = [
-         [ [events[0], events[1]], cb ],
-         [ [events[2]], cb2 ],
-         [ [events[3], events[4], events[5]], cb3 ]
+         [[events[0], events[1]], cb],
+         [[events[2]], cb2],
+         [[events[3], events[4], events[5]], cb3]
        ];
        tag.flux = { allOff: spy() };
 
