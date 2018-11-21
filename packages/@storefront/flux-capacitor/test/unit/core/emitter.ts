@@ -26,7 +26,7 @@ suite('Emitter', ({ expect, spy, stub }) => {
   describe('all()', () => {
     it('should set the _barriers object with the events and callback', () => {
       const events = ['a', 'b'];
-      const cb = () => ({});
+      const cb = () => null;
 
       emitter.all(events, cb);
 
@@ -44,13 +44,19 @@ suite('Emitter', ({ expect, spy, stub }) => {
 
     it('should update the callbacks array when an event already exists in _barriers', () => {
       const events = ['a', 'b'];
-      const callback1 = () => ({});
-      const callback2 = () => ({});
+      const callback1 = () => null;
+      const callback2 = () => null;
 
       emitter.all(events, callback1);
       emitter.all(events, callback2);
 
-      expect(emitter._barriers['a:b']).to.eql({ events: { a: 0, b: 0 }, cbs: [{ cb: callback1, context: emitter }, { cb: callback2, context: emitter }]  });
+      expect(emitter._barriers['a:b']).to.eql({
+        events: { a: 0, b: 0 },
+        cbs: [
+          { cb: callback1, context: emitter },
+          { cb: callback2, context: emitter }
+        ]
+      });
     });
 
     it('should sort the events before generating the key', () => {
@@ -58,10 +64,10 @@ suite('Emitter', ({ expect, spy, stub }) => {
       const events2 = ['b', 'a'];
       const key = 'a:b';
 
-      emitter.all(events1, () => {});
-      emitter.all(events2, () => {});
+      emitter.all(events1, () => null);
+      emitter.all(events2, () => null);
 
-      expect(emitter._barriers[key].cbs.length).to.equal(2);
+      expect(emitter._barriers[key].cbs).to.have.length(2);
     });
 
     it('should update the _lookups array with a new key', () => {
@@ -96,7 +102,7 @@ suite('Emitter', ({ expect, spy, stub }) => {
     it('should remove the target callback', () => {
       const events = ['a', 'b'];
       const key = 'a:b';
-      const cb = () => {};
+      const cb = () => null;
       emitter._lookups = { a: [key], b: [key] };
       emitter._barriers[key] = { cbs: [{ cb, context: emitter }] };
 
@@ -108,7 +114,6 @@ suite('Emitter', ({ expect, spy, stub }) => {
     it('should not affect unrelated barriers', () => {
       const events1 = ['a', 'b'];
       const events2 = ['b', 'c'];
-      const key1 = 'a:b';
       const key2 = 'b:c';
       const cb = spy();
       emitter.all(events1, cb);
@@ -132,7 +137,7 @@ suite('Emitter', ({ expect, spy, stub }) => {
       const events = ['a', 'b'];
       const key = 'a:b';
 
-      emitter.all(events, () => {});
+      emitter.all(events, () => null);
       emitter.emit('a', null);
 
       expect(emitter._barriers[key].events.a).to.equal(1);
@@ -145,7 +150,7 @@ suite('Emitter', ({ expect, spy, stub }) => {
 
       emitter.all(events, cb1);
       emitter.all(events, cb2);
-      events.forEach(ev => emitter.emit(ev, null));
+      events.forEach((ev) => emitter.emit(ev, null));
 
       expect(cb1).to.have.been.called;
       expect(cb2).to.have.been.called;
@@ -157,14 +162,13 @@ suite('Emitter', ({ expect, spy, stub }) => {
       const cb = spy();
 
       emitter.all(events, cb);
-      events.forEach(ev => emitter.emit(ev, null));
+      events.forEach((ev) => emitter.emit(ev, null));
 
-      expect(Object.keys(emitter._barriers[key].events).map(k => emitter._barriers[key].events[k])).to.eql([0, 0]);
+      expect(Object.keys(emitter._barriers[key].events).map((k) => emitter._barriers[key].events[k])).to.eql([0, 0]);
     });
 
     it('should invoke the callback with the correct context', () => {
       const events = ['a', 'b'];
-      const key = 'a:b';
       const cb = spy();
       const that = { a: 'b' };
 
