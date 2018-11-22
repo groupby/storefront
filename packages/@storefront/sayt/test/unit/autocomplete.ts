@@ -17,6 +17,7 @@ suite('Autocomplete', ({ expect, spy, stub, itShouldProvideAlias }) => {
   beforeEach(() => {
     Autocomplete.prototype.flux = <any>{};
     select = Autocomplete.prototype.select = stub();
+    select.withArgs(Selectors.isFetching, 'search').returns(true);
     select.withArgs(Selectors.autocompleteSuggestions).returns(SUGGESTIONS);
     select.withArgs(Selectors.autocompleteCategoryField).returns(CATEGORY);
     select.withArgs(Selectors.autocompleteCategoryValues).returns(CATEGORY_VALUES);
@@ -312,6 +313,24 @@ suite('Autocomplete', ({ expect, spy, stub, itShouldProvideAlias }) => {
       });
 
       expect(emit).to.be.calledWith('sayt:show');
+    });
+
+    it('should do nothing when search isFetching', () => {
+      const emit = spy();
+      const setActivation = autocomplete.setActivation = spy();
+      select = Autocomplete.prototype.select = <any>spy();
+      autocomplete.flux = <any>{ emit };
+      autocomplete.set = () => null;
+
+      autocomplete.updateSuggestions(<any>{
+        suggestions,
+        navigations,
+        products: [],
+        category: { values: categoryValues },
+      });
+
+      expect(select).to.be.calledWith(Selectors.isFetching, 'search');
+      expect(emit).to.not.be.calledWith('sayt:show');
     });
   });
 

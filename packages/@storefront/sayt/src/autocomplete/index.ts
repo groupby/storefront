@@ -86,7 +86,7 @@ class Autocomplete {
     this.set({ suggestions, navigations, categoryValues, products, selected: -1 });
     if (suggestions.length + navigations.length + categoryValues.length + products.length === 0) {
       this.flux.emit('sayt:hide');
-    } else {
+    } else if (this.select(Selectors.isFetching, 'search')) {
       this.flux.emit('sayt:show');
     }
   };
