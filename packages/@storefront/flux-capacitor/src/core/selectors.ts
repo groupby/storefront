@@ -364,6 +364,11 @@ namespace Selectors {
     state.session.config;
 
   /**
+   * Returns a boolean value indicating the current fetching state
+   * Accepted values conform to the {@link @storefront/flux-capacitor#IsFetching | IsFetching properties }
+   */
+
+  /**
    * Returns the current recommendations product suggestions.
    */
   export const recommendationsProducts = (state: Store.State) =>

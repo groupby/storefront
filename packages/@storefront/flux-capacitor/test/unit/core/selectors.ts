@@ -639,6 +639,14 @@ suite('selectors', ({ expect, stub }) => {
     });
   });
 
+  describe('isFetching', () => {
+    it('should return the state and a boolean indicating if the app is fetching', () => {
+      const state = {};
+
+      expect(Selectors.isFetching(<any>{ state })).to.eq(state);
+    });
+  });
+
   describe('recommendationsProducts()', () => {
     it('should return the currently recommended products', () => {
       const products = ['a', 'b', 'c'];
