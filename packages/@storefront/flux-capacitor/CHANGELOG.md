@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] [minor]
 ### Added
-- SF-1170: Add support for `all()` and `allOff()` methods.
+- SF-1170: Update `FluxCapacitor` class to expose `all()` and `allOff()` instance methods.
   - `all()` invokes a callback after each event in a given collection has been emitted at least once.
   - `allOff()` removes a callback associated with a given collection of events.
 
