@@ -364,11 +364,19 @@ namespace Selectors {
     state.session.config;
 
   /**
-   * Returns a boolean value indicating the current fetching state
-   * Accepted values conform to the {@link @storefront/flux-capacitor#IsFetching | IsFetching properties }
+   * If called with a `value` parameter, returns a boolean value indicating the
+   * current fetching state otherwise returns the full `isFetching` object.
+   * @param value Accepted values conform to the [[Store.IsFetching]] properties.
    */
-  export const isFetching = (state: Store.State, value: keyof Store.IsFetching) =>
-    state.isFetching[value];
+  export const isFetching = (state: Store.State, value?: keyof Store.IsFetching) => {
+    if (value && value in state.isFetching) {
+      return state.isFetching[value];
+    } else if (!value) {
+      return state.isFetching;
+    } else {
+      throw new Error(`${value} not in ${Object.keys(state.isFetching)}`);
+    }
+  };
 
   /**
    * Returns the current recommendations product suggestions.
