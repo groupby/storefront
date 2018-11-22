@@ -24,6 +24,10 @@ class Emitter extends EventEmitter {
   }
 
   all(events: string[], callback: () => void, context: any = this) {
+    if (!events.length) {
+      return;
+    }
+
     const key = this.generateKey(events);
 
     this._barriers[key] = {

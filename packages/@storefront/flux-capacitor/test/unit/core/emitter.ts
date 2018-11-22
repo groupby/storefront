@@ -96,6 +96,12 @@ suite('Emitter', ({ expect, spy, stub }) => {
     it('should return the emitter' , () => {
       expect(emitter.all(['a', 'b', 'c'], () => null)).to.eq(emitter);
     });
+
+    it('should ignore empty arrays', () => {
+      emitter.all([], () => null);
+      expect(emitter._barriers).to.eql({});
+      expect(emitter._lookups).to.eql({});
+    });
   });
 
   describe('allOff', () => {
