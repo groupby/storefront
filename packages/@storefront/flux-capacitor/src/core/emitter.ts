@@ -60,12 +60,16 @@ class Emitter extends EventEmitter {
     if (barrier) {
       barrier.callbacks = barrier.callbacks.filter(({ callback: fn }) => fn !== callback);
 
-      if (!barrier.callbacks.length) {
+      const hasCallbacks = !!barrier.callbacks.length;
+
+      if (!hasCallbacks) {
         delete this._barriers[key];
       }
 
       events.forEach((ev) => {
-        this._lookups[ev] = this._lookups[ev].filter((k) => k !== key);
+        if (!hasCallbacks) {
+            this._lookups[ev] = this._lookups[ev].filter((k) => k !== key);
+        }
 
         if (!this._lookups[ev].length) {
            delete this._lookups[ev];

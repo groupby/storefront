@@ -177,6 +177,32 @@ suite('Emitter', ({ expect, spy, stub }) => {
       expect(emitter._lookups).to.eql({});
       expect(emitter._barriers).to.eql({});
     });
+
+    it('should not remove the key from the _lookups table if one or more callbacks remain', () => {
+      const events = ['a', 'b'];
+      const key = 'a:b';
+      const callback1 = () => null;
+      const callback2 = () => null;
+      emitter._lookups = { a: [key], b: [key] };
+      emitter._barriers = {
+        [key]: {
+          events: { a: 0, b: 0 },
+          callbacks: [
+            { callback: callback1, context: emitter },
+            { callback: callback2, context: emitter },
+          ],
+        },
+      };
+
+      emitter.allOff(events, callback2);
+
+      expect(emitter._lookups[events[0]]).to.eql([key]);
+      expect(emitter._lookups[events[1]]).to.eql([key]);
+      expect(emitter._barriers[key]).to.eql({
+        events: { a: 0, b: 0 },
+        callbacks: [{ callback: callback1, context: emitter }],
+      });
+    });
   });
 
   describe('emit', () => {
