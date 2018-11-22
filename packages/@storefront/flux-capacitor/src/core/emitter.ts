@@ -42,7 +42,13 @@ class Emitter extends EventEmitter {
     };
 
     // tslint:disable-next-line max-line-length
-    this._lookups = events.reduce((acc, ev) => Object.assign(acc, { [ev]: this._lookups[ev] ? [...this._lookups[ev], key] : [key] }), this._lookups);
+    events.forEach((ev) => {
+      if (!this._lookups[ev]) {
+        this._lookups[ev] = [key];
+      } else if (!this._lookups[ev].includes(key)) {
+        this._lookups[ev].push(key);
+      }
+    });
 
     return this;
   }

@@ -102,6 +102,23 @@ suite('Emitter', ({ expect, spy, stub }) => {
       expect(emitter._barriers).to.eql({});
       expect(emitter._lookups).to.eql({});
     });
+
+    it('should not register duplicate keys', () => {
+      const events = ['a', 'b'];
+      const key = 'a:b';
+      emitter._lookups = { a: [key], b: [key] };
+      emitter._barriers = {
+        [key]: {
+          events: { a: 0, b: 0 },
+          callbacks: [{ callback: () => null, context: emitter }],
+        }
+      };
+
+      emitter.all(events, () => null);
+
+      expect(emitter._lookups[events[0]]).to.eql([key]);
+      expect(emitter._lookups[events[1]]).to.eql([key]);
+    });
   });
 
   describe('allOff', () => {
