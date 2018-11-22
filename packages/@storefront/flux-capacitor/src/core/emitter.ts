@@ -1,14 +1,8 @@
 import { EventEmitter } from 'eventemitter3';
 
 class Emitter extends EventEmitter {
-  _barriers: Barriers;
-  _lookups: Lookups;
-
-  constructor() {
-    super();
-    this._barriers = {};
-    this._lookups = {};
-  }
+  _barriers: Barriers = {};
+  _lookups: Lookups = {};
 
   emit(event: string, ...args: any[]): boolean {
     const result = super.emit(event, ...args);
