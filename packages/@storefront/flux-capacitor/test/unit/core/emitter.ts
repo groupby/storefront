@@ -119,6 +119,25 @@ suite('Emitter', ({ expect, spy, stub }) => {
       expect(emitter._lookups[events[0]]).to.eql([key]);
       expect(emitter._lookups[events[1]]).to.eql([key]);
     });
+
+    it('should not reset the event counters', () => {
+      const events = ['a', 'b'];
+      const key = 'a:b';
+      emitter._lookups = { a: [key], b: [key] };
+      emitter._barriers = {
+        [key]: {
+          events: {
+            a: 0,
+            b: 420,
+          },
+          callbacks: [{ callback: () => null, context: emitter }],
+        },
+      };
+
+      emitter.all(events, () => null);
+
+      expect(emitter._barriers[key].events).to.eql({ a: 0, b: 420 });
+    });
   });
 
   describe('allOff', () => {

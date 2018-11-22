@@ -35,7 +35,9 @@ class Emitter extends EventEmitter {
     const key = this.generateKey(events);
 
     this._barriers[key] = {
-      events: events.reduce((acc, ev) => ({ ...acc, [ev]: 0 }), {}),
+      events: this._barriers[key]
+        ? this._barriers[key].events
+        : events.reduce((acc, ev) => ({ ...acc, [ev]: 0 }), {}),
       callbacks: this._barriers[key]
         ? [...this._barriers[key].callbacks, { callback, context }]
         : [{ callback, context }],
