@@ -641,9 +641,10 @@ suite('selectors', ({ expect, stub }) => {
 
   describe('isFetching', () => {
     it('should return the state and a boolean indicating if the app is fetching', () => {
-      const state = {};
+      const value = 'search';
+      const state = { isFetching: { [value]: true } };
 
-      expect(Selectors.isFetching(<any>{ state })).to.eq(state);
+      expect(Selectors.isFetching(<any>state, value)).to.be.true;
     });
   });
 
