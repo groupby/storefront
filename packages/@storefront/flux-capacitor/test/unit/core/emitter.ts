@@ -24,33 +24,49 @@ suite('Emitter', ({ expect, spy, stub }) => {
   });
 
   describe('all()', () => {
-    it('should set the _barriers object with the events and callback', () => {
+    it('should return the emitter' , () => {
+      expect(emitter.all(['a', 'b', 'c'], () => null)).to.eq(emitter);
+    });
+
+    it('should ignore empty arrays', () => {
+      emitter.all([], () => null);
+      expect(emitter._barriers).to.eql({});
+      expect(emitter._lookups).to.eql({});
+    });
+
+    it('should set the _barriers and _lookups objects with the events and callback', () => {
       const events = ['a', 'b'];
+      const key = 'a:b';
       const callback = () => null;
 
       emitter.all(events, callback);
 
-      expect(emitter._barriers['a:b']).to.eql({ events: { a: 0, b: 0 }, callbacks: [{ callback, context: emitter }] });
+      expect(emitter._barriers[key]).to.eql({ events: { a: 0, b: 0 }, callbacks: [{ callback, context: emitter }] });
+      expect(emitter._lookups[events[0]]).to.eql([key]);
+      expect(emitter._lookups[events[1]]).to.eql([key]);
     });
 
-    it('should set the _lookups object with the event names', () => {
-      const events = ['a', 'b'];
+    it('should allow the context to be specified' , () => {
+      const events1 = ['a', 'b'];
       const key = 'a:b';
+      const callback = () => ({});
+      const that = { c: 'd' };
 
-      emitter.all(events, () => ({}));
+      emitter.all(events1, callback, that);
 
-      expect(emitter._lookups).to.eql({ a: [key], b: [key] });
+      expect(emitter._barriers[key]).to.eql({ events: { a: 0, b: 0 }, callbacks: [{ callback, context: that }] });
     });
 
     it('should update the callbacks array when an event already exists in _barriers', () => {
       const events = ['a', 'b'];
+      const key = 'a:b';
       const callback1 = () => null;
       const callback2 = () => null;
 
       emitter.all(events, callback1);
       emitter.all(events, callback2);
 
-      expect(emitter._barriers['a:b']).to.eql({
+      expect(emitter._barriers[key]).to.eql({
         events: { a: 0, b: 0 },
         callbacks: [
           { callback: callback1, context: emitter },
@@ -80,27 +96,6 @@ suite('Emitter', ({ expect, spy, stub }) => {
       emitter.all(events2, () => ({}));
 
       expect(emitter._lookups).to.eql({ a: [key, key2], b: [key], c: [key2] });
-    });
-
-    it('should allow the context to be specified' , () => {
-      const events1 = ['a', 'b'];
-      const key = 'a:b';
-      const callback = () => ({});
-      const that = { c: 'd' };
-
-      emitter.all(events1, callback, that);
-
-      expect(emitter._barriers[key]).to.eql({ events: { a: 0, b: 0 }, callbacks: [{ callback, context: that }] });
-    });
-
-    it('should return the emitter' , () => {
-      expect(emitter.all(['a', 'b', 'c'], () => null)).to.eq(emitter);
-    });
-
-    it('should ignore empty arrays', () => {
-      emitter.all([], () => null);
-      expect(emitter._barriers).to.eql({});
-      expect(emitter._lookups).to.eql({});
     });
 
     it('should not register duplicate keys', () => {
@@ -141,6 +136,10 @@ suite('Emitter', ({ expect, spy, stub }) => {
   });
 
   describe('allOff', () => {
+    it('should return the emitter', () => {
+      expect(emitter.allOff(['a', 'b', 'c'], () => null)).to.eq(emitter);
+    });
+
     it('should remove the target callback', () => {
       const events = ['a', 'b'];
       const key = 'a:b';
@@ -173,10 +172,6 @@ suite('Emitter', ({ expect, spy, stub }) => {
         events: { b: 0, c: 0 },
         callbacks: [{ callback, context: emitter }],
       });
-    });
-
-    it('should return the emitter', () => {
-      expect(emitter.allOff(['a', 'b', 'c'], () => null)).to.eq(emitter);
     });
 
     it('should remove the _lookups and _barriers keys if all callbacks have been removed', () => {
