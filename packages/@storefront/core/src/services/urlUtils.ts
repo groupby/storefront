@@ -6,9 +6,13 @@ import UrlBeautifier from '../core/url-beautifier';
 import { WINDOW } from '../core/utils';
 
 namespace UrlUtils {
-  export const getBasePath = (): string => {
-    const basePath = UrlParse(WINDOW().document.baseURI).pathname;
+  export const getBaseUri = (): string  => {
+    const win: any = WINDOW();
+    return win.document.baseURI || (win.document.querySelector('base') || win.location).href;
+  };
 
+  export const getBasePath = (): string => {
+    const basePath = UrlParse(getBaseUri()).pathname;
     return basePath === WINDOW().location.pathname ? '' : basePath.replace(/\/+$/, '');
   };
 
