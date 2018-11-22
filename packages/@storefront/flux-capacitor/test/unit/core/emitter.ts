@@ -108,13 +108,19 @@ suite('Emitter', ({ expect, spy, stub }) => {
     it('should remove the target callback', () => {
       const events = ['a', 'b'];
       const key = 'a:b';
-      const callback = () => null;
+      const callback1 = () => null;
+      const callback2 = () => null;
       emitter._lookups = { a: [key], b: [key] };
-      emitter._barriers[key] = { callbacks: [{ callback, context: emitter }] };
+      emitter._barriers[key] = {
+        callbacks: [
+          { callback: callback1, context: emitter },
+          { callback: callback2, context: emitter }
+        ]
+      };
 
-      emitter.allOff(events, callback);
+      emitter.allOff(events, callback1);
 
-      expect(emitter._barriers[key].callbacks).to.eql([]);
+      expect(emitter._barriers[key].callbacks).to.eql([{ callback: callback2, context: emitter }]);
     });
 
     it('should not affect unrelated barriers', () => {
@@ -135,6 +141,24 @@ suite('Emitter', ({ expect, spy, stub }) => {
 
     it('should return the emitter', () => {
       expect(emitter.allOff(['a', 'b', 'c'], () => null)).to.eq(emitter);
+    });
+
+    it('should remove the _lookups and _barriers keys if all callbacks have been removed', () => {
+      const events = ['a', 'b'];
+      const key = 'a:b';
+      const callback = spy();
+      emitter._lookups = { a: [key], b: [key] };
+      emitter._barriers = {
+        [key]: {
+          events: { a: 0, b: 0 },
+          callbacks: [{ callback, context: emitter }]
+        }
+      };
+
+      emitter.allOff(events, callback);
+
+      expect(emitter._lookups).to.eql({});
+      expect(emitter._barriers).to.eql({});
     });
   });
 

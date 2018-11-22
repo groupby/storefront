@@ -24,6 +24,10 @@ class Emitter extends EventEmitter {
   }
 
   all(events: string[], callback: () => void, context: any = this) {
+    if (!Array.isArray(events)) {
+      throw new Error('`events` is not an array.');
+    }
+
     if (!events.length) {
       return;
     }
@@ -50,8 +54,16 @@ class Emitter extends EventEmitter {
     if (barrier) {
       barrier.callbacks = barrier.callbacks.filter(({ callback: fn }) => fn !== callback);
 
+      if (!barrier.callbacks.length) {
+        delete this._barriers[key];
+      }
+
       events.forEach((ev) => {
         this._lookups[ev] = this._lookups[ev].filter((k) => k !== key);
+
+        if (!this._lookups[ev].length) {
+           delete this._lookups[ev];
+        }
       });
     }
 
