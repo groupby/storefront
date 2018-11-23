@@ -17,7 +17,7 @@ suite('Autocomplete', ({ expect, spy, stub, itShouldProvideAlias }) => {
   beforeEach(() => {
     Autocomplete.prototype.flux = <any>{};
     select = Autocomplete.prototype.select = stub();
-    select.withArgs(Selectors.isFetching, 'search').returns(true);
+    select.withArgs(Selectors.isFetching, 'search').returns(false);
     select.withArgs(Selectors.autocompleteSuggestions).returns(SUGGESTIONS);
     select.withArgs(Selectors.autocompleteCategoryField).returns(CATEGORY);
     select.withArgs(Selectors.autocompleteCategoryValues).returns(CATEGORY_VALUES);
@@ -318,7 +318,7 @@ suite('Autocomplete', ({ expect, spy, stub, itShouldProvideAlias }) => {
     it('should do nothing when search isFetching', () => {
       const emit = spy();
       const setActivation = autocomplete.setActivation = spy();
-      select = Autocomplete.prototype.select = <any>spy();
+      select = Autocomplete.prototype.select = <any>spy(() => true);
       autocomplete.flux = <any>{ emit };
       autocomplete.set = () => null;
 
