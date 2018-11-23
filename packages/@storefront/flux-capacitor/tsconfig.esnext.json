@@ -5,9 +5,7 @@
       "ES2016.Array.Include"
     ],
     "types": [
-      "node",
-      "mocha",
-      "sinon-chai"
+      "node"
     ],
     "module": "es2015",
     "moduleResolution": "node",
