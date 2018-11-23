@@ -318,7 +318,7 @@ suite('Autocomplete', ({ expect, spy, stub, itShouldProvideAlias }) => {
     it('should do nothing when search isFetching', () => {
       const emit = spy();
       const setActivation = autocomplete.setActivation = spy();
-      select = Autocomplete.prototype.select = <any>spy(() => true);
+      select.withArgs(Selectors.isFetching, 'search').returns(true);
       autocomplete.flux = <any>{ emit };
       autocomplete.set = () => null;
 
