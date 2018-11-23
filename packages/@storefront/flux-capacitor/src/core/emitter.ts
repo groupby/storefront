@@ -34,16 +34,15 @@ class Emitter extends EventEmitter {
 
     const key = this.generateKey(events);
 
-    this._barriers[key] = {
-      events: this._barriers[key]
-        ? this._barriers[key].events
-        : events.reduce((acc, ev) => ({ ...acc, [ev]: 0 }), {}),
-      callbacks: this._barriers[key]
-        ? [...this._barriers[key].callbacks, { callback, context }]
-        : [{ callback, context }],
-    };
+    if (!this._barriers[key]) {
+      this._barriers[key] = {
+        events: events.reduce((acc, ev) => ({ ...acc, [ev]: 0 }), {}),
+        callbacks: [],
+      };
+    }
 
-    // tslint:disable-next-line max-line-length
+    this._barriers[key].callbacks.push({ callback, context });
+
     events.forEach((ev) => {
       if (!this._lookups[ev]) {
         this._lookups[ev] = [key];
