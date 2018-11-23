@@ -11,7 +11,7 @@ class Emitter extends EventEmitter {
     keys.forEach((key) => {
       this._barriers[key].events[event]++;
 
-      const shouldInvoke = Object.keys(this._barriers[key].events).every((ev) => this._barriers[key].events[ev] > 0);
+      const shouldInvoke = !Object.keys(this._barriers[key].events).some((ev) => this._barriers[key].events[ev] === 0);
 
       if (shouldInvoke) {
         this._barriers[key].callbacks.forEach(({ callback, context }) => callback.apply(context));
