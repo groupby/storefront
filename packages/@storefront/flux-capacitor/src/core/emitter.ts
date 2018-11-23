@@ -9,15 +9,16 @@ class Emitter extends EventEmitter {
     const keys = this._lookups[event] || [];
 
     keys.forEach((key) => {
-      this._barriers[key].events[event]++;
+      this._barriers[key].forEach((barrier) => {
+        barrier.events[event]++;
+        const shouldInvoke = !Object.keys(barrier.events).some((ev) => barrier.events[ev] === 0);
 
-      const shouldInvoke = !Object.keys(this._barriers[key].events).some((ev) => this._barriers[key].events[ev] === 0);
-
-      if (shouldInvoke) {
-        this._barriers[key].callbacks.forEach(({ callback, context }) => callback.apply(context));
-        // tslint:disable-next-line max-line-length
-        this._barriers[key].events = Object.keys(this._barriers[key].events).reduce((acc, ev) => Object.assign(acc, { [ev]: 0 }), {});
-      }
+        if (shouldInvoke) {
+          barrier.callback.apply(barrier.context);
+          // tslint:disable-next-line max-line-length
+          barrier.events = Object.keys(barrier.events).reduce((acc, ev) => Object.assign(acc, { [ev]: 0 }), {});
+        }
+      });
     });
 
     return result;
@@ -35,13 +36,14 @@ class Emitter extends EventEmitter {
     const key = this.generateKey(events);
 
     if (!this._barriers[key]) {
-      this._barriers[key] = {
-        events: events.reduce((acc, ev) => ({ ...acc, [ev]: 0 }), {}),
-        callbacks: [],
-      };
+      this._barriers[key] = [];
     }
 
-    this._barriers[key].callbacks.push({ callback, context });
+    this._barriers[key].push({
+      callback,
+      context,
+      events: events.reduce((acc, ev) => ({ ...acc, [ev]: 0 }), {}),
+    });
 
     events.forEach((ev) => {
       if (!this._lookups[ev]) {
@@ -63,9 +65,9 @@ class Emitter extends EventEmitter {
     const barrier = this._barriers[key];
 
     if (barrier) {
-      barrier.callbacks = barrier.callbacks.filter(({ callback: fn }) => fn !== callback);
+      this._barriers[key] = barrier.filter(({ callback: fn }) => fn !== callback);
 
-      const hasCallbacks = !!barrier.callbacks.length;
+      const hasCallbacks = !!this._barriers[key].length;
 
       if (!hasCallbacks) {
         delete this._barriers[key];
@@ -92,18 +94,14 @@ export interface Events {
   [key: string]: number;
 }
 
-export interface Listener {
- context: any;
- callback: () => void;
-}
-
 export interface Barrier {
+  callback: () => void;
+  context: any;
   events: Events;
-  callbacks: Listener[];
 }
 
 export interface Barriers {
-  [key: string]: Barrier;
+  [key: string]: Barrier[];
 }
 
 export interface Lookups {
