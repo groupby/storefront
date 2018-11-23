@@ -235,50 +235,49 @@ suite('Emitter', ({ expect, spy, stub }) => {
   });
 
   describe('emit', () => {
-    it('should update the _barriers counters if they exist', () => {
-      const events = ['a', 'b'];
-      const key = 'a:b';
+    let events1;
+    let key1;
+    let callback1;
+    let callback2;
 
-      emitter.all(events, () => null);
+    beforeEach(() => {
+        events1 = ['a', 'b'];
+        key1 = 'a:b';
+        callback1 = spy();
+        callback2 = spy();
+    });
+
+    it('should update the _barriers counters if they exist', () => {
+      emitter.all(events1, () => null);
       emitter.emit('a', null);
 
-      expect(emitter._barriers[key].events.a).to.equal(1);
+      expect(emitter._barriers[key1].events.a).to.equal(1);
     });
 
     it('should invoke the callbacks if each event in a given collection has been emitted at least once', () => {
-      const events = ['a', 'b'];
-      const callback1 = spy();
-      const callback2 = spy();
-
-      emitter.all(events, callback1);
-      emitter.all(events, callback2);
-      events.forEach((ev) => emitter.emit(ev, null));
+      emitter.all(events1, callback1);
+      emitter.all(events1, callback2);
+      events1.forEach((ev) => emitter.emit(ev, null));
 
       expect(callback1).to.have.been.called;
       expect(callback2).to.have.been.called;
     });
 
     it('should reset the event counters for a given collection', () => {
-      const events = ['a', 'b'];
-      const key = 'a:b';
-      const callback = spy();
+      emitter.all(events1, callback1);
+      events1.forEach((ev) => emitter.emit(ev, null));
 
-      emitter.all(events, callback);
-      events.forEach((ev) => emitter.emit(ev, null));
-
-      expect(Object.keys(emitter._barriers[key].events).map((k) => emitter._barriers[key].events[k])).to.eql([0, 0]);
+      expect(Object.keys(emitter._barriers[key1].events).map((k) => emitter._barriers[key1].events[k])).to.eql([0, 0]);
     });
 
     it('should invoke the callback with the correct context', () => {
-      const events = ['a', 'b'];
-      const callback = spy();
       const that = { a: 'b' };
 
-      emitter.all(events, callback, that);
+      emitter.all(events1, callback1, that);
       emitter.emit('a', null);
       emitter.emit('b', null);
 
-      expect(callback.thisValues[0]).to.eql(that);
+      expect(callback1.thisValues[0]).to.eql(that);
     });
   });
 
