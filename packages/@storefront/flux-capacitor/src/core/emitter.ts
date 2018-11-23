@@ -82,7 +82,7 @@ class Emitter extends EventEmitter {
   }
 
   generateKey(events: string[]) {
-    return events.slice(0).sort().join(':');
+    return events.slice(0).sort().join('\n');
   }
 }
 

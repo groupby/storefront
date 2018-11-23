@@ -34,8 +34,8 @@ suite('Emitter', ({ expect, spy, stub }) => {
     beforeEach(() => {
       events1 = ['a','b'];
       events2 = ['a','c'];
-      key1 = 'a:b';
-      key2 = 'a:c';
+      key1 = 'a\nb';
+      key2 = 'a\nc';
       callback1 = spy();
       callback2 = spy();
     });
@@ -158,8 +158,8 @@ suite('Emitter', ({ expect, spy, stub }) => {
     before(() => {
       events1 = ['a', 'b'];
       events2 = ['a', 'c'];
-      key1 = 'a:b';
-      key2 = 'a:c';
+      key1 = 'a\nb';
+      key2 = 'a\nc';
       callback1 = spy();
       callback2 = spy();
     });
@@ -242,7 +242,7 @@ suite('Emitter', ({ expect, spy, stub }) => {
 
     beforeEach(() => {
         events1 = ['a', 'b'];
-        key1 = 'a:b';
+        key1 = 'a\nb';
         callback1 = spy();
         callback2 = spy();
     });
@@ -287,7 +287,7 @@ suite('Emitter', ({ expect, spy, stub }) => {
 
       const key = emitter.generateKey(events);
 
-      expect(key).to.equal('a:c:d:z');
+      expect(key).to.equal('a\nc\nd\nz');
     });
   });
 });
