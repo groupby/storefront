@@ -75,7 +75,7 @@ class UrlService extends BaseService<UrlService.Options> {
         break;
       case Routes.DETAILS:
         this.app.flux.store.dispatch(
-          this.app.flux.actions.fetchProductDetails({ id: (<UrlBeautifier.DetailsUrlState>urlState).data.id })
+          this.app.flux.actions.fetchProductDetails(<Actions.Payload.Fetch.Details>{ id: (<UrlBeautifier.DetailsUrlState>urlState).data.id })
         );
         break;
     }
