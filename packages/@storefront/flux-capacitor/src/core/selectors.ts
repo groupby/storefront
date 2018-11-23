@@ -369,7 +369,7 @@ namespace Selectors {
    * @param value Accepted values conform to the [[Store.IsFetching]] properties.
    */
   export const isFetching = (state: Store.State, value?: keyof Store.IsFetching) => {
-    if (value && value in state.isFetching) {
+    if (value in state.isFetching) {
       return state.isFetching[value];
     } else if (!value) {
       return state.isFetching;
