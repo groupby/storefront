@@ -145,7 +145,9 @@ major'
   # If the $source_release_type is of greater significance than $release_type,
   # it will not be found between the top of the hierarchy and $release_type.
   # Keep the release type with the greater significance.
-  if ! sed "/^${release_type}\$/q" <<<"$hierarchy" | grep -q "^${source_release_type}\$"; then
+  #
+  # grep: Redirect to /dev/null instead of using the -q flag to avoid a SIGPIPE.
+  if ! sed "/^${release_type}\$/q" <<<"$hierarchy" | grep "^${source_release_type}\$" >/dev/null; then
     release_type="$source_release_type"
   fi
 
@@ -157,7 +159,9 @@ EOF
 fi
 
 # Add Changed section if necessary
-if ! ed -s CHANGELOG.md <<<$'1;/^## \\[/;//-p' | grep -q '^### Changed'; then
+#
+# grep: Redirect to /dev/null instead of using the -q flag to avoid a SIGPIPE.
+if ! ed -s CHANGELOG.md <<<$'1;/^## \\[/;//-p' | grep '^### Changed' >/dev/null; then
   ed -s CHANGELOG.md <<EOF
 H
 /^## \\[Unreleased/a
