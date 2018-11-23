@@ -289,7 +289,7 @@ jobs:
           command: |
             git add docs
 
-            if git status --porcelain | grep -q '^M'; then
+            if git status --porcelain | grep '^M'; then
               git commit -m "Generate docs"
               git push -u origin HEAD
             else
@@ -333,7 +333,7 @@ jobs:
 
               git add "packages/@storefront/${target}"/{package.json,CHANGELOG.md}
 
-              if git status --porcelain | grep -q '^M'; then
+              if git status --porcelain | grep '^M'; then
                 git commit -am "Bump ${src} dependency in ${target} to ${version}"
                 git push -u origin HEAD
               else
