@@ -44,6 +44,23 @@ suite('Emitter', ({ expect, spy, stub }) => {
       expect(emitter.all(['a', 'b', 'c'], () => null)).to.eq(emitter);
     });
 
+    it('should throw an error when `events` is not an array', () => {
+      const error = '`events` is not an array.';
+      const vals = [
+        true,
+        false,
+        0,
+        1,
+        null,
+        undefined,
+        {},
+        () => null,
+        'Hello, world!',
+      ];
+
+      vals.forEach((val) => expect(() => emitter.all(val , () => null)).to.throw(error));
+    });
+
     it('should ignore empty arrays', () => {
       emitter.all([], () => null);
 
