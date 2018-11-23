@@ -61,10 +61,11 @@ suite('Emitter', ({ expect, spy, stub }) => {
     });
 
     it('should ignore empty arrays', () => {
-      emitter.all([], () => null);
+      const result = emitter.all([], () => null);
 
       expect(emitter._barriers).to.eql({});
       expect(emitter._lookups).to.eql({});
+      expect(result).to.eql(emitter);
     });
 
     it('should set the _barriers and _lookups objects with the events and callback', () => {

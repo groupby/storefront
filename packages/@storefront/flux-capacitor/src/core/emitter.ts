@@ -29,7 +29,7 @@ class Emitter extends EventEmitter {
     }
 
     if (!events.length) {
-      return;
+      return this;
     }
 
     const key = this.generateKey(events);
