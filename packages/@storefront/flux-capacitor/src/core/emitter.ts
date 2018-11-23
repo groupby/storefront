@@ -69,17 +69,15 @@ class Emitter extends EventEmitter {
 
       if (!hasCallbacks) {
         delete this._barriers[key];
+
+        events.forEach((ev) => {
+          this._lookups[ev] = this._lookups[ev].filter((k) => k !== key);
+
+          if (!this._lookups[ev].length) {
+            delete this._lookups[ev];
+          }
+        });
       }
-
-      events.forEach((ev) => {
-        if (!hasCallbacks) {
-            this._lookups[ev] = this._lookups[ev].filter((k) => k !== key);
-        }
-
-        if (!this._lookups[ev].length) {
-           delete this._lookups[ev];
-        }
-      });
     }
 
     return this;
