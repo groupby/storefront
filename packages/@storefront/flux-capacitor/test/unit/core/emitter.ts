@@ -44,21 +44,20 @@ suite('Emitter', ({ expect, spy, stub }) => {
       expect(emitter.all(['a', 'b', 'c'], () => null)).to.eq(emitter);
     });
 
-    it('should throw an error when `events` is not an array', () => {
-      const error = '`events` is not an array.';
-      const vals = [
-        true,
-        false,
-        0,
-        1,
-        null,
-        undefined,
-        {},
-        () => null,
-        'Hello, world!',
-      ];
-
-      vals.forEach((val) => expect(() => emitter.all(val , () => null)).to.throw(error));
+    [
+      true,
+      false,
+      0,
+      1,
+      null,
+      undefined,
+      {},
+      () => null,
+      'Hello, world!',
+    ].forEach((val) => {
+      it(`should throw an error when \`events\` is ${val}`, () => {
+        expect(() => emitter.all(val , () => null)).to.throw();
+      });
     });
 
     it('should ignore empty arrays', () => {
@@ -155,7 +154,7 @@ suite('Emitter', ({ expect, spy, stub }) => {
     let callback1;
     let callback2;
 
-    before(() => {
+    beforeEach(() => {
       events1 = ['a', 'b'];
       events2 = ['a', 'c'];
       key1 = 'a\nb';
@@ -251,7 +250,7 @@ suite('Emitter', ({ expect, spy, stub }) => {
       emitter.all(events1, () => null);
       emitter.emit('a', null);
 
-      expect(emitter._barriers[key1].events.a).to.equal(1);
+      expect(emitter._barriers[key1].events.a).to.eq(1);
     });
 
     it('should invoke the callbacks if each event in a given collection has been emitted at least once', () => {
@@ -287,7 +286,7 @@ suite('Emitter', ({ expect, spy, stub }) => {
 
       const key = emitter.generateKey(events);
 
-      expect(key).to.equal('a\nc\nd\nz');
+      expect(key).to.eq('a\nc\nd\nz');
     });
   });
 });
