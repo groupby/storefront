@@ -55,6 +55,10 @@ class Emitter extends EventEmitter {
   }
 
   allOff(events: string[], callback: () => void) {
+    if (!Array.isArray(events)) {
+      throw new Error('`events` is not an array.');
+    }
+
     const key = this.generateKey(events);
     const barrier = this._barriers[key];
 

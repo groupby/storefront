@@ -7,6 +7,17 @@ import suite from '../_suite';
 
 suite('Emitter', ({ expect, spy, stub }) => {
   let emitter;
+  const invalidInputs = [
+    true,
+    false,
+    0,
+    1,
+    null,
+    undefined,
+    {},
+    () => null,
+    'Hello, world!',
+  ];
 
   beforeEach(() => {
     emitter = new Emitter();
@@ -44,17 +55,7 @@ suite('Emitter', ({ expect, spy, stub }) => {
       expect(emitter.all(['a', 'b', 'c'], () => null)).to.eq(emitter);
     });
 
-    [
-      true,
-      false,
-      0,
-      1,
-      null,
-      undefined,
-      {},
-      () => null,
-      'Hello, world!',
-    ].forEach((val) => {
+    invalidInputs.forEach((val) => {
       it(`should throw an error when \`events\` is ${val}`, () => {
         expect(() => emitter.all(val , () => null)).to.throw();
       });
@@ -166,6 +167,12 @@ suite('Emitter', ({ expect, spy, stub }) => {
 
     it('should return the emitter', () => {
       expect(emitter.allOff(['a', 'b', 'c'], () => null)).to.eq(emitter);
+    });
+
+    invalidInputs.forEach((val) => {
+      it(`should throw an error when \`events\` is ${val}`, () => {
+        expect(() => emitter.allOff(val , () => null)).to.throw();
+      });
     });
 
     it('should remove the target callback', () => {
