@@ -365,8 +365,10 @@ namespace Selectors {
     state.session.config;
 
   /**
+   * Returns the full `isFetching` object.
    * If called with a `value` parameter, returns a boolean value indicating the
-   * current fetching state otherwise returns the full `isFetching` object.
+   * current fetching state.
+   *
    * @param value Accepted values conform to the [[Store.IsFetching]] properties.
    */
   export const isFetching = (state: Store.State, value?: keyof Store.IsFetching) => {
