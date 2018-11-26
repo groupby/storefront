@@ -123,8 +123,10 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="_storefront_navigation.filteredrefinementlist.html#_consumes" class="tsd-kind-icon">_consumes</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="_storefront_navigation.filteredrefinementlist.html#_eventhandlers" class="tsd-kind-icon">_event<wbr>Handlers</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="_storefront_navigation.filteredrefinementlist.html#_lookups" class="tsd-kind-icon">_lookups</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="_storefront_navigation.filteredrefinementlist.html#_provides" class="tsd-kind-icon">_provides</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="_storefront_navigation.filteredrefinementlist.html#_removeeventhandlers" class="tsd-kind-icon">_remove<wbr>Event<wbr>Handlers</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="_storefront_navigation.filteredrefinementlist.html#_removelookups" class="tsd-kind-icon">_remove<wbr>Lookups</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="_storefront_navigation.filteredrefinementlist.html#isinitialized" class="tsd-kind-icon">is<wbr>Initialized</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="_storefront_navigation.filteredrefinementlist.html#state" class="tsd-kind-icon">state</a></li>
 							</ul>
@@ -146,6 +148,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="_storefront_navigation.filteredrefinementlist.html#set" class="tsd-kind-icon">set</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-overwrite tsd-is-inherited"><a href="_storefront_navigation.filteredrefinementlist.html#subscribe" class="tsd-kind-icon">subscribe</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="_storefront_navigation.filteredrefinementlist.html#subscribeonce" class="tsd-kind-icon">subscribe<wbr>Once</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-overwrite tsd-is-inherited"><a href="_storefront_navigation.filteredrefinementlist.html#subscribewith" class="tsd-kind-icon">subscribe<wbr>With</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-inherited">
@@ -184,6 +187,18 @@
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
+					<a name="_lookups" class="tsd-anchor"></a>
+					<h3>_lookups</h3>
+					<div class="tsd-signature tsd-kind-icon">_lookups<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">[]</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from Tag._lookups</p>
+						<p>Overrides Tag._lookups</p>
+						<ul>
+							<li>Defined in /home/circleci/project/node_modules/@storefront/core/dist/core/tag/index.d.ts:14</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
 					<a name="_provides" class="tsd-anchor"></a>
 					<h3>_provides</h3>
 					<div class="tsd-signature tsd-kind-icon">_provides<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">&gt;</span></div>
@@ -203,7 +218,34 @@
 						<p>Inherited from Tag._removeEventHandlers</p>
 						<p>Overrides Tag._removeEventHandlers</p>
 						<ul>
-							<li>Defined in /home/circleci/project/node_modules/@storefront/core/dist/core/tag/index.d.ts:24</li>
+							<li>Defined in /home/circleci/project/node_modules/@storefront/core/dist/core/tag/index.d.ts:26</li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-siganture">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
+					<a name="_removelookups" class="tsd-anchor"></a>
+					<h3>_remove<wbr>Lookups</h3>
+					<div class="tsd-signature tsd-kind-icon">_remove<wbr>Lookups<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from Tag._removeLookups</p>
+						<p>Overrides Tag._removeLookups</p>
+						<ul>
+							<li>Defined in /home/circleci/project/node_modules/@storefront/core/dist/core/tag/index.d.ts:27</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -230,7 +272,7 @@
 						<p>Inherited from Tag.isInitialized</p>
 						<p>Overrides Tag.isInitialized</p>
 						<ul>
-							<li>Defined in /home/circleci/project/node_modules/@storefront/core/dist/core/tag/index.d.ts:14</li>
+							<li>Defined in /home/circleci/project/node_modules/@storefront/core/dist/core/tag/index.d.ts:15</li>
 						</ul>
 					</aside>
 				</section>
@@ -242,7 +284,7 @@
 						<p>Inherited from Tag.state</p>
 						<p>Overrides Tag.state</p>
 						<ul>
-							<li>Defined in /home/circleci/project/node_modules/@storefront/core/dist/core/tag/index.d.ts:16</li>
+							<li>Defined in /home/circleci/project/node_modules/@storefront/core/dist/core/tag/index.d.ts:17</li>
 						</ul>
 					</aside>
 				</section>
@@ -260,7 +302,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_storefront_navigation.refinementlist.html">RefinementList</a>.<a href="_storefront_navigation.refinementlist.html#alias">alias</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/418541c2/packages/@storefront/navigation/src/filtered-refinement-list/index.ts#L6">navigation/src/filtered-refinement-list/index.ts:6</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5f5bdabf/packages/@storefront/navigation/src/filtered-refinement-list/index.ts#L6">navigation/src/filtered-refinement-list/index.ts:6</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -282,7 +324,7 @@
 								<p>Inherited from Tag.consume</p>
 								<p>Overrides Tag.consume</p>
 								<ul>
-									<li>Defined in /home/circleci/project/node_modules/@storefront/core/dist/core/tag/index.d.ts:23</li>
+									<li>Defined in /home/circleci/project/node_modules/@storefront/core/dist/core/tag/index.d.ts:25</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -307,7 +349,7 @@
 								<p>Inherited from Tag.dispatch</p>
 								<p>Overrides Tag.dispatch</p>
 								<ul>
-									<li>Defined in /home/circleci/project/node_modules/@storefront/core/dist/core/tag/index.d.ts:19</li>
+									<li>Defined in /home/circleci/project/node_modules/@storefront/core/dist/core/tag/index.d.ts:20</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -332,7 +374,7 @@
 								<p>Inherited from <a href="_storefront_navigation.refinementlist.html">RefinementList</a>.<a href="_storefront_navigation.refinementlist.html#init">init</a></p>
 								<p>Overrides <a href="_storefront_navigation.refinementlist.html">RefinementList</a>.<a href="_storefront_navigation.refinementlist.html#init">init</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/418541c2/packages/@storefront/navigation/src/refinement-list/index.ts#L14">navigation/src/refinement-list/index.ts:14</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5f5bdabf/packages/@storefront/navigation/src/refinement-list/index.ts#L14">navigation/src/refinement-list/index.ts:14</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -351,7 +393,7 @@
 								<p>Inherited from Tag.provide</p>
 								<p>Overrides Tag.provide</p>
 								<ul>
-									<li>Defined in /home/circleci/project/node_modules/@storefront/core/dist/core/tag/index.d.ts:22</li>
+									<li>Defined in /home/circleci/project/node_modules/@storefront/core/dist/core/tag/index.d.ts:24</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -403,7 +445,7 @@
 								<p>Inherited from Tag.select</p>
 								<p>Overrides Tag.select</p>
 								<ul>
-									<li>Defined in /home/circleci/project/node_modules/@storefront/core/dist/core/tag/index.d.ts:18</li>
+									<li>Defined in /home/circleci/project/node_modules/@storefront/core/dist/core/tag/index.d.ts:19</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -452,7 +494,7 @@
 								<p>Inherited from Tag.set</p>
 								<p>Overrides Tag.set</p>
 								<ul>
-									<li>Defined in /home/circleci/project/node_modules/@storefront/core/dist/core/tag/index.d.ts:17</li>
+									<li>Defined in /home/circleci/project/node_modules/@storefront/core/dist/core/tag/index.d.ts:18</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -477,7 +519,7 @@
 								<p>Inherited from Tag.subscribe</p>
 								<p>Overrides Tag.subscribe</p>
 								<ul>
-									<li>Defined in /home/circleci/project/node_modules/@storefront/core/dist/core/tag/index.d.ts:20</li>
+									<li>Defined in /home/circleci/project/node_modules/@storefront/core/dist/core/tag/index.d.ts:21</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -529,7 +571,7 @@
 								<p>Inherited from Tag.subscribeOnce</p>
 								<p>Overrides Tag.subscribeOnce</p>
 								<ul>
-									<li>Defined in /home/circleci/project/node_modules/@storefront/core/dist/core/tag/index.d.ts:21</li>
+									<li>Defined in /home/circleci/project/node_modules/@storefront/core/dist/core/tag/index.d.ts:22</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -566,6 +608,58 @@
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-overwrite tsd-is-inherited">
+					<a name="subscribewith" class="tsd-anchor"></a>
+					<h3>subscribe<wbr>With</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-overwrite tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">subscribe<wbr>With&lt;T&gt;<span class="tsd-signature-symbol">(</span>events<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from Tag.subscribeWith</p>
+								<p>Overrides Tag.subscribeWith</p>
+								<ul>
+									<li>Defined in /home/circleci/project/node_modules/@storefront/core/dist/core/tag/index.d.ts:23</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>T</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>events: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+								<li>
+									<h5>handler: <span class="tsd-signature-type">function</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-siganture">
+											<ul class="tsd-signatures tsd-kind-type-literal">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5><span class="tsd-flag ts-flagOptional">Optional</span> data: <span class="tsd-signature-type">T</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
 				<h2>Object literals</h2>
@@ -577,7 +671,7 @@
 						<p>Inherited from <a href="_storefront_navigation.refinementlist.html">RefinementList</a>.<a href="_storefront_navigation.refinementlist.html#props-1">props</a></p>
 						<p>Overrides Tag.props</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/groupby/storefront/blob/418541c2/packages/@storefront/navigation/src/refinement-list/index.ts#L5">navigation/src/refinement-list/index.ts:5</a></li>
+							<li>Defined in <a href="https://github.com/groupby/storefront/blob/5f5bdabf/packages/@storefront/navigation/src/refinement-list/index.ts#L5">navigation/src/refinement-list/index.ts:5</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
@@ -586,7 +680,7 @@
 						<div class="tsd-signature tsd-kind-icon">item<wbr>Props<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/groupby/storefront/blob/418541c2/packages/@storefront/navigation/src/refinement-list/index.ts#L7">navigation/src/refinement-list/index.ts:7</a></li>
+								<li>Defined in <a href="https://github.com/groupby/storefront/blob/5f5bdabf/packages/@storefront/navigation/src/refinement-list/index.ts#L7">navigation/src/refinement-list/index.ts:7</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-type-declaration">
@@ -601,7 +695,7 @@
 						<div class="tsd-signature tsd-kind-icon">refinements<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/groupby/storefront/blob/418541c2/packages/@storefront/navigation/src/refinement-list/index.ts#L6">navigation/src/refinement-list/index.ts:6</a></li>
+								<li>Defined in <a href="https://github.com/groupby/storefront/blob/5f5bdabf/packages/@storefront/navigation/src/refinement-list/index.ts#L6">navigation/src/refinement-list/index.ts:6</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -693,10 +787,16 @@
 								<a href="_storefront_navigation.filteredrefinementlist.html#_eventhandlers" class="tsd-kind-icon">_event<wbr>Handlers</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
+								<a href="_storefront_navigation.filteredrefinementlist.html#_lookups" class="tsd-kind-icon">_lookups</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
 								<a href="_storefront_navigation.filteredrefinementlist.html#_provides" class="tsd-kind-icon">_provides</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
 								<a href="_storefront_navigation.filteredrefinementlist.html#_removeeventhandlers" class="tsd-kind-icon">_remove<wbr>Event<wbr>Handlers</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
+								<a href="_storefront_navigation.filteredrefinementlist.html#_removelookups" class="tsd-kind-icon">_remove<wbr>Lookups</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
 								<a href="_storefront_navigation.filteredrefinementlist.html#isinitialized" class="tsd-kind-icon">is<wbr>Initialized</a>
@@ -730,6 +830,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
 								<a href="_storefront_navigation.filteredrefinementlist.html#subscribeonce" class="tsd-kind-icon">subscribe<wbr>Once</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-overwrite tsd-is-inherited">
+								<a href="_storefront_navigation.filteredrefinementlist.html#subscribewith" class="tsd-kind-icon">subscribe<wbr>With</a>
 							</li>
 							<li class=" tsd-kind-object-literal tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
 								<a href="_storefront_navigation.filteredrefinementlist.html#props-1" class="tsd-kind-icon">props</a>
