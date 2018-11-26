@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased] [minor]
+## [1.65.0] - 2018-11-26
 ### Changed
 - SF-1192: Update `fetchProductDetails` action to include redirect parameter.
   - Set `search` property of `isFetching` state slice within the store to `false` when a single result redirect is triggered.
