@@ -6,21 +6,20 @@ import Tag, { TAG_DESC, TAG_META } from '../../../../src/core/tag';
 import TagUtils from '../../../../src/core/tag/utils';
 import * as utils from '../../../../src/core/utils';
 import suite from '../../_suite';
+import Phase from '../../../../src/core/tag/phase';
 
 suite('Tag', ({ expect, spy, stub }) => {
+  let tag: any;
+
+  beforeEach(() => {
+    tag = new Tag();
+  });
+
   describe('Base Tag', () => {
-    let tag: Tag;
     // let tagAlias: Alias;
     let alias: sinon.SinonStub;
     let lifecycleAttach: sinon.SinonStub;
     let attach: sinon.SinonSpy;
-
-    beforeEach(() => {
-      // tagAlias = <any>{ attach: (attach = spy()) };
-      // alias = stub(aliasing, 'default').returns(tagAlias);
-      // lifecycleAttach = stub(Lifecycle, 'attach');
-      tag = new Tag();
-    });
 
     describe('set()', () => {
       it('should call update with state directly if state is true', () => {
@@ -169,6 +168,72 @@ suite('Tag', ({ expect, spy, stub }) => {
 
       expect(Tag.setDescription(clazz, description)).to.eq(description);
       expect(clazz[TAG_DESC]).to.eq(description);
+    });
+  });
+
+  describe('subscribeWith', () => {
+    it('should invoke `flux.all` with the events and callback', () => {
+      const events = ['a', 'b', 'c'];
+      const all: any = spy();
+      const cb = spy();
+      tag.flux = { all };
+      tag.one = () => null;
+
+      tag.subscribeWith(events, cb);
+
+      expect(all).to.be.calledWith(events, cb);
+    });
+
+    it('should update the _lookups array', () => {
+      const events = ['a', 'b', 'c'];
+      const cb = spy();
+      tag.flux = { all: () => null };
+      tag.one = () => null;
+
+      tag.subscribeWith(events, cb);
+
+      expect(tag._lookups).to.eql([[events, cb]]);
+    });
+
+    it('should register the unmount listener', () => {
+      tag.one = spy();
+      tag.flux = { all: () => null };
+      tag._removeLookups = spy();
+
+      tag.subscribeWith(['a', 'b', 'c'], () => null);
+
+      expect(tag.one).to.be.calledWith(Phase.UNMOUNT, tag._removeLookups);
+    });
+
+    it('should not re-register the unmount listener', () => {
+      tag.one = spy();
+      tag.flux = { all: () => null };
+      tag._lookups = [
+        [['a', 'b', 'c'], () => null]
+      ];
+
+      tag.subscribeWith(['d', 'e', 'f'], () => null);
+
+      expect(tag.one).to.not.be.called;
+    });
+  });
+
+  describe('_removeLookups()', () => {
+    it('should call allOff for each lookup', () => {
+       const events = ['a', 'b', 'c', 'd', 'e', 'f'];
+       const cb = () => null;
+       const cb2 = () => null;
+       const cb3 = () => null;
+       tag._lookups = [
+         [[events[0], events[1]], cb],
+         [[events[2]], cb2],
+         [[events[3], events[4], events[5]], cb3]
+       ];
+       tag.flux = { allOff: spy() };
+
+       tag._removeLookups();
+
+       expect(tag.flux.allOff.args).to.eql(tag._lookups);
     });
   });
 });
