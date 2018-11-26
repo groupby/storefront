@@ -42,7 +42,7 @@ class Emitter extends EventEmitter {
     this._barriers[key].push({
       callback,
       context,
-      events: events.reduce((acc, ev) => ({ ...acc, [ev]: 0 }), {}),
+      events: events.reduce((acc, ev) => Object.assign(acc, { [ev]: 0 }), {}),
     });
 
     events.forEach((ev) => {
