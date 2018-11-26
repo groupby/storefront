@@ -212,6 +212,7 @@ namespace Selectors {
    */
   export const selectedRefinements = (state: Store.State) =>
     getSelected(Selectors.navigations(state));
+
   /**
    * Returns the maximum value for the given range navigation.
    */
