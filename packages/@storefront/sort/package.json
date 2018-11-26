@@ -1,6 +1,6 @@
 {
   "name": "@storefront/sort",
-  "version": "1.32.0",
+  "version": "1.33.0",
   "description": "StoreFront sort component",
   "keywords": [
     "storefront",
@@ -56,6 +56,6 @@
     "singleQuote": true
   },
   "peerDependencies": {
-    "@storefront/core": "~1.52.0"
+    "@storefront/core": "~1.53.0"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@storefront/sayt",
-  "version": "1.38.0",
+  "version": "1.38.1",
   "description": "StoreFront sayt component",
   "keywords": [
     "storefront",
@@ -59,6 +59,6 @@
     "escape-string-regexp": "^1.0.5"
   },
   "peerDependencies": {
-    "@storefront/core": "~1.52.0"
+    "@storefront/core": "~1.53.0"
   }
 }

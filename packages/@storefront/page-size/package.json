@@ -1,6 +1,6 @@
 {
   "name": "@storefront/page-size",
-  "version": "1.31.0",
+  "version": "1.32.0",
   "description": "StoreFront page-size component",
   "keywords": [
     "storefront",
@@ -48,6 +48,6 @@
     "ext": "ts,json,html,css"
   },
   "peerDependencies": {
-    "@storefront/core": "~1.52.0"
+    "@storefront/core": "~1.53.0"
   }
 }

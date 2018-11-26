@@ -1,6 +1,6 @@
 {
   "name": "@storefront/breadcrumbs",
-  "version": "1.30.0",
+  "version": "1.31.0",
   "description": "StoreFront breadcrumbs component",
   "keywords": [
     "storefront",
@@ -56,6 +56,6 @@
     "singleQuote": true
   },
   "peerDependencies": {
-    "@storefront/core": "~1.52.0"
+    "@storefront/core": "~1.53.0"
   }
 }
