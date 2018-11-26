@@ -1,6 +1,6 @@
 {
   "name": "@storefront/record-count",
-  "version": "1.29.3",
+  "version": "1.30.0",
   "description": "StoreFront record-count component",
   "keywords": [
     "storefront",
@@ -57,6 +57,6 @@
     "singleQuote": true
   },
   "peerDependencies": {
-    "@storefront/core": "~1.47.0"
+    "@storefront/core": "~1.52.0"
   }
 }

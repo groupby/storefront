@@ -1,6 +1,6 @@
 {
   "name": "@storefront/collections",
-  "version": "1.28.3",
+  "version": "1.29.0",
   "description": "StoreFront collections component",
   "keywords": [
     "storefront",
@@ -56,6 +56,6 @@
     "singleQuote": true
   },
   "peerDependencies": {
-    "@storefront/core": "~1.47.0"
+    "@storefront/core": "~1.52.0"
   }
 }
