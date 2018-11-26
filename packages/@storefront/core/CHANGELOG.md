@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased] [minor]
+### Changed
+- Update `@storefront/flux-capacitor` to 1.64.0.
+
 ### Added
 - SF-1170: Add support for `subscribeWith()` method.
   - Allows components to invoke callbacks after each event in a given collection has been emitted at least once.
