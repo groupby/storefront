@@ -1,6 +1,6 @@
 {
   "name": "@storefront/did-you-mean",
-  "version": "1.29.0",
+  "version": "1.30.0",
   "description": "StoreFront did-you-mean component",
   "keywords": [
     "storefront",
@@ -49,6 +49,6 @@
     "ext": "ts,json,html,css"
   },
   "peerDependencies": {
-    "@storefront/core": "~1.52.0"
+    "@storefront/core": "~1.53.0"
   }
 }
