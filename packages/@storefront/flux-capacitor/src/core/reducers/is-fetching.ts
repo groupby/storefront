@@ -39,11 +39,9 @@ export default function updateIsFetching(state: State = DEFAULT_FETCHING, action
     case Actions.RECEIVE_AUTOCOMPLETE_SUGGESTIONS: return doneFetching(state, 'autocompleteSuggestions');
     case Actions.FETCH_AUTOCOMPLETE_PRODUCTS: return startFetching(state, 'autocompleteProducts');
     case Actions.RECEIVE_AUTOCOMPLETE_PRODUCTS: return doneFetching(state, 'autocompleteProducts');
-    case Actions.FETCH_PRODUCT_DETAILS:
-      if (action.payload.redirect) {
-        return { ...startFetching(state, 'details'), search: false };
-      }
-      return startFetching(state, 'details');
+    case Actions.FETCH_PRODUCT_DETAILS: return action.payload.redirect
+      ? { ...startFetching(state, 'details'), search: false }
+      : startFetching(state, 'details');
     case Actions.RECEIVE_DETAILS: return doneFetching(state, 'details');
     default: return state;
   }
