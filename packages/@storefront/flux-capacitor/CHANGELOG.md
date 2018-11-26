@@ -4,14 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased] [<release type>]
+## [Unreleased] [minor]
 ### Changed
 - SF-1192: Update `fetchProductDetails` action to include redirect parameter.
   - Set `search` property of `isFetching` state slice within the store to `false` when a single result redirect is triggered.
 
 ### Added
-- SF-1192: Create isFetching selector
-  - Selector is needed in order to modify and track isFetching assocaited portion of the store.
+- SF-1192: Create `isFetching` selector
+  - Selector is needed in order to retrieve `isFetching` portion of the store.
 
 ## [1.64.0] - 2018-11-26
 ### Added
