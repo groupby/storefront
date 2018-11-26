@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased] [minor]
+## [1.64.0] - 2018-11-26
 ### Added
 - SF-1170: Update `FluxCapacitor` class to expose `all()` and `allOff()` instance methods.
   - `all()` invokes a callback after each event in a given collection has been emitted at least once.
