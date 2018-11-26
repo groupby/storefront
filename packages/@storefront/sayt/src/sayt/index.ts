@@ -26,6 +26,7 @@ class Sayt {
     this.subscribe('sayt:show', this.setActive);
     this.subscribe('sayt:hide', this.setInactive);
     this.subscribe(Events.URL_UPDATED, this.setInactive);
+    this.subscribe(Events.FETCHING_SEARCH, this.setInactive);
     if (this.props.recommendations) {
       this.subscribe('sayt:show_recommendations', this.setRecommendationsActive);
       this.subscribe(Events.AUTOCOMPLETE_QUERY_UPDATED, this.setRecommendationsInactive);

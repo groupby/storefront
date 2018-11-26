@@ -212,6 +212,7 @@ namespace Selectors {
    */
   export const selectedRefinements = (state: Store.State) =>
     getSelected(Selectors.navigations(state));
+
   /**
    * Returns the maximum value for the given range navigation.
    */
@@ -362,6 +363,23 @@ namespace Selectors {
    */
   export const config = (state: Store.State) =>
     state.session.config;
+
+  /**
+   * Returns the full `isFetching` object.
+   * If called with a `value` parameter, returns a boolean value indicating the
+   * current fetching state.
+   *
+   * @param value Accepted values conform to the [[Store.IsFetching]] properties.
+   */
+  export const isFetching = (state: Store.State, value?: keyof Store.IsFetching) => {
+    if (value in state.isFetching) {
+      return state.isFetching[value];
+    } else if (!value) {
+      return state.isFetching;
+    } else {
+      throw new Error(`${value} not in ${Object.keys(state.isFetching)}`);
+    }
+  };
 
   /**
    * Returns the current recommendations product suggestions.

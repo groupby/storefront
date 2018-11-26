@@ -12,7 +12,7 @@ namespace Payload {
     export interface AutocompleteSuggestions extends SimpleQuery, Override {}
     export interface AutocompleteProducts extends Autocomplete.Products, Override {}
     export interface CollectionCount extends Collection.Name, Override {}
-    export interface Details extends Id, Override {}
+    export interface Details extends Id, Override { redirect?: boolean; }
     export interface PastPurchases extends Partial<SimpleQuery>, Override {}
     export interface MorePastPurchases extends More, Override {}
   }

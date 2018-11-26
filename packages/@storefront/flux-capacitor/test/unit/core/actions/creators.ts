@@ -41,11 +41,12 @@ suite('ActionCreators', ({ expect, spy, stub }) => {
   }
 
   // tslint:disable-next-line max-line-length
-  function itShouldAcceptAnOptionsObject<T>(creator: (options: object) => Actions.Action<T, any> | Actions.Action<T, any>[], expectedActionType: T, additionalProperties: object = {}) {
+  function itShouldAcceptAnOptionsObject<T>(creator: (options: object, optionalProperty?: any) => Actions.Action<T, any> | Actions.Action<T, any>[], expectedActionType: T, optionalPropertyKey?: string, optionalProperty?: any) {
     it('should accept an options object', () => {
       const options: any = { a: 'b' };
+      const result = optionalPropertyKey ? { [optionalPropertyKey]: optionalProperty, ...options } : options;
 
-      expectAction(creator(options), expectedActionType, { ...additionalProperties, ...options });
+      expectAction(creator(options, optionalProperty), expectedActionType, result);
     });
   }
 
@@ -99,7 +100,7 @@ suite('ActionCreators', ({ expect, spy, stub }) => {
     });
 
     describe('fetchMoreProducts()', () => {
-      itShouldAcceptAnOptionsObject(ActionCreators.fetchMoreProducts, Actions.FETCH_MORE_PRODUCTS, { forward: true });
+      itShouldAcceptAnOptionsObject(ActionCreators.fetchMoreProducts, Actions.FETCH_MORE_PRODUCTS,  'forward', true);
 
       it('should return an action', () => {
         const amount = 15;
@@ -134,7 +135,7 @@ suite('ActionCreators', ({ expect, spy, stub }) => {
       itShouldAcceptAnOptionsObject(
         ActionCreators.fetchMorePastPurchaseProducts,
         Actions.FETCH_MORE_PAST_PURCHASE_PRODUCTS,
-        { forward: true }
+        'forward', true
       );
 
       it('should return an action with amount and forward true', () => {
@@ -192,7 +193,7 @@ suite('ActionCreators', ({ expect, spy, stub }) => {
       itShouldAcceptAnOptionsObject(
         ActionCreators.fetchAutocompleteProducts,
         Actions.FETCH_AUTOCOMPLETE_PRODUCTS,
-        { refinements: [] }
+        'refinements', []
       );
 
       it('should return an action', () => {
@@ -235,12 +236,17 @@ suite('ActionCreators', ({ expect, spy, stub }) => {
     });
 
     describe('fetchProductDetails()', () => {
-      itShouldAcceptAnOptionsObject(ActionCreators.fetchProductDetails, Actions.FETCH_PRODUCT_DETAILS);
+      itShouldAcceptAnOptionsObject(
+        ActionCreators.fetchProductDetails,
+        Actions.FETCH_PRODUCT_DETAILS,
+        'redirect', false
+      );
 
       it('should return an action', () => {
         const id = '12345';
+        const redirect = true;
 
-        expectAction(ActionCreators.fetchProductDetails(id), Actions.FETCH_PRODUCT_DETAILS, { id });
+        expectAction(ActionCreators.fetchProductDetails(id, redirect), Actions.FETCH_PRODUCT_DETAILS, { id, redirect });
       });
     });
 

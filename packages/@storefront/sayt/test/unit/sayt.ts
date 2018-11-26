@@ -48,9 +48,15 @@ suite('Sayt', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvideAlias
   });
 
   describe('init()', () => {
+    let subscribe;
+
+    beforeEach(() => {
+      subscribe = (sayt.subscribe = spy());
+      sayt.services = <any>{ autocomplete: { register: () => null } };
+    });
+
     it('should register with autocomplete service', () => {
       const register = spy();
-      stub(utils, 'WINDOW').returns({ document: { addEventListener: () => null } });
       sayt.services = <any>{ autocomplete: { register } };
       sayt.subscribe = () => null;
 
@@ -60,29 +66,18 @@ suite('Sayt', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvideAlias
     });
 
     it('should listen for sayt:show', () => {
-      const subscribe = (sayt.subscribe = spy());
-      stub(utils, 'WINDOW').returns({ document: { addEventListener: () => null } });
-      sayt.services = <any>{ autocomplete: { register: () => null } };
-
       sayt.init();
 
       expect(subscribe).to.be.calledWith('sayt:show', sayt.setActive);
     });
 
     it('should listen for sayt:hide', () => {
-      const subscribe = (sayt.subscribe = spy());
-      stub(utils, 'WINDOW').returns({ document: { addEventListener: () => null } });
-      sayt.services = <any>{ autocomplete: { register: () => null } };
-
       sayt.init();
 
       expect(subscribe).to.be.calledWith('sayt:hide', sayt.setInactive);
     });
 
     it('should listen for sayt:show_recommendations when recommendations on', () => {
-      const subscribe = (sayt.subscribe = spy());
-      stub(utils, 'WINDOW').returns({ document: { addEventListener: () => null } });
-      sayt.services = <any>{ autocomplete: { register: () => null } };
       sayt.props = { recommendations: true };
 
       sayt.init();
@@ -91,19 +86,12 @@ suite('Sayt', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvideAlias
     });
 
     it('should not listen for sayt:show_recommendations when recommendations off', () => {
-      const subscribe = (sayt.subscribe = spy());
-      stub(utils, 'WINDOW').returns({ document: { addEventListener: () => null } });
-      sayt.services = <any>{ autocomplete: { register: () => null } };
-
       sayt.init();
 
       expect(subscribe).to.not.be.calledWith('sayt:show_recommendations');
     });
 
     it('should listen for URL_UPDATED when recommendations on', () => {
-      const subscribe = (sayt.subscribe = spy());
-      stub(utils, 'WINDOW').returns({ document: { addEventListener: () => null } });
-      sayt.services = <any>{ autocomplete: { register: () => null } };
       sayt.props = { recommendations: true };
 
       sayt.init();
@@ -112,23 +100,21 @@ suite('Sayt', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvideAlias
     });
 
     it('should not listen for URL_UPDATED when recommendations off', () => {
-      const subscribe = (sayt.subscribe = spy());
-      stub(utils, 'WINDOW').returns({ document: { addEventListener: () => null } });
-      sayt.services = <any>{ autocomplete: { register: () => null } };
-
       sayt.init();
 
       expect(subscribe).to.not.be.calledWith(Events.AUTOCOMPLETE_QUERY_UPDATED);
     });
 
     it('should listen for URL_UPDATED', () => {
-      const subscribe = (sayt.subscribe = spy());
-      stub(utils, 'WINDOW').returns({ document: { addEventListener: () => null } });
-      sayt.services = <any>{ autocomplete: { register: () => null } };
-
       sayt.init();
 
       expect(subscribe).to.be.calledWith(Events.URL_UPDATED, sayt.setInactive);
+    });
+
+    it('should listen for FETCHING_SEARCH', () => {
+      sayt.init();
+
+      expect(subscribe).to.be.calledWith(Events.FETCHING_SEARCH, sayt.setInactive);
     });
   });
 

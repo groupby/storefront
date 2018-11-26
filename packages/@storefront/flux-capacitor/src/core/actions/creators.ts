@@ -176,12 +176,13 @@ namespace ActionCreators {
   /**
    * Makes a request for the details for a given product.
    * @param  {string} id - The id for a specific product.
+   * @param {boolean} redirect - Indicates whether fetch is a result of a single product redirect.
    * @return {Actions.FetchProductDetails} - Action with `{ id }`.
    */
-  export function fetchProductDetails(id: string): Actions.FetchProductDetails;
+  export function fetchProductDetails(id: string, redirect?: boolean): Actions.FetchProductDetails;
   // tslint:disable-next-line typedef
-  export function fetchProductDetails(options): Actions.FetchProductDetails {
-    const opts = typeof options === 'string' ? { id: options } : options;
+  export function fetchProductDetails(options, redirect = false): Actions.FetchProductDetails {
+    const opts = typeof options === 'string' ? { id: options, redirect } : { ...options, redirect };
 
     return createAction(Actions.FETCH_PRODUCT_DETAILS, opts);
   }

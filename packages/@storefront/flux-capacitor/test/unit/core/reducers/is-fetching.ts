@@ -14,7 +14,7 @@ suite('isFetching', ({ expect }) => {
 
   function expectStartFetching(type: string, section: string) {
     it(`it should set ${section} to true on ${type}`, () => {
-      const newState = isFetching(state, <any>{ type });
+      const newState = isFetching(state, <any>{ type, payload: {} });
 
       expect(newState).to.eql({ ...state, [section]: true });
     });
@@ -46,6 +46,13 @@ suite('isFetching', ({ expect }) => {
     expectDoneFetching(Actions.RECEIVE_AUTOCOMPLETE_PRODUCTS, 'autocompleteProducts');
 
     expectStartFetching(Actions.FETCH_PRODUCT_DETAILS, 'details');
+    it('should also set isFetching.search to false, when single result redirect is true', () => {
+      state.search = true;
+
+      const newState = isFetching(state, { type: Actions.FETCH_PRODUCT_DETAILS, payload: <any>{ redirect: true } });
+
+      expect(newState).to.eql({ ...state, search: false, details: true });
+    });
     expectDoneFetching(Actions.RECEIVE_DETAILS, 'details');
 
     it('should return state on default', () => {

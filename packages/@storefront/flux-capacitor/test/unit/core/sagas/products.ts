@@ -154,6 +154,7 @@ suite('products saga', ({ sinon, expect, spy, stub }) => {
         task.next();
         task.next([{ redirect: false, totalRecordCount: 1, records: [record] }, undefined]);
         expect(task.next(config).value).to.eql(effects.put(fetchProductDetailsAction));
+        expect(fetchProductDetails).to.be.calledWith(record.allMeta.id, true);
         task.next();
       });
 

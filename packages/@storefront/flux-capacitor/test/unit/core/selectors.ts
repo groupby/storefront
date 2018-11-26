@@ -639,6 +639,28 @@ suite('selectors', ({ expect, stub }) => {
     });
   });
 
+  describe('isFetching', () => {
+    it('should return the entire isFetching object when no value is given', () => {
+      const isFetching = { a: 'b', c: 'd' };
+
+      expect(Selectors.isFetching(<any>{ isFetching })).to.eq(isFetching);
+    });
+
+    it('should return the state and a boolean indicating if the app is fetching', () => {
+      const value = 'search';
+      const state = { isFetching: { [value]: true } };
+
+      expect(Selectors.isFetching(<any>state, value)).to.be.true;
+    });
+
+    it('should throw an error if value is not a property on isFetching', () => {
+      const value: any = 'non-existent';
+      const isFetching = { a: 'b', c: 'd' };
+
+      expect(() => Selectors.isFetching(<any>{ isFetching }, value)).to.throw();
+    });
+  });
+
   describe('recommendationsProducts()', () => {
     it('should return the currently recommended products', () => {
       const products = ['a', 'b', 'c'];
