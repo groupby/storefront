@@ -111,7 +111,7 @@ suite('Sayt', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvideAlias
       expect(subscribe).to.be.calledWith(Events.URL_UPDATED, sayt.setInactive);
     });
 
-    it('should setInactive on FETCHING_SEARCH', () => {
+    it('should listen for FETCHING_SEARCH', () => {
       sayt.init();
 
       expect(subscribe).to.be.calledWith(Events.FETCHING_SEARCH, sayt.setInactive);
