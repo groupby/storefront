@@ -91,6 +91,9 @@ const DEFAULTS: Partial<Configuration> = {
   refinements: {
     overrides: {},
   },
+  navigations: {
+    type: {},
+  },
   network: {
     https: typeof window !== 'undefined' && window.location.protocol === 'https:',
   },
