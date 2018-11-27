@@ -7,7 +7,7 @@ import { WINDOW } from '../core/utils';
 
 namespace UrlUtils {
   export const getBaseUri = (): string  => {
-    const win: any = WINDOW();
+    const win = WINDOW();
     return win.document.baseURI || (win.document.querySelector('base') || win.location).href;
   };
 
