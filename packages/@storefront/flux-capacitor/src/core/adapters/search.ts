@@ -44,6 +44,7 @@ namespace Adapter {
   export const extractNavigation = (navigation: Navigation): Store.Navigation => ({
     field: navigation.name,
     label: navigation.displayName,
+    boolean: false,
     more: navigation.moreRefinements,
     or: navigation.or,
     range: !!navigation.range,
@@ -86,21 +87,32 @@ namespace Adapter {
   };
 
   export const pruneRefinements = (navigations: Store.Navigation[], state: Store.State): Store.Navigation[] => {
-    const max = ConfigAdapter.extractMaxRefinements(Selectors.config(state));
-    return max ? navigations.map((navigation) => {
-      const show = navigation.selected.slice(0, max);
-      for (let i = 0; i < navigation.refinements.length && show.length < max; i++) {
-        if (!navigation.selected.includes(i)) {
-          show.push(i);
+    const config = Selectors.config(state);
+    const max = ConfigAdapter.extractMaxRefinements(config);
+    const booleanNavs = ConfigAdapter.extractToggleNavigations(config);
+    return navigations.map((navigation) => {
+      const bool = booleanNavs.includes(navigation.field);
+      if (max) {
+        const show = navigation.selected.slice(0, max);
+        for (let i = 0; i < navigation.refinements.length && show.length < max; i++) {
+          if (!navigation.selected.includes(i)) {
+            show.push(i);
+          }
         }
-      }
 
-      return {
-        ...navigation,
+        return {
+          ...navigation,
           more: navigation.refinements.length > max || navigation.more,
+          boolean: bool,
           show,
-      };
-    }) : navigations;
+        };
+      } else {
+        return {
+          ...navigation,
+          boolean: bool,
+        };
+      }
+    });
   };
 
   export const filterExcludedRefinements = (refinements: Refinement[]): Refinement[] => {

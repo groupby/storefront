@@ -304,16 +304,17 @@ namespace Store {
      */
     field: string; // post
     label: string; // post
+    boolean: boolean; // post
     more: boolean; // post
     range: boolean; // post
     max: number;
     min: number;
     or: boolean; // post
     selected: number[]; // pre
-    show: number[]; // post
     refinements: Refinement[]; // post
     sort: Sort; // post
     metadata: { [key: string]: string };
+    show?: number[]; // post
   }
 
   export interface BaseRefinement {

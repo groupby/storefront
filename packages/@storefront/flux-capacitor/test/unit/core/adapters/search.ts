@@ -87,6 +87,7 @@ suite('Search Adapter', ({ expect, stub }) => {
       expect(extracted).to.eql({
         field: 'brand',
         label: 'Brand',
+        boolean: false,
         more: true,
         or: true,
         range: false,
@@ -230,35 +231,63 @@ suite('Search Adapter', ({ expect, stub }) => {
       const max = stub(ConfigAdapter, 'extractMaxRefinements').returns(2);
       const config = stub(Selectors, 'config').returns(conf);
       const navigations: any = [
-        { name: 'Adds non-selected refinement', refinements: [4], selected: [], more: false },
-        { name: 'Adds selected refinements', refinements: [6, 7, 4, 5, 6, 8], selected: [1, 5] },
-        { name: 'Adds selected refinement first', refinements: [8, 9], selected: [1], more: true },
-        { name: 'Limits to max', refinements: [0, 1, 2, 3, 4], selected: [1, 2, 3, 4], more: true },
-        { name: 'Limits to max', refinements: [0, 1, 2, 3, 4], selected: [], more: true },
+        { field: 'Adds non-selected refinement', refinements: [4], selected: [], more: false },
+        { field: 'Adds selected refinements', refinements: [6, 7, 4, 5, 6, 8], selected: [1, 5] },
+        { field: 'Adds selected refinement first', refinements: [8, 9], selected: [1], more: true },
+        { field: 'Limits to max', refinements: [0, 1, 2, 3, 4], selected: [1, 2, 3, 4], more: true },
+        { field: 'Limits to max', refinements: [0, 1, 2, 3, 4], selected: [], more: true },
       ];
+      stub(ConfigAdapter, 'extractToggleNavigations').returns([]);
 
+      // tslint:disable
       expect(Adapter.pruneRefinements(navigations, state)).to.eql([
-        { name: 'Adds non-selected refinement', refinements: [4], selected: [], show: [0], more: false },
-        // tslint:disable-next-line max-line-length
-        { name: 'Adds selected refinements', refinements: [6, 7, 4, 5, 6, 8], selected: [1, 5], show: [1, 5], more: true },
-        { name: 'Adds selected refinement first', refinements: [8, 9], selected: [1], show: [1, 0], more: true },
-        { name: 'Limits to max', refinements: [0, 1, 2, 3, 4], selected: [1, 2, 3, 4], show: [1, 2], more: true },
-        { name: 'Limits to max', refinements: [0, 1, 2, 3, 4], selected: [], show: [0, 1], more: true },
+        { field: 'Adds non-selected refinement', refinements: [4], selected: [], show: [0], more: false, boolean: false },
+        { field: 'Adds selected refinements', refinements: [6, 7, 4, 5, 6, 8], selected: [1, 5], show: [1, 5], more: true, boolean: false },
+        { field: 'Adds selected refinement first', refinements: [8, 9], selected: [1], show: [1, 0], more: true, boolean: false },
+        { field: 'Limits to max', refinements: [0, 1, 2, 3, 4], selected: [1, 2, 3, 4], show: [1, 2], more: true, boolean: false },
+        { field: 'Limits to max', refinements: [0, 1, 2, 3, 4], selected: [], show: [0, 1], more: true, boolean: false },
       ]);
+      // tslint:enable
       expect(max).to.be.calledWithExactly(conf);
       expect(config).to.be.calledWithExactly(state);
+    });
+
+    it('should mark which navigations are boolean type', () => {
+      const navigations: any = [
+        { field: 'one', refinements: [2, 4], selected: [], more: false },
+        { field: 'two', refinements: [2, 6], selected: [], more: true },
+        { field: 'three', refinements: [2, 3, 5], selected: [1, 2], more: false },
+      ];
+      const state: any = {};
+      const config: any = {
+        navigations: {
+          type: {
+            one: 'toggle',
+            three: 'toggle'
+          }
+        }
+      };
+      stub(ConfigAdapter, 'extractMaxRefinements').returns(2);
+      stub(Selectors, 'config').withArgs(state).returns(config);
+
+      expect(Adapter.pruneRefinements(navigations, state)).to.eql([
+        { field: 'one', refinements: [2, 4], selected: [], more: false, show: [0, 1], boolean: true },
+        { field: 'two', refinements: [2, 6], selected: [], more: true, show: [0, 1], boolean: false },
+        { field: 'three', refinements: [2, 3, 5], selected: [1, 2], more: true, show: [1, 2], boolean: true },
+      ]);
     });
 
     it('should do nothing if max not truthy', () => {
       const state: any = {};
       const conf = {};
       const navigations: any = [
-        { name: 'A', refinements: [4] },
-        { name: 'B', refinements: [6, 7, 4, 5, 6, 7] },
-        { name: 'C', refinements: [8, 9], more: true }
+        { field: 'A', refinements: [4], boolean: false },
+        { field: 'B', refinements: [6, 7, 4, 5, 6, 7], boolean: false },
+        { field: 'C', refinements: [8, 9], more: true, boolean: false }
       ];
       stub(ConfigAdapter, 'extractMaxRefinements');
       stub(Selectors, 'config').returns(conf);
+      stub(ConfigAdapter, 'extractToggleNavigations').returns([]);
 
       expect(Adapter.pruneRefinements(navigations, state)).to.eql(navigations);
     });
