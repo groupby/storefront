@@ -304,15 +304,15 @@ namespace Store {
      */
     field: string; // post
     label: string; // post
-    more?: boolean; // post
-    range?: boolean; // post
-    max?: number;
-    min?: number;
-    or?: boolean; // post
+    more: boolean; // post
+    range: boolean; // post
+    max: number;
+    min: number;
+    or: boolean; // post
     selected: number[]; // pre
-    show?: number[]; // post
+    show: number[]; // post
     refinements: Refinement[]; // post
-    sort?: Sort; // post
+    sort: Sort; // post
     metadata: { [key: string]: string };
   }
 
