@@ -42,9 +42,6 @@ class Tag<P extends object = any, S extends object = any, A extends object = any
    * Invoke the callback provided each time the target event is emitted.
    *
    * All callbacks are automatically removed when the component is unmounted.
-   *
-   * @param {string} event
-   * @param {Function} handler
    */
   subscribe<T>(event: string, handler: (data?: T) => void) {
     this.flux.on(event, handler);
@@ -59,9 +56,6 @@ class Tag<P extends object = any, S extends object = any, A extends object = any
   /**
    * Invoke the callback provided the next time the target event is emitted,
    * then unregister it.
-   *
-   * @param {string} event
-   * @param {Function} handler
    */
   subscribeOnce(event: string, handler: (event: string, data?: any) => void) {
     this.flux.once(event, handler);
@@ -72,9 +66,6 @@ class Tag<P extends object = any, S extends object = any, A extends object = any
    * at least once.
    *
    * All callbacks are automatically removed when the component is unmounted.
-   *
-   * @param {Array<string>} events
-   * @param {Function} handler
    */
   subscribeWith<T>(events: string[], handler: (data?: T) => void) {
     this.flux.all(events, handler);

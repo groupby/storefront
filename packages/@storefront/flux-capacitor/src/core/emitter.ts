@@ -9,10 +9,6 @@ class Emitter extends EventEmitter {
    *
    * Update the event collection counters and invoke the associated callbacks
    * if required.
-   *
-   * @param {string} event
-   * @param {Array<any>} args
-   * @return {boolean}
    */
   emit(event: string, ...args: any[]): boolean {
     const result = super.emit(event, ...args);
@@ -44,10 +40,7 @@ class Emitter extends EventEmitter {
    * Callbacks are not invoked with arguments, however, data may be accessed from
    * the store as normal.
    *
-   * @param {Array<string>} events
-   * @param {Function} callback
-   * @param {any} context
-   * @return {Emitter}
+   * @param context The context to invoke the listener with.
    */
   all(events: string[], callback: () => void, context: any = this) {
     if (!Array.isArray(events)) {
@@ -85,10 +78,6 @@ class Emitter extends EventEmitter {
    * Remove a callback for a given collection of events.
    *
    * The order of the member events is not significant.
-   * *
-   * @param {Array<string>} events
-   * @param {Function} callback
-   * @return {Emitter}
    */
   allOff(events: string[], callback: () => void) {
     if (!Array.isArray(events)) {
