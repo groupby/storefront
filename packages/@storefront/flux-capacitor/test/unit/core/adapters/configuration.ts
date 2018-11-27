@@ -280,6 +280,24 @@ suite('Configuration Adapter', ({ expect, stub }) => {
     });
   });
 
+  describe('extractToggleNavigations()', () => {
+    it('should return the toggle navigations', () => {
+      const nav1 = 'nav1';
+      const nav2 = 'nav2';
+      const nav3 = 'nav3';
+
+      expect(Adapter.extractToggleNavigations(<any>{
+        navigations: {
+          type: {
+            [nav1]: 'toggle',
+            [nav2]: 'toggle',
+            [nav3]: 'toggle',
+          }
+        }
+      })).to.eql([nav1, nav2, nav3]);
+    });
+  });
+
   describe('extractIndexedState()', () => {
     it('should return indexed state', () => {
       const collectionDefault = 'Im a collection';
