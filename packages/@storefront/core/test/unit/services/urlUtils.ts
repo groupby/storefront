@@ -32,9 +32,11 @@ suite('URL Service', ({ expect, spy, stub }) => {
       });
 
       it('should fall back to the current location', () => {
+        const querySelector = spy(() => null);
         win.location = { href: 'baz' };
-        win.document = { querySelector: spy() };
+        win.document = { querySelector };
 
+        expect(querySelector).to.be.called;
         expect(Utils.getBaseUri()).to.eq('baz');
       });
     });
