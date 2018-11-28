@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased] [patch]
 ### Fixed
 - SF-1205: Add fallback for document.baseURI.
+  - Prevents malformed routing tables when StoreFront is running in IE11.
 
 ## [1.53.1] - 2018-11-27
 ### Changed
