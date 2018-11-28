@@ -4,10 +4,7 @@ import { provide, tag, Tag } from '@storefront/core';
 @tag('gb-refinement-crumb', require('./index.html'))
 class RefinementCrumb {
   init() {
-    this.state = {
-      ...this.props,
-      label: this.props.range ? this.props.low + ' - ' + this.props.high : this.props.value,
-    }
+    this.updateState();
   }
 
   onUpdate() {

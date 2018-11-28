@@ -11,13 +11,12 @@ suite('RefinementCrumb', ({ expect, spy, itShouldProvideAlias }) => {
   itShouldProvideAlias(RefinementCrumb, 'refinementCrumb');
 
   describe('init()', () => {
-    it('should set up state', () => {
-      const label = 'test';
-      const props = refinementCrumb.props = <any>{ a: 'b', c: 'd', range: false, value: label };
+    it('should call updateState', () => {
+      const updateState = refinementCrumb.updateState = spy();
 
       refinementCrumb.init();
 
-      expect(refinementCrumb.state).to.eql({ ...props, label });
+      expect(updateState).to.be.called;
     });
   });
 
@@ -28,6 +27,17 @@ suite('RefinementCrumb', ({ expect, spy, itShouldProvideAlias }) => {
       refinementCrumb.onUpdate();
 
       expect(updateState).to.be.called;
+    });
+  });
+
+  describe('updateState()', () => {
+    it('should set state', () => {
+      const label = 'test';
+      const props = refinementCrumb.props = <any>{ a: 'b', c: 'd', range: false, value: label };
+
+      refinementCrumb.updateState();
+
+      expect(refinementCrumb.state).to.eql({ ...props, label });
     });
   });
 });
