@@ -21,6 +21,10 @@ namespace RefinementCrumb {
     low?: number;
     value?: string;
   }
+
+  export interface State extends RefinementCrumb.Props {
+    label: string;
+  }
 }
 
 export default RefinementCrumb;
