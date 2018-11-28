@@ -39,5 +39,21 @@ suite('RefinementCrumb', ({ expect, spy, itShouldProvideAlias }) => {
 
       expect(refinementCrumb.state).to.eql({ ...props, label });
     });
+
+    it('should set label to a range', () => {
+      const low = 1;
+      const high = 10;
+      const props = refinementCrumb.props = <any>{
+        a: 'b',
+        range: true,
+        value: 'test',
+        low,
+        high
+      };
+
+      refinementCrumb.updateState();
+
+      expect(refinementCrumb.state.label).to.eq(`${low} - ${high}`);
+    });
   });
 });
