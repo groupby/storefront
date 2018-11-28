@@ -1,7 +1,7 @@
 import RefinementCrumb from '../../src/refinement-crumb';
 import suite from './_suite';
 
-suite('RefinementCrumb', ({ expect, itShouldProvideAlias }) => {
+suite('RefinementCrumb', ({ expect, spy, itShouldProvideAlias }) => {
   let refinementCrumb: RefinementCrumb;
 
   beforeEach(() => {
@@ -18,6 +18,16 @@ suite('RefinementCrumb', ({ expect, itShouldProvideAlias }) => {
       refinementCrumb.init();
 
       expect(refinementCrumb.state).to.eql({ ...props, label });
+    });
+  });
+
+  describe('onUpdate()', () => {
+    it('should call updateState', () => {
+      const updateState = refinementCrumb.updateState = spy();
+
+      refinementCrumb.onUpdate();
+
+      expect(updateState).to.be.called;
     });
   });
 });

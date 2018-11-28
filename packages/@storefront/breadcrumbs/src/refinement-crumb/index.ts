@@ -9,6 +9,17 @@ class RefinementCrumb {
       label: this.props.range ? this.props.low + ' - ' + this.props.high : this.props.value,
     }
   }
+
+  onUpdate() {
+    this.updateState();
+  }
+
+  updateState() {
+    this.state = {
+      ...this.props,
+      label: this.props.range ? this.props.low + ' - ' + this.props.high : this.props.value,
+    }
+  }
 }
 
 interface RefinementCrumb extends Tag<RefinementCrumb.Props> {}
