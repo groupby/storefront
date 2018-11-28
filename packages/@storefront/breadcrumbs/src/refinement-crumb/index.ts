@@ -1,3 +1,21 @@
-import { view } from '@storefront/core';
+import { provide, tag, Tag } from '@storefront/core';
 
-view('gb-refinement-crumb', require('./index.html'));
+@provide('refinementCrumb')
+@tag('gb-refinement-crumb', require('./index.html'))
+class RefinementCrumb {
+
+}
+
+interface RefinementCrumb extends Tag<RefinementCrumb.Props> {}
+namespace RefinementCrumb {
+  export interface Props extends Tag.Props {
+    field?: string;
+    boolean?: boolean;
+    range?: boolean;
+    high?: number;
+    low?: number;
+    value?: string;
+  }
+}
+
+export default RefinementCrumb;
