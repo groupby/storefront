@@ -11,13 +11,13 @@ suite('RefinementCrumb', ({ expect, itShouldProvideAlias }) => {
   itShouldProvideAlias(RefinementCrumb, 'refinementCrumb');
 
   describe('init()', () => {
-    it('should spread props into state', () => {
-      const props = refinementCrumb.props = <any>{ a: 'b', c: 'd' };
+    it('should set up state', () => {
+      const label = 'test';
+      const props = refinementCrumb.props = <any>{ a: 'b', c: 'd', range: false, value: label };
 
       refinementCrumb.init();
 
-      expect(refinementCrumb.state).to.eql(props);
-      expect(refinementCrumb.state).to.not.eq(props);
+      expect(refinementCrumb.state).to.eql({ ...props, label });
     });
   });
 });

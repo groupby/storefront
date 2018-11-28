@@ -6,6 +6,7 @@ class RefinementCrumb {
   init() {
     this.state = {
       ...this.props,
+      label: this.props.range ? this.props.low + ' - ' + this.props.high : this.props.value,
     }
   }
 }
