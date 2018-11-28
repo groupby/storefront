@@ -160,6 +160,7 @@ suite('RefinementCrumbs', ({ expect, spy, stub, itShouldProvideAlias }) => {
         a: 'b',
         range,
         selected,
+        boolean: false,
         refinements: [{ a: 'b' }, { c: 'd' }, { e: 'f' }],
       };
       const field = 'colour';
@@ -173,9 +174,10 @@ suite('RefinementCrumbs', ({ expect, spy, stub, itShouldProvideAlias }) => {
         field,
         range,
         selected,
+        boolean: false,
         refinements: [
-          { field, range, index: 0, selected: true, a: 'b' },
-          { field, range, index: 2, selected: true, e: 'f' },
+          { field, range, boolean: false, index: 0, selected: true, a: 'b' },
+          { field, range, boolean: false, index: 2, selected: true, e: 'f' },
         ],
       });
       expect(navigationSelector).to.be.calledWith(field);

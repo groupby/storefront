@@ -56,6 +56,7 @@ class RefinementCrumbs {
             index,
             field,
             range,
+            boolean: navigation.boolean,
             selected: selected.includes(index),
           }))
           .filter((refinement) => refinement.selected),
