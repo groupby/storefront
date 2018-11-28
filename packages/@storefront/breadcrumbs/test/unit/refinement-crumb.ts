@@ -46,6 +46,8 @@ suite('RefinementCrumb', ({ expect, spy, itShouldProvideAlias }) => {
       const props = refinementCrumb.props = <any>{
         a: 'b',
         range: true,
+        boolean: false,
+        navigationLabel: 'navlabel',
         value: 'test',
         low,
         high,
@@ -56,11 +58,30 @@ suite('RefinementCrumb', ({ expect, spy, itShouldProvideAlias }) => {
       expect(refinementCrumb.state.label).to.eq(`${low} - ${high}`);
     });
 
-    it('should set label to value when range is false', () => {
+    it('should set label to the navigation label when boolean is true', () => {
+      const navigationLabel = '1 - 4 day shipping';
+      const props = refinementCrumb.props = <any>{
+        a: 'b',
+        range: false,
+        boolean: true,
+        navigationLabel,
+        value: 'test',
+        low: 1,
+        high: 10,
+      };
+
+      refinementCrumb.updateState();
+
+      expect(refinementCrumb.state.label).to.eq(navigationLabel);
+    });
+
+    it('should set label to value when range and boolean are false', () => {
       const value = 'test';
       const props = refinementCrumb.props = <any>{
         a: 'b',
         range: false,
+        boolean: false,
+        navigationLabel: 'navlabel',
         value,
         low: 1,
         high: 10,

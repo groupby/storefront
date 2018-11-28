@@ -12,9 +12,19 @@ class RefinementCrumb {
   }
 
   updateState() {
+    let label;
+
+    if (this.props.range) {
+      label = this.props.low + ' - ' + this.props.high;
+    } else if (this.props.boolean) {
+      label = this.props.navigationLabel;
+    } else {
+      label = this.props.value;
+    }
+
     this.state = {
       ...this.props,
-      label: this.props.range ? this.props.low + ' - ' + this.props.high : this.props.value,
+      label,
     }
   }
 }
@@ -24,6 +34,7 @@ namespace RefinementCrumb {
   export interface Props extends Tag.Props {
     field?: string;
     boolean?: boolean;
+    navigationLabel?: string;
     range?: boolean;
     high?: number;
     low?: number;
