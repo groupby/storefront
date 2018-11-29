@@ -161,3 +161,11 @@ H
 w
 q
 EOF
+
+# commit changes
+info "Committing changes..."
+git commit -m "Bump CDN bundle version to ${version}" package.json CHANGELOG.md
+
+# tag commit
+ed -s CHANGELOG.md <<<$'1;/^## \\[/;//-p' | sed -e 's/^##* *//' -e $'1a\\\n\\\n' |
+git tag -a "$new_version" -F -
