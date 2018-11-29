@@ -304,7 +304,7 @@ namespace Store {
      */
     field: string; // post
     label: string; // post
-    boolean: boolean; // post
+    boolean?: boolean; // post
     more?: boolean; // post
     range?: boolean; // post
     max?: number;
