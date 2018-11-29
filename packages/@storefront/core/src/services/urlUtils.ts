@@ -12,7 +12,7 @@ namespace UrlUtils {
   };
 
   export const getBasePath = (): string => {
-    const basePath = UrlParse(getBaseUri()).pathname;
+    const basePath = UrlParse(UrlUtils.getBaseUri()).pathname;
     return basePath === WINDOW().location.pathname ? '' : basePath.replace(/\/+$/, '');
   };
 
