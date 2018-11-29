@@ -60,6 +60,10 @@ EXIT CODES:
 EOF
 }
 
+cleanup() {
+  rm -rf -- "$tmpdir"
+}
+
 # Change to the root of the repo
 cd "${BASH_SOURCE%/*}/.."
 
@@ -87,7 +91,7 @@ tmpdir="$(mktemp -d)"
 changelog_entry_file="${tmpdir}/changelog-entry"
 package_release_types_file="${tmpdir}/package-release-types"
 versions_file="${tmpdir}/versions"
-# TODO cleanup trap
+trap 'cleanup' EXIT
 
 # TODO get all versions into a temporary file
 touch "$versions_file"
