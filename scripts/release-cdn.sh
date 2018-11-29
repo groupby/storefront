@@ -84,6 +84,9 @@ base_commit="$1"
 git rev-list --quiet "${base_commit}^..HEAD" || die "Invalid commit: ${base_commit}"
 
 tmpdir="$(mktemp -d)"
+changelog_entry_file="${tmpdir}/changelog-entry"
+package_release_types_file="${tmpdir}/package-release-types"
+versions_file="${tmpdir}/versions"
 # TODO cleanup trap
 
 # TODO get all versions into a temporary file
@@ -91,7 +94,7 @@ tmpdir="$(mktemp -d)"
 # Collect all release types into a file
 git log -p "${base_commit}^..HEAD" '**/CHANGELOG.md' |
 sed -n 's/^.## \[Unreleased\] \[\(.*\)\]/\1/p' |
-sort -u >"${tmpdir}/package-release-types"
+sort -u >"$package_release_types_file"
 
 # Use the highest release type across all released packages
 #
@@ -99,7 +102,7 @@ sort -u >"${tmpdir}/package-release-types"
 # using grep; the first one that matches any of the release types is the
 # highest release type.
 release_type="$(
-  grep -F -m 1 -f "${tmpdir}/package-release-types" <<EOF
+  grep -F -m 1 -f "$package_release_types_file" <<EOF
 major
 premajor
 minor
@@ -137,7 +140,6 @@ for changelog in $(git diff --name-only "${base_commit}^..HEAD" '**/CHANGELOG.md
 done
 
 # combine changelog sections
-changelog_entry_file="${tmpdir}/changelog-entry"
 {
 echo "### [${version}] - $(date +%F)"
 echo
