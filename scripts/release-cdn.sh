@@ -90,6 +90,7 @@ versions_file="${tmpdir}/versions"
 # TODO cleanup trap
 
 # TODO get all versions into a temporary file
+touch "$versions_file"
 
 # Collect all release types into a file
 git log -p "${base_commit}^..HEAD" '**/CHANGELOG.md' |
