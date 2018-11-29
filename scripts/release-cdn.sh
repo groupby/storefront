@@ -113,6 +113,8 @@ EOF
 
 [[ -n "$release_type" ]] || die -c 4 "Could not detect potential release."
 
+# TODO bump version
+
 # for each changelog that has changed since the base commit...
 for changelog in $(git diff --name-only "${base_commit}^..HEAD" '**/CHANGELOG.md'); do
   package_name="${changelog%/CHANGELOG.md}"
@@ -133,3 +135,16 @@ for changelog in $(git diff --name-only "${base_commit}^..HEAD" '**/CHANGELOG.md
     fi
   done < <(ed -s "$changelog" <<<$'1;/^## \\[/;//-p')
 done
+
+# combine changelog sections
+changelog_entry_file="${tmpdir}/changelog-entry"
+{
+echo "### [${version}] - $(date +%F)"
+echo
+for section in "${changelog_sections[@]}"; do
+  if [[ -s "${tmpdir}/${section}" ]]; then
+    echo "### ${section}"
+    cat "${tmpdir}/${section}"
+  fi
+done
+} >"$changelog_entry_file"
