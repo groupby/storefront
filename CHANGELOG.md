@@ -30,8 +30,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - The URL is updated before any requests are sent.
   - This should reduce the number of extranous calls.
+- Repeat queries are now allowed.  
 
 ### Added
 - Observer events `DETAILS_CHANGED` and `PAST_PURCHASE_CHANGED` fire on
   new details and past purchase searches respectively.
+
 ### Fixed
+- Zero results will no longer be shown for a search that returns a redirect.
