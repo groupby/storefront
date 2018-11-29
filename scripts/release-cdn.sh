@@ -116,7 +116,8 @@ EOF
 
 [[ -n "$release_type" ]] || die -c 4 "Could not detect potential release."
 
-# TODO bump version
+# bump version
+version="$(npm version "$release_type" --no-git-tag-version)"
 
 # for each changelog that has changed since the base commit...
 for changelog in $(git diff --name-only "${base_commit}^..HEAD" '**/CHANGELOG.md'); do
