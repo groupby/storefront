@@ -36,8 +36,8 @@ suite('URL Service', ({ expect, spy, stub }) => {
         win.location = { href: 'baz' };
         win.document = { querySelector };
 
-        expect(querySelector).to.be.called;
         expect(Utils.getBaseUri()).to.eq('baz');
+        expect(querySelector).to.be.called;
       });
     });
 
