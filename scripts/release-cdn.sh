@@ -152,3 +152,11 @@ for section in "${changelog_sections[@]}"; do
   fi
 done
 } >"$changelog_entry_file"
+
+# add the entry to the changelog
+ed -s CHANGELOG.md <<EOF
+H
+/^## \\[/- r ${changelog_entry_file}
+w
+q
+EOF
