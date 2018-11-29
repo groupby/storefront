@@ -118,7 +118,7 @@ for changelog in $(git diff --name-only "${base_commit}^..HEAD" '**/CHANGELOG.md
   package_name="${changelog%/CHANGELOG.md}"
   package_name="${package_name##*/}"
 
-  # extract the latest entry and split it into sections and append each
+  # extract the latest entry and split it into sections. Append each
   # section to their respective temporary collector files
   unset section
   unset collected_section_file
