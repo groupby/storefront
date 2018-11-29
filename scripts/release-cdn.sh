@@ -99,15 +99,16 @@ sort -u >"${tmpdir}/package-release-types"
 # using grep; the first one that matches any of the release types is the
 # highest release type.
 release_type="$(
-  echo 'major
+  grep -F -m 1 -f "${tmpdir}/package-release-types" <<EOF
+major
 premajor
 minor
 preminor
 patch
 prepatch
 prerelease
-from-git' |
-  grep -F -m 1 -f "${tmpdir}/package-release-types"
+from-git
+EOF
 )"
 
 [[ -n "$release_type" ]] || die -c 4 "Could not detect potential release."
