@@ -141,7 +141,9 @@ done
 
 # combine changelog sections
 {
-echo "### [${version}] - $(date +%F)"
+echo "## [${version}] - $(date +%F)"
+echo
+cat "${tmpdir}/versions"
 echo
 for section in "${changelog_sections[@]}"; do
   if [[ -s "${tmpdir}/${section}" ]]; then
