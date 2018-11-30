@@ -490,7 +490,7 @@ jobs:
 
   ### cdn_release
   ### Generates release commits and tags for CDN{version}.
-  cdn_relase:
+  cdn_release:
     <<: *image
     steps:
       - checkout
