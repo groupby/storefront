@@ -1205,9 +1205,16 @@ workflows:
             - publish_sort
             - publish_template
 
-      - merge_final:
+      - cdn_release:
           requires:
             - merge_components
+      - cdn_publish:
+          requires:
+            - cdn_release
+
+      - merge_final:
+          requires:
+            - cdn_publish
 
       - cleanup:
           requires:
