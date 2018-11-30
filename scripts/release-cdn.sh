@@ -94,7 +94,11 @@ versions_file="${tmpdir}/versions"
 trap 'cleanup' EXIT
 
 # TODO get all versions into a temporary file
-touch "$versions_file"
+node -p 'JSON.stringify(require("./presets/package-versions"), null, 2)' |
+  tr -d '",' |
+  sed '1d; $d; s/^ */- /; s#@storefront/[a-z-]*#`&`#' |
+  sort \
+  >"$versions_file"
 
 # Collect all release types into a file
 git log -p "${base_commit}^..HEAD" '**/CHANGELOG.md' |
