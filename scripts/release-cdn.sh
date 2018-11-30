@@ -111,7 +111,7 @@ git log -p "${base_commit}^..HEAD" '**/CHANGELOG.md' |
 # using grep; the first one that matches any of the release types is the
 # highest release type.
 release_type="$(
-  grep -F -m 1 -f "$package_release_types_file" <<EOF
+  grep -F -m 1 -f "$package_release_types_file" <<EOF || true
 major
 premajor
 minor
