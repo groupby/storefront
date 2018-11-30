@@ -93,7 +93,6 @@ package_release_types_file="${tmpdir}/package-release-types"
 versions_file="${tmpdir}/versions"
 trap 'cleanup' EXIT
 
-# TODO get all versions into a temporary file
 node -p 'JSON.stringify(require("./presets/package-versions"), null, 2)' |
   tr -d '",' |
   sed '1d; $d; s/^ */- /; s#@storefront/[a-z-]*#`&`#' |
