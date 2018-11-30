@@ -154,6 +154,8 @@ done
 {
 echo "## [${version}] - $(date +%F)"
 echo
+echo "Package versions:"
+echo
 cat "${tmpdir}/versions"
 echo
 for section in "${changelog_sections[@]}"; do
