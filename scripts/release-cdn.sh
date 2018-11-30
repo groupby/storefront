@@ -67,6 +67,7 @@ cleanup() {
 # Change to the root of the repo
 cd "${BASH_SOURCE%/*}/.."
 
+# Process arguments
 while getopts ":h" opt; do
   case "$opt" in
     ### -h	Show this help
@@ -87,12 +88,14 @@ base_commit="$1"
 # Ensure that the given commit exists
 git rev-list --quiet "${base_commit}^..HEAD" || die "Invalid commit: ${base_commit}"
 
+# Set up directory for temporary files
 tmpdir="$(mktemp -d)"
 changelog_entry_file="${tmpdir}/changelog-entry"
 package_release_types_file="${tmpdir}/package-release-types"
 versions_file="${tmpdir}/versions"
 trap 'cleanup' EXIT
 
+# Create a Markdown list of all the package versions
 node -p 'JSON.stringify(require("./presets/package-versions"), null, 2)' |
   tr -d '",' |
   sed '1d; $d; s/^ */- /; s#@storefront/[a-z-]*#`&`#' |
@@ -125,16 +128,16 @@ EOF
 
 [[ -n "$release_type" ]] || die -c 4 "Could not detect potential release."
 
-# bump version
+# Bump version using the highest release type
 version="$(npm version "$release_type" --no-git-tag-version)"
 
-# for each changelog that has changed since the base commit...
+# For each changelog that has changed since the base commit...
 for changelog in $(git diff --name-only "${base_commit}^..HEAD" '**/CHANGELOG.md'); do
   package_name="${changelog%/CHANGELOG.md}"
   package_name="${package_name##*/}"
 
-  # extract the latest entry and split it into sections. Append each
-  # section to their respective temporary collector files
+  # Extract the latest entry and split it into sections.
+  # Append each section to their respective temporary collector files
   unset section
   unset collected_section_file
   while IFS= read -r line; do
@@ -149,7 +152,7 @@ for changelog in $(git diff --name-only "${base_commit}^..HEAD" '**/CHANGELOG.md
   done < <(ed -s "$changelog" <<<$'1;/^## \\[/;//-p')
 done
 
-# combine changelog sections
+# Combine changelog sections
 {
 echo "## [${version}] - $(date +%F)"
 echo
@@ -165,7 +168,7 @@ for section in "${changelog_sections[@]}"; do
 done
 } >"$changelog_entry_file"
 
-# add the entry to the changelog
+# Add the combined entry to the changelog
 ed -s CHANGELOG.md <<EOF
 H
 /^## \\[/- r ${changelog_entry_file}
@@ -173,13 +176,14 @@ w
 q
 EOF
 
-# commit changes
-info "Committing changes..."
+# Commit changes
 git commit -m "Bump CDN bundle version to ${version}" package.json CHANGELOG.md
 
-# tag commit
+# Tag commit
 ed -s CHANGELOG.md <<<$'1;/^## \\[/;//-p' | sed -e 's/^##* *//' -e $'1a\\\n\\\n' |
 git tag -a "$version" -F -
 
-# push
+# Push
 git push --no-verify origin HEAD "$version"
+
+info "Done."
