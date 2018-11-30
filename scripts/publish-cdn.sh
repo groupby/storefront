@@ -94,8 +94,11 @@ git -C "$tmpdir" clone --depth=1 https://github.com/groupby/cdn || die "Could no
 # Extract the version from package.json
 version=$(node -p 'require("./package.json").version')
 
+# Ensure that there is no artifact with the current version on the CDN
+[[ ! -f "${tmpdir}/cdn/static/javascript/storefront-${version}.js" ]] || die -c 4 "Version ${version} already exists on the CDN."
+
 # Create bundle
-npm run bundle:prod || die "Could not create bundle"
+npm run bundle:prod || die "Could not create bundle."
 
 versions_file="${tmpdir}/versions"
 ./scripts/print-package-versions.sh >"$versions_file"
