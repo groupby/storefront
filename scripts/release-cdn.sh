@@ -99,6 +99,7 @@ trap 'cleanup' EXIT
 ./scripts/print-package-versions.sh >"$versions_file"
 
 # Collect all release types into a file
+info "Determining release type..."
 git log -p "${base_commit}^..HEAD" '**/CHANGELOG.md' |
   sed -n 's/^.## \[Unreleased\] \[\(.*\)\]/\1/p' |
   sort -u \
@@ -125,7 +126,9 @@ EOF
 [[ -n "$release_type" ]] || die -c 4 "Could not detect potential release."
 
 # Bump version using the highest release type
+info "Bumping ${release_type} version in package.json..."
 version="$(npm version "$release_type" --no-git-tag-version)"
+info "New version: ${version}"
 
 # For each changelog that has changed since the base commit...
 for changelog in $(git diff --name-only "${base_commit}^..HEAD" '**/CHANGELOG.md'); do
@@ -141,6 +144,7 @@ for changelog in $(git diff --name-only "${base_commit}^..HEAD" '**/CHANGELOG.md
       section="${line#\### }"
       collected_section_file="${tmpdir}/${section}"
 
+      info "Extracting ${section} section from ${package_name}..."
       echo "#### ${package_name}" >>"$collected_section_file"
     elif [[ -n "$section" ]]; then # section content
       echo "$line" >>"$collected_section_file"
@@ -149,6 +153,7 @@ for changelog in $(git diff --name-only "${base_commit}^..HEAD" '**/CHANGELOG.md
 done
 
 # Combine changelog sections
+info "Combining sections..."
 {
 echo "## [${version}] - $(date +%F)"
 echo
@@ -173,6 +178,7 @@ q
 EOF
 
 # Commit changes
+info "Committing, tagging, and pushing..."
 git commit -m "Bump CDN bundle version to ${version}" package.json CHANGELOG.md
 
 # Tag commit
