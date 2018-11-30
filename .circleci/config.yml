@@ -486,6 +486,54 @@ jobs:
               echo "Nothing to publish."
             fi
 
+  ## CDN jobs
+
+  ### cdn_release
+  ### Generates release commits and tags for CDN{version}.
+  cdn_relase:
+    <<: *image
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/
+      - run: *setup_git
+      - run:
+          name: Install dependencies
+          command: sudo apt install -y ed
+      - run:
+          name: Release CDN
+          command: |
+            branch_prefix="$(cat ../branch-prefix)"
+
+            git checkout "${branch_prefix}/master"
+
+            ./scripts/release-cdn.sh "$CIRCLE_SHA1"
+
+  ### cdn_publish
+  ### Publishes CDN {version}.
+  cdn_publish:
+    <<: *image
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/
+      - restore_cache: *yarn_cache
+      - restore_cache: *build_final_cache_partial
+      - run: *extract_build_archive
+      - run: *yarn_install
+      - run: *setup_git
+      - run:
+          name: Install dependencies
+          command: sudo apt install -y ed
+      - run:
+          name: Publish CDN
+          command: |
+            branch_prefix="$(cat ../branch-prefix)"
+
+            git checkout "${branch_prefix}/master"
+
+            ./scripts/publish-cdn.sh
+
   ## Miscellaneous jobs
 
   ### cleanup
