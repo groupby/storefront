@@ -96,11 +96,7 @@ versions_file="${tmpdir}/versions"
 trap 'cleanup' EXIT
 
 # Create a Markdown list of all the package versions
-node -p 'JSON.stringify(require("./presets/package-versions"), null, 2)' |
-  tr -d '",' |
-  sed '1d; $d; s/^ */- /; s#@storefront/[a-z-]*#`&`#' |
-  sort \
-  >"$versions_file"
+./scripts/print-package-versions.sh >"$versions_file"
 
 # Collect all release types into a file
 git log -p "${base_commit}^..HEAD" '**/CHANGELOG.md' |
