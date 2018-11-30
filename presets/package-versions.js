@@ -18,7 +18,7 @@ module.exports = [
   'sort',
   'structure',
   'template',
-].reduce((versions, package) =>
+].reduce((versions, packageName) =>
   Object.assign(versions, {
-    ['@storefront/' + package]: require(`@storefront/${package}/package.json`).version
+    ['@storefront/' + packageName]: require(`@storefront/${packageName}/package.json`).version
   }), {});
