@@ -98,8 +98,9 @@ touch "$versions_file"
 
 # Collect all release types into a file
 git log -p "${base_commit}^..HEAD" '**/CHANGELOG.md' |
-sed -n 's/^.## \[Unreleased\] \[\(.*\)\]/\1/p' |
-sort -u >"$package_release_types_file"
+  sed -n 's/^.## \[Unreleased\] \[\(.*\)\]/\1/p' |
+  sort -u \
+  >"$package_release_types_file"
 
 # Use the highest release type across all released packages
 #
