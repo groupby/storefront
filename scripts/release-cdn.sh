@@ -174,3 +174,6 @@ git commit -m "Bump CDN bundle version to ${version}" package.json CHANGELOG.md
 # tag commit
 ed -s CHANGELOG.md <<<$'1;/^## \\[/;//-p' | sed -e 's/^##* *//' -e $'1a\\\n\\\n' |
 git tag -a "$version" -F -
+
+# push
+git push --no-verify origin HEAD "$version"
