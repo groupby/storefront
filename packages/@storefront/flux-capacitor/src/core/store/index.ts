@@ -311,10 +311,10 @@ namespace Store {
     min?: number;
     or?: boolean; // post
     selected: number[]; // pre
+    show?: number[]; // post
     refinements: Refinement[]; // post
     sort?: Sort; // post
     metadata: { [key: string]: string };
-    show?: number[]; // post
   }
 
   export interface BaseRefinement {
