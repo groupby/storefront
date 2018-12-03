@@ -489,7 +489,7 @@ jobs:
   ## CDN jobs
 
   ### cdn_release
-  ### Generates release commits and tags for CDN{version}.
+  ### Generates release commits and tags for the CDN bundle.
   cdn_release:
     <<: *image
     steps:
@@ -518,7 +518,7 @@ jobs:
             exit $exit_code
 
   ### cdn_publish
-  ### Publishes CDN {version}.
+  ### Publishes a bundle to the CDN.
   cdn_publish:
     <<: *image
     steps:
