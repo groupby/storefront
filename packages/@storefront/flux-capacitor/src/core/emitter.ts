@@ -4,6 +4,12 @@ class Emitter extends EventEmitter {
   _barriers: Barriers = {};
   _lookups: Lookups = {};
 
+  /**
+   * Emit an event and an associated payload.
+   *
+   * Update the event collection counters and invoke the associated callbacks
+   * if required.
+   */
   emit(event: string, ...args: any[]): boolean {
     const result = super.emit(event, ...args);
     const keys = this._lookups[event] || [];
@@ -24,6 +30,18 @@ class Emitter extends EventEmitter {
     return result;
   }
 
+  /**
+   * Listen on a collection of events.
+   *
+   * Callbacks registered for a given collection will be invoked each time the
+   * member events have been emitted at least once. Note that the order of the
+   * member events is not significant.
+   *
+   * Callbacks are not invoked with arguments, however, data may be accessed from
+   * the store as normal.
+   *
+   * @param context The context to invoke the listener with.
+   */
   all(events: string[], callback: () => void, context: any = this) {
     if (!Array.isArray(events)) {
       throw new Error('`events` is not an array.');
@@ -56,6 +74,11 @@ class Emitter extends EventEmitter {
     return this;
   }
 
+  /**
+   * Remove a callback for a given collection of events.
+   *
+   * The order of the member events is not significant.
+   */
   allOff(events: string[], callback: () => void) {
     if (!Array.isArray(events)) {
       throw new Error('`events` is not an array.');

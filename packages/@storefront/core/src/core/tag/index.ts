@@ -38,6 +38,11 @@ class Tag<P extends object = any, S extends object = any, A extends object = any
     this.flux.store.dispatch(action as any);
   }
 
+  /**
+   * Invoke the callback provided each time the target event is emitted.
+   *
+   * All callbacks are automatically removed when the component is unmounted.
+   */
   subscribe<T>(event: string, handler: (data?: T) => void) {
     this.flux.on(event, handler);
 
@@ -48,10 +53,20 @@ class Tag<P extends object = any, S extends object = any, A extends object = any
     this._eventHandlers.push([event, handler as any]);
   }
 
+  /**
+   * Invoke the callback provided the next time the target event is emitted,
+   * then unregister it.
+   */
   subscribeOnce(event: string, handler: (event: string, data?: any) => void) {
     this.flux.once(event, handler);
   }
 
+  /**
+   * Invoke the callback provided each time the member events have been emitted
+   * at least once.
+   *
+   * All callbacks are automatically removed when the component is unmounted.
+   */
   subscribeWith<T>(events: string[], handler: (data?: T) => void) {
     this.flux.all(events, handler);
 
