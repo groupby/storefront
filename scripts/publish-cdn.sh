@@ -101,7 +101,7 @@ version=$(node -p 'require("./package.json").version')
 npm run bundle:prod || die "Could not create bundle."
 
 versions_file="${tmpdir}/versions"
-./scripts/print-package-versions.sh >"$versions_file"
+./scripts/print-package-versions.sh | tee "$versions_file"
 
 # Copy bundle
 copy_artifact "$version"

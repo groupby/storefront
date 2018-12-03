@@ -96,7 +96,8 @@ versions_file="${tmpdir}/versions"
 trap 'cleanup' EXIT
 
 # Create a Markdown list of all the package versions
-./scripts/print-package-versions.sh >"$versions_file"
+info "Package versions:"
+./scripts/print-package-versions.sh | tee "$versions_file"
 
 # Collect all release types into a file
 info "Determining release type..."
