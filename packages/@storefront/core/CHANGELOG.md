@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] [minor]
+### Changed
+- SF-1211: Update `saveState()` to accept optional URL override.
+  - Allows implementations to bypass the URL builder by specifying the next URL.
+
 ## [1.54.0] - 2018-12-04
 ### Changed
 - Update `@storefront/flux-capacitor` to 1.66.0.
