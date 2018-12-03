@@ -535,6 +535,10 @@ jobs:
             fi
 
             exit $exit_code
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - cdn-release-version
 
   ### cdn_publish
   ### Publishes a bundle to the CDN.
@@ -568,10 +572,6 @@ jobs:
             fi
 
             exit $exit_code
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - cdn-release-version
 
   ## Miscellaneous jobs
 
