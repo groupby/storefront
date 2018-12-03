@@ -239,7 +239,7 @@ suite('Search Adapter', ({ expect, stub }) => {
       ];
       stub(ConfigAdapter, 'extractToggleNavigations').returns([]);
 
-      // tslint:disable
+      // tslint:disable max-line-length
       expect(Adapter.pruneRefinements(navigations, state)).to.eql([
         { field: 'Adds non-selected refinement', refinements: [4], selected: [], show: [0], more: false, boolean: false },
         { field: 'Adds selected refinements', refinements: [6, 7, 4, 5, 6, 8], selected: [1, 5], show: [1, 5], more: true, boolean: false },
