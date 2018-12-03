@@ -177,15 +177,14 @@ w
 q
 EOF
 
-# Commit changes
-info "Committing, tagging, and pushing..."
+info "Committing changes..."
 git commit -m "Bump CDN bundle version to ${version}" package.json CHANGELOG.md
 
-# Tag commit
+info "Tagging commit..."
 ed -s CHANGELOG.md <<<$'1;/^## \\[/;//-p' | sed -e 's/^##* *//' -e $'1a\\\n\\\n' |
 git tag -a "$version" -F -
 
-# Push
+info "Pushing..."
 git push --no-verify origin HEAD "$version"
 
 info "Done."
