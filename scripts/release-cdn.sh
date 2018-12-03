@@ -159,7 +159,7 @@ echo "## [${version}] - $(date +%F)"
 echo
 echo "Package versions:"
 echo
-cat "${tmpdir}/versions"
+cat "$versions_file"
 echo
 for section in "${changelog_sections[@]}"; do
   if [[ -s "${tmpdir}/${section}" ]]; then
