@@ -347,6 +347,29 @@ suite('URL Service', ({ expect, spy, stub, itShouldBeCore, itShouldExtendBaseSer
       expect(handleUrl).to.be.calledOnce;
     });
 
+    it('should accept a url override', () => {
+      const currUrl  = '/foo';
+      const route = 'search';
+      const state = { a: 'b' };
+      const urlOverride = '/bar';
+      service['app'] = <any>{ flux: { store: { getState: () => state } } };
+      service['emitUrlUpdated'] = spy();
+      service['filterState'] = spy(() => state);
+      service['handleUrl'] = spy();
+      service['opts'] = { redirects: {} };
+      win.history = { pushState: spy(() => win.location = { href: urlOverride } ) };
+      win.location = { href: currUrl };
+
+      service.updateHistory(<any>{ state: <any>{}, route, url: urlOverride });
+
+      expect(win.history.pushState).to.be.calledWithExactly(
+        { url: urlOverride, state, app: STOREFRONT_APP_ID },
+        '',
+        urlOverride
+      );
+      expect(service['emitUrlUpdated']).to.be.calledWithExactly(currUrl, urlOverride, urlOverride);
+    });
+
     it('should handle errors thrown by pushState', () => {
       const err = new Error('Whoops, something went wrong!');
       const pushState = stub().throws(err);

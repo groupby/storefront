@@ -96,8 +96,8 @@ class UrlService extends BaseService<UrlService.Options> {
     this.app.flux.on(Events.HISTORY_REPLACE, this.buildUrlAndReplaceHistory);
   }
 
-  updateHistory = ({ state, route }: { state: Store.State, route: string }) => {
-    const url = this.beautifier.build(route, this.urlState[route](state));
+  updateHistory = ({ state, route, url: urlOverride }: { state: Store.State, route: string, url: string }) => {
+    const url = urlOverride || this.beautifier.build(route, this.urlState[route](state));
 
     if (typeof this.opts.urlHandler === 'function') {
       this.opts.urlHandler(url);
