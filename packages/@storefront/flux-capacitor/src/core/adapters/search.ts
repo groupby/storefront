@@ -92,6 +92,10 @@ namespace Adapter {
     const booleanNavs = ConfigAdapter.extractToggleNavigations(config);
     return navigations.map((navigation) => {
       const bool = booleanNavs.includes(navigation.field);
+      const mappedNavigation = {
+        ...navigation,
+        boolean: bool,
+      };
       if (max) {
         const show = navigation.selected.slice(0, max);
         for (let i = 0; i < navigation.refinements.length && show.length < max; i++) {
@@ -100,18 +104,10 @@ namespace Adapter {
           }
         }
 
-        return {
-          ...navigation,
-          more: navigation.refinements.length > max || navigation.more,
-          boolean: bool,
-          show,
-        };
-      } else {
-        return {
-          ...navigation,
-          boolean: bool,
-        };
+        mappedNavigation.more = navigation.refinements.length > max || navigation.more;
+        mappedNavigation.show = show;
       }
+      return mappedNavigation;
     });
   };
 
