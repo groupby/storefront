@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased] [patch]
+## [1.53.2] - 2018-12-03
 ### Fixed
 - SF-1205: Add fallback for document.baseURI.
   - Prevents malformed routing tables when StoreFront is running in IE11.
