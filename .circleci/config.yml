@@ -519,7 +519,7 @@ jobs:
           name: Release CDN
           command: |
             branch_prefix="$(cat ../branch-prefix)"
-            cdn_release_version_file="${HOME}/cdn-release-version"
+            cdn_release_version_file="../cdn-release-version"
 
             git checkout "${branch_prefix}/master"
 
