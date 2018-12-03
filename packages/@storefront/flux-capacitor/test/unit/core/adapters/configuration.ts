@@ -5,7 +5,6 @@ import { DEFAULT_COLLECTION } from '../../../../src/core/reducers/data/collectio
 import * as PageReducer from '../../../../src/core/reducers/data/page';
 import * as PastPurchaseReducer from '../../../../src/core/reducers/data/past-purchases';
 import suite from '../../_suite';
-import { ADDRCONFIG } from 'dns';
 
 suite('Configuration Adapter', ({ expect, stub }) => {
 
