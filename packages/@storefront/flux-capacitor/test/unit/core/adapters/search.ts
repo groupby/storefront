@@ -253,11 +253,11 @@ suite('Search Adapter', ({ expect, stub }) => {
     });
 
     it('should mark which navigations are boolean type', () => {
-      const navigations: any = [
-        { field: 'one', refinements: [2, 4], selected: [], more: false },
-        { field: 'two', refinements: [2, 6], selected: [], more: true },
-        { field: 'three', refinements: [2, 3, 5], selected: [1, 2], more: false },
-      ];
+      const nav1 = { field: 'one', refinements: [2, 4], selected: [], more: false };
+      const nav2 = { field: 'two', refinements: [2, 6], selected: [], more: true };
+      const nav3 = { field: 'three', refinements: [2, 3, 5], selected: [1, 2], more: false };
+
+      const navigations: any = [ nav1, nav2, nav3];
       const state: any = {};
       const config: any = {
         navigations: {
@@ -271,9 +271,9 @@ suite('Search Adapter', ({ expect, stub }) => {
       stub(Selectors, 'config').withArgs(state).returns(config);
 
       expect(Adapter.pruneRefinements(navigations, state)).to.eql([
-        { field: 'one', refinements: [2, 4], selected: [], more: false, show: [0, 1], boolean: true },
-        { field: 'two', refinements: [2, 6], selected: [], more: true, show: [0, 1], boolean: false },
-        { field: 'three', refinements: [2, 3, 5], selected: [1, 2], more: true, show: [1, 2], boolean: true },
+        { ...nav1, show: [0, 1], boolean: true },
+        { ...nav2, show: [0, 1], boolean: false },
+        { ...nav3, more: true, show: [1, 2], boolean: true },
       ]);
     });
 
