@@ -5,6 +5,7 @@ import { DEFAULT_COLLECTION } from '../../../../src/core/reducers/data/collectio
 import * as PageReducer from '../../../../src/core/reducers/data/page';
 import * as PastPurchaseReducer from '../../../../src/core/reducers/data/past-purchases';
 import suite from '../../_suite';
+import { ADDRCONFIG } from 'dns';
 
 suite('Configuration Adapter', ({ expect, stub }) => {
 
@@ -286,15 +287,17 @@ suite('Configuration Adapter', ({ expect, stub }) => {
       const nav2 = 'nav2';
       const nav3 = 'nav3';
 
-      expect(Adapter.extractToggleNavigations(<any>{
+      const toggleNavs = Adapter.extractToggleNavigations(<any>{
         navigations: {
           type: {
             [nav1]: 'toggle',
             [nav2]: 'toggle',
-            [nav3]: 'toggle',
+            [nav3]: 'slider',
           }
         }
-      })).to.eql([nav1, nav2, nav3]);
+      });
+
+      expect(toggleNavs.sort()).to.eql([nav1, nav2].sort());
     });
   });
 
