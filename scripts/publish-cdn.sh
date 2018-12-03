@@ -44,6 +44,8 @@ copy_artifact() {
   local version="$1"
   local artifact="${tmpdir}/cdn/static/javascript/storefront-${version}.js"
 
+  info "Copying ${version} bundle..."
+
   cp bundle/storefront.js "$artifact"
 
   # Inject the package versions as a comment and point to the proper sourcemap file
@@ -89,6 +91,7 @@ tmpdir=$(mktemp -d)
 trap 'cleanup' EXIT
 
 # Clone the CDN repo into a temporary directory
+info "Cloning CDN repo..."
 git -C "$tmpdir" clone --depth=1 https://github.com/groupby/cdn || die "Could not clone CDN repo."
 
 # Extract the version from package.json
@@ -98,8 +101,10 @@ version=$(node -p 'require("./package.json").version')
 [[ ! -f "${tmpdir}/cdn/static/javascript/storefront-${version}.js" ]] || die -c 4 "Version ${version} already exists on the CDN."
 
 # Create bundle
+info "Creating the bundle..."
 npm run bundle:prod || die "Could not create bundle."
 
+info "Package versions:"
 versions_file="${tmpdir}/versions"
 ./scripts/print-package-versions.sh | tee "$versions_file"
 
@@ -114,6 +119,7 @@ else
   branch="storefront/${version}"
 fi
 
+info "Committing and pushing to the CDN..."
 cd "${tmpdir}/cdn"
 git checkout -b "$branch" || git checkout "$branch"
 git add static/javascript
