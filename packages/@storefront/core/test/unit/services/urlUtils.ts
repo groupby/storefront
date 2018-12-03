@@ -16,6 +16,31 @@ suite('URL Service', ({ expect, spy, stub }) => {
   });
 
   describe('static', () => {
+    describe('getBaseUri', () => {
+      it('should return the base URI', () => {
+        win.document = { baseURI: 'foo' };
+
+        expect(Utils.getBaseUri()).to.eq('foo');
+      });
+
+      it('should extract the `href` property from the <base> element', () => {
+        win.document = {
+          querySelector: stub().withArgs('base').returns({ href: 'bar' }),
+        };
+
+        expect(Utils.getBaseUri()).to.eq('bar');
+      });
+
+      it('should fall back to the current location', () => {
+        const querySelector = spy(() => null);
+        win.location = { href: 'baz' };
+        win.document = { querySelector };
+
+        expect(Utils.getBaseUri()).to.eq('baz');
+        expect(querySelector).to.be.called;
+      });
+    });
+
     describe('getBasePath()', () => {
       it('should get base URL path', () => {
         const baseURI = 'http://example.com/base/path';
