@@ -100,15 +100,29 @@ suite('FluxCapacitor', ({ expect, spy, stub }) => {
     });
 
     describe('saveState()', () => {
-      it('should emit HISTORY_SAVE event with state and route', () => {
-        const state = { a: 'b' };
-        const emit = flux.emit = spy();
-        const route = 'search';
-        flux.store = <any>{ getState: () => state };
+      let emit;
+      let route;
+      let state;
 
+      beforeEach(() => {
+        emit = flux.emit = spy();
+        route = 'search';
+        state = { a: 'b' };
+        flux.store = <any>{ getState: () => state };
+      });
+
+      it('should emit HISTORY_SAVE event with state and route', () => {
         flux.saveState(route);
 
-        expect(emit).to.be.calledWith(Events.HISTORY_SAVE, { state, route });
+        expect(emit).to.be.calledWith(Events.HISTORY_SAVE, { state, route, url: undefined });
+      });
+
+      it('should emit HISTORY_SAVE event with state, route, and url', () => {
+        const url = '/foo';
+
+        flux.saveState(route, url);
+
+        expect(emit).to.be.calledWith(Events.HISTORY_SAVE, { state, route, url });
       });
     });
 
