@@ -142,7 +142,7 @@
 					<div class="tsd-signature tsd-kind-icon">_barriers<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_storefront_flux_capacitor.barriers.html" class="tsd-signature-type">Barriers</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/groupby/storefront/blob/9d2e8897/packages/@storefront/flux-capacitor/src/core/emitter.ts#L4">flux-capacitor/src/core/emitter.ts:4</a></li>
+							<li>Defined in <a href="https://github.com/groupby/storefront/blob/804b90e1/packages/@storefront/flux-capacitor/src/core/emitter.ts#L4">flux-capacitor/src/core/emitter.ts:4</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -152,7 +152,7 @@
 					<div class="tsd-signature tsd-kind-icon">_lookups<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_storefront_flux_capacitor.lookups.html" class="tsd-signature-type">Lookups</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/groupby/storefront/blob/9d2e8897/packages/@storefront/flux-capacitor/src/core/emitter.ts#L5">flux-capacitor/src/core/emitter.ts:5</a></li>
+							<li>Defined in <a href="https://github.com/groupby/storefront/blob/804b90e1/packages/@storefront/flux-capacitor/src/core/emitter.ts#L5">flux-capacitor/src/core/emitter.ts:5</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -210,9 +210,19 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/9d2e8897/packages/@storefront/flux-capacitor/src/core/emitter.ts#L27">flux-capacitor/src/core/emitter.ts:27</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/804b90e1/packages/@storefront/flux-capacitor/src/core/emitter.ts#L45">flux-capacitor/src/core/emitter.ts:45</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Listen on a collection of events.</p>
+								</div>
+								<p>Callbacks registered for a given collection will be invoked each time the
+									member events have been emitted at least once. Note that the order of the
+								member events is not significant.</p>
+								<p>Callbacks are not invoked with arguments, however, data may be accessed from
+								the store as normal.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -235,6 +245,9 @@
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> context: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> =&nbsp;this</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The context to invoke the listener with.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
@@ -251,9 +264,15 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/9d2e8897/packages/@storefront/flux-capacitor/src/core/emitter.ts#L59">flux-capacitor/src/core/emitter.ts:59</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/804b90e1/packages/@storefront/flux-capacitor/src/core/emitter.ts#L82">flux-capacitor/src/core/emitter.ts:82</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Remove a callback for a given collection of events.</p>
+								</div>
+								<p>The order of the member events is not significant.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -290,9 +309,16 @@
 							<aside class="tsd-sources">
 								<p>Overrides EventEmitter.emit</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/9d2e8897/packages/@storefront/flux-capacitor/src/core/emitter.ts#L7">flux-capacitor/src/core/emitter.ts:7</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/804b90e1/packages/@storefront/flux-capacitor/src/core/emitter.ts#L13">flux-capacitor/src/core/emitter.ts:13</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Emit an event and an associated payload.</p>
+								</div>
+								<p>Update the event collection counters and invoke the associated callbacks
+								if required.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -340,7 +366,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/9d2e8897/packages/@storefront/flux-capacitor/src/core/emitter.ts#L88">flux-capacitor/src/core/emitter.ts:88</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/804b90e1/packages/@storefront/flux-capacitor/src/core/emitter.ts#L111">flux-capacitor/src/core/emitter.ts:111</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
