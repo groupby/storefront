@@ -1,3 +1,4 @@
+import { Results } from 'groupby-api';
 import Configuration from '../configuration';
 import Store from '../store';
 
@@ -7,14 +8,14 @@ namespace Payload {
       request?: any;
     }
 
-    export interface MoreRefinements extends Navigation.Id, Override {}
-    export interface MoreProducts extends More, Override {}
-    export interface AutocompleteSuggestions extends SimpleQuery, Override {}
-    export interface AutocompleteProducts extends Autocomplete.Products, Override {}
-    export interface CollectionCount extends Collection.Name, Override {}
+    export interface MoreRefinements extends Navigation.Id, Override { }
+    export interface MoreProducts extends More, Override { }
+    export interface AutocompleteSuggestions extends SimpleQuery, Override { }
+    export interface AutocompleteProducts extends Autocomplete.Products, Override { }
+    export interface CollectionCount extends Collection.Name, Override { }
     export interface Details extends Id, Override { redirect?: boolean; }
-    export interface PastPurchases extends Partial<SimpleQuery>, Override {}
-    export interface MorePastPurchases extends More, Override {}
+    export interface PastPurchases extends Partial<SimpleQuery>, Override { }
+    export interface MorePastPurchases extends More, Override { }
   }
 
   export interface More {

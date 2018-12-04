@@ -23,6 +23,9 @@ import Page from './page';
 export const MAX_RECORDS = 10000;
 
 namespace Adapter {
+  export const isResult = (res: any | Results): res is Results => {
+    return res.id !== undefined && res.area !== undefined && res.originalRequest !== undefined;
+  };
 
   // tslint:disable-next-line max-line-length
   export const extractQuery = ({ correctedQuery: corrected, didYouMean, originalQuery: original, relatedQueries: related, rewrites }: Results): Actions.Payload.Query =>
@@ -97,8 +100,8 @@ namespace Adapter {
 
       return {
         ...navigation,
-          more: navigation.refinements.length > max || navigation.more,
-          show,
+        more: navigation.refinements.length > max || navigation.more,
+        show,
       };
     }) : navigations;
   };

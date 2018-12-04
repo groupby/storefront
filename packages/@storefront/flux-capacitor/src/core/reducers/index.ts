@@ -11,33 +11,33 @@ import ui from './ui';
 
 export type Action = Actions.RefreshState;
 
-export const undoWithoutHistory = (store) => {
+export const undoWithoutHistory = (store, flux) => {
   return (state, action) => {
     const config = {
       limit: 1,
       filter: includeAction(Actions.SAVE_STATE),
     };
     const reducer = undoable(data, config);
-    const { history, ...newState } = reducer(state, action);
+    const { history, ...newState } = reducer(state, action, flux);
 
     return newState;
   };
 };
 
-export const rootReducer = (state, action) => {
+export const rootReducer = (state, action, flux) => {
   return redux.combineReducers<Store.State>({
     isRunning,
     isFetching,
     session,
-    data: undoWithoutHistory(state),
+    data: undoWithoutHistory(state, flux),
     ui,
   })(state, action);
 };
 
-export default (state: Store.State, action: Action) => {
+export default (flux) => (state: Store.State, action: Action) => {
   switch (action.type) {
     case Actions.REFRESH_STATE: return updateState(state, action);
-    default: return rootReducer(state, action);
+    default: return rootReducer(state, action, flux);
   }
 };
 

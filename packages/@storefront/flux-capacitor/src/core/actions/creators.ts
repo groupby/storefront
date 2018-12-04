@@ -243,7 +243,7 @@ namespace ActionCreators {
    * and a request object for override.
    * @return {Actions.FetchPastPurchaseProducts} - Action with `{ amount, forward }`.
    */
-   // tslint:disable-next-line max-line-length
+  // tslint:disable-next-line max-line-length
   export function fetchMorePastPurchaseProducts(amount: number, forward?: boolean): Actions.FetchMorePastPurchaseProducts;
   // tslint:disable-next-line typedef
   export function fetchMorePastPurchaseProducts(options, forward = true): Actions.FetchMorePastPurchaseProducts {
@@ -551,8 +551,8 @@ namespace ActionCreators {
         ...payload,
         config: Selectors.config(state).personalization.realTimeBiasing,
       }, {
-        payload: validators.isValidBias
-      });
+          payload: validators.isValidBias
+        });
   }
 
   export function updateSecuredPayload(payload: Configuration.Recommendations.SecuredPayload) {
@@ -575,7 +575,7 @@ namespace ActionCreators {
    * @param  {Actions.Payload.Query} query - Query object.
    * @return {Actions.ReceiveQuery}        - Action with query object.
    */
-  export function receiveQuery(query: Actions.Payload.Query): Actions.ReceiveQuery {
+  export function receiveQuery(query: Actions.Payload.Query | Results): Actions.ReceiveQuery {
     return createAction(Actions.RECEIVE_QUERY, query);
   }
 
@@ -593,11 +593,11 @@ namespace ActionCreators {
 
         return [
           receiveProductsAction,
-          ActionCreators.receiveQuery(SearchAdapter.extractQuery(res)),
-          ActionCreators.receiveProductRecords(SearchAdapter.augmentProducts(res)),
+          ActionCreators.receiveQuery(res),
+          ActionCreators.receiveProductRecords(res),
           ActionCreators.receiveNavigations(
             SearchAdapter.pruneRefinements(SearchAdapter.combineNavigations(res), state)),
-          ActionCreators.receiveRecordCount(res.totalRecordCount),
+          ActionCreators.receiveRecordCount(res),
           ActionCreators.receiveCollectionCount({
             collection: Selectors.collection(state),
             count: res.totalRecordCount
@@ -606,7 +606,7 @@ namespace ActionCreators {
             limitedRecordCount,
             PageAdapter.currentPage(res.originalRequest.skip, res.originalRequest.pageSize)
           )(state),
-          ActionCreators.receiveTemplate(SearchAdapter.extractTemplate(res.template)),
+          ActionCreators.receiveTemplate(res),
         ];
       });
     };
@@ -618,7 +618,8 @@ namespace ActionCreators {
    * received and updated to in the state.
    * @return {Actions.ReceiveProductRecords}          - Action with products.
    */
-  export function receiveProductRecords(products: Store.ProductWithMetadata[]): Actions.ReceiveProductRecords {
+  // tslint:disable-next-line max-line-length
+  export function receiveProductRecords(products: Store.ProductWithMetadata[] | Results): Actions.ReceiveProductRecords {
     return createAction(Actions.RECEIVE_PRODUCT_RECORDS, products);
   }
 
@@ -638,7 +639,7 @@ namespace ActionCreators {
    * state will update to.
    * @return {Actions.ReceiveNavigations}             - Action with navigations.
    */
-  export function receiveNavigations(navigations: Store.Navigation[]): Actions.ReceiveNavigations {
+  export function receiveNavigations(navigations: Store.Navigation[] | Results): Actions.ReceiveNavigations {
     return createAction(Actions.RECEIVE_NAVIGATIONS, navigations);
   }
 
@@ -659,7 +660,7 @@ namespace ActionCreators {
    * to.
    * @return {Actions.ReceiveTemplate}          - Action with template.
    */
-  export function receiveTemplate(template: Store.Template): Actions.ReceiveTemplate {
+  export function receiveTemplate(template: Store.Template | Results): Actions.ReceiveTemplate {
     return createAction(Actions.RECEIVE_TEMPLATE, template);
   }
 
@@ -669,7 +670,7 @@ namespace ActionCreators {
    * will update to.
    * @return {Actions.ReceiveRecordCount}             - Action with recordCount.
    */
-  export function receiveRecordCount(recordCount: number): Actions.ReceiveRecordCount {
+  export function receiveRecordCount(recordCount: number | Results): Actions.ReceiveRecordCount {
     return createAction(Actions.RECEIVE_RECORD_COUNT, recordCount);
   }
 

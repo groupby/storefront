@@ -20,7 +20,7 @@ namespace Store {
     const middleware = Middleware.create(sagaMiddleware, flux);
 
     const store = createStore<State>(
-      reducer,
+      reducer(flux),
       <State>Adapter.initialState(flux.__config),
       middleware,
     );
@@ -245,17 +245,17 @@ namespace Store {
   }
 
   export interface PastPurchase {
-      defaultSkus: PastPurchases.PastPurchaseProduct[];
-      skus: PastPurchases.PastPurchaseProduct[];
-      saytPastPurchases: ProductWithMetadata[];
-      products: ProductWithMetadata[];
-      count: PastPurchases.PastPurchaseCount;
-      navigations: Indexed<Store.Navigation>;
-      query: string;
-      sort?: SelectableList<PastPurchases.PastPurchaseSort>;
-      page: Page;
-      template?: Template;
-    }
+    defaultSkus: PastPurchases.PastPurchaseProduct[];
+    skus: PastPurchases.PastPurchaseProduct[];
+    saytPastPurchases: ProductWithMetadata[];
+    products: ProductWithMetadata[];
+    count: PastPurchases.PastPurchaseCount;
+    navigations: Indexed<Store.Navigation>;
+    query: string;
+    sort?: SelectableList<PastPurchases.PastPurchaseSort>;
+    page: Page;
+    template?: Template;
+  }
 
   export namespace PastPurchases {
     export interface PastPurchaseSort extends Sort {

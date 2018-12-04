@@ -17,10 +17,10 @@ export const DEFAULTS: State = {
   sort: [],
 };
 
-export default function updateNavigations(state: State = DEFAULTS, action: Action) {
+export default function updateNavigations(state: State = DEFAULTS, action: Action, flux: any) {
   switch (action.type) {
     case Actions.RESET_REFINEMENTS: return resetRefinements(state, action.payload);
-    case Actions.RECEIVE_NAVIGATIONS: return receiveNavigations(state, action.payload);
+    case Actions.RECEIVE_NAVIGATIONS: return receiveNavigations(state, action, flux);
     case Actions.ADD_REFINEMENT: return addRefinement(state, action.payload);
     case Actions.SELECT_REFINEMENT: return selectRefinement(state, action.payload);
     case Actions.DESELECT_REFINEMENT: return deselectRefinement(state, action.payload);
@@ -53,7 +53,9 @@ export const resetRefinements = (state: State, navigationId: boolean | string) =
   }
 };
 
-export const receiveNavigations = (state: State, navigations: Store.Navigation[]) => {
+export const receiveNavigations = (state: State, { payload }: Actions.ReceiveNavigations, flux: any) => {
+  // const navigations = Adapter.isResult(payload) ?
+  const navigations = [];
   const allIds = navigations.map((nav) => nav.field);
   const byId = navigations.reduce((navs, nav) =>
     Object.assign(navs, { [nav.field]: nav }), {});
