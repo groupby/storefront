@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] [minor]
 ### Changed 
+- Update `@storefront/core` to 1.54.0.
 - SF-1196: Update `gb-refinement-crumbs` to pass down navigationLabel and boolean properties.
   - `gb-refinement-crumb` displays a label based on the refinement type of range, boolean, or value.
 
