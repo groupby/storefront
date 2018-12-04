@@ -13,6 +13,8 @@ interface FilteredRefinementList extends RefinementList {}
 namespace FilteredRefinementList {
   export interface Props extends RefinementList.Props {
     onFilterFocus?: (event: Tag.Event) => void;
+    onSelectAll?: (event: Tag.Event, items: RefinementList.Refinement[]) => void;
+    enableSelectAll?: boolean;
   }
 }
 

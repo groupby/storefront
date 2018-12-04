@@ -180,41 +180,69 @@ suite('validators', ({ expect, spy, stub }) => {
     });
   });
 
-  describe('isRefinementSelectedByIndex', () => {
+  describe('isRefinementDeselectedByIndex', () => {
     const navigationId = 'colour';
     const index = 8;
 
     it('should be valid if refinement is deselected', () => {
       const state: any = { a: 'b' };
-      const isRefinementDeselected = stub(Selectors, 'isRefinementDeselected').returns(true);
+      stub(Selectors, 'navigation').withArgs(state, navigationId).returns({ selected: [index + 2, index + 3] });
 
       expect(validators.isRefinementDeselectedByIndex.func({ navigationId, index }, state)).to.be.true;
-      expect(isRefinementDeselected).to.be.calledWithExactly(state, navigationId, index);
     });
 
-    it('should be valid if refinement is selected', () => {
-      stub(Selectors, 'isRefinementDeselected').returns(true);
+    it('should be invalid if refinement is selected', () => {
+      const state: any = { a: 'b' };
+      stub(Selectors, 'navigation').withArgs(state, navigationId).returns({ selected: [index + 2, index, index + 3] });
 
-      expect(validators.isRefinementDeselectedByIndex.func({ navigationId, index })).to.be.true;
+      expect(validators.isRefinementDeselectedByIndex.func({ navigationId, index }, state)).to.be.false;
     });
   });
 
-  describe('isRefinementDeselectedByIndex', () => {
-    const navigationId = 'brand';
-    const index = 5;
+  describe('areMultipleRefinementsDeselectedByIndex', () => {
+    const navigationId = 'colour';
+
+    it('should be valid if some refinements are deselected', () => {
+      const state: any = { a: 'b' };
+      stub(Selectors, 'navigation').withArgs(state, navigationId).returns({ selected: [2, 4, 6, 8] });
+
+      // tslint:disable-next-line max-line-length
+      expect(validators.areMultipleRefinementsDeselectedByIndex.func({ navigationId, indices: [1, 2, 3, 4, 5, 6, 7, 8] }, state)).to.be.true;
+    });
+
+    it('should be invalid if all refinements are selected', () => {
+      const state: any = { a: 'b' };
+      const selectedRefinements = [1, 2, 3, 4, 5, 6, 7];
+      stub(Selectors, 'navigation').withArgs(state, navigationId).returns({ selected: [...selectedRefinements] });
+
+      // tslint:disable-next-line max-line-length
+      expect(validators.areMultipleRefinementsDeselectedByIndex.func({ navigationId, indices: [...selectedRefinements] }, state)).to.be.false;
+    });
+
+    it('should be invalid if indices array is empty', () => {
+      const state: any = { a: 'b' };
+      const indices = [];
+
+      expect(validators.areMultipleRefinementsDeselectedByIndex.func({ navigationId, indices }, state)).to.be.false;
+    });
+  });
+
+  describe('isRefinementSelectedByIndex', () => {
+    const navigationId = 'colour';
+    const index = 8;
 
     it('should be valid if refinement is selected', () => {
       const state: any = { a: 'b' };
-      const isRefinementSelected = stub(Selectors, 'isRefinementSelected').returns(true);
+      stub(Selectors, 'navigation').withArgs(state, navigationId).returns({ selected: [index + 2, index, index + 3] });
 
       expect(validators.isRefinementSelectedByIndex.func({ navigationId, index }, state)).to.be.true;
-      expect(isRefinementSelected).to.be.calledWithExactly(state, navigationId, index);
     });
 
     it('should be invalid if refinement is deselected', () => {
-      stub(Selectors, 'isRefinementSelected').returns(false);
+      const state: any = { a: 'b' };
+      stub(Selectors, 'navigation').withArgs(state, navigationId).returns({ selected: [index + 2, index + 3] });
 
-      expect(validators.isRefinementSelectedByIndex.func({ navigationId, index })).to.be.false;
+      expect(validators.isRefinementSelectedByIndex.func({ navigationId, index }, state)).to.be.false;
     });
   });
 
@@ -234,6 +262,36 @@ suite('validators', ({ expect, spy, stub }) => {
       stub(Selectors, 'isPastPurchaseRefinementDeselected').returns(false);
 
       expect(validators.isPastPurchaseRefinementDeselectedByIndex.func({ navigationId, index })).to.be.false;
+    });
+  });
+
+  describe('areMultiplePastPurchaseRefinementsDeselectedByIndex', () => {
+    const navigationId = 'color';
+
+    it('should be valid if some refinements are deselected', () => {
+      const state: any = { a: 'b' };
+      stub(Selectors, 'pastPurchaseNavigation').withArgs(state, navigationId).returns({ selected: [4, 5, 6, 7] });
+
+      // tslint:disable-next-line max-line-length
+      expect(validators.areMultiplePastPurchaseRefinementsDeselectedByIndex.func({ navigationId, indices: [1, 2, 3, 4, 5, 6, 7] }, state)).to.be.true;
+    });
+
+    it('should be invalid if all refinements are selected', () => {
+      const state: any = { a: 'b' };
+      const selectedRefinements = [1, 2, 3, 4, 5, 6, 7, 8];
+      // tslint:disable-next-line max-line-length
+      stub(Selectors, 'pastPurchaseNavigation').withArgs(state, navigationId).returns({ selected: [...selectedRefinements] });
+
+      // tslint:disable-next-line max-line-length
+      expect(validators.areMultiplePastPurchaseRefinementsDeselectedByIndex.func({ navigationId, indices: [...selectedRefinements] }, state)).to.be.false;
+    });
+
+    it('should be invalid if indices array is empty', () => {
+      const state: any = { a: 'b' };
+      const indices = [];
+
+      // tslint:disable-next-line max-line-length
+      expect(validators.areMultiplePastPurchaseRefinementsDeselectedByIndex.func({ navigationId, indices }, state)).to.be.false;
     });
   });
 

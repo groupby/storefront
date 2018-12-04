@@ -6,6 +6,7 @@ export type Action = Actions.ResetRefinements
   | Actions.AddRefinement
   | Actions.ReceiveNavigations
   | Actions.SelectRefinement
+  | Actions.SelectMultipleRefinements
   | Actions.DeselectRefinement
   | Actions.ReceiveMoreRefinements
   | Actions.ReceiveNavigationSort;
@@ -23,6 +24,7 @@ export default function updateNavigations(state: State = DEFAULTS, action: Actio
     case Actions.RECEIVE_NAVIGATIONS: return receiveNavigations(state, action.payload);
     case Actions.ADD_REFINEMENT: return addRefinement(state, action.payload);
     case Actions.SELECT_REFINEMENT: return selectRefinement(state, action.payload);
+    case Actions.SELECT_MULTIPLE_REFINEMENTS: return selectMultipleRefinements(state, action.payload);
     case Actions.DESELECT_REFINEMENT: return deselectRefinement(state, action.payload);
     case Actions.RECEIVE_MORE_REFINEMENTS: return receiveMoreRefinements(state, action.payload);
     case Actions.RECEIVE_NAVIGATION_SORT: return receiveNavigationSort(state, action.payload);
@@ -65,21 +67,30 @@ export const receiveNavigations = (state: State, navigations: Store.Navigation[]
 };
 
 // tslint:disable-next-line max-line-length
-export const selectRefinement = (state: State, { navigationId, index: refinementIndex }: Actions.Payload.Navigation.Refinement) => {
-  if (navigationId && refinementIndex != null) {
-    return {
-      ...state,
-      byId: {
-        ...state.byId,
-        [navigationId]: {
-          ...state.byId[navigationId],
-          selected: state.byId[navigationId].selected.concat(refinementIndex),
-        },
-      },
-    };
-  } else {
+export const selectMultipleRefinements = (state: State, { navigationId, indices }: Actions.Payload.Navigation.MultipleRefinements) => {
+  if (!navigationId) {
     return state;
   }
+
+  return {
+    ...state,
+    byId: {
+      ...state.byId,
+      [navigationId]: {
+        ...state.byId[navigationId],
+        selected: Array.from(new Set(state.byId[navigationId].selected.concat(indices))),
+      },
+    },
+  };
+};
+
+// tslint:disable-next-line max-line-length
+export const selectRefinement = (state: State, { navigationId, index: refinementIndex }: Actions.Payload.Navigation.Refinement) => {
+  if (!navigationId || refinementIndex == null) {
+    return state;
+  }
+
+  return selectMultipleRefinements(state, { navigationId, indices: [refinementIndex] });
 };
 
 // tslint:disable-next-line max-line-length

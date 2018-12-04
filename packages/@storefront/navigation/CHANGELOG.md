@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] [minor]
+### Added
+- SF-1073: Added `selectMatchedRefinements` to `gb-filter-refinement-controls`.
+  - `selectMatchedRefinements` will create and dispatch a `selectMultipleRefinements` or a `selectMultiplePastPurchaseRefinements` action when a user interacts with the "Select All" button within `gb-filtered-list`.
+  - Only "orable" navigations will have the "Select All" button available.
+
 ## [1.44.0] - 2019-01-03
 ### Changed
 - SF-1197: Restored the "more" button on `gb-filter-refinement-controls`.

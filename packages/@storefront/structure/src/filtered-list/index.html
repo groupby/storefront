@@ -1,4 +1,5 @@
 <input aria-label="{props.placeholder}" onkeydown="{onKeyDown}" ref="filter" oninput="{onFilterChange}" onfocus="{onFilterFocus}" placeholder="{props.placeholder}">
+<gb-button if="{props.enableSelectAll}" on-click="{onSelectAll}">{parent.props.selectAllLabel}</gb-button>
 <gb-paged-list _props="{childProps()}">
   <yield/>
 </gb-paged-list>

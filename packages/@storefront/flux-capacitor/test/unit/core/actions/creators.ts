@@ -640,6 +640,32 @@ suite('ActionCreators', ({ expect, spy, stub }) => {
       });
     });
 
+    describe('selectMultipleRefinements()', () => {
+      const navigationId = 'colour';
+
+      it('should return a batch action with RESET_PAGE', () => {
+        expectAction(ActionCreators.selectMultipleRefinements(navigationId, null), Actions.RESET_PAGE);
+      });
+
+      it('should return a batch action with SELECT_MULTIPLE_REFINEMENTS', () => {
+        const indices = [30, 40, 50];
+
+        expectAction(
+          ActionCreators.selectMultipleRefinements(navigationId, indices),
+          Actions.SELECT_MULTIPLE_REFINEMENTS,
+          { navigationId, indices }
+        );
+      });
+
+      it('should apply validators to SELECT_MULTIPLE_REFINEMENTS', () => {
+        expectValidators(
+          ActionCreators.selectMultipleRefinements(navigationId, [30, 40, 50]),
+          Actions.SELECT_MULTIPLE_REFINEMENTS,
+          { payload: validators.areMultipleRefinementsDeselectedByIndex }
+        );
+      });
+    });
+
     describe('deselectRefinement()', () => {
       const navigationId = 'colour';
 
@@ -1188,6 +1214,34 @@ suite('ActionCreators', ({ expect, spy, stub }) => {
           Actions.SELECT_PAST_PURCHASE_REFINEMENT, {
             payload: validators.isPastPurchaseRefinementDeselectedByIndex,
           });
+      });
+    });
+
+    describe('selectMultiplePastPurcahseRefinements()', () => {
+      const navigationId = 'colour';
+
+      it('should return a batch action with RESET_PAST_PURCHASE_PAGE', () => {
+        expectAction(
+          ActionCreators.selectMultiplePastPurchaseRefinements(navigationId, null),
+          Actions.RESET_PAST_PURCHASE_PAGE
+        );
+      });
+
+      it('should return a batch action with SELECT_MULTIPLE_PAST_PURCHASE_REFINEMENTS', () => {
+        const indices = [1, 2, 3];
+
+        expectAction(
+          ActionCreators.selectMultiplePastPurchaseRefinements(navigationId, indices),
+          Actions.SELECT_MULTIPLE_PAST_PURCHASE_REFINEMENTS,
+          { navigationId, indices }
+        );
+      });
+
+      it('should apply validators to SELECT_MULTIPLE_PAST_PURCHASE_REFINEMENTS', () => {
+        // tslint:disable-next-line max-line-length
+        expectValidators(ActionCreators.selectMultiplePastPurchaseRefinements(navigationId, [30, 40, 50]), Actions.SELECT_MULTIPLE_PAST_PURCHASE_REFINEMENTS, {
+          payload: validators.areMultipleRefinementsDeselectedByIndex
+        });
       });
     });
 

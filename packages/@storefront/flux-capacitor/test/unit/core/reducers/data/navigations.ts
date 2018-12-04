@@ -199,13 +199,79 @@ suite('navigations', ({ expect }) => {
       expect(reducer).to.eql(newState);
     });
 
-    it('should return state on SELECT_REFINEMENT if no navigationId and refinementIndex', () => {
+    it('should return state on SELECT_REFINEMENT if no navigationId', () => {
       const reducer = navigations(state, <any>{
         type: Actions.SELECT_REFINEMENT,
-        payload: {}
+        payload: { index: 1 },
       });
 
-      expect(reducer).to.eql(state);
+      expect(reducer).to.eq(state);
+    });
+
+    it('should return state on SELECT_REFINEMENT if no refinementIndex', () => {
+      const reducer = navigations(state, <any>{
+        type: Actions.SELECT_REFINEMENT,
+        payload: { navigationId: 'Section' },
+      });
+
+      expect(reducer).to.eq(state);
+    });
+
+    it('should add selected refinement state on SELECT_MULTIPLE_REFINEMENTS', () => {
+      const newState = {
+        ...state,
+        byId: {
+          Format,
+          Section: {
+            ...Section,
+            selected: [3, 0, 4, 9],
+          },
+          Department,
+        },
+      };
+
+      const reducer = navigations(state, {
+        type: Actions.SELECT_MULTIPLE_REFINEMENTS,
+        payload: {
+          navigationId: 'Section',
+          indices: [0, 4, 9]
+        }
+      });
+
+      expect(reducer).to.eql(newState);
+    });
+
+    it('should return state on SELECT_MULTIPLE_REFINEMENTS if no navigationId', () => {
+      const reducer = navigations(state, <any>{
+        type: Actions.SELECT_MULTIPLE_REFINEMENTS,
+        payload: { indices: [1, 2, 3] },
+      });
+
+      expect(reducer).to.eq(state);
+    });
+
+    it('should not add duplicate indices on SELECT_MULTIPLE_REFINEMENTS', () => {
+      const newState = {
+        ...state,
+        byId: {
+          Format,
+          Section: {
+            ...Section,
+            selected: [3, 0, 4, 9],
+          },
+          Department,
+        },
+      };
+
+      const reducer = navigations(state, {
+        type: Actions.SELECT_MULTIPLE_REFINEMENTS,
+        payload: {
+          navigationId: 'Section',
+          indices: [0, 4, 9, 3]
+        }
+      });
+
+      expect(reducer).to.eql(newState);
     });
 
     it('should not add duplicate range refinement on ADD_REFINEMENT', () => {
@@ -424,7 +490,7 @@ suite('navigations', ({ expect }) => {
         payload: {}
       });
 
-      expect(reducer).to.eql(state);
+      expect(reducer).to.eq(state);
     });
 
     it('should update refinements state on RECEIVE_MORE_REFINEMENTS', () => {
@@ -465,13 +531,13 @@ suite('navigations', ({ expect }) => {
         payload: {}
       });
 
-      expect(reducer).to.eql(state);
+      expect(reducer).to.eq(state);
     });
 
     it('should return state on default', () => {
       const reducer = navigations(state, <any>{});
 
-      expect(reducer).to.eql(state);
+      expect(reducer).to.eq(state);
     });
   });
 });

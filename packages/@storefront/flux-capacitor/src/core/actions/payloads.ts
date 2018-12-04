@@ -109,6 +109,10 @@ namespace Payload {
       index: number;
     }
 
+    export interface MultipleRefinements extends Navigation.Id {
+      indices: number[];
+    }
+
     export interface AddRefinement extends Navigation.Id {
       range?: boolean;
 

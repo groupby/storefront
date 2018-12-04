@@ -247,6 +247,10 @@ suite('recommendations', ({ expect, stub }) => {
         testReducerChain(Actions.SELECT_PAST_PURCHASE_REFINEMENT, navigations.selectRefinement, nav);
       });
 
+      it('should call navigations reducer if SELECT_MULTIPLE_PAST_PURCHASE_REFINEMENTS', () => {
+        testReducerChain(Actions.SELECT_MULTIPLE_PAST_PURCHASE_REFINEMENTS, navigations.selectMultipleRefinements, nav);
+      });
+
       it('should call navigations reducer if DESELECT_PAST_PURCHASE_REFINEMENT', () => {
         testReducerChain(Actions.DESELECT_PAST_PURCHASE_REFINEMENT, navigations.deselectRefinement, nav);
       });

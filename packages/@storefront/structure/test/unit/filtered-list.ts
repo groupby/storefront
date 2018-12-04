@@ -2,7 +2,7 @@ import { KEYS } from '@storefront/core';
 import FilteredList from '../../src/filtered-list';
 import suite from './_suite';
 
-suite('FilteredList', ({ expect, spy, stub }) => {
+suite('FilteredList', ({ expect, spy, stub, sinon }) => {
   let filteredList: FilteredList;
 
   beforeEach(() => (filteredList = new FilteredList()));
@@ -13,6 +13,8 @@ suite('FilteredList', ({ expect, spy, stub }) => {
         expect(filteredList.props).eql(<any>{
           items: [],
           paginate: true,
+          selectAllLabel: 'Select All',
+          enableSelectAll: false,
         });
       });
     });
@@ -160,6 +162,37 @@ suite('FilteredList', ({ expect, spy, stub }) => {
   describe('filterItem()', () => {
     it('should trim filter value', () => {
       expect(filteredList.filterItem(' \t e \n   ', 'def')).to.be.true;
+    });
+  });
+
+  describe('onSelectAll()', () => {
+    it('should call props.onSelectAll() with the event and the items in state', () => {
+      const onSelectAll = spy();
+      const event = { a: 'b' };
+      const items = ['a', 'b'];
+      filteredList.props = <any>{ onSelectAll };
+      filteredList.state = { items };
+
+      filteredList.onSelectAll(<any>event);
+
+      expect(onSelectAll).to.be.calledWith(sinon.match.same(event), items);
+    });
+
+    it('should not call props.onSelectAll() when onSelectAll is not a function', () => {
+      filteredList.props = <any>{};
+
+      expect(() => filteredList.onSelectAll(<any>{})).to.not.throw();
+    });
+  });
+
+  describe('updateItems()', () => {
+    it('should filter items', () => {
+      const filterValue = 'e';
+      const items = ['abc', 'def', 'ghi', 'eee'];
+      filteredList.refs = <any>{ filter: { value: filterValue } };
+      filteredList.props = { items };
+
+      filteredList.updateItems();
     });
 
     it('should filter case-insensitively', () => {

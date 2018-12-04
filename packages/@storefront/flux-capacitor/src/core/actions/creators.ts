@@ -476,6 +476,24 @@ namespace ActionCreators {
   }
 
   /**
+   * Selects the given refinements based on navigationId and indices.
+   * @param  {string}                               navigationId - The navigationId for
+   * the navigation to fetch more refinements against.
+   * @param  {number[]}                             indices      - The indices of the refinements
+   * intended to be selected.
+   * @return {Actions.ResetPageAndSelectMultipleRefinements}     - Actions with relevant data.
+   */
+  // tslint:disable-next-line max-line-length
+  export function selectMultipleRefinements(navigationId: string, indices: number[]): Actions.ResetPageAndSelectMultipleRefinements {
+    return [
+      ActionCreators.resetPage(),
+      createAction(Actions.SELECT_MULTIPLE_REFINEMENTS, { navigationId, indices }, {
+        payload: validators.areMultipleRefinementsDeselectedByIndex
+      }),
+    ];
+  }
+
+  /**
    * Removes a given refinement based on navigationId and index.
    * @param  {string}                                 navigationId - The navigationId for
    * the navigation to fetch more refinements against.
@@ -906,6 +924,24 @@ namespace ActionCreators {
       createAction(Actions.SELECT_PAST_PURCHASE_REFINEMENT, { navigationId, index }, {
         payload: validators.isPastPurchaseRefinementDeselectedByIndex
       })
+    ];
+  }
+
+  /**
+   * In the past purchase section, selects the given refinements based on navigationId and indices.
+   * @param  {string}                               navigationId - The navigationId for
+   * the navigation to fetch more refinements against.
+   * @param  {number[]}                             indices      - The indices of the refinements
+   * intended to be selected.
+   * @return {Actions.ResetPageAndSelectMultipleRefinements}     - Actions with relevant data.
+   */
+  // tslint:disable-next-line max-line-length
+  export function selectMultiplePastPurchaseRefinements(navigationId: string, indices: number[]): Actions.PastPurchaseSelectMultiple {
+    return [
+      ActionCreators.resetPastPurchasePage(),
+      createAction(Actions.SELECT_MULTIPLE_PAST_PURCHASE_REFINEMENTS, { navigationId, indices }, {
+        payload: validators.areMultipleRefinementsDeselectedByIndex
+      }),
     ];
   }
 
