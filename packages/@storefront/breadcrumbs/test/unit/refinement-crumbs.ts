@@ -156,10 +156,13 @@ suite('RefinementCrumbs', ({ expect, spy, stub, itShouldProvideAlias }) => {
     it('should return build navigation state', () => {
       const range = true;
       const selected = [0, 2];
+      const label = 'navlabel';
       const navigation = {
         a: 'b',
+        label,
         range,
         selected,
+        boolean: false,
         refinements: [{ a: 'b' }, { c: 'd' }, { e: 'f' }],
       };
       const field = 'colour';
@@ -171,11 +174,13 @@ suite('RefinementCrumbs', ({ expect, spy, stub, itShouldProvideAlias }) => {
       expect(refinements).to.eql({
         a: 'b',
         field,
+        label,
         range,
         selected,
+        boolean: false,
         refinements: [
-          { field, range, index: 0, selected: true, a: 'b' },
-          { field, range, index: 2, selected: true, e: 'f' },
+          { field, range, boolean: false, navigationLabel: label, index: 0, selected: true, a: 'b' },
+          { field, range, boolean: false, navigationLabel: label, index: 2, selected: true, e: 'f' },
         ],
       });
       expect(navigationSelector).to.be.calledWith(field);

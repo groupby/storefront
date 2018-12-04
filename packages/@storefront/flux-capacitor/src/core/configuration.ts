@@ -60,10 +60,18 @@ interface Configuration {
   refinements?: Configuration.Refinements;
 
   /**
+   * state configuration for navigation related data modifications
+   */
+  navigations?: Configuration.Navigations;
+
+  /**
    * network request configuration
    */
   network?: Configuration.Bridge;
 
+  /**
+   * personalization configuration
+   */
   personalization?: Configuration.Personalization;
 }
 
@@ -397,6 +405,22 @@ namespace Configuration {
 
     export interface Pinned {
       [id: string]: string[];
+    }
+  }
+
+  export interface Navigations {
+    /**
+     * Remap navigation data type.
+     */
+    type?: Configuration.Navigations.NavigationType;
+  }
+
+  export namespace Navigations {
+    export interface NavigationType {
+      /**
+       * Map of navigation name to data type.
+       */
+      [key: string]: 'toggle';
     }
   }
 

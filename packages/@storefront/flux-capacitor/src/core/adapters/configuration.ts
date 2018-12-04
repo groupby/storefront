@@ -163,6 +163,9 @@ namespace Adapter {
   export const extractRefinementsSort = (config: Configuration) =>
     extractINav(config).refinements.sort;
 
+  export const extractToggleNavigations = (config: Configuration) =>
+    Object.keys(config.navigations.type).filter((key) => config.navigations.type[key] === 'toggle');
+
   export const extractLocation = (config: Configuration) =>
     config.recommendations.location;
 
