@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - SF-1196: Added support for `toggle` type navigations.
   - The result is that `toggle` type navigations generate refinement crumbs that display the navigation name.
+  - `toggle` type navigations can be specified under the new top-level configuration object `navigations`.
 
 ## [1.65.1] - 2018-11-27
 ### Changed
