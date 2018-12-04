@@ -15,6 +15,8 @@ class UrlService extends BaseService<UrlService.Options> {
 
   beautifier: UrlBeautifier.SimpleBeautifier;
 
+  url: string;
+
   urlState: UrlService.UrlStateFunctions = {
     search: Utils.searchUrlState,
     details: Utils.detailsUrlState,
@@ -46,7 +48,8 @@ class UrlService extends BaseService<UrlService.Options> {
   }
 
   handleCurrentLocation() {
-    const parsed = <any>this.beautifier.parse<UrlBeautifier.SearchUrlState>(WINDOW().location.href);
+    this.url = WINDOW().location.href;
+    const parsed = <any>this.beautifier.parse<UrlBeautifier.SearchUrlState>(this.url);
     return Promise.resolve(parsed)
       .then((resp) => {
         const { route, request: urlState } = resp;
@@ -97,25 +100,25 @@ class UrlService extends BaseService<UrlService.Options> {
   }
 
   updateHistory = ({ state, route, url: urlOverride }: { state: Store.State, route: string, url: string }) => {
-    const url = urlOverride || this.beautifier.build(route, this.urlState[route](state));
+    this.url = urlOverride || this.beautifier.build(route, this.urlState[route](state));
 
     if (typeof this.opts.urlHandler === 'function') {
-      this.opts.urlHandler(url);
-    } else if (typeof this.opts.redirects === 'function' && this.opts.redirects(url)) {
-      WINDOW().location.assign(this.opts.redirects(url));
-    } else if (this.opts.redirects[url]) {
-      WINDOW().location.assign(this.opts.redirects[url]);
+      this.opts.urlHandler(this.url);
+    } else if (typeof this.opts.redirects === 'function' && this.opts.redirects(this.url)) {
+      WINDOW().location.assign(this.opts.redirects(this.url));
+    } else if (this.opts.redirects[this.url]) {
+      WINDOW().location.assign(this.opts.redirects[this.url]);
     } else {
       try {
         const oldUrl = WINDOW().location.href;
         WINDOW().history.pushState(
-          { url, state: this.filterState(this.app.flux.store.getState()), app: STOREFRONT_APP_ID },
+          { url: this.url, state: this.filterState(this.app.flux.store.getState()), app: STOREFRONT_APP_ID },
           '',
-          url
+          this.url
         );
 
         const newUrl = WINDOW().location.href;
-        this.emitUrlUpdated(oldUrl, newUrl, url);
+        this.emitUrlUpdated(oldUrl, newUrl, this.url);
         this.handleUrl();
       } catch (e) {
         this.app.log.warn('unable to push state to browser history', e);
@@ -124,7 +127,8 @@ class UrlService extends BaseService<UrlService.Options> {
   }
 
   buildUrlAndReplaceHistory = ({ state, route }: { state: Store.State, route: string }) => {
-    const url = this.beautifier.build(route, this.urlState[route](state));
+    const url = this.url || this.beautifier.build(route, this.urlState[route](state));
+    delete this.url;
     this.replaceHistory(url);
   }
 

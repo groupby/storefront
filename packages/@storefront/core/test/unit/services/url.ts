@@ -122,6 +122,7 @@ suite('URL Service', ({ expect, spy, stub, itShouldBeCore, itShouldExtendBaseSer
       const p = service.handleCurrentLocation();
 
       expect(parse).to.be.calledWith(href);
+      expect(service.url).to.eq(href);
       return p.then((response) => {
         expect(triggerRequest).to.be.calledWith(route, request);
       });
@@ -243,6 +244,22 @@ suite('URL Service', ({ expect, spy, stub, itShouldBeCore, itShouldExtendBaseSer
   });
 
   describe('updateHistory()', () => {
+    it('should assign the url to itself', () => {
+      const url = '/some/url';
+      service['app'] = <any>{ flux: { store: { getState: () => null } } };
+      service['opts'] = { redirects: {} };
+      service.beautifier = <any>{ build: () => url };
+      service.filterState = spy();
+      service.handleUrl = service.emitUrlUpdated = spy();
+      service.urlState = <any>{ search: () => null };
+      win.location = {};
+      win.history = { pushState: spy() };
+
+      service.updateHistory(<any>{ state: { a: 'b' }, route: 'search' });
+
+      expect(service.url).to.eq(url);
+    });
+
     it('should redirect using custom urlHandler', () => {
       const url = '/some/url';
       const route = 'search';
@@ -403,6 +420,19 @@ suite('URL Service', ({ expect, spy, stub, itShouldBeCore, itShouldExtendBaseSer
 
       expect(build).to.be.calledWithExactly('search', search());
       expect(replaceHistory).to.be.calledWithExactly(url);
+    });
+
+    it('should use and delete the temporary url', () => {
+      const url = 'www.example.com';
+      service.beautifier = <any>{ build: spy() };
+      service.replaceHistory = spy();
+      service.url = url;
+
+      service.buildUrlAndReplaceHistory({ state: <any>{}, route: '' });
+
+      expect(service.replaceHistory).to.be.calledWithExactly(url);
+      expect(service.url).to.be.undefined;
+      expect(service.beautifier.build).to.not.be.called;
     });
   });
 
