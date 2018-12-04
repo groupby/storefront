@@ -1,6 +1,6 @@
 {
   "name": "@storefront/query",
-  "version": "1.37.0",
+  "version": "1.38.0",
   "description": "StoreFront query component",
   "keywords": [
     "storefront",
@@ -57,6 +57,6 @@
     "singleQuote": true
   },
   "peerDependencies": {
-    "@storefront/core": "~1.53.0"
+    "@storefront/core": "~1.54.0"
   }
 }

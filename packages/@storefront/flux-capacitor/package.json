@@ -1,6 +1,6 @@
 {
   "name": "@storefront/flux-capacitor",
-  "version": "1.65.1",
+  "version": "1.66.0",
   "description": "State management for StoreFront",
   "repository": {
     "type": "git",
