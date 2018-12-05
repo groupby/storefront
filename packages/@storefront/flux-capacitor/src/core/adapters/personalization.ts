@@ -45,7 +45,7 @@ namespace PersonalizationAdapter {
   export const generateNewBias = () => ({ lastUsed: Math.floor(Date.now() / 1000) });
 
   // tslint:disable-next-line max-line-length
-  export const transformToBrowser = (state: Store.Personalization.Biasing, reducerKey: string): BrowserStorageState => ({
+  export const transformToBrowser = (state: Store.Personalization.Biasing, _: string): BrowserStorageState => ({
     allIds: state.allIds.map(({ field, value }) => ({
       field,
       value,

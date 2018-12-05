@@ -1,17 +1,13 @@
 import { Request } from 'groupby-api';
-import { QueryTimeAutocompleteConfig, QueryTimeProductSearchConfig } from 'sayt';
-import Payload from '../actions/payloads';
+import { QueryTimeAutocompleteConfig } from 'sayt';
 import Autocomplete from '../adapters/autocomplete';
 import Configuration from '../adapters/configuration';
 import PastPurchaseAdapter from '../adapters/past-purchases';
 import PersonalizationAdapter from '../adapters/personalization';
 import RecommendationsAdapter from '../adapters/recommendations';
 import RequestAdapter from '../adapters/request';
-import SearchAdapter, { MAX_RECORDS } from '../adapters/search';
-import AppConfig from '../configuration';
 import Selectors from '../selectors';
 import Store from '../store';
-import { normalizeToFunction } from '../utils';
 
 namespace RequestHelpers {
   export type RequestBody = RecommendationsAdapter.RecommendationsBody

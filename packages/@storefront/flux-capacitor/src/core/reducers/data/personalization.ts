@@ -2,7 +2,6 @@ import { createTransform, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import Actions from '../../actions';
 import Adapter from '../../adapters/personalization';
-import Selectors from '../../selectors';
 import Store from '../../store';
 
 export type Action = Actions.UpdateBiasing;

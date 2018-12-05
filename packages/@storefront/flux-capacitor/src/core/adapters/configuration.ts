@@ -1,5 +1,4 @@
 import { Request } from 'groupby-api';
-import { AutocompleteConfig, ProductSearchConfig } from 'sayt';
 import RecommendationsAdapter from '../adapters/recommendations';
 import Configuration from '../configuration';
 import * as AreaReducer from '../reducers/data/area';
@@ -221,6 +220,7 @@ namespace ConfigurationAdapter {
   export const recommendationsProductsOverrides: Override<Request> = (config) =>
     normalizeToFunction(config.recommendations.overrides.products);
 
+  // tslint:disable-next-line max-line-length
   export const recommendationsSuggestionsOverrides: Override<RecommendationsAdapter.Request & { query: string }> = (config) =>
     normalizeToFunction(config.recommendations.overrides.autocompleteSuggestions);
 }

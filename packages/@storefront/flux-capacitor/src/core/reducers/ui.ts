@@ -38,4 +38,4 @@ export const removeComponentState = (state: State, { tagName, id }: Actions.Payl
     }
   });
 
-export const clearComponentState = (state: State): State => ({});
+export const clearComponentState = (_: State): State => ({});
