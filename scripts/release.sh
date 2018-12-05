@@ -34,10 +34,9 @@ Usage: ${0##*/} [OPTIONS]
 Creates a release.
 
 This performs the following steps:
-1. Generates the documentation
-2. Bumps the version number in package.json
-3. Finalizes the release in CHANGELOG.md
-4. Creates a git tag
+1. Bumps the version number in package.json
+2. Finalizes the release in CHANGELOG.md
+3. Creates a git tag
 
 OPTIONS
 EOF

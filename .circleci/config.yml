@@ -443,11 +443,20 @@ jobs:
           name: Merge into source branch
           command: |
             release_branch="$(cat ../branch-prefix)/master"
+            cdn_version="$(cat ../cdn-release-version)"
 
             git checkout "$CIRCLE_BRANCH"
             git pull origin "$CIRCLE_BRANCH"
 
-            git merge --no-ff -m "Merge branch '${release_branch}' into ${CIRCLE_BRANCH}" "origin/${release_branch}"
+            if [[ -n "$cdn_version" ]]; then
+              # Releases were made, so there will be multiple commits.
+              # Do a non-fast-forward merge.
+              git merge --no-ff -m "Merge v${cdn_version} into ${CIRCLE_BRANCH}" "origin/${release_branch}"
+            else
+              # There were no releases, so there will only be one commit (the docs commit).
+              # Do a fast-forward merge.
+              git merge --ff "origin/${release_branch}"
+            fi
 
             git push -u origin HEAD
 
@@ -485,6 +494,84 @@ jobs:
             else
               echo "Nothing to publish."
             fi
+
+  ## CDN jobs
+
+  ### cdn_release
+  ### Generates release commits and tags for the CDN bundle.
+  cdn_release:
+    <<: *image
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/
+      - restore_cache: *yarn_cache
+      - restore_cache: *build_final_cache_partial
+      - run: *extract_build_archive
+      - run: *yarn_install
+      - run: *setup_git
+      - run:
+          name: Install dependencies
+          command: |
+            sudo apt install -y ed
+            sudo apt install -y jq
+      - run:
+          name: Release CDN
+          command: |
+            branch_prefix="$(cat ../branch-prefix)"
+            cdn_release_version_file="../cdn-release-version"
+
+            git checkout "${branch_prefix}/master"
+
+            touch "$cdn_release_version_file"
+
+            if ./scripts/release-cdn.sh "$CIRCLE_SHA1"; then
+              jq -r '.version' package.json >"$cdn_release_version_file"
+              exit_code=0
+            elif ec=$?; (( ec == 4 )); then
+              exit_code=0
+            else
+              exit_code=$ec
+            fi
+
+            exit $exit_code
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - cdn-release-version
+
+  ### cdn_publish
+  ### Publishes a bundle to the CDN.
+  cdn_publish:
+    <<: *image
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/
+      - restore_cache: *yarn_cache
+      - restore_cache: *build_final_cache_partial
+      - run: *extract_build_archive
+      - run: *yarn_install
+      - run: *setup_git
+      - run:
+          name: Install dependencies
+          command: sudo apt install -y ed
+      - run:
+          name: Publish CDN
+          command: |
+            branch_prefix="$(cat ../branch-prefix)"
+
+            git checkout "${branch_prefix}/master"
+
+            if ./scripts/publish-cdn.sh; then
+              exit_code=0
+            elif ec=$?; (( ec == 4 )); then
+              exit_code=0
+            else
+              exit_code=$ec
+            fi
+
+            exit $exit_code
 
   ## Miscellaneous jobs
 
@@ -1157,9 +1244,16 @@ workflows:
             - publish_sort
             - publish_template
 
-      - merge_final:
+      - cdn_release:
           requires:
             - merge_components
+      - cdn_publish:
+          requires:
+            - cdn_release
+
+      - merge_final:
+          requires:
+            - cdn_publish
 
       - cleanup:
           requires:

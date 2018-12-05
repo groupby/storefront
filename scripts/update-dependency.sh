@@ -132,22 +132,22 @@ w
 q
 EOF
 else
-  # Hierarchy below is from least to most significant
-  hierarchy='from-git
-prerelease
-prepatch
-patch
-preminor
-minor
+  # Hierarchy below is from most to least significant
+  hierarchy='major
 premajor
-major'
+minor
+preminor
+patch
+prepatch
+prerelease
+from-git'
 
   # If the $source_release_type is of greater significance than $release_type,
-  # it will not be found between the top of the hierarchy and $release_type.
+  # it will be found between the top of the hierarchy and $release_type.
   # Keep the release type with the greater significance.
   #
   # grep: Redirect to /dev/null instead of using the -q flag to avoid a SIGPIPE.
-  if ! sed "/^${release_type}\$/q" <<<"$hierarchy" | grep "^${source_release_type}\$" >/dev/null; then
+  if sed "/^${release_type}\$/q" <<<"$hierarchy" | grep "^${source_release_type}\$" >/dev/null; then
     release_type="$source_release_type"
   fi
 
