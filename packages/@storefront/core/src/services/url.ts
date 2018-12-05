@@ -128,7 +128,7 @@ class UrlService extends BaseService<UrlService.Options> {
 
   buildUrlAndReplaceHistory = ({ state, route }: { state: Store.State, route: string }) => {
     const url = this.url || this.beautifier.build(route, this.urlState[route](state));
-    delete this.url;
+    this.url = undefined;
     this.replaceHistory(url);
   }
 
