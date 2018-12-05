@@ -1,7 +1,7 @@
 import Selectors from '../selectors';
 import Store from '../store';
 
-namespace PastPurchases {
+namespace PastPurchasesAdapter {
 
   export const buildUrl = (customerId: string, endpoint: string) =>
     `https://${customerId}.groupbycloud.com/orders/v1/public/skus/${endpoint}`;
@@ -33,4 +33,4 @@ namespace PastPurchases {
   };
 }
 
-export default PastPurchases;
+export default PastPurchasesAdapter;

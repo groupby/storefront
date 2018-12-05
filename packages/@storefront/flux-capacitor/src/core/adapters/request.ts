@@ -2,9 +2,9 @@ import { SelectedRefinement, Sort } from 'groupby-api';
 import Store from '../store';
 import { MAX_RECORDS } from './search';
 
-namespace Adapter {
+namespace RequestAdapter {
   export const clampPageSize = (page: number, pageSize: number): number =>
-    Math.min(pageSize, MAX_RECORDS - Adapter.extractSkip(page, pageSize));
+    Math.min(pageSize, MAX_RECORDS - RequestAdapter.extractSkip(page, pageSize));
 
   export const extractSkip = (page: number, pageSize: number): number =>
     (page - 1) * pageSize;
@@ -19,4 +19,4 @@ namespace Adapter {
       : { navigationName: field, type: 'Range', high: (<Store.RangeRefinement>refinement).high, low: (<Store.RangeRefinement>refinement).low };
 }
 
-export default Adapter;
+export default RequestAdapter;

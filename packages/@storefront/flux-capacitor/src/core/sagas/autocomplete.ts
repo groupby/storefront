@@ -2,7 +2,7 @@ import { SelectedRefinement } from 'groupby-api';
 import * as effects from 'redux-saga/effects';
 import FluxCapacitor from '../../flux-capacitor';
 import Actions from '../actions';
-import Adapter from '../adapters/autocomplete';
+import AutocompleteAdapter from '../adapters/autocomplete';
 import ConfigAdapter from '../adapters/configuration';
 import Configuration from '../configuration';
 import {
@@ -50,11 +50,11 @@ export namespace Tasks {
 
       const responses = yield effects.all(requests);
       const navigationLabels = ConfigAdapter.extractAutocompleteNavigationLabels(config);
-      const autocompleteSuggestions = Adapter.extractSuggestions(responses[0], query, field, navigationLabels, config);
+      const autocompleteSuggestions = AutocompleteAdapter.extractSuggestions(responses[0], query, field, navigationLabels, config);
       const suggestions = recommendationsConfig.suggestionCount > 0 ?
         {
           ...autocompleteSuggestions,
-          suggestions: Adapter.mergeSuggestions(autocompleteSuggestions.suggestions, yield responses[1].json())
+          suggestions: AutocompleteAdapter.mergeSuggestions(autocompleteSuggestions.suggestions, yield responses[1].json())
         } : autocompleteSuggestions;
 
       yield effects.put(flux.actions.receiveAutocompleteSuggestions(suggestions));

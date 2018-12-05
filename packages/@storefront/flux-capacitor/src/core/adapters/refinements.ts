@@ -3,7 +3,7 @@ import Selectors from '../selectors';
 import Store from '../store';
 import Search from './search';
 
-namespace Adapter {
+namespace RefinementsAdapter {
 
   // tslint:disable-next-line max-line-length
   export const mergeRefinements = ({ navigation: { name: navigationId, refinements: original } }: RefinementResults, state: Store.State) => {
@@ -25,4 +25,4 @@ namespace Adapter {
   };
 }
 
-export default Adapter;
+export default RefinementsAdapter;
