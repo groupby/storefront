@@ -2,7 +2,6 @@ import Actions from '../actions';
 import Configuration from '../configuration';
 import { RecommendationsResponse } from '../types';
 import Config from './configuration';
-import Search from './search';
 
 namespace AutocompleteAdapter {
 

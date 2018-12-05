@@ -1,4 +1,3 @@
-import { Template } from 'groupby-api';
 import Actions from '../../actions';
 import SearchAdapter from '../../adapters/search';
 import Store from '../../store';

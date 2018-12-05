@@ -1,9 +1,7 @@
 import { Request } from 'groupby-api';
-import { QueryTimeAutocompleteConfig, QueryTimeProductSearchConfig } from 'sayt';
-import Payload from '../actions/payloads';
+import { QueryTimeAutocompleteConfig } from 'sayt';
 import Configuration from '../adapters/configuration';
 import RecommendationsAdapter from '../adapters/recommendations';
-import ConfigurationType from '../configuration';
 import Selectors from '../selectors';
 import Store from '../store';
 import { normalizeToFunction, GenericTransformer } from '../utils';

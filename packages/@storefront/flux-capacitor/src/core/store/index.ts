@@ -1,7 +1,6 @@
-import { applyMiddleware, compose, createStore, Store as ReduxStore } from 'redux';
+import { createStore, Store as ReduxStore } from 'redux';
 import { persistStore } from 'redux-persist';
 import createSagaMiddleware from 'redux-saga';
-import * as validatorMiddleware from 'redux-validator';
 import FluxCapacitor from '../../flux-capacitor';
 import Actions from '../actions';
 import ConfigurationAdapter from '../adapters/configuration';

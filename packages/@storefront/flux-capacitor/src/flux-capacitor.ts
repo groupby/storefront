@@ -4,7 +4,6 @@ import { Sayt } from 'sayt';
 import Actions from './core/actions';
 import ActionCreators from './core/actions/creators';
 import ConfigurationAdapter from './core/adapters/configuration';
-import SearchAdapter from './core/adapters/search';
 import Configuration from './core/configuration';
 import Emitter  from './core/emitter';
 import Events from './core/events';

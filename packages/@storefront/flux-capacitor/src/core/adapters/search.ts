@@ -1,6 +1,5 @@
 import {
   Navigation,
-  PageInfo,
   RangeRefinement,
   Record,
   Refinement,
@@ -14,7 +13,6 @@ import {
   Zone,
 } from 'groupby-api';
 import Actions from '../actions';
-import Configuration from '../configuration';
 import Selectors from '../selectors';
 import Store from '../store';
 import ConfigAdapter from './configuration';
