@@ -249,8 +249,9 @@ suite('URL Service', ({ expect, spy, stub, itShouldBeCore, itShouldExtendBaseSer
       service['app'] = <any>{ flux: { store: { getState: () => null } } };
       service['opts'] = { redirects: {} };
       service.beautifier = <any>{ build: () => url };
+      service.emitUrlUpdated = () => null;
       service.filterState = spy();
-      service.handleUrl = service.emitUrlUpdated = spy();
+      service.handleUrl = () => null;
       service.urlState = <any>{ search: () => null };
       win.location = {};
       win.history = { pushState: spy() };
@@ -366,12 +367,11 @@ suite('URL Service', ({ expect, spy, stub, itShouldBeCore, itShouldExtendBaseSer
 
     it('should accept a url override', () => {
       const currUrl  = '/foo';
-      const emitUrlUpdated = spy();
+      const emitUrlUpdated = service.emitUrlUpdated = spy();
       const pushState = spy(() => win.location = { href: urlOverride });
       const route = 'search';
       const state = { a: 'b' };
       const urlOverride = '/bar';
-      service.emitUrlUpdated = emitUrlUpdated;
       service.filterState = () => <any>state;
       service.handleUrl = () => null;
       service['app'] = <any>{ flux: { store: { getState: () => state } } };
