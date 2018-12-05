@@ -9,9 +9,9 @@ import { productsRequest, recommendationsNavigationsRequest } from '../requests'
 import Selectors from '../selectors';
 import Store from '../store';
 import * as utils from '../utils';
-import Requests from './requests';
+import RequestsTasks from './requests';
 
-export namespace Tasks {
+export namespace ProductsTasks {
   export function* fetchProducts(flux: FluxCapacitor, ignoreHistory: boolean = false, action: Actions.FetchProducts) {
     try {
       let [result, navigations]: [Results, Store.Recommendations.Navigation[]] = yield effects.all([
@@ -56,10 +56,10 @@ export namespace Tasks {
     const state = yield effects.select();
     const request = productsRequest.composeRequest(state, action.payload.request);
 
-    return yield effects.call(Requests.search, flux, request);
+    return yield effects.call(RequestsTasks.search, flux, request);
   }
 
-  export function* fetchNavigations(flux: FluxCapacitor, action: Actions.FetchProducts) {
+  export function* fetchNavigations(_: FluxCapacitor, __: Actions.FetchProducts) {
     try {
       const state = yield effects.select();
       const config = yield effects.select(Selectors.config);
@@ -67,7 +67,7 @@ export namespace Tasks {
       if (iNav.navigations.sort || iNav.refinements.sort) {
         const body = recommendationsNavigationsRequest.composeRequest(state);
         const recommendationsResponse = yield effects.call(
-          Requests.recommendations,
+          RequestsTasks.recommendations,
           {
             customerId: config.customerId,
             endpoint: 'refinements',
@@ -109,7 +109,7 @@ export namespace Tasks {
       }
 
       const requestBody = productsRequest.composeRequest(state, { pageSize, skip, ...action.payload.request });
-      const result = yield effects.call(Requests.search, flux, requestBody);
+      const result = yield effects.call(RequestsTasks.search, flux, requestBody);
 
       flux.emit(Events.BEACON_SEARCH, result.id);
 
@@ -135,9 +135,9 @@ export namespace Tasks {
 
 export default (flux: FluxCapacitor) => {
   return function* saga() {
-    yield effects.takeLatest(Actions.FETCH_PRODUCTS, Tasks.fetchProducts, flux, false);
-    yield effects.takeLatest(Actions.FETCH_PRODUCTS_WITHOUT_HISTORY, Tasks.fetchProducts, flux, true);
-    yield effects.takeLatest(Actions.FETCH_PRODUCTS_WHEN_HYDRATED, Tasks.fetchProductsWhenHydrated, flux);
-    yield effects.takeEvery(Actions.FETCH_MORE_PRODUCTS, Tasks.fetchMoreProducts, flux);
+    yield effects.takeLatest(Actions.FETCH_PRODUCTS, ProductsTasks.fetchProducts, flux, false);
+    yield effects.takeLatest(Actions.FETCH_PRODUCTS_WITHOUT_HISTORY, ProductsTasks.fetchProducts, flux, true);
+    yield effects.takeLatest(Actions.FETCH_PRODUCTS_WHEN_HYDRATED, ProductsTasks.fetchProductsWhenHydrated, flux);
+    yield effects.takeEvery(Actions.FETCH_MORE_PRODUCTS, ProductsTasks.fetchMoreProducts, flux);
   };
 };

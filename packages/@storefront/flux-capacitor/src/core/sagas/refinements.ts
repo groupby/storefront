@@ -8,16 +8,16 @@ import Events from '../events';
 import { refinementsRequest } from '../requests';
 import Selectors from '../selectors';
 import Store from '../store';
-import Requests from './requests';
+import RequestsTasks from './requests';
 
-export namespace Tasks {
+export namespace RefinementsTasks {
   // tslint:disable-next-line max-line-length
   export function* fetchMoreRefinements(flux: FluxCapacitor, { payload }: Actions.FetchMoreRefinements) {
     try {
       const state: Store.State = yield effects.select();
       const config = yield effects.select(Selectors.config);
       const requestBody = refinementsRequest.composeRequest(state, payload.request);
-      const res = yield effects.call(Requests.refinements, flux, requestBody, payload.navigationId);
+      const res = yield effects.call(RequestsTasks.refinements, flux, requestBody, payload.navigationId);
 
       flux.emit(Events.BEACON_MORE_REFINEMENTS, payload.navigationId);
       res.navigation = RecommendationsAdapter.sortAndPinNavigations(
@@ -34,5 +34,5 @@ export namespace Tasks {
 }
 
 export default (flux: FluxCapacitor) => function* saga() {
-  yield effects.takeLatest(Actions.FETCH_MORE_REFINEMENTS, Tasks.fetchMoreRefinements, flux);
+  yield effects.takeLatest(Actions.FETCH_MORE_REFINEMENTS, RefinementsTasks.fetchMoreRefinements, flux);
 };
