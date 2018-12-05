@@ -366,25 +366,27 @@ suite('URL Service', ({ expect, spy, stub, itShouldBeCore, itShouldExtendBaseSer
 
     it('should accept a url override', () => {
       const currUrl  = '/foo';
+      const emitUrlUpdated = spy();
+      const pushState = spy(() => win.location = { href: urlOverride });
       const route = 'search';
       const state = { a: 'b' };
       const urlOverride = '/bar';
+      service.emitUrlUpdated = emitUrlUpdated;
+      service.filterState = () => <any>state;
+      service.handleUrl = () => null;
       service['app'] = <any>{ flux: { store: { getState: () => state } } };
-      service['emitUrlUpdated'] = spy();
-      service['filterState'] = spy(() => state);
-      service['handleUrl'] = spy();
       service['opts'] = { redirects: {} };
-      win.history = { pushState: spy(() => win.location = { href: urlOverride } ) };
+      win.history = { pushState };
       win.location = { href: currUrl };
 
       service.updateHistory(<any>{ state: <any>{}, route, url: urlOverride });
 
-      expect(win.history.pushState).to.be.calledWithExactly(
+      expect(pushState).to.be.calledWithExactly(
         { url: urlOverride, state, app: STOREFRONT_APP_ID },
         '',
         urlOverride
       );
-      expect(service['emitUrlUpdated']).to.be.calledWithExactly(currUrl, urlOverride, urlOverride);
+      expect(emitUrlUpdated).to.be.calledWithExactly(currUrl, urlOverride, urlOverride);
     });
 
     it('should handle errors thrown by pushState', () => {
