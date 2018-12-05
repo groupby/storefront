@@ -1,13 +1,8 @@
 import * as effects from 'redux-saga/effects';
-import * as sinon from 'sinon';
-import Actions from '../../../../src/core/actions';
 import PastPurchasesAdapter from '../../../../src/core/adapters/past-purchases';
 import RecommendationsAdapter from '../../../../src/core/adapters/recommendations';
-import Events from '../../../../src/core/events';
 import RequestHelpers from '../../../../src/core/requests/utils';
-import sagaCreator, { Tasks } from '../../../../src/core/sagas/product-details';
 import Requests from '../../../../src/core/sagas/requests';
-import Selectors from '../../../../src/core/selectors';
 import * as utils from '../../../../src/core/utils';
 import suite from '../../_suite';
 

@@ -1,13 +1,10 @@
 import * as effects from 'redux-saga/effects';
-import { ActionCreators } from 'redux-undo';
 import Actions from '../../../../src/core/actions';
-import PersonalizationAdapter from '../../../../src/core/adapters/personalization';
 import RecommendationsAdapter from '../../../../src/core/adapters/recommendations';
 import SearchAdapter from '../../../../src/core/adapters/search';
 import Events from '../../../../src/core/events';
 import { productsRequest, recommendationsNavigationsRequest } from '../../../../src/core/requests';
-import { Tasks as productDetailsTasks } from '../../../../src/core/sagas/product-details';
-import sagaCreator, { Tasks } from '../../../../src/core/sagas/products';
+import sagaCreator, { ProductsTasks } from '../../../../src/core/sagas/products';
 import Requests from '../../../../src/core/sagas/requests';
 import Selectors from '../../../../src/core/selectors';
 import * as utils from '../../../../src/core/utils';
@@ -32,12 +29,12 @@ suite('products saga', ({ sinon, expect, spy, stub }) => {
 
       const saga = sagaCreator(flux)();
 
-      expect(saga.next().value).to.eql(effects.takeLatest(Actions.FETCH_PRODUCTS, Tasks.fetchProducts, flux, false));
+      expect(saga.next().value).to.eql(effects.takeLatest(Actions.FETCH_PRODUCTS, ProductsTasks.fetchProducts, flux, false));
       // tslint:disable-next-line max-line-length
-      expect(saga.next().value).to.eql(effects.takeLatest(Actions.FETCH_PRODUCTS_WITHOUT_HISTORY, Tasks.fetchProducts, flux, true));
+      expect(saga.next().value).to.eql(effects.takeLatest(Actions.FETCH_PRODUCTS_WITHOUT_HISTORY, ProductsTasks.fetchProducts, flux, true));
       // tslint:disable-next-line max-line-length
-      expect(saga.next().value).to.eql(effects.takeLatest(Actions.FETCH_PRODUCTS_WHEN_HYDRATED, Tasks.fetchProductsWhenHydrated, flux));
-      expect(saga.next().value).to.eql(effects.takeEvery(Actions.FETCH_MORE_PRODUCTS, Tasks.fetchMoreProducts, flux));
+      expect(saga.next().value).to.eql(effects.takeLatest(Actions.FETCH_PRODUCTS_WHEN_HYDRATED, ProductsTasks.fetchProductsWhenHydrated, flux));
+      expect(saga.next().value).to.eql(effects.takeEvery(Actions.FETCH_MORE_PRODUCTS, ProductsTasks.fetchMoreProducts, flux));
       saga.next();
     });
   });
@@ -62,7 +59,7 @@ suite('products saga', ({ sinon, expect, spy, stub }) => {
             receiveProducts
           }
         };
-        const task = Tasks.fetchProducts(flux, false, <any>{});
+        const task = ProductsTasks.fetchProducts(flux, false, <any>{});
         const error = new Error();
         task.next();
         expect(task.throw(error).value).to.eql(effects.put(receiveProductsAction));
@@ -93,11 +90,11 @@ suite('products saga', ({ sinon, expect, spy, stub }) => {
         stub(RecommendationsAdapter, 'sortAndPinNavigations')
           .withArgs(response.availableNavigation, [], config).returns(availableNavigation);
 
-        const task = Tasks.fetchProducts(flux, false, action);
+        const task = ProductsTasks.fetchProducts(flux, false, action);
 
         expect(task.next().value).to.eql(effects.all(([
-          effects.call(Tasks.fetchProductsRequest, flux, action),
-          effects.call(Tasks.fetchNavigations, flux, action)
+          effects.call(ProductsTasks.fetchProductsRequest, flux, action),
+          effects.call(ProductsTasks.fetchNavigations, flux, action)
         ])));
         expect(task.next([response, undefined]).value).to.eql(effects.select(Selectors.config));
         expect(task.next(config).value).to.eql(effects.put(<any>[receiveProductsAction]));
@@ -123,7 +120,7 @@ suite('products saga', ({ sinon, expect, spy, stub }) => {
           saveState: () => undefined
         };
 
-        const task = Tasks.fetchProducts(<any>flux, false, <any>{ hello: 'hello' });
+        const task = ProductsTasks.fetchProducts(<any>flux, false, <any>{ hello: 'hello' });
         task.next();
         task.next([{ redirect: true }, undefined]);
         task.next();
@@ -150,7 +147,7 @@ suite('products saga', ({ sinon, expect, spy, stub }) => {
           saveState: () => undefined,
         };
 
-        const task = Tasks.fetchProducts(<any>flux, false, <any>{});
+        const task = ProductsTasks.fetchProducts(<any>flux, false, <any>{});
         task.next();
         task.next([{ redirect: false, totalRecordCount: 1, records: [record] }, undefined]);
         expect(task.next(config).value).to.eql(effects.put(fetchProductDetailsAction));
@@ -174,7 +171,7 @@ suite('products saga', ({ sinon, expect, spy, stub }) => {
           saveState: () => undefined
         };
 
-        const task = Tasks.fetchProducts(<any>flux, false, <any>{});
+        const task = ProductsTasks.fetchProducts(<any>flux, false, <any>{});
         task.next();
         task.next(config);
         expect(task.next([products, new Error()]).value).to.eql(effects.put(receiveProductsAction));
@@ -228,7 +225,7 @@ suite('products saga', ({ sinon, expect, spy, stub }) => {
           { name: 'other', refinements: singleRefinement },
         ];
 
-        const task = Tasks.fetchProducts(<any>flux, false, <any>{});
+        const task = ProductsTasks.fetchProducts(<any>flux, false, <any>{});
         task.next();
         task.next([{ availableNavigation }, sortArray]);
         expect(task.next(config).value)
@@ -295,7 +292,7 @@ suite('products saga', ({ sinon, expect, spy, stub }) => {
           { name: 'other', refinements: singleRefinement },
         ];
 
-        const task = Tasks.fetchProducts(<any>flux, false, <any>{});
+        const task = ProductsTasks.fetchProducts(<any>flux, false, <any>{});
         task.next();
         task.next([{ availableNavigation: avail }, sortArray]);
         expect(task.next(config).value)
@@ -362,7 +359,7 @@ suite('products saga', ({ sinon, expect, spy, stub }) => {
           { name: 'other', refinements: singleRefinement },
         ];
 
-        const task = Tasks.fetchProducts(<any>flux, false, <any>{});
+        const task = ProductsTasks.fetchProducts(<any>flux, false, <any>{});
         task.next();
         task.next([{ availableNavigation: avail }, sortArray]);
         expect(task.next(config).value).
@@ -410,7 +407,7 @@ suite('products saga', ({ sinon, expect, spy, stub }) => {
           { name: 'test1', values: singleRefinement },
         ];
 
-        const task = Tasks.fetchProducts(<any>flux, false, <any>{});
+        const task = ProductsTasks.fetchProducts(<any>flux, false, <any>{});
         task.next();
         task.next([{ availableNavigation }, sortArray]);
         expect(task.next(config).value)
@@ -429,7 +426,7 @@ suite('products saga', ({ sinon, expect, spy, stub }) => {
         const flux: any = { store: { getState, dispatch } };
         stub(Selectors, 'realTimeBiasesHydrated').returns(true);
 
-        const task = Tasks.fetchProductsWhenHydrated(flux, <any>{ payload });
+        const task = ProductsTasks.fetchProductsWhenHydrated(flux, <any>{ payload });
         expect(task.next().value).to.eql(effects.put(payload));
         task.next();
 
@@ -443,7 +440,7 @@ suite('products saga', ({ sinon, expect, spy, stub }) => {
         const flux: any = { store: { getState, dispatch }, once };
         stub(Selectors, 'realTimeBiasesHydrated').returns(false);
 
-        const task = Tasks.fetchProductsWhenHydrated(flux, <any>{ payload });
+        const task = ProductsTasks.fetchProductsWhenHydrated(flux, <any>{ payload });
         task.next();
 
         expect(dispatch).to.not.be.called;
@@ -468,7 +465,7 @@ suite('products saga', ({ sinon, expect, spy, stub }) => {
         const searchRequestCall = stub(Requests, 'search').returns(response);
         stub(productsRequest, 'composeRequest').withArgs(state).returns(request);
 
-        const task = Tasks.fetchProductsRequest(flux, action);
+        const task = ProductsTasks.fetchProductsRequest(flux, action);
 
         expect(task.next().value).to.eql(effects.select());
         expect(task.next(state).value).to.eql(effects.call(searchRequestCall, flux, request));
@@ -480,7 +477,7 @@ suite('products saga', ({ sinon, expect, spy, stub }) => {
         const override = { c: 'd' };
         const composeRequest = stub(productsRequest, 'composeRequest');
 
-        const task = Tasks.fetchProductsRequest(null, <any>{ payload: { request: override } });
+        const task = ProductsTasks.fetchProductsRequest(null, <any>{ payload: { request: override } });
 
         task.next();
         task.next(state);
@@ -491,7 +488,7 @@ suite('products saga', ({ sinon, expect, spy, stub }) => {
         const error = new Error();
         const flux: any = {};
 
-        const task = Tasks.fetchProductsRequest(flux, <any>{});
+        const task = ProductsTasks.fetchProductsRequest(flux, <any>{});
 
         expect(task.throw(error)).to.throw;
       });
@@ -524,7 +521,7 @@ suite('products saga', ({ sinon, expect, spy, stub }) => {
         stub(Selectors, 'productsWithMetadata').returns([{ index: 1 }, { index: 2 }, { index: 3 }]);
         stub(Selectors, 'recordCount').returns(50);
 
-        const task = Tasks.fetchMoreProducts(flux, action);
+        const task = ProductsTasks.fetchMoreProducts(flux, action);
 
         expect(task.next().value).to.eql(effects.select());
         expect(task.next(state).value).to.eql(effects.put(infiniteScrollRequestStateAction));
@@ -564,7 +561,7 @@ suite('products saga', ({ sinon, expect, spy, stub }) => {
         stub(Selectors, 'productsWithMetadata').returns([]);
         stub(Selectors, 'recordCount').returns(50);
 
-        const task = Tasks.fetchMoreProducts(flux, action);
+        const task = ProductsTasks.fetchMoreProducts(flux, action);
 
         expect(task.next().value).to.eql(effects.select());
         expect(task.next(state).value).to.eql(effects.put(infiniteScrollRequestStateAction));
@@ -605,7 +602,7 @@ suite('products saga', ({ sinon, expect, spy, stub }) => {
         stub(Selectors, 'productsWithMetadata').returns([{ index: 15 }, { index: 16 }, { index: 17 }]);
         stub(Selectors, 'recordCount').returns(50);
 
-        const task = Tasks.fetchMoreProducts(flux, action);
+        const task = ProductsTasks.fetchMoreProducts(flux, action);
 
         expect(task.next().value).to.eql(effects.select());
         expect(task.next(state).value).to.eql(effects.put(infiniteScrollRequestStateAction));
@@ -632,7 +629,7 @@ suite('products saga', ({ sinon, expect, spy, stub }) => {
         };
         stub(Selectors, 'recordCount').returns(products.length);
 
-        const task = Tasks.fetchMoreProducts(flux, action);
+        const task = ProductsTasks.fetchMoreProducts(flux, action);
 
         expect(task.next().value).to.eql(effects.select());
         task.next(state);
@@ -656,7 +653,7 @@ suite('products saga', ({ sinon, expect, spy, stub }) => {
         stub(Selectors, 'productsWithMetadata').returns(products);
         stub(Selectors, 'recordCount').returns(50);
 
-        const task = Tasks.fetchMoreProducts(flux, action);
+        const task = ProductsTasks.fetchMoreProducts(flux, action);
 
         expect(task.next().value).to.eql(effects.select());
         task.next(state);
@@ -679,7 +676,7 @@ suite('products saga', ({ sinon, expect, spy, stub }) => {
         stub(Selectors, 'productsWithMetadata').returns([]);
         stub(Selectors, 'recordCount').returns(50);
 
-        const task = Tasks.fetchMoreProducts(flux, action);
+        const task = ProductsTasks.fetchMoreProducts(flux, action);
 
         expect(task.next().value).to.eql(effects.select());
         task.next(state);
@@ -704,7 +701,7 @@ suite('products saga', ({ sinon, expect, spy, stub }) => {
         stub(Selectors, 'recordCount');
         stub(SearchAdapter, 'extractRecordCount');
 
-        const task = Tasks.fetchMoreProducts(flux, <any>{
+        const task = ProductsTasks.fetchMoreProducts(flux, <any>{
           payload: { forward: true, amount: pageSize, request: override }
         });
 
@@ -723,7 +720,7 @@ suite('products saga', ({ sinon, expect, spy, stub }) => {
           actions: { receiveMoreProducts }
         };
 
-        const task = Tasks.fetchMoreProducts(flux, <any>{});
+        const task = ProductsTasks.fetchMoreProducts(flux, <any>{});
 
         task.next();
         expect(task.throw(error).value).to.eql(effects.put(receiveMoreProductsAction));
@@ -770,7 +767,7 @@ suite('products saga', ({ sinon, expect, spy, stub }) => {
         const recommendationsRequest = stub(Requests, 'recommendations').returns(recommendations);
         stub(recommendationsNavigationsRequest, 'composeRequest').withArgs(state).returns(body);
 
-        const task = Tasks.fetchNavigations(<any>{}, <any>{ payload: {} });
+        const task = ProductsTasks.fetchNavigations(<any>{}, <any>{ payload: {} });
 
         expect(task.next().value).to.eql(effects.select());
         expect(task.next(state).value).to.eql(effects.select(Selectors.config));
@@ -823,7 +820,7 @@ suite('products saga', ({ sinon, expect, spy, stub }) => {
         const recommendationsRequest = stub(Requests, 'recommendations').returns(recommendations);
         stub(recommendationsNavigationsRequest, 'composeRequest').withArgs(state).returns(body);
 
-        const task = Tasks.fetchNavigations(<any>{}, <any>{ payload: {} });
+        const task = ProductsTasks.fetchNavigations(<any>{}, <any>{ payload: {} });
 
         task.next();
         task.next(state);
@@ -859,7 +856,7 @@ suite('products saga', ({ sinon, expect, spy, stub }) => {
         const returnVal: any = [{ values: 'truthy' }, { values: 'literally truthy' }];
         const jsonResult = 'hello';
 
-        const task = Tasks.fetchNavigations(<any>{}, <any>{ payload: {} });
+        const task = ProductsTasks.fetchNavigations(<any>{}, <any>{ payload: {} });
 
         task.next();
         task.next();
@@ -891,7 +888,7 @@ suite('products saga', ({ sinon, expect, spy, stub }) => {
           }
         };
 
-        const task = Tasks.fetchNavigations(flux, <any>{ payload: {} });
+        const task = ProductsTasks.fetchNavigations(flux, <any>{ payload: {} });
 
         task.next();
         expect(receiveRecommendationsRefinements).to.not.be.called;
@@ -925,7 +922,7 @@ suite('products saga', ({ sinon, expect, spy, stub }) => {
           }
         };
 
-        const task = Tasks.fetchNavigations(flux, <any>{ payload: {} });
+        const task = ProductsTasks.fetchNavigations(flux, <any>{ payload: {} });
         task.next();
         expect(task.throw(error).value).to.eq(error);
       });

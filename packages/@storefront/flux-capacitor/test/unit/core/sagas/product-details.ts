@@ -3,9 +3,8 @@ import * as sinon from 'sinon';
 import Actions from '../../../../src/core/actions';
 import Events from '../../../../src/core/events';
 import { productDetailsRequest } from '../../../../src/core/requests';
-import sagaCreator, { Tasks } from '../../../../src/core/sagas/product-details';
+import sagaCreator, { ProductDetailsTasks } from '../../../../src/core/sagas/product-details';
 import Requests from '../../../../src/core/sagas/requests';
-import Selectors from '../../../../src/core/selectors';
 import * as utils from '../../../../src/core/utils';
 import suite from '../../_suite';
 
@@ -18,7 +17,7 @@ suite('product details saga', ({ expect, spy, stub }) => {
       const saga = sagaCreator(flux)();
 
       // tslint:disable-next-line max-line-length
-      expect(saga.next().value).to.eql(effects.takeLatest(Actions.FETCH_PRODUCT_DETAILS, Tasks.fetchProductDetails, flux));
+      expect(saga.next().value).to.eql(effects.takeLatest(Actions.FETCH_PRODUCT_DETAILS, ProductDetailsTasks.fetchProductDetails, flux));
       saga.next();
     });
   });
@@ -45,7 +44,7 @@ suite('product details saga', ({ expect, spy, stub }) => {
           refinements: [{ navigationName: 'id', type: 'Value', value: id }]
         }).returns(request);
 
-        const task = Tasks.fetchProductDetails(flux, <any>{ payload: { id } });
+        const task = ProductDetailsTasks.fetchProductDetails(flux, <any>{ payload: { id } });
 
         expect(task.next().value).to.eql(effects.select());
         expect(task.next(state).value).to.eql(effects.call(searchRequest, flux, request));
@@ -67,7 +66,7 @@ suite('product details saga', ({ expect, spy, stub }) => {
         };
         stub(productDetailsRequest, 'composeRequest').returns({ records: [] });
 
-        const task = Tasks.fetchProductDetails(flux, <any>{ payload: {} });
+        const task = ProductDetailsTasks.fetchProductDetails(flux, <any>{ payload: {} });
 
         task.next();
         task.next();
@@ -82,7 +81,7 @@ suite('product details saga', ({ expect, spy, stub }) => {
         const override = { c: 'd' };
         const composeRequest = stub(productDetailsRequest, 'composeRequest');
 
-        const task = Tasks.fetchProductDetails(null, <any>{ payload: { id, request: override } });
+        const task = ProductDetailsTasks.fetchProductDetails(null, <any>{ payload: { id, request: override } });
 
         task.next();
         task.next(state);
@@ -103,7 +102,7 @@ suite('product details saga', ({ expect, spy, stub }) => {
           actions: { receiveDetails }
         };
 
-        const task = Tasks.fetchProductDetails(flux, <any>{ payload: {} });
+        const task = ProductDetailsTasks.fetchProductDetails(flux, <any>{ payload: {} });
 
         task.next();
         expect(task.throw(error).value).to.eql(effects.put(receiveDetailsAction));
