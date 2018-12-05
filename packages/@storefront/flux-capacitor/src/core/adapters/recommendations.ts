@@ -5,7 +5,7 @@ import Store from '../store';
 import { sortBasedOn } from '../utils';
 import ConfigurationAdapter from './configuration';
 
-namespace Recommendations {
+namespace RecommendationsAdapter {
 
   export const buildUrl = (customerId: string, endpoint: string, mode: string) =>
     `https://${customerId}.groupbycloud.com/wisdom/v2/public/recommendations/${endpoint}/_get${mode}`;
@@ -124,4 +124,4 @@ namespace Recommendations {
   }
 }
 
-export default Recommendations;
+export default RecommendationsAdapter;

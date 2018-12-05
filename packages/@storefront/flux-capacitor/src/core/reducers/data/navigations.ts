@@ -1,5 +1,5 @@
 import Actions from '../../actions';
-import Adapter from '../../adapters/search';
+import SearchAdapter from '../../adapters/search';
 import Store from '../../store';
 
 export type Action = Actions.ResetRefinements
@@ -124,7 +124,7 @@ export const addRefinement = (state: State, { navigationId, value, low, high, ra
 
   if (navigationId in state.byId) {
     const index = state.byId[navigationId].refinements
-      .findIndex((ref) => Adapter.refinementsMatch(ref, refinement, range ? 'Range' : 'Value'));
+      .findIndex((ref) => SearchAdapter.refinementsMatch(ref, refinement, range ? 'Range' : 'Value'));
 
     return {
       ...state,

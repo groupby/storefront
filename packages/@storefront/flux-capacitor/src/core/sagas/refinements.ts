@@ -3,7 +3,7 @@ import FluxCapacitor from '../../flux-capacitor';
 import Actions from '../actions';
 import * as utils from '../actions/utils';
 import RecommendationsAdapter from '../adapters/recommendations';
-import Adapter from '../adapters/refinements';
+import RefinementsAdapter from '../adapters/refinements';
 import Events from '../events';
 import { refinementsRequest } from '../requests';
 import Selectors from '../selectors';
@@ -25,7 +25,7 @@ export namespace Tasks {
         Selectors.navigationSort(flux.store.getState()),
         config
       )[0];
-      const { navigationId, refinements, selected } = Adapter.mergeRefinements(res, state);
+      const { navigationId, refinements, selected } = RefinementsAdapter.mergeRefinements(res, state);
       yield effects.put(flux.actions.receiveMoreRefinements(navigationId, refinements, selected));
     } catch (e) {
       yield effects.put(utils.createAction(Actions.RECEIVE_MORE_REFINEMENTS, e));

@@ -5,7 +5,7 @@ import Selectors from '../selectors';
 import Store from '../store';
 import ConfigAdapter from './configuration';
 
-namespace Personalization {
+namespace PersonalizationAdapter {
   type ExtractableAction = Actions.SelectRefinement & Actions.AddRefinement;
 
   export const DAYS_IN_SECONDS = 86400;
@@ -117,4 +117,4 @@ namespace Personalization {
   export interface BrowserBiasKey extends Store.Personalization.BiasKey, Store.Personalization.SingleBias { }
 }
 
-export default Personalization;
+export default PersonalizationAdapter;
