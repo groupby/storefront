@@ -11,9 +11,9 @@ import {
   recommendationsSuggestionsRequest
 } from '../requests';
 import Selectors from '../selectors';
-import Requests from './requests';
+import RequestsTasks from './requests';
 
-export namespace Tasks {
+export namespace AutocompleteTasks {
   // tslint:disable-next-line max-line-length
   export function* fetchSuggestions(flux: FluxCapacitor, { payload: { query, request } }: Actions.FetchAutocompleteSuggestions) {
     try {
@@ -22,7 +22,7 @@ export namespace Tasks {
       const field = Selectors.autocompleteCategoryField(state);
       const requestBody = autocompleteSuggestionsRequest.composeRequest(state, request);
       const suggestionsRequest = effects.call(
-        Requests.autocomplete,
+        RequestsTasks.autocomplete,
         flux,
         query,
         requestBody
@@ -34,7 +34,7 @@ export namespace Tasks {
       if (recommendationsConfig.suggestionCount > 0) {
         const body = recommendationsSuggestionsRequest.composeRequest(state, { query });
         const trendingRequest = effects.call(
-          Requests.recommendations,
+          RequestsTasks.recommendations,
           {
             customerId: config.customerId,
             endpoint: 'searches',
@@ -50,10 +50,12 @@ export namespace Tasks {
 
       const responses = yield effects.all(requests);
       const navigationLabels = ConfigAdapter.extractAutocompleteNavigationLabels(config);
+      // tslint:disable-next-line max-line-length
       const autocompleteSuggestions = AutocompleteAdapter.extractSuggestions(responses[0], query, field, navigationLabels, config);
       const suggestions = recommendationsConfig.suggestionCount > 0 ?
         {
           ...autocompleteSuggestions,
+          // tslint:disable-next-line max-line-length
           suggestions: AutocompleteAdapter.mergeSuggestions(autocompleteSuggestions.suggestions, yield responses[1].json())
         } : autocompleteSuggestions;
 
@@ -73,7 +75,7 @@ export namespace Tasks {
         state,
         { refinements: requestRefinements, query, ...request }
       );
-      const res = yield effects.call(Requests.search, flux, requestBody);
+      const res = yield effects.call(RequestsTasks.search, flux, requestBody);
 
       yield effects.put(<any>flux.actions.receiveAutocompleteProducts(res));
     } catch (e) {
@@ -83,6 +85,6 @@ export namespace Tasks {
 }
 
 export default (flux: FluxCapacitor) => function* autocompleteSaga() {
-  yield effects.takeLatest(Actions.FETCH_AUTOCOMPLETE_SUGGESTIONS, Tasks.fetchSuggestions, flux);
-  yield effects.takeLatest(Actions.FETCH_AUTOCOMPLETE_PRODUCTS, Tasks.fetchProducts, flux);
+  yield effects.takeLatest(Actions.FETCH_AUTOCOMPLETE_SUGGESTIONS, AutocompleteTasks.fetchSuggestions, flux);
+  yield effects.takeLatest(Actions.FETCH_AUTOCOMPLETE_PRODUCTS, AutocompleteTasks.fetchProducts, flux);
 };

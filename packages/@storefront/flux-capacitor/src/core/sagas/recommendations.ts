@@ -4,7 +4,6 @@ import FluxCapacitor from '../../flux-capacitor';
 import Actions from '../actions';
 import ConfigAdapter from '../adapters/configuration';
 import PageAdapter from '../adapters/page';
-import PastPurchaseAdapter from '../adapters/past-purchases';
 import SearchAdapter from '../adapters/search';
 import Configuration from '../configuration';
 import {
@@ -16,7 +15,7 @@ import {
 import Selectors from '../selectors';
 import Store from '../store';
 import * as utils from '../utils';
-import Requests from './requests';
+import RequestsTasks from './requests';
 
 export class MissingPayloadError extends Error {
   /* istanbul ignore next */
@@ -26,7 +25,7 @@ export class MissingPayloadError extends Error {
   }
 }
 
-export namespace Tasks {
+export namespace RecommendationsTasks {
   // tslint:disable-next-line max-line-length
   export function* fetchRecommendationsProducts(flux: FluxCapacitor, action: Actions.FetchRecommendationsProducts) {
     try {
@@ -37,7 +36,7 @@ export namespace Tasks {
       if (productCount > 0) {
         const body = recommendationsProductIdsRequest.composeRequest(state, action.payload.request);
         const recommendationsResponse = yield effects.call(
-          Requests.recommendations,
+          RequestsTasks.recommendations,
           {
             customerId: config.customerId,
             endpoint: 'products',
@@ -61,7 +60,7 @@ export namespace Tasks {
             refinements
           }
         );
-        const results = yield effects.call(Requests.search, flux, requestBody);
+        const results = yield effects.call(RequestsTasks.search, flux, requestBody);
 
         yield effects.put(flux.actions.receiveRecommendationsProducts(SearchAdapter.augmentProducts(results)));
       }
@@ -74,7 +73,7 @@ export namespace Tasks {
     const securedPayload = ConfigAdapter.extractSecuredPayload(config);
     if (securedPayload) {
       const response = yield effects.call(
-        Requests.pastPurchases,
+        RequestsTasks.pastPurchases,
         {
           customerId: config.customerId,
           endpoint,
@@ -91,7 +90,7 @@ export namespace Tasks {
     throw new MissingPayloadError();
   }
 
-  export function* fetchPastPurchases(flux: FluxCapacitor, action: Actions.FetchPastPurchases) {
+  export function* fetchPastPurchases(flux: FluxCapacitor, _: Actions.FetchPastPurchases) {
     try {
       const config: Configuration = yield effects.select(Selectors.config);
       const productCount = ConfigAdapter.extractPastPurchaseProductCount(config);
@@ -116,12 +115,12 @@ export namespace Tasks {
       const pastPurchaseSkus: Store.PastPurchases.PastPurchaseProduct[] = yield effects.select(Selectors.pastPurchases);
       if (pastPurchaseSkus.length > 0) {
         const state = yield effects.select();
-        const pastPurchasesFromSkus = Tasks.buildRequestFromSkus(flux, pastPurchaseSkus);
+        const pastPurchasesFromSkus = RecommendationsTasks.buildRequestFromSkus(flux, pastPurchaseSkus);
         const request = pastPurchaseProductsRequest.composeRequest(state, {
           ...pastPurchasesFromSkus,
           ...action.payload.request
         });
-        const results = yield effects.call(Requests.search, flux, request);
+        const results = yield effects.call(RequestsTasks.search, flux, request);
         const pageSize = request.pageSize;
         yield effects.put(<any>[
           flux.actions.updatePastPurchasePageSize(pageSize),
@@ -158,14 +157,14 @@ export namespace Tasks {
         yield effects.put(<any>flux.actions.infiniteScrollRequestState({ isFetchingBackward: true }));
       }
 
-      const pastPurchasesFromSkus = Tasks.buildRequestFromSkus(flux, pastPurchaseSkus);
+      const pastPurchasesFromSkus = RecommendationsTasks.buildRequestFromSkus(flux, pastPurchaseSkus);
       const request = pastPurchaseProductsRequest.composeRequest(state, {
         pageSize,
         skip,
         ...pastPurchasesFromSkus,
         ...action.payload.request
       });
-      const result = yield effects.call(Requests.search, flux, request);
+      const result = yield effects.call(RequestsTasks.search, flux, request);
 
       yield effects.put(<any>[
         flux.actions.receivePastPurchaseCurrentRecordCount(result.totalRecordCount),
@@ -188,7 +187,7 @@ export namespace Tasks {
       const pastPurchaseSkus = yield effects.select(Selectors.pastPurchases);
       if (pastPurchaseSkus.length > 0) {
         const req = autocompletePastPurchaseRequest.composeRequest(state, { query, ...request });
-        const results = yield effects.call(Requests.search, flux, req);
+        const results = yield effects.call(RequestsTasks.search, flux, req);
         yield effects.put(flux.actions.receiveSaytPastPurchases(SearchAdapter.augmentProducts(results)));
       } else {
         yield effects.put(flux.actions.receiveSaytPastPurchases([]));
@@ -199,7 +198,7 @@ export namespace Tasks {
   }
 
   // tslint:disable-next-line max-line-length
-  export function buildRequestFromSkus(flux: FluxCapacitor, skus: Store.PastPurchases.PastPurchaseProduct[]): Partial<Request> {
+  export function buildRequestFromSkus(_: FluxCapacitor, skus: Store.PastPurchases.PastPurchaseProduct[]): Partial<Request> {
     const ids: string[] = skus.map(({ sku }) => sku);
 
     return {
@@ -212,9 +211,11 @@ export namespace Tasks {
 }
 
 export default (flux: FluxCapacitor) => function* recommendationsSaga() {
-  yield effects.takeLatest(Actions.FETCH_RECOMMENDATIONS_PRODUCTS, Tasks.fetchRecommendationsProducts, flux);
-  yield effects.takeLatest(Actions.FETCH_PAST_PURCHASES, Tasks.fetchPastPurchases, flux);
-  yield effects.takeLatest(Actions.FETCH_PAST_PURCHASE_PRODUCTS, Tasks.fetchPastPurchaseProducts, flux);
-  yield effects.takeLatest(Actions.FETCH_SAYT_PAST_PURCHASES, Tasks.fetchSaytPastPurchases, flux);
-  yield effects.takeEvery(Actions.FETCH_MORE_PAST_PURCHASE_PRODUCTS, Tasks.fetchMorePastPurchaseProducts, flux);
+  // tslint:disable-next-line max-line-length
+  yield effects.takeLatest(Actions.FETCH_RECOMMENDATIONS_PRODUCTS, RecommendationsTasks.fetchRecommendationsProducts, flux);
+  yield effects.takeLatest(Actions.FETCH_PAST_PURCHASES, RecommendationsTasks.fetchPastPurchases, flux);
+  yield effects.takeLatest(Actions.FETCH_PAST_PURCHASE_PRODUCTS, RecommendationsTasks.fetchPastPurchaseProducts, flux);
+  yield effects.takeLatest(Actions.FETCH_SAYT_PAST_PURCHASES, RecommendationsTasks.fetchSaytPastPurchases, flux);
+  // tslint:disable-next-line max-line-length
+  yield effects.takeEvery(Actions.FETCH_MORE_PAST_PURCHASE_PRODUCTS, RecommendationsTasks.fetchMorePastPurchaseProducts, flux);
 };
