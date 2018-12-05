@@ -42,7 +42,6 @@ module.exports = {
       use: { loader: 'expose-loader', options: 'storefront' }
     }, {
       resource: [
-        // /node_modules\/@storefront\/.*\.js$/,
         { test: /\.js$/, exclude: [/node_modules/] }
       ],
       loader: 'babel-loader'

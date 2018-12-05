@@ -14,10 +14,10 @@ export default (cb) => {
       minify: true,
       rum: false,
       afterFill() {
-        cb()
+        cb();
       }
     });
   } else {
     cb();
   }
-}
+};
