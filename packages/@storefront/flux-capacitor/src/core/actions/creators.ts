@@ -715,7 +715,7 @@ namespace ActionCreators {
    * @return {Actions.ReceiveMoreProducts}          - Action with products.
    */
   export function receiveMoreProducts(res: Results) {
-    return (_: Store.State): Actions.ReceiveMoreProducts => {
+    return (state: Store.State): Actions.ReceiveMoreProducts => {
       // tslint:disable-next-line max-line-length
       return handleError(createAction(Actions.RECEIVE_MORE_PRODUCTS, res), () => createAction(Actions.RECEIVE_MORE_PRODUCTS, SearchAdapter.augmentProducts(res)));
     };
@@ -727,7 +727,7 @@ namespace ActionCreators {
    * @return {Actions.ReceiveAutocompleteProducts}     - Action and res.
    */
   export function receiveAutocompleteProducts(res: Results) {
-    return (_: Store.State): Actions.Action<string, any>[] | Actions.ReceiveAutocompleteProducts => {
+    return (state: Store.State): Actions.Action<string, any>[] | Actions.ReceiveAutocompleteProducts => {
       const receiveProductsAction = createAction(Actions.RECEIVE_AUTOCOMPLETE_PRODUCTS, res);
 
       return handleError(receiveProductsAction, () => [
@@ -809,7 +809,7 @@ namespace ActionCreators {
   }
 
   export function receiveMorePastPurchaseProducts(res: Results) {
-    return (_: Store.State): Actions.ReceiveMorePastPurchaseProducts => {
+    return (state: Store.State): Actions.ReceiveMorePastPurchaseProducts => {
       // tslint:disable-next-line max-line-length
       return handleError(createAction(Actions.RECEIVE_MORE_PAST_PURCHASE_PRODUCTS, res), () => createAction(Actions.RECEIVE_MORE_PAST_PURCHASE_PRODUCTS, SearchAdapter.augmentProducts(res)));
     };

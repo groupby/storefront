@@ -198,7 +198,7 @@ export namespace RecommendationsTasks {
   }
 
   // tslint:disable-next-line max-line-length
-  export function buildRequestFromSkus(_: FluxCapacitor, skus: Store.PastPurchases.PastPurchaseProduct[]): Partial<Request> {
+  export function buildRequestFromSkus(flux: FluxCapacitor, skus: Store.PastPurchases.PastPurchaseProduct[]): Partial<Request> {
     const ids: string[] = skus.map(({ sku }) => sku);
 
     return {

@@ -59,7 +59,7 @@ export namespace ProductsTasks {
     return yield effects.call(RequestsTasks.search, flux, request);
   }
 
-  export function* fetchNavigations(_: FluxCapacitor, __: Actions.FetchProducts) {
+  export function* fetchNavigations(flux: FluxCapacitor, action: Actions.FetchProducts) {
     try {
       const state = yield effects.select();
       const config = yield effects.select(Selectors.config);
