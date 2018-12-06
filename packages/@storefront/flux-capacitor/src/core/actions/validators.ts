@@ -31,7 +31,6 @@ export const isValueRefinement: Validator<Actions.Payload.Navigation.AddRefineme
 export const isRefinementDeselectedByValue: Validator<Actions.Payload.Navigation.AddRefinement> = {
   func: (payload, state) => {
     const navigation = Selectors.navigation(state, payload.navigationId);
-    // tslint:disable-next-line max-line-length
     return !navigation || navigation.selected
     // tslint:disable-next-line max-line-length
       .findIndex((index) => SearchAdapter.refinementsMatch(<any>payload, <any>navigation.refinements[index], navigation.range ? 'Range' : 'Value')) === -1;
