@@ -100,6 +100,8 @@ const DEFAULTS: Partial<Configuration> = {
 
   history: {
     length: 1,
+    pushState: window.history.pushState,
+    replaceState: window.history.replaceState,
   },
 
   services: {
