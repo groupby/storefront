@@ -10,6 +10,7 @@ import Events from './core/events';
 import Observer from './core/observer';
 import Selectors from './core/selectors';
 import Store from './core/store';
+import Url from './core/url-beautifier/url';
 
 declare module 'redux' {
   export interface Dispatch<S> {
@@ -152,7 +153,7 @@ class FluxCapacitor extends Emitter {
   }
 
   /**
-   * create instances of all clients used to contact microservices
+   * create instances of all clients used to contact microservices and history object
    */
   static createClients(flux: FluxCapacitor) {
     const config = flux.__config; // store not defined yet
@@ -164,7 +165,8 @@ class FluxCapacitor extends Emitter {
           networkConfig.errorHandler(err);
         }
       }),
-      sayt: FluxCapacitor.createSayt(config)
+      sayt: FluxCapacitor.createSayt(config),
+      history: FluxCapacitor.createHistory(config),
     };
   }
 
@@ -198,6 +200,13 @@ class FluxCapacitor extends Emitter {
       collection: ConfigurationAdapter.extractAutocompleteCollection(config) || ConfigurationAdapter.extractCollection(config),
       subdomain: config.customerId,
     });
+  }
+
+  /**
+   * create history object to be used for url and history changes
+   */
+  static createHistory(config: Configuration) {
+    return new Url();
   }
 }
 
