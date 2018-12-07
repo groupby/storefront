@@ -1,16 +1,19 @@
-import { Actions, Events, Routes, Selectors, Store } from '@storefront/flux-capacitor';
 import * as UrlParse from 'url-parse';
-import CoreSelectors from '../core/selectors';
-import { core, BaseService } from '../core/service';
+import Actions from '../actions';
 import UrlBeautifier from '../core/url-beautifier';
+// TODO: pass in WINDOW to flux on initialization?
+// Or you need to use the history package maybe
 import { WINDOW } from '../core/utils';
+import Events from '../events';
+import Selectors from '../selectors';
+import Store from '../store';
 import StoreFront from '../storefront';
+import Routes from '../utils';
 import Utils from './urlUtils';
 
 export const STOREFRONT_APP_ID = 'GroupBy StoreFront';
 
-@core
-class Url extends BaseService<Url.Options> {
+class Url {
   static getBasePath: typeof Utils.getBasePath = Utils.getBasePath;
 
   beautifier: UrlBeautifier.SimpleBeautifier;
@@ -29,6 +32,7 @@ class Url extends BaseService<Url.Options> {
     } else {
       this.beautifier = new UrlBeautifier(this.generateRoutes(), this.opts.beautifier, this.app.config);
     }
+    // TODO: handle this somewhere
     WINDOW().addEventListener('popstate', this.rewind);
   }
 
