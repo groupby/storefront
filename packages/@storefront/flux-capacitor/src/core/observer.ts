@@ -106,6 +106,9 @@ namespace Observer {
     return {
       data: {
         present: {
+          history: {
+            url: emit(Events.URL_UPDATED),
+          },
           // tslint:disable-next-line max-line-length
           autocomplete: ((emitSuggestionsUpdated: Observer, emitQueryUpdated: Observer, emitProductsUpdated: Observer, emitTemplateUpdated: Observer) =>
             (oldState: Store.Autocomplete, newState: Store.Autocomplete, path: string) => {

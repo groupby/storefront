@@ -115,6 +115,18 @@ export namespace Middleware {
     };
   }
 
+  export function updateHistory(flux: FluxCapacitor): ReduxMiddleware {
+    const build = (route, request) => '/tmp'; // TODO
+
+    return (store) => (next) => (action) => {
+      if (action.type === Actions.PUSH_STATE) {
+        if (!action.payload.url) action.payload.url = build(action.payload.route, action.payload.request);
+      }
+
+      return next(action);
+    };
+  }
+
   export function personalizationAnalyzer({ getState, dispatch }: Store<any>) {
     return (next) => (action) => {
       if (ConfigurationAdapter.isRealTimeBiasEnabled(Selectors.config(getState())) &&
@@ -174,6 +186,7 @@ export namespace Middleware {
     ];
     const middleware = [
       ...normalizingMiddleware,
+      Middleware.updateHistory(flux),
       Middleware.saveStateAnalyzer(),
       Middleware.injectStateIntoRehydrate,
       Middleware.validator,
