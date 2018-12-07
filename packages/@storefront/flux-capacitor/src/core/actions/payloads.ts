@@ -3,7 +3,12 @@ import Store from '../store';
 
 namespace Payload {
   export namespace History {
-    export interface PushState {
+    export interface State extends PreState {
+      method: string;
+    }
+
+    export interface PreState {
+      title?: string;
       url?: string;
       route?: string;
       request?: any;

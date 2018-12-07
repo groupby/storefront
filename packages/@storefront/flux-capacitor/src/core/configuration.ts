@@ -73,6 +73,17 @@ interface Configuration {
    * personalization configuration
    */
   personalization?: Configuration.Personalization;
+
+  /**
+   * History length can be either 1 or 0. Setting history length to 0 prevents
+   * products from being saved into browser history, reducing the chance that
+   * the browser size limit will be reached, but forces a re-fetch on history change.
+   */
+  history?: {
+    pushState: (data: any, title: string, url?: string) => void;
+    replaceState: (data: any, title: string, url?: string) => void;
+    length?: number;
+  };
 }
 
 namespace Configuration {

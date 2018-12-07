@@ -69,7 +69,8 @@ export const UNDOABLE_ACTIONS = [
 export const CALL_HISTORY_METHOD = [
   Actions.PUSH_STATE,
   Actions.REPLACE_STATE,
-  Actions.HISTORY_INTIALIZE,
+  // TODO: implement this
+  // Actions.HISTORY_INTIALIZE,
 ];
 
 export namespace Middleware {
@@ -121,14 +122,17 @@ export namespace Middleware {
     };
   }
 
-  export function updateHistory(history: any): ReduxMiddleware {
-    return (store) => (next) => (action) => {
-      if (!CALL_HISTORY_METHOD.includes(CALL_HISTORY_METHOD)) {
+  export function updateHistory(flux: FluxCapacitor): ReduxMiddleware {
+    return (store: Store<any>) => (next) => (action) => {
+      if (!CALL_HISTORY_METHOD.includes(action.type)) {
         return next(action);
+      } else {
+        debugger;
       }
 
       const { payload: { method, title, url } } = action;
-      history[method](store.getState(), title, url);
+      const state = store.getState();
+      Selectors.history(state)[method]({}, title, url);
 
       return next(action);
     };
