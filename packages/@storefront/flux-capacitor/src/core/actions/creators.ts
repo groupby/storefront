@@ -9,6 +9,11 @@ import { createAction, handleError, refinementPayload, shouldResetRefinements } 
 import * as validators from './validators';
 
 namespace ActionCreators {
+  // tslint:disable-next-line max-line-length
+  export function pushState(urlState: { route?: string, url?: string, state?: any, title?: string }): Actions.PushState {
+    return createAction(Actions.PUSH_STATE, urlState);
+  }
+
   /**
    * Updates state with given state.
    * @param  {any}                  state - The state to use.

@@ -52,8 +52,14 @@ class FluxCapacitor extends Emitter {
     delete this.__config;
   }
 
-  saveState(route: string) {
-    this.emit(Events.HISTORY_SAVE, { route, state: this.store.getState() });
+  saveState(urlState: { route?: string, url?: string }) {
+    // this.emit(Events.HISTORY_SAVE, { route, state: this.store.getState() });
+    const state = this.store.getState();
+    const route = urlState.route || Selectors.getRoute(state);
+    // TODO: fix how build is
+    const url = urlState.url || this.build(route, state);
+
+    this.store.dispatch(this.actions.pushState({ url, route }));
   }
 
   replaceState(route: string) {

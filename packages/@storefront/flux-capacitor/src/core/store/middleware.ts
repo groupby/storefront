@@ -66,6 +66,12 @@ export const UNDOABLE_ACTIONS = [
   Actions.RECEIVE_PAST_PURCHASE_PRODUCTS,
 ];
 
+export const CALL_HISTORY_METHOD = [
+  Actions.PUSH_STATE,
+  Actions.REPLACE_STATE,
+  Actions.HISTORY_INTIALIZE,
+];
+
 export namespace Middleware {
   export const validator = validatorMiddleware();
 
@@ -115,13 +121,14 @@ export namespace Middleware {
     };
   }
 
-  export function updateHistory(flux: FluxCapacitor): ReduxMiddleware {
-    const build = (route, request) => '/tmp'; // TODO
-
+  export function updateHistory(history: any): ReduxMiddleware {
     return (store) => (next) => (action) => {
-      if (action.type === Actions.PUSH_STATE) {
-        if (!action.payload.url) action.payload.url = build(action.payload.route, action.payload.request);
+      if (!CALL_HISTORY_METHOD.includes(CALL_HISTORY_METHOD)) {
+        return next(action);
       }
+
+      const { payload: { method, title, url } } = action;
+      history[method](store.getState(), title, url);
 
       return next(action);
     };
