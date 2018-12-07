@@ -1,5 +1,5 @@
 import * as cuid from 'cuid';
-import { applyMiddleware, compose, createStore, Middleware as ReduxMiddleware, Store } from 'redux';
+import { applyMiddleware, compose, Middleware as ReduxMiddleware, Store } from 'redux';
 import { batchActions, batchMiddleware, batchStoreEnhancer, POP, PUSH } from 'redux-batch-enhancer';
 import { ActionCreators as ReduxActionCreators } from 'redux-undo';
 import * as validatorMiddleware from 'redux-validator';
@@ -10,7 +10,6 @@ import ConfigurationAdapter from '../adapters/configuration';
 import PersonalizationAdapter from '../adapters/personalization';
 import Events from '../events';
 import Selectors from '../selectors';
-import * as utils from '../utils';
 
 export const RECALL_CHANGE_ACTIONS = [
   Actions.RESET_REFINEMENTS,

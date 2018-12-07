@@ -3,8 +3,7 @@ import { Action as ReduxAction, Store as ReduxStore } from 'redux';
 import { Sayt } from 'sayt';
 import Actions from './core/actions';
 import ActionCreators from './core/actions/creators';
-import Adapter from './core/adapters/configuration';
-import SearchAdapter from './core/adapters/search';
+import ConfigurationAdapter from './core/adapters/configuration';
 import Configuration from './core/configuration';
 import Emitter  from './core/emitter';
 import Events from './core/events';
@@ -185,7 +184,7 @@ class FluxCapacitor extends Emitter {
     const networkConfig = config.network;
     return new Sayt(<any>{
       https: networkConfig.https,
-      collection: Adapter.extractAutocompleteCollection(config) || Adapter.extractCollection(config),
+      collection: ConfigurationAdapter.extractAutocompleteCollection(config) || ConfigurationAdapter.extractCollection(config),
       subdomain: config.customerId,
     });
   }

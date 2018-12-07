@@ -2,16 +2,12 @@ import { BridgeCallback, Request } from 'groupby-api';
 import * as effects from 'redux-saga/effects';
 import { QueryTimeAutocompleteConfig, SearchCallback } from 'sayt';
 import FluxCapacitor from '../../flux-capacitor';
-import Actions from '../actions';
 import PastPurchasesAdapter from '../adapters/past-purchases';
 import RecommendationsAdapter from '../adapters/recommendations';
-import Events from '../events';
 import RequestHelpers from '../requests/utils';
-import Selectors from '../selectors';
-import Store from '../store';
 import { fetch } from '../utils';
 
-namespace Requests {
+namespace RequestsTasks {
   export function* search(flux: FluxCapacitor, request: Request, cb?: BridgeCallback) {
     return yield effects.call([flux.clients.bridge, flux.clients.bridge.search], request, cb);
   }
@@ -46,4 +42,4 @@ namespace Requests {
   }
 }
 
-export default Requests;
+export default RequestsTasks;

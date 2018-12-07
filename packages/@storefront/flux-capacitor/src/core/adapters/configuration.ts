@@ -1,6 +1,5 @@
 import { Request } from 'groupby-api';
-import { AutocompleteConfig, ProductSearchConfig } from 'sayt';
-import Recommendations from '../adapters/recommendations';
+import RecommendationsAdapter from '../adapters/recommendations';
 import Configuration from '../configuration';
 import * as AreaReducer from '../reducers/data/area';
 import * as AutocompleteReducer from '../reducers/data/autocomplete';
@@ -10,32 +9,32 @@ import * as PastPurchaseReducer from '../reducers/data/past-purchases';
 import Store from '../store';
 import { normalizeToFunction, GenericTransformer } from '../utils';
 
-namespace Adapter {
+namespace ConfigurationAdapter {
 
   export const initialState = (config: Configuration): Partial<Store.State> =>
     ({
       data: <any>{
         present: {
-          area: Adapter.extractArea(config, AreaReducer.DEFAULT_AREA),
+          area: ConfigurationAdapter.extractArea(config, AreaReducer.DEFAULT_AREA),
           autocomplete: {
             ...AutocompleteReducer.DEFAULTS,
             category: {
               ...AutocompleteReducer.DEFAULTS.category,
-              field: Adapter.extractSaytCategoryField(config),
+              field: ConfigurationAdapter.extractSaytCategoryField(config),
             },
           },
-          fields: Adapter.extractFields(config),
-          collections: Adapter.extractCollections(config, CollectionsReducer.DEFAULT_COLLECTION),
-          sorts: Adapter.extractSorts(config),
+          fields: ConfigurationAdapter.extractFields(config),
+          collections: ConfigurationAdapter.extractCollections(config, CollectionsReducer.DEFAULT_COLLECTION),
+          sorts: ConfigurationAdapter.extractSorts(config),
           page: {
             ...PageReducer.DEFAULTS,
-            sizes: Adapter.extractPageSizes(config, PageReducer.DEFAULT_PAGE_SIZE)
+            sizes: ConfigurationAdapter.extractPageSizes(config, PageReducer.DEFAULT_PAGE_SIZE)
           },
           pastPurchases: {
             ...PastPurchaseReducer.DEFAULTS,
             page: {
               ...PastPurchaseReducer.DEFAULTS.page,
-              sizes: Adapter.extractPageSizes(config, PastPurchaseReducer.DEFAULT_PAGE_SIZE)
+              sizes: ConfigurationAdapter.extractPageSizes(config, PastPurchaseReducer.DEFAULT_PAGE_SIZE)
             }
           }
         }
@@ -101,7 +100,7 @@ namespace Adapter {
 
   // tslint:disable-next-line max-line-length
   export const extractCollections = (config: Configuration, defaultValue: string): Store.Indexed.Selectable<Store.Collection> => {
-    const { selected, allIds } = Adapter.extractIndexedState(config.collection || defaultValue);
+    const { selected, allIds } = ConfigurationAdapter.extractIndexedState(config.collection || defaultValue);
 
     return {
       selected,
@@ -212,17 +211,18 @@ namespace Adapter {
   export const pastPurchaseOverrides: Override<Request> = (config) =>
     normalizeToFunction(config.recommendations.pastPurchases.overrides.products);
 
-  export const recommendationsNavigationsOverrides: Override<Recommendations.RecommendationsBody> = (config) =>
+  export const recommendationsNavigationsOverrides: Override<RecommendationsAdapter.RecommendationsBody> = (config) =>
     normalizeToFunction(config.recommendations.overrides.navigations);
 
-  export const recommendationsIdsOverrides: Override<Recommendations.RecommendationsRequest> = (config) =>
+  export const recommendationsIdsOverrides: Override<RecommendationsAdapter.RecommendationsRequest> = (config) =>
     normalizeToFunction(config.recommendations.overrides.ids);
 
   export const recommendationsProductsOverrides: Override<Request> = (config) =>
     normalizeToFunction(config.recommendations.overrides.products);
 
-  export const recommendationsSuggestionsOverrides: Override<Recommendations.Request & { query: string }> = (config) =>
+  // tslint:disable-next-line max-line-length
+  export const recommendationsSuggestionsOverrides: Override<RecommendationsAdapter.Request & { query: string }> = (config) =>
     normalizeToFunction(config.recommendations.overrides.autocompleteSuggestions);
 }
 
-export default Adapter;
+export default ConfigurationAdapter;

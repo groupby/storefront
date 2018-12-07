@@ -1,22 +1,18 @@
 import { Request } from 'groupby-api';
-import { QueryTimeAutocompleteConfig, QueryTimeProductSearchConfig } from 'sayt';
-import Payload from '../actions/payloads';
+import { QueryTimeAutocompleteConfig } from 'sayt';
 import Autocomplete from '../adapters/autocomplete';
 import Configuration from '../adapters/configuration';
 import PastPurchaseAdapter from '../adapters/past-purchases';
-import Personalization from '../adapters/personalization';
-import Recommendations from '../adapters/recommendations';
+import PersonalizationAdapter from '../adapters/personalization';
+import RecommendationsAdapter from '../adapters/recommendations';
 import RequestAdapter from '../adapters/request';
-import SearchAdapter, { MAX_RECORDS } from '../adapters/search';
-import AppConfig from '../configuration';
 import Selectors from '../selectors';
 import Store from '../store';
-import { normalizeToFunction } from '../utils';
 
 namespace RequestHelpers {
-  export type RequestBody = Recommendations.RecommendationsBody
-    | Recommendations.RecommendationsRequest
-    | Recommendations.PastPurchaseRequest;
+  export type RequestBody = RecommendationsAdapter.RecommendationsBody
+    | RecommendationsAdapter.RecommendationsRequest
+    | RecommendationsAdapter.PastPurchaseRequest;
 
   export const buildPostBody = (body: RequestBody) => ({
     method: 'POST',
@@ -70,11 +66,11 @@ namespace RequestHelpers {
   };
 
   // tslint:disable-next-line max-line-length
-  export const recommendationsSuggestions: BuildFunction<Partial<Recommendations.Request & { query: string }>, Recommendations.Request> = (state, overrideRequest = {}) => {
+  export const recommendationsSuggestions: BuildFunction<Partial<RecommendationsAdapter.Request & { query: string }>, RecommendationsAdapter.Request> = (state, overrideRequest = {}) => {
     const config = Selectors.config(state);
     const { query = false, ...restOfOverrideRequest } = overrideRequest;
 
-    const request = Recommendations.addLocationToRequest({
+    const request = RecommendationsAdapter.addLocationToRequest({
       size: config.autocomplete.recommendations.suggestionCount,
       matchPartial: {
         and: [{
@@ -89,7 +85,7 @@ namespace RequestHelpers {
   };
 
   // tslint:disable-next-line max-line-length
-  export const recommendationsNavigations: BuildFunction<Partial<Recommendations.RecommendationsBody>, Recommendations.RecommendationsBody> = (state, overrideRequest = {}) => {
+  export const recommendationsNavigations: BuildFunction<Partial<RecommendationsAdapter.RecommendationsBody>, RecommendationsAdapter.RecommendationsBody> = (state, overrideRequest = {}) => {
     const query = Selectors.query(state);
     const iNav = Selectors.config(state).recommendations.iNav;
     const sizeAndWindow = { size: iNav.size, window: iNav.window };
@@ -111,10 +107,10 @@ namespace RequestHelpers {
   };
 
   // tslint:disable-next-line max-line-length
-  export const recommendationsProductIDs: BuildFunction<Partial<Recommendations.RecommendationsRequest>, Recommendations.RecommendationsRequest> = (state, overrideRequest = {}) => {
+  export const recommendationsProductIDs: BuildFunction<Partial<RecommendationsAdapter.RecommendationsRequest>, RecommendationsAdapter.RecommendationsRequest> = (state, overrideRequest = {}) => {
     const config = Selectors.config(state);
 
-    const request = Recommendations.addLocationToRequest({
+    const request = RecommendationsAdapter.addLocationToRequest({
       size: config.recommendations.productSuggestions.productCount,
       type: 'viewProduct',
       target: config.recommendations.idField
@@ -161,7 +157,7 @@ namespace RequestHelpers {
 
   // tslint:disable-next-line max-line-length
   export const realTimeBiasing = (state: Store.State, request: Request): Request => {
-    const addedBiases = Personalization.convertBiasToSearch(state, request.refinements);
+    const addedBiases = PersonalizationAdapter.convertBiasToSearch(state, request.refinements);
 
     return {
       ...request,

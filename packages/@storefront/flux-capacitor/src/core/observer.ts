@@ -3,7 +3,6 @@ import FluxCapacitor from '../flux-capacitor';
 import SearchAdapter from './adapters/search';
 import Events from './events';
 import Store from './store';
-import * as utils from './utils';
 
 type Observer = (oldState: any, newState: any, path: string) => void;
 

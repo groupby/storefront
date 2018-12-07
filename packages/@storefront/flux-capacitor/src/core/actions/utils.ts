@@ -1,4 +1,3 @@
-import { Dispatch } from 'redux';
 import Actions from '.';
 import SearchAdapter from '../adapters/search';
 import Selectors from '../selectors';

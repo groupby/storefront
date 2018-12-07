@@ -1,10 +1,9 @@
-import { applyMiddleware, compose, createStore, Store as ReduxStore } from 'redux';
+import { createStore, Store as ReduxStore } from 'redux';
 import { persistStore } from 'redux-persist';
 import createSagaMiddleware from 'redux-saga';
-import * as validatorMiddleware from 'redux-validator';
 import FluxCapacitor from '../../flux-capacitor';
 import Actions from '../actions';
-import Adapter from '../adapters/configuration';
+import ConfigurationAdapter from '../adapters/configuration';
 import Configuration from '../configuration';
 import reducer from '../reducers';
 import createSagas, { SAGA_CREATORS } from '../sagas';
@@ -21,13 +20,13 @@ namespace Store {
 
     const store = createStore<State>(
       reducer,
-      <State>Adapter.initialState(flux.__config),
+      <State>ConfigurationAdapter.initialState(flux.__config),
       middleware,
     );
 
     // cannot stub persistStore
     /* istanbul ignore next */
-    if (Adapter.isRealTimeBiasEnabled(flux.__config)) {
+    if (ConfigurationAdapter.isRealTimeBiasEnabled(flux.__config)) {
       persistStore(store);
     }
 

@@ -2,14 +2,11 @@ import * as effects from 'redux-saga/effects';
 import Actions from '../../../../src/core/actions';
 import Adapter from '../../../../src/core/adapters/autocomplete';
 import ConfigAdapter from '../../../../src/core/adapters/configuration';
-import RecommendationsAdapter from '../../../../src/core/adapters/recommendations';
-import SearchAdapter from '../../../../src/core/adapters/search';
 import * as RequestBuilders from '../../../../src/core/requests';
 import RequestHelpers from '../../../../src/core/requests/utils';
-import sagaCreator, { Tasks } from '../../../../src/core/sagas/autocomplete';
+import sagaCreator, { AutocompleteTasks } from '../../../../src/core/sagas/autocomplete';
 import Requests from '../../../../src/core/sagas/requests';
 import Selectors from '../../../../src/core/selectors';
-import * as utils from '../../../../src/core/utils';
 import suite from '../../_suite';
 
 suite('autocomplete saga', ({ expect, spy, stub, sinon }) => {
@@ -21,8 +18,9 @@ suite('autocomplete saga', ({ expect, spy, stub, sinon }) => {
       const saga = sagaCreator(flux)();
 
       // tslint:disable-next-line max-line-length
-      expect(saga.next().value).to.eql(effects.takeLatest(Actions.FETCH_AUTOCOMPLETE_SUGGESTIONS, Tasks.fetchSuggestions, flux));
-      expect(saga.next().value).to.eql(effects.takeLatest(Actions.FETCH_AUTOCOMPLETE_PRODUCTS, Tasks.fetchProducts, flux));
+      expect(saga.next().value).to.eql(effects.takeLatest(Actions.FETCH_AUTOCOMPLETE_SUGGESTIONS, AutocompleteTasks.fetchSuggestions, flux));
+      // tslint:disable-next-line max-line-length
+      expect(saga.next().value).to.eql(effects.takeLatest(Actions.FETCH_AUTOCOMPLETE_PRODUCTS, AutocompleteTasks.fetchProducts, flux));
       saga.next();
     });
   });
@@ -61,7 +59,7 @@ suite('autocomplete saga', ({ expect, spy, stub, sinon }) => {
         stub(RequestBuilders.recommendationsSuggestionsRequest, 'composeRequest')
           .withArgs(state, { query }).returns(matchExact);
 
-        const task = Tasks.fetchSuggestions(flux, <any>{ payload: { query } });
+        const task = AutocompleteTasks.fetchSuggestions(flux, <any>{ payload: { query } });
 
         expect(task.next().value).to.eql(effects.select());
         expect(task.next(state).value).to.eql(effects.select(Selectors.config));
@@ -104,7 +102,7 @@ suite('autocomplete saga', ({ expect, spy, stub, sinon }) => {
         stub(Selectors, 'autocompleteCategoryField');
         stub(Adapter, 'extractSuggestions').returns(suggestions);
 
-        const task = Tasks.fetchSuggestions(flux, <any>{ payload: { query } });
+        const task = AutocompleteTasks.fetchSuggestions(flux, <any>{ payload: { query } });
 
         task.next();
         task.next(state);
@@ -132,7 +130,7 @@ suite('autocomplete saga', ({ expect, spy, stub, sinon }) => {
           .withArgs(state, { query }).returns(matchExact);
         stub(Selectors, 'autocompleteCategoryField');
 
-        const task = Tasks.fetchSuggestions(flux, <any>{ payload: { query } });
+        const task = AutocompleteTasks.fetchSuggestions(flux, <any>{ payload: { query } });
 
         task.next();
         task.next(state);
@@ -158,7 +156,7 @@ suite('autocomplete saga', ({ expect, spy, stub, sinon }) => {
         const recommendationsComposeRequest = stub(RequestBuilders.recommendationsSuggestionsRequest, 'composeRequest');
         stub(Selectors, 'autocompleteCategoryField');
 
-        const task = Tasks.fetchSuggestions(flux, <any>{ payload: { query, request: override } });
+        const task = AutocompleteTasks.fetchSuggestions(flux, <any>{ payload: { query, request: override } });
 
         task.next();
         task.next(state);
@@ -175,7 +173,7 @@ suite('autocomplete saga', ({ expect, spy, stub, sinon }) => {
           actions: { receiveAutocompleteSuggestions }
         };
 
-        const task = Tasks.fetchSuggestions(flux, <any>{ payload: { query: 'rain boots' } });
+        const task = AutocompleteTasks.fetchSuggestions(flux, <any>{ payload: { query: 'rain boots' } });
 
         task.next();
         expect(task.throw(error).value).to.eql(effects.put(receiveAutocompleteSuggestionsAction));
@@ -204,7 +202,7 @@ suite('autocomplete saga', ({ expect, spy, stub, sinon }) => {
           .withArgs(state, { refinements: [requestRefinements], query }).returns(request);
         stub(Selectors, 'config').returns(config);
 
-        const task = Tasks.fetchProducts(flux, action);
+        const task = AutocompleteTasks.fetchProducts(flux, action);
 
         expect(task.next().value).to.eql(effects.select());
         expect(task.next(state).value).to.eql(effects.call(searchRequest, flux, request));
@@ -222,7 +220,7 @@ suite('autocomplete saga', ({ expect, spy, stub, sinon }) => {
         const composeRequest = stub(RequestBuilders.autocompleteProductsRequest, 'composeRequest');
 
         // tslint:disable-next-line max-line-length
-        const task = Tasks.fetchProducts(null, <any>{ payload: { query, refinements, request: override } });
+        const task = AutocompleteTasks.fetchProducts(null, <any>{ payload: { query, refinements, request: override } });
 
         task.next();
         task.next(state);
@@ -238,7 +236,7 @@ suite('autocomplete saga', ({ expect, spy, stub, sinon }) => {
         };
         stub(RequestHelpers, 'autocompleteProducts');
 
-        const task = Tasks.fetchProducts(flux, <any>{ payload: {} });
+        const task = AutocompleteTasks.fetchProducts(flux, <any>{ payload: {} });
 
         task.next();
         expect(task.throw(error).value).to.eql(effects.put(receiveAutocompleteProductsAction));

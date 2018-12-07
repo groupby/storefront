@@ -3,11 +3,10 @@ import FluxCapacitor from '../../flux-capacitor';
 import Actions from '../actions';
 import Events from '../events';
 import { productDetailsRequest } from '../requests';
-import Store from '../store';
 import * as utils from '../utils';
-import Requests from './requests';
+import RequestsTasks from './requests';
 
-export namespace Tasks {
+export namespace ProductDetailsTasks {
   export function* fetchProductDetails(flux: FluxCapacitor, { payload: { id, request } }: Actions.FetchProductDetails) {
     try {
       const state = yield effects.select();
@@ -21,7 +20,7 @@ export namespace Tasks {
           ...request
         }
       );
-      const { records, template } = yield effects.call(Requests.search, flux, requestBody);
+      const { records, template } = yield effects.call(RequestsTasks.search, flux, requestBody);
 
       if (records.length) {
         let [record] = records;
@@ -42,5 +41,5 @@ export namespace Tasks {
 }
 
 export default (flux: FluxCapacitor) => function* saga() {
-  yield effects.takeLatest(Actions.FETCH_PRODUCT_DETAILS, Tasks.fetchProductDetails, flux);
+  yield effects.takeLatest(Actions.FETCH_PRODUCT_DETAILS, ProductDetailsTasks.fetchProductDetails, flux);
 };

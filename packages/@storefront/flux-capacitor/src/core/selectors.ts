@@ -1,10 +1,7 @@
 import { SelectedRefinement } from 'groupby-api';
-import { QueryTimeAutocompleteConfig, QueryTimeProductSearchConfig } from 'sayt';
-import Autocomplete from './adapters/autocomplete';
 import Configuration from './adapters/configuration';
 import Request from './adapters/request';
 import Search, { MAX_RECORDS } from './adapters/search';
-import AppConfig from './configuration';
 import Store from './store';
 
 namespace Selectors {

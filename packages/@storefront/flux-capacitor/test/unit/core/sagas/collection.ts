@@ -1,10 +1,8 @@
 import * as effects from 'redux-saga/effects';
 import Actions from '../../../../src/core/actions';
-import Adapters from '../../../../src/core/adapters';
 import { collectionRequest } from '../../../../src/core/requests';
-import sagaCreator, { Tasks } from '../../../../src/core/sagas/collection';
+import sagaCreator, { CollectionTasks } from '../../../../src/core/sagas/collection';
 import Requests from '../../../../src/core/sagas/requests';
-import Selectors from '../../../../src/core/selectors';
 import suite from '../../_suite';
 
 suite('collection saga', ({ expect, spy, stub }) => {
@@ -16,7 +14,7 @@ suite('collection saga', ({ expect, spy, stub }) => {
       const saga = sagaCreator(flux)();
 
       // tslint:disable-next-line max-line-length
-      expect(saga.next().value).to.eql(effects.takeEvery(Actions.FETCH_COLLECTION_COUNT, Tasks.fetchCount, flux));
+      expect(saga.next().value).to.eql(effects.takeEvery(Actions.FETCH_COLLECTION_COUNT, CollectionTasks.fetchCount, flux));
       saga.next();
     });
   });
@@ -35,7 +33,7 @@ suite('collection saga', ({ expect, spy, stub }) => {
         const state = { a: 'b' };
         stub(collectionRequest, 'composeRequest').withArgs(state, { collection }).returns(request);
 
-        const task = Tasks.fetchCount(flux, <any>{ payload: { collection } });
+        const task = CollectionTasks.fetchCount(flux, <any>{ payload: { collection } });
 
         expect(task.next().value).to.eql(effects.select());
         expect(task.next(state).value).to.eql(effects.call(searchRequest, flux, request));
@@ -50,7 +48,7 @@ suite('collection saga', ({ expect, spy, stub }) => {
         const override = { c: 'd' };
         const composeRequest = stub(collectionRequest, 'composeRequest');
 
-        const task = Tasks.fetchCount(null, <any>{ payload: { collection, request: override } });
+        const task = CollectionTasks.fetchCount(null, <any>{ payload: { collection, request: override } });
 
         task.next();
         task.next(state);
@@ -65,7 +63,7 @@ suite('collection saga', ({ expect, spy, stub }) => {
           actions: { receiveCollectionCount }
         };
 
-        const task = Tasks.fetchCount(flux, <any>{ payload: {} });
+        const task = CollectionTasks.fetchCount(flux, <any>{ payload: {} });
 
         task.next();
         expect(task.throw(error).value).to.eql(effects.put(receiveCollectionCountAction));

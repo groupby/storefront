@@ -1,7 +1,6 @@
 import * as redux from 'redux';
 import undoable, { includeAction } from 'redux-undo';
 import Actions from '../actions';
-import ConfigAdapter from '../adapters/configuration';
 import Store from '../store';
 import data from './data';
 import isFetching from './is-fetching';

@@ -1,5 +1,4 @@
 import Actions from '../actions';
-import Store from '../store';
 
 export type Action = Actions.StartApp | Actions.ShutdownApp;
 export type State = boolean;

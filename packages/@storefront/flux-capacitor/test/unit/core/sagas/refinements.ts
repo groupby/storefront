@@ -5,7 +5,7 @@ import RecommendationsAdapter from '../../../../src/core/adapters/recommendation
 import Adapter from '../../../../src/core/adapters/refinements';
 import Events from '../../../../src/core/events';
 import { refinementsRequest } from '../../../../src/core/requests';
-import sagaCreator, { Tasks } from '../../../../src/core/sagas/refinements';
+import sagaCreator, { RefinementsTasks } from '../../../../src/core/sagas/refinements';
 import Requests from '../../../../src/core/sagas/requests';
 import Selectors from '../../../../src/core/selectors';
 import suite from '../../_suite';
@@ -19,7 +19,7 @@ suite('refinements saga', ({ expect, spy, stub }) => {
       const saga = sagaCreator(flux)();
 
       // tslint:disable-next-line max-line-length
-      expect(saga.next().value).to.eql(effects.takeLatest(Actions.FETCH_MORE_REFINEMENTS, Tasks.fetchMoreRefinements, flux));
+      expect(saga.next().value).to.eql(effects.takeLatest(Actions.FETCH_MORE_REFINEMENTS, RefinementsTasks.fetchMoreRefinements, flux));
       saga.next();
     });
   });
@@ -59,7 +59,7 @@ suite('refinements saga', ({ expect, spy, stub }) => {
         stub(RecommendationsAdapter, 'sortAndPinNavigations')
           .withArgs([results.navigation], [], config).returns(results);
 
-        const task = Tasks.fetchMoreRefinements(flux, <any>{ payload: { navigationId } });
+        const task = RefinementsTasks.fetchMoreRefinements(flux, <any>{ payload: { navigationId } });
 
         expect(task.next().value).to.eql(effects.select());
         expect(task.next(state).value).to.eql(effects.select(Selectors.config));
@@ -81,7 +81,7 @@ suite('refinements saga', ({ expect, spy, stub }) => {
         };
         const composeRequest = stub(refinementsRequest, 'composeRequest');
 
-        const task = Tasks.fetchMoreRefinements(<any>{}, action);
+        const task = RefinementsTasks.fetchMoreRefinements(<any>{}, action);
 
         task.next();
         task.next(state);
@@ -95,7 +95,7 @@ suite('refinements saga', ({ expect, spy, stub }) => {
         const flux: any = {};
         const action = stub(utils, 'createAction').returns(receiveMoreRefinementsAction);
 
-        const task = Tasks.fetchMoreRefinements(flux, <any>{});
+        const task = RefinementsTasks.fetchMoreRefinements(flux, <any>{});
 
         task.next();
         expect(task.throw(error).value).to.eql(effects.put(receiveMoreRefinementsAction));

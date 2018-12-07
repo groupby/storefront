@@ -1,4 +1,4 @@
-import { Record, Results, Template } from 'groupby-api';
+import { Results } from 'groupby-api';
 import Actions from '.';
 import PageAdapter from '../adapters/page';
 import SearchAdapter from '../adapters/search';

@@ -1,6 +1,5 @@
 import {
   Navigation,
-  PageInfo,
   RangeRefinement,
   Record,
   Refinement,
@@ -14,15 +13,14 @@ import {
   Zone,
 } from 'groupby-api';
 import Actions from '../actions';
-import Configuration from '../configuration';
 import Selectors from '../selectors';
 import Store from '../store';
 import ConfigAdapter from './configuration';
-import Page from './page';
+import PageAdapter from './page';
 
 export const MAX_RECORDS = 10000;
 
-namespace Adapter {
+namespace SearchAdapter {
 
   // tslint:disable-next-line max-line-length
   export const extractQuery = ({ correctedQuery: corrected, didYouMean, originalQuery: original, relatedQueries: related, rewrites }: Results): Actions.Payload.Query =>
@@ -50,9 +48,9 @@ namespace Adapter {
     range: !!navigation.range,
     max: navigation.max,
     min: navigation.min,
-    refinements: navigation.refinements.map(Adapter.extractRefinement),
+    refinements: navigation.refinements.map(SearchAdapter.extractRefinement),
     selected: [],
-    sort: navigation.sort && Adapter.extractNavigationSort(navigation.sort),
+    sort: navigation.sort && SearchAdapter.extractNavigationSort(navigation.sort),
     metadata: navigation.metadata
       .reduce((metadata, keyValue) => Object.assign(metadata, { [keyValue.key]: keyValue.value }), {}),
   });
@@ -72,7 +70,7 @@ namespace Adapter {
 
     selected.refinements.forEach((refinement: Refinement) => {
       const index = available.refinements.findIndex((availableRef) =>
-        Adapter.refinementsMatch(availableRef, refinement));
+        SearchAdapter.refinementsMatch(availableRef, refinement));
 
       if (index !== -1) {
         available.selected.push(index);
@@ -127,7 +125,7 @@ namespace Adapter {
   // tslint:disable-next-line max-line-length
   export const combineNavigations = ({ availableNavigation: available, selectedNavigation: selected }: Results): Store.Navigation[] => {
     let navigations = available.reduce((map, navigation) =>
-      Object.assign(map, { [navigation.name]: Adapter.extractNavigation(navigation) }), {});
+      Object.assign(map, { [navigation.name]: SearchAdapter.extractNavigation(navigation) }), {});
 
     const filteredNavigations = filterNavigations(selected);
 
@@ -135,9 +133,9 @@ namespace Adapter {
       const availableNav = navigations[selectedNav.name];
 
       if (availableNav) {
-        Adapter.mergeSelectedRefinements(availableNav, selectedNav);
+        SearchAdapter.mergeSelectedRefinements(availableNav, selectedNav);
       } else {
-        const navigation = Adapter.extractNavigation(selectedNav);
+        const navigation = SearchAdapter.extractNavigation(selectedNav);
         navigation.selected = Object.keys(Array(navigation.refinements.length).fill(0))
           .map((value) => Number(value));
         navigations = { [selectedNav.name]: navigation, ...navigations };
@@ -172,7 +170,7 @@ namespace Adapter {
     name: template.name,
     rule: template.ruleName,
     zones: Object.keys(template.zones).reduce((zones, key) =>
-      Object.assign(zones, { [key]: Adapter.extractZone(template.zones[key]) }), {}),
+      Object.assign(zones, { [key]: SearchAdapter.extractZone(template.zones[key]) }), {}),
   });
 
   export const extractRecordCount = (recordCount: number) =>
@@ -182,15 +180,15 @@ namespace Adapter {
   export const extractPage = (state: Store.State, totalRecords: number, current?: number, pageSize?: number): Actions.Payload.Page => {
     const currentPageSize = pageSize || Selectors.pageSize(state);
     const currentPage = current || Selectors.page(state);
-    const last = Page.finalPage(currentPageSize, totalRecords);
-    const from = Page.fromResult(currentPage, currentPageSize);
-    const to = Page.toResult(currentPage, currentPageSize, totalRecords);
+    const last = PageAdapter.finalPage(currentPageSize, totalRecords);
+    const from = PageAdapter.fromResult(currentPage, currentPageSize);
+    const to = PageAdapter.toResult(currentPage, currentPageSize, totalRecords);
 
     return {
       from,
       last,
-      next: Page.nextPage(currentPage, last),
-      previous: Page.previousPage(currentPage),
+      next: PageAdapter.nextPage(currentPage, last),
+      previous: PageAdapter.previousPage(currentPage),
       to,
       current: currentPage,
     };
@@ -213,4 +211,4 @@ namespace Adapter {
   };
 }
 
-export default Adapter;
+export default SearchAdapter;

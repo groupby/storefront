@@ -1,5 +1,4 @@
 import Actions from '../../actions';
-import RecommendationsAdapters from '../../adapters/recommendations';
 import Store from '../../store';
 
 export type Action = Actions.ReceiveRecommendationsProducts;

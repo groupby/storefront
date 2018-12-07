@@ -3,21 +3,21 @@ import FluxCapacitor from '../../flux-capacitor';
 import Actions from '../actions';
 import * as utils from '../actions/utils';
 import RecommendationsAdapter from '../adapters/recommendations';
-import Adapter from '../adapters/refinements';
+import RefinementsAdapter from '../adapters/refinements';
 import Events from '../events';
 import { refinementsRequest } from '../requests';
 import Selectors from '../selectors';
 import Store from '../store';
-import Requests from './requests';
+import RequestsTasks from './requests';
 
-export namespace Tasks {
+export namespace RefinementsTasks {
   // tslint:disable-next-line max-line-length
   export function* fetchMoreRefinements(flux: FluxCapacitor, { payload }: Actions.FetchMoreRefinements) {
     try {
       const state: Store.State = yield effects.select();
       const config = yield effects.select(Selectors.config);
       const requestBody = refinementsRequest.composeRequest(state, payload.request);
-      const res = yield effects.call(Requests.refinements, flux, requestBody, payload.navigationId);
+      const res = yield effects.call(RequestsTasks.refinements, flux, requestBody, payload.navigationId);
 
       flux.emit(Events.BEACON_MORE_REFINEMENTS, payload.navigationId);
       res.navigation = RecommendationsAdapter.sortAndPinNavigations(
@@ -25,7 +25,7 @@ export namespace Tasks {
         Selectors.navigationSort(flux.store.getState()),
         config
       )[0];
-      const { navigationId, refinements, selected } = Adapter.mergeRefinements(res, state);
+      const { navigationId, refinements, selected } = RefinementsAdapter.mergeRefinements(res, state);
       yield effects.put(flux.actions.receiveMoreRefinements(navigationId, refinements, selected));
     } catch (e) {
       yield effects.put(utils.createAction(Actions.RECEIVE_MORE_REFINEMENTS, e));
@@ -34,5 +34,5 @@ export namespace Tasks {
 }
 
 export default (flux: FluxCapacitor) => function* saga() {
-  yield effects.takeLatest(Actions.FETCH_MORE_REFINEMENTS, Tasks.fetchMoreRefinements, flux);
+  yield effects.takeLatest(Actions.FETCH_MORE_REFINEMENTS, RefinementsTasks.fetchMoreRefinements, flux);
 };

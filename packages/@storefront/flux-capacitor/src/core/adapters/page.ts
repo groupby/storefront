@@ -1,4 +1,4 @@
-namespace Page {
+namespace PageAdapter {
   export const currentPage = (skip: number, pageSize: number) =>
     (skip / pageSize) + 1;
 
@@ -19,4 +19,4 @@ namespace Page {
   };
 }
 
-export default Page;
+export default PageAdapter;
