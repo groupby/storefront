@@ -110,7 +110,7 @@ versions_file="${tmpdir}/versions"
 
 # Copy bundle
 copy_artifact "$version"
-copy_artifact 'canary'
+#copy_artifact 'canary'
 
 # Commit and push bundle
 if [[ -n "$CI" ]]; then
