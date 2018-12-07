@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>RecommendationsRequest | StoreFront</title>
+	<title>Navigations | StoreFront</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -59,13 +59,13 @@
 					<a href="../modules/_storefront_flux_capacitor.html">@storefront/flux-capacitor</a>
 				</li>
 				<li>
-					<a href="../modules/_storefront_flux_capacitor.recommendations.html">Recommendations</a>
+					<a href="../modules/_storefront_flux_capacitor.recommendationsadapter.html">RecommendationsAdapter</a>
 				</li>
 				<li>
-					<a href="_storefront_flux_capacitor.recommendations.recommendationsrequest.html">RecommendationsRequest</a>
+					<a href="_storefront_flux_capacitor.recommendationsadapter.navigations.html">Navigations</a>
 				</li>
 			</ul>
-			<h1>Interface RecommendationsRequest</h1>
+			<h1>Interface Navigations</h1>
 		</div>
 	</div>
 </header>
@@ -76,7 +76,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">RecommendationsRequest</span>
+						<span class="target">Navigations</span>
 					</li>
 				</ul>
 			</section>
@@ -87,12 +87,9 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_storefront_flux_capacitor.recommendations.recommendationsrequest.html#matchexact" class="tsd-kind-icon">match<wbr>Exact</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_storefront_flux_capacitor.recommendations.recommendationsrequest.html#matchpartial" class="tsd-kind-icon">match<wbr>Partial</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_storefront_flux_capacitor.recommendations.recommendationsrequest.html#size" class="tsd-kind-icon">size</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_storefront_flux_capacitor.recommendations.recommendationsrequest.html#target" class="tsd-kind-icon">target</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_storefront_flux_capacitor.recommendations.recommendationsrequest.html#type" class="tsd-kind-icon">type</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_storefront_flux_capacitor.recommendations.recommendationsrequest.html#window" class="tsd-kind-icon">window</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_storefront_flux_capacitor.recommendationsadapter.navigations.html#config" class="tsd-kind-icon">config</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_storefront_flux_capacitor.recommendationsadapter.navigations.html#navigations" class="tsd-kind-icon">navigations</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_storefront_flux_capacitor.recommendationsadapter.navigations.html#results" class="tsd-kind-icon">results</a></li>
 							</ul>
 						</section>
 					</div>
@@ -101,62 +98,32 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="matchexact" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> match<wbr>Exact</h3>
-					<div class="tsd-signature tsd-kind-icon">match<wbr>Exact<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+					<a name="config" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> config</h3>
+					<div class="tsd-signature tsd-kind-icon">config<span class="tsd-signature-symbol">:</span> <a href="../modules/_storefront_flux_capacitor.configuration.html" class="tsd-signature-type">Configuration</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/groupby/storefront/blob/354131131/packages/@storefront/flux-capacitor/src/core/adapters/recommendations.ts#L105">flux-capacitor/src/core/adapters/recommendations.ts:105</a></li>
+							<li>Defined in <a href="https://github.com/groupby/storefront/blob/5cf245899/packages/@storefront/flux-capacitor/src/core/adapters/recommendations.ts#L123">flux-capacitor/src/core/adapters/recommendations.ts:123</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="matchpartial" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> match<wbr>Partial</h3>
-					<div class="tsd-signature tsd-kind-icon">match<wbr>Partial<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+					<a name="navigations" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> navigations</h3>
+					<div class="tsd-signature tsd-kind-icon">navigations<span class="tsd-signature-symbol">:</span> <a href="_storefront_flux_capacitor.store.recommendations.navigation.html" class="tsd-signature-type">Navigation</a><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/groupby/storefront/blob/354131131/packages/@storefront/flux-capacitor/src/core/adapters/recommendations.ts#L104">flux-capacitor/src/core/adapters/recommendations.ts:104</a></li>
+							<li>Defined in <a href="https://github.com/groupby/storefront/blob/5cf245899/packages/@storefront/flux-capacitor/src/core/adapters/recommendations.ts#L122">flux-capacitor/src/core/adapters/recommendations.ts:122</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="size" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> size</h3>
-					<div class="tsd-signature tsd-kind-icon">size<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<a name="results" class="tsd-anchor"></a>
+					<h3>results</h3>
+					<div class="tsd-signature tsd-kind-icon">results<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Navigation</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/groupby/storefront/blob/354131131/packages/@storefront/flux-capacitor/src/core/adapters/recommendations.ts#L102">flux-capacitor/src/core/adapters/recommendations.ts:102</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="target" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> target</h3>
-					<div class="tsd-signature tsd-kind-icon">target<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/groupby/storefront/blob/354131131/packages/@storefront/flux-capacitor/src/core/adapters/recommendations.ts#L107">flux-capacitor/src/core/adapters/recommendations.ts:107</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="type" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> type</h3>
-					<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/groupby/storefront/blob/354131131/packages/@storefront/flux-capacitor/src/core/adapters/recommendations.ts#L106">flux-capacitor/src/core/adapters/recommendations.ts:106</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="window" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> window</h3>
-					<div class="tsd-signature tsd-kind-icon">window<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/groupby/storefront/blob/354131131/packages/@storefront/flux-capacitor/src/core/adapters/recommendations.ts#L103">flux-capacitor/src/core/adapters/recommendations.ts:103</a></li>
+							<li>Defined in <a href="https://github.com/groupby/storefront/blob/5cf245899/packages/@storefront/flux-capacitor/src/core/adapters/recommendations.ts#L121">flux-capacitor/src/core/adapters/recommendations.ts:121</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -172,7 +139,7 @@
 						<a href="../modules/_storefront_flux_capacitor.html">@storefront/flux-<wbr>capacitor</a>
 						<ul>
 							<li class="current tsd-kind-module tsd-parent-kind-external-module">
-								<a href="../modules/_storefront_flux_capacitor.recommendations.html">Recommendations</a>
+								<a href="../modules/_storefront_flux_capacitor.recommendationsadapter.html">Recommendations<wbr>Adapter</a>
 							</li>
 						</ul>
 					</li>
@@ -180,65 +147,56 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_storefront_flux_capacitor.recommendations.navigations.html" class="tsd-kind-icon">Navigations</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_storefront_flux_capacitor.recommendations.pastpurchaserequest.html" class="tsd-kind-icon">Past<wbr>Purchase<wbr>Request</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_storefront_flux_capacitor.recommendations.recommendationsbody.html" class="tsd-kind-icon">Recommendations<wbr>Body</a>
-					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-module">
-						<a href="_storefront_flux_capacitor.recommendations.recommendationsrequest.html" class="tsd-kind-icon">Recommendations<wbr>Request</a>
+						<a href="_storefront_flux_capacitor.recommendationsadapter.navigations.html" class="tsd-kind-icon">Navigations</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_storefront_flux_capacitor.recommendations.recommendationsrequest.html#matchexact" class="tsd-kind-icon">match<wbr>Exact</a>
+								<a href="_storefront_flux_capacitor.recommendationsadapter.navigations.html#config" class="tsd-kind-icon">config</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_storefront_flux_capacitor.recommendations.recommendationsrequest.html#matchpartial" class="tsd-kind-icon">match<wbr>Partial</a>
+								<a href="_storefront_flux_capacitor.recommendationsadapter.navigations.html#navigations" class="tsd-kind-icon">navigations</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_storefront_flux_capacitor.recommendations.recommendationsrequest.html#size" class="tsd-kind-icon">size</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_storefront_flux_capacitor.recommendations.recommendationsrequest.html#target" class="tsd-kind-icon">target</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_storefront_flux_capacitor.recommendations.recommendationsrequest.html#type" class="tsd-kind-icon">type</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_storefront_flux_capacitor.recommendations.recommendationsrequest.html#window" class="tsd-kind-icon">window</a>
+								<a href="_storefront_flux_capacitor.recommendationsadapter.navigations.html#results" class="tsd-kind-icon">results</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="_storefront_flux_capacitor.recommendationsadapter.pastpurchaserequest.html" class="tsd-kind-icon">Past<wbr>Purchase<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="_storefront_flux_capacitor.recommendationsadapter.recommendationsbody.html" class="tsd-kind-icon">Recommendations<wbr>Body</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="_storefront_flux_capacitor.recommendationsadapter.recommendationsrequest.html" class="tsd-kind-icon">Recommendations<wbr>Request</a>
+					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-						<a href="../modules/_storefront_flux_capacitor.recommendations.html#request" class="tsd-kind-icon">Request</a>
+						<a href="../modules/_storefront_flux_capacitor.recommendationsadapter.html#request" class="tsd-kind-icon">Request</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
-						<a href="../modules/_storefront_flux_capacitor.recommendations.html#addlocationtorequest" class="tsd-kind-icon">add<wbr>Location<wbr>ToRequest</a>
+						<a href="../modules/_storefront_flux_capacitor.recommendationsadapter.html#addlocationtorequest" class="tsd-kind-icon">add<wbr>Location<wbr>ToRequest</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
-						<a href="../modules/_storefront_flux_capacitor.recommendations.html#buildurl" class="tsd-kind-icon">build<wbr>Url</a>
+						<a href="../modules/_storefront_flux_capacitor.recommendationsadapter.html#buildurl" class="tsd-kind-icon">build<wbr>Url</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
-						<a href="../modules/_storefront_flux_capacitor.recommendations.html#pinnavigations" class="tsd-kind-icon">pin<wbr>Navigations</a>
+						<a href="../modules/_storefront_flux_capacitor.recommendationsadapter.html#pinnavigations" class="tsd-kind-icon">pin<wbr>Navigations</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
-						<a href="../modules/_storefront_flux_capacitor.recommendations.html#pinrefinements" class="tsd-kind-icon">pin<wbr>Refinements</a>
+						<a href="../modules/_storefront_flux_capacitor.recommendationsadapter.html#pinrefinements" class="tsd-kind-icon">pin<wbr>Refinements</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
-						<a href="../modules/_storefront_flux_capacitor.recommendations.html#sortandpinnavigations" class="tsd-kind-icon">sort<wbr>And<wbr>Pin<wbr>Navigations</a>
+						<a href="../modules/_storefront_flux_capacitor.recommendationsadapter.html#sortandpinnavigations" class="tsd-kind-icon">sort<wbr>And<wbr>Pin<wbr>Navigations</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
-						<a href="../modules/_storefront_flux_capacitor.recommendations.html#sortnavigations" class="tsd-kind-icon">sort<wbr>Navigations</a>
+						<a href="../modules/_storefront_flux_capacitor.recommendationsadapter.html#sortnavigations" class="tsd-kind-icon">sort<wbr>Navigations</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
-						<a href="../modules/_storefront_flux_capacitor.recommendations.html#sortrefinements" class="tsd-kind-icon">sort<wbr>Refinements</a>
+						<a href="../modules/_storefront_flux_capacitor.recommendationsadapter.html#sortrefinements" class="tsd-kind-icon">sort<wbr>Refinements</a>
 					</li>
 				</ul>
 			</nav>

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>PastPurchases | StoreFront</title>
+	<title>PageAdapter | StoreFront</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -59,10 +59,10 @@
 					<a href="_storefront_flux_capacitor.html">@storefront/flux-capacitor</a>
 				</li>
 				<li>
-					<a href="_storefront_flux_capacitor.pastpurchases.html">PastPurchases</a>
+					<a href="_storefront_flux_capacitor.pageadapter.html">PageAdapter</a>
 				</li>
 			</ul>
-			<h1>Module PastPurchases</h1>
+			<h1>Module PageAdapter</h1>
 		</div>
 	</div>
 </header>
@@ -76,10 +76,12 @@
 						<section class="tsd-index-section ">
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_storefront_flux_capacitor.pastpurchases.html#buildurl" class="tsd-kind-icon">build<wbr>Url</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_storefront_flux_capacitor.pastpurchases.html#pastpurchasebiasing" class="tsd-kind-icon">past<wbr>Purchase<wbr>Biasing</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_storefront_flux_capacitor.pastpurchases.html#pastpurchaseproducts" class="tsd-kind-icon">past<wbr>Purchase<wbr>Products</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_storefront_flux_capacitor.pastpurchases.html#sortskus" class="tsd-kind-icon">sort<wbr>Skus</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_storefront_flux_capacitor.pageadapter.html#currentpage" class="tsd-kind-icon">current<wbr>Page</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_storefront_flux_capacitor.pageadapter.html#finalpage" class="tsd-kind-icon">final<wbr>Page</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_storefront_flux_capacitor.pageadapter.html#fromresult" class="tsd-kind-icon">from<wbr>Result</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_storefront_flux_capacitor.pageadapter.html#nextpage" class="tsd-kind-icon">next<wbr>Page</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_storefront_flux_capacitor.pageadapter.html#previouspage" class="tsd-kind-icon">previous<wbr>Page</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_storefront_flux_capacitor.pageadapter.html#toresult" class="tsd-kind-icon">to<wbr>Result</a></li>
 							</ul>
 						</section>
 					</div>
@@ -88,116 +90,158 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Functions</h2>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="buildurl" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> build<wbr>Url</h3>
+					<a name="currentpage" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> current<wbr>Page</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">build<wbr>Url<span class="tsd-signature-symbol">(</span>customerId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, endpoint<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+						<li class="tsd-signature tsd-kind-icon">current<wbr>Page<span class="tsd-signature-symbol">(</span>skip<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, pageSize<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/354131131/packages/@storefront/flux-capacitor/src/core/adapters/past-purchases.ts#L6">flux-capacitor/src/core/adapters/past-purchases.ts:6</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5cf245899/packages/@storefront/flux-capacitor/src/core/adapters/page.ts#L2">flux-capacitor/src/core/adapters/page.ts:2</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>customerId: <span class="tsd-signature-type">string</span></h5>
+									<h5>skip: <span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
-									<h5>endpoint: <span class="tsd-signature-type">string</span></h5>
+									<h5>pageSize: <span class="tsd-signature-type">number</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="pastpurchasebiasing" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> past<wbr>Purchase<wbr>Biasing</h3>
+					<a name="finalpage" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> final<wbr>Page</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">past<wbr>Purchase<wbr>Biasing<span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><a href="../interfaces/_storefront_flux_capacitor.store.state.html" class="tsd-signature-type">State</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span></li>
+						<li class="tsd-signature tsd-kind-icon">final<wbr>Page<span class="tsd-signature-symbol">(</span>pageSize<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, totalRecords<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/354131131/packages/@storefront/flux-capacitor/src/core/adapters/past-purchases.ts#L10">flux-capacitor/src/core/adapters/past-purchases.ts:10</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5cf245899/packages/@storefront/flux-capacitor/src/core/adapters/page.ts#L11">flux-capacitor/src/core/adapters/page.ts:11</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>state: <a href="../interfaces/_storefront_flux_capacitor.store.state.html" class="tsd-signature-type">State</a></h5>
+									<h5>pageSize: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>totalRecords: <span class="tsd-signature-type">number</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
-							<ul class="tsd-parameters">
-								<li class="tsd-parameter">
-									<h5>augment<wbr>Biases<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></h5>
-								</li>
-								<li class="tsd-parameter">
-									<h5>biases<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">[]</span></h5>
-								</li>
-								<li class="tsd-parameter">
-									<h5>bring<wbr>ToTop<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">[]</span></h5>
-								</li>
-								<li class="tsd-parameter">
-									<h5>influence<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
-								</li>
-							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="pastpurchaseproducts" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> past<wbr>Purchase<wbr>Products</h3>
+					<a name="fromresult" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> from<wbr>Result</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">past<wbr>Purchase<wbr>Products<span class="tsd-signature-symbol">(</span>products<span class="tsd-signature-symbol">: </span><a href="../interfaces/_storefront_flux_capacitor.store.productwithmetadata.html" class="tsd-signature-type">ProductWithMetadata</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span></li>
+						<li class="tsd-signature tsd-kind-icon">from<wbr>Result<span class="tsd-signature-symbol">(</span>currentPage<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, pageSize<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/354131131/packages/@storefront/flux-capacitor/src/core/adapters/past-purchases.ts#L24">flux-capacitor/src/core/adapters/past-purchases.ts:24</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5cf245899/packages/@storefront/flux-capacitor/src/core/adapters/page.ts#L14">flux-capacitor/src/core/adapters/page.ts:14</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>products: <a href="../interfaces/_storefront_flux_capacitor.store.productwithmetadata.html" class="tsd-signature-type">ProductWithMetadata</a><span class="tsd-signature-symbol">[]</span></h5>
+									<h5>currentPage: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>pageSize: <span class="tsd-signature-type">number</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
-							<ul class="tsd-parameters">
-							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="sortskus" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> sort<wbr>Skus</h3>
+					<a name="nextpage" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> next<wbr>Page</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">sort<wbr>Skus<span class="tsd-signature-symbol">(</span>skus<span class="tsd-signature-symbol">: </span><a href="../interfaces/_storefront_flux_capacitor.store.pastpurchases.pastpurchaseproduct.html" class="tsd-signature-type">PastPurchaseProduct</a><span class="tsd-signature-symbol">[]</span>, field<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_storefront_flux_capacitor.store.pastpurchases.pastpurchaseproduct.html" class="tsd-signature-type">PastPurchaseProduct</a><span class="tsd-signature-symbol">[]</span></li>
+						<li class="tsd-signature tsd-kind-icon">next<wbr>Page<span class="tsd-signature-symbol">(</span>currentPage<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, finalPage<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/354131131/packages/@storefront/flux-capacitor/src/core/adapters/past-purchases.ts#L31">flux-capacitor/src/core/adapters/past-purchases.ts:31</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5cf245899/packages/@storefront/flux-capacitor/src/core/adapters/page.ts#L8">flux-capacitor/src/core/adapters/page.ts:8</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>skus: <a href="../interfaces/_storefront_flux_capacitor.store.pastpurchases.pastpurchaseproduct.html" class="tsd-signature-type">PastPurchaseProduct</a><span class="tsd-signature-symbol">[]</span></h5>
+									<h5>currentPage: <span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
-									<h5>field: <span class="tsd-signature-type">string</span></h5>
+									<h5>finalPage: <span class="tsd-signature-type">number</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_storefront_flux_capacitor.store.pastpurchases.pastpurchaseproduct.html" class="tsd-signature-type">PastPurchaseProduct</a><span class="tsd-signature-symbol">[]</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="previouspage" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> previous<wbr>Page</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">previous<wbr>Page<span class="tsd-signature-symbol">(</span>currentPage<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5cf245899/packages/@storefront/flux-capacitor/src/core/adapters/page.ts#L5">flux-capacitor/src/core/adapters/page.ts:5</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>currentPage: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="toresult" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> to<wbr>Result</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">to<wbr>Result<span class="tsd-signature-symbol">(</span>currentPage<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, pageSize<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, totalRecords<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5cf245899/packages/@storefront/flux-capacitor/src/core/adapters/page.ts#L17">flux-capacitor/src/core/adapters/page.ts:17</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>currentPage: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>pageSize: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>totalRecords: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -213,7 +257,7 @@
 						<a href="_storefront_flux_capacitor.html">@storefront/flux-<wbr>capacitor</a>
 						<ul>
 							<li class="current tsd-kind-module tsd-parent-kind-external-module">
-								<a href="_storefront_flux_capacitor.pastpurchases.html">Past<wbr>Purchases</a>
+								<a href="_storefront_flux_capacitor.pageadapter.html">Page<wbr>Adapter</a>
 							</li>
 						</ul>
 					</li>
@@ -222,16 +266,22 @@
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-function tsd-parent-kind-module">
-						<a href="_storefront_flux_capacitor.pastpurchases.html#buildurl" class="tsd-kind-icon">build<wbr>Url</a>
+						<a href="_storefront_flux_capacitor.pageadapter.html#currentpage" class="tsd-kind-icon">current<wbr>Page</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
-						<a href="_storefront_flux_capacitor.pastpurchases.html#pastpurchasebiasing" class="tsd-kind-icon">past<wbr>Purchase<wbr>Biasing</a>
+						<a href="_storefront_flux_capacitor.pageadapter.html#finalpage" class="tsd-kind-icon">final<wbr>Page</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
-						<a href="_storefront_flux_capacitor.pastpurchases.html#pastpurchaseproducts" class="tsd-kind-icon">past<wbr>Purchase<wbr>Products</a>
+						<a href="_storefront_flux_capacitor.pageadapter.html#fromresult" class="tsd-kind-icon">from<wbr>Result</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
-						<a href="_storefront_flux_capacitor.pastpurchases.html#sortskus" class="tsd-kind-icon">sort<wbr>Skus</a>
+						<a href="_storefront_flux_capacitor.pageadapter.html#nextpage" class="tsd-kind-icon">next<wbr>Page</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="_storefront_flux_capacitor.pageadapter.html#previouspage" class="tsd-kind-icon">previous<wbr>Page</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="_storefront_flux_capacitor.pageadapter.html#toresult" class="tsd-kind-icon">to<wbr>Result</a>
 					</li>
 				</ul>
 			</nav>
