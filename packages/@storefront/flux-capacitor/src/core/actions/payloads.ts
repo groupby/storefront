@@ -2,6 +2,14 @@ import Configuration from '../configuration';
 import Store from '../store';
 
 namespace Payload {
+  export namespace History {
+    export interface PushState {
+      url?: string;
+      route?: string;
+      request?: any;
+    }
+  }
+
   export namespace Fetch {
     export interface Override {
       request?: any;

@@ -37,6 +37,10 @@ namespace Actions {
 
   export import Payload = Payloads;
 
+  // history actions
+  export const PUSH_STATE = 'PUSH_STATE';
+  export type PushState = Action<typeof PUSH_STATE, Payload.History.PushState>;
+
   // tslint:disable max-line-length
   // update actions
   export const UPDATE_AUTOCOMPLETE_QUERY = 'UPDATE_AUTOCOMPLETE_QUERY';
