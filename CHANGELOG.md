@@ -5,6 +5,34 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.3.3] - 2018-12-07
+
+Package versions:
+
+- `@storefront/breadcrumbs`: 1.32.0
+- `@storefront/collections`: 1.31.0
+- `@storefront/core`: 1.54.1
+- `@storefront/details`: 1.31.0
+- `@storefront/did-you-mean`: 1.31.0
+- `@storefront/flux-capacitor`: 1.66.0
+- `@storefront/infinite-scroll`: 1.5.0
+- `@storefront/navigation`: 1.42.0
+- `@storefront/page-size`: 1.33.0
+- `@storefront/paging`: 1.32.0
+- `@storefront/products`: 1.37.0
+- `@storefront/query`: 1.38.0
+- `@storefront/recommendations`: 1.28.0
+- `@storefront/record-count`: 1.32.0
+- `@storefront/related-queries`: 1.31.0
+- `@storefront/sayt`: 1.39.0
+- `@storefront/sort`: 1.34.0
+- `@storefront/structure`: 1.44.0
+- `@storefront/template`: 1.33.0
+
+### Fixed
+#### core
+- SF-1229: Use the `pastPurchaseSortSelected` selector to build up the `pastPurchase` request.
+
 ## [1.3.2] - 2018-10-05
 
 - `@storefront/breadcrumbs`: 1.28.6
