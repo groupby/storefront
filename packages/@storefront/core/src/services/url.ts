@@ -24,17 +24,17 @@ class UrlService extends BaseService<UrlService.Options> {
 
   constructor(app: StoreFront, opts: UrlService.Options) {
     super(app, opts);
-    if (typeof this.opts.beautifier === 'function') {
-      this.beautifier = this.opts.beautifier(this.app, this.generateRoutes());
-    } else {
-      this.beautifier = new UrlBeautifier(this.generateRoutes(), this.opts.beautifier, this.app.config);
-    }
-    WINDOW().addEventListener('popstate', this.rewind);
+    // if (typeof this.opts.beautifier === 'function') {
+    //   this.beautifier = this.opts.beautifier(this.app, this.generateRoutes());
+    // } else {
+    //   this.beautifier = new UrlBeautifier(this.generateRoutes(), this.opts.beautifier, this.app.config);
+    // }
+    // WINDOW().addEventListener('popstate', this.rewind);
   }
 
   init() {
-    this.listenForHistoryChange();
-    this.handleUrl();
+    // this.listenForHistoryChange();
+    // this.handleUrl();
   }
 
   handleUrl() {
