@@ -5,6 +5,7 @@ export type Action = Actions.PushState
 export type State = Store.History;
 
 export const DEFAULTS: State = {
+  request: {},
   route: '',
   url: '',
 };

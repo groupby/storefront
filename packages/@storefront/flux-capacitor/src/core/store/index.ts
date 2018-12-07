@@ -63,6 +63,8 @@ namespace Store {
 
     autocomplete: Autocomplete; // mixed
 
+    history: History;
+
     page: Page; // mixed
 
     template?: Template; // post
@@ -85,6 +87,12 @@ namespace Store {
 
     errors: string[]; // post
     warnings: string[]; // post
+  }
+
+  export interface History {
+    url?: string;
+    route?: string;
+    request?: any;
   }
 
   export interface UI {
