@@ -65,12 +65,12 @@ namespace UrlUtils {
 
   export const stateToBaseRequest = (state: UrlBeautifier.SearchUrlState, store: Store.State): Partial<Request> => {
     const {
-      page = 1,
       pageSize,
       query,
+      sort,
+      page = 1,
       collection = Selectors.collection(store),
       refinements: urlRefinements = [],
-      sort: urlSort = Selectors.sort(store),
       ...rest
     } = state;
     const request: Partial<Request> = rest;
@@ -97,8 +97,8 @@ namespace UrlUtils {
       );
     }
 
-    if (urlSort) {
-      request.sort = <any>Adapters.Request.extractSort(urlSort);
+    if (sort) {
+      request.sort = <any>Adapters.Request.extractSort(sort);
     }
 
     return request;
@@ -108,18 +108,20 @@ namespace UrlUtils {
     const {
       pageSize = Selectors.pageSize(store),
       query = Selectors.currentQuery(store),
+      sort = Selectors.sort(store),
     } = state;
 
-    return stateToBaseRequest({ ...state, pageSize, query }, store);
+    return stateToBaseRequest({ ...state, pageSize, query, sort }, store);
   };
 
   export const pastPurchaseStateToRequest = (state: UrlBeautifier.SearchUrlState, store: Store.State): Partial<Request> => {
     const {
       pageSize = Selectors.pastPurchasePageSize(store),
       query = Selectors.pastPurchaseQuery(store),
+      sort = Selectors.pastPurchaseSortSelected(store),
     } = state;
 
-    return stateToBaseRequest({ ...state, pageSize, query }, store);
+    return stateToBaseRequest({ ...state, pageSize, query, sort }, store);
   };
 
   export const getSortIndex = (stateSort: Store.Sort[], requestSort: Store.Sort) => {

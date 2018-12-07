@@ -187,13 +187,10 @@ suite('URL Service', ({ expect, spy, stub }) => {
       it('should configure a base request using the store', () => {
         const state: any = {};
         const store: any = { c: 'd' };
-        stub(Adapters.Request, 'extractSort').withArgs(sort).returns(sort);
         stub(Selectors, 'collection').withArgs(store).returns(collection);
-        stub(Selectors, 'sort').withArgs(store).returns(sort);
 
         expect(Utils.stateToBaseRequest(state, store)).to.eql({
           collection,
-          sort,
         });
       });
     });
@@ -328,7 +325,7 @@ suite('URL Service', ({ expect, spy, stub }) => {
         stub(Selectors, 'collection').withArgs(store).returns(collection);
         stub(Selectors, 'pastPurchaseQuery').withArgs(store).returns(query);
         stub(Adapters.Request, 'extractSkip').withArgs(1).returns(skip);
-        stub(Selectors, 'sort').withArgs(store).returns(sort);
+        stub(Selectors, 'pastPurchaseSortSelected').withArgs(store).returns(sort);
         stub(Adapters.Request, 'extractSort').withArgs(sort).returns(sort);
 
         expect(Utils.pastPurchaseStateToRequest(state, store)).to.eql({
@@ -346,7 +343,7 @@ suite('URL Service', ({ expect, spy, stub }) => {
         stub(Selectors, 'pastPurchasePageSize').withArgs(store).returns(null);
         stub(Selectors, 'collection').withArgs(store).returns(collection);
         stub(Selectors, 'pastPurchaseQuery').withArgs(store).returns(query);
-        stub(Selectors, 'sort').withArgs(store).returns(null);
+        stub(Selectors, 'pastPurchaseSortSelected').withArgs(store).returns(null);
 
         expect(Utils.pastPurchaseStateToRequest(state, store)).to.eql({
           collection,
