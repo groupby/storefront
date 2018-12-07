@@ -3,6 +3,7 @@ import FluxCapacitor from '../flux-capacitor';
 import SearchAdapter from './adapters/search';
 import Events from './events';
 import Store from './store';
+import { Routes } from './utils';
 
 type Observer = (oldState: any, newState: any, path: string) => void;
 
@@ -54,22 +55,22 @@ namespace Observer {
 
   export function navigations(navigationsEvent: string, selectedRefinementsEvent: string, emit: Function) {
     return ((emitIndexUpdated: Observer) =>
-            (oldState: Store.Indexed<Store.Navigation>, newState: Store.Indexed<Store.Navigation>, path: string) => {
-              if (oldState.allIds !== newState.allIds) {
-                emitIndexUpdated(oldState, newState, path);
-              } else {
-                newState.allIds.forEach((id) => {
-                  const oldNavigation = oldState.byId[id];
-                  const newNavigation = newState.byId[id];
-                  if (oldNavigation.selected !== newNavigation.selected
-                    || oldNavigation.refinements !== newNavigation.refinements) {
-                    // tslint:disable-next-line max-line-length
-                    emit(`${selectedRefinementsEvent}:${id}`)(oldNavigation, newNavigation, `${path}.byId.${id}`);
-                    emit(selectedRefinementsEvent)(oldNavigation, newNavigation, path);
-                  }
-                });
-              }
-            })(emit(navigationsEvent));
+      (oldState: Store.Indexed<Store.Navigation>, newState: Store.Indexed<Store.Navigation>, path: string) => {
+        if (oldState.allIds !== newState.allIds) {
+          emitIndexUpdated(oldState, newState, path);
+        } else {
+          newState.allIds.forEach((id) => {
+            const oldNavigation = oldState.byId[id];
+            const newNavigation = newState.byId[id];
+            if (oldNavigation.selected !== newNavigation.selected
+              || oldNavigation.refinements !== newNavigation.refinements) {
+              // tslint:disable-next-line max-line-length
+              emit(`${selectedRefinementsEvent}:${id}`)(oldNavigation, newNavigation, `${path}.byId.${id}`);
+              emit(selectedRefinementsEvent)(oldNavigation, newNavigation, path);
+            }
+          });
+        }
+      })(emit(navigationsEvent));
   }
 
   export function products(moreProductsAddedEvent: string, productsUpdatedEvent: string, emit: Function) {
@@ -107,6 +108,42 @@ namespace Observer {
       data: {
         present: {
           // tslint:disable-next-line max-line-length
+          history: ((emitSearchUpdated: Observer, emitDetailsUpdated: Observer, emitPastPurchaseUpdated: Observer, emitCustomRouteUpdated: Observer, emitUrlUpdated: Observer, emitRouteUpdated: Observer) =>
+            (oldState: Store.History, newState: Store.History, path: string) => {
+              if (oldState === newState) return;
+
+              if (oldState.url !== newState.url) {
+                emitUrlUpdated(oldState.url, newState.url, path);
+
+                if (newState.shouldFetch) {
+                  switch (newState.route) {
+                    case Routes.SEARCH:
+                      emitSearchUpdated(oldState, newState, path);
+                      break;
+                    case Routes.DETAILS:
+                      emitDetailsUpdated(oldState, newState, path);
+                      break;
+                    case Routes.PAST_PURCHASE:
+                      emitPastPurchaseUpdated(oldState, newState, path);
+                      break;
+                    default:
+                      emitCustomRouteUpdated(oldState, newState, path);
+                  }
+                }
+              }
+
+              if (oldState.route !== newState.route) {
+                emitRouteUpdated(oldState.route, newState.route, path);
+              }
+            })(
+              emit(Events.SEARCH_URL_UPDATED),
+              emit(Events.DETAILS_URL_UPDATED),
+              emit(Events.PAST_PURCHASE_URL_UPDATED),
+              emit(Events.CUSTOM_URL_UPDATED),
+              emit(Events.URL_UPDATED),
+              emit(Events.ROUTE_UPDATED)
+            ),
+          // tslint:disable-next-line max-line-length
           autocomplete: ((emitSuggestionsUpdated: Observer, emitQueryUpdated: Observer, emitProductsUpdated: Observer, emitTemplateUpdated: Observer) =>
             (oldState: Store.Autocomplete, newState: Store.Autocomplete, path: string) => {
               if (oldState !== newState) {
@@ -127,10 +164,10 @@ namespace Observer {
                 }
               }
             })(
-            emit(Events.AUTOCOMPLETE_SUGGESTIONS_UPDATED),
-            emit(Events.AUTOCOMPLETE_QUERY_UPDATED),
-            emit(Events.AUTOCOMPLETE_PRODUCTS_UPDATED),
-            emit(Events.AUTOCOMPLETE_TEMPLATE_UPDATED)
+              emit(Events.AUTOCOMPLETE_SUGGESTIONS_UPDATED),
+              emit(Events.AUTOCOMPLETE_QUERY_UPDATED),
+              emit(Events.AUTOCOMPLETE_PRODUCTS_UPDATED),
+              emit(Events.AUTOCOMPLETE_TEMPLATE_UPDATED)
             ),
 
           collections: {

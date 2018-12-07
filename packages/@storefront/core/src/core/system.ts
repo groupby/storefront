@@ -2,10 +2,10 @@ import FluxCapacitor from '@storefront/flux-capacitor';
 import Globals from '../globals';
 import { SystemServices } from '../services';
 import StoreFront from '../storefront';
-import { GlobalMixin } from './types';
 import Configuration from './configuration';
 import Service from './service';
 import Tag from './tag';
+import { GlobalMixin } from './types';
 import * as utils from './utils';
 
 export default class System {

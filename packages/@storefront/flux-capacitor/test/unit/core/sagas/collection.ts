@@ -3,6 +3,7 @@ import Actions from '../../../../src/core/actions';
 import { collectionRequest } from '../../../../src/core/requests';
 import sagaCreator, { CollectionTasks } from '../../../../src/core/sagas/collection';
 import Requests from '../../../../src/core/sagas/requests';
+import Selectors from '../../../../src/core/selectors';
 import suite from '../../_suite';
 
 suite('collection saga', ({ expect, spy, stub }) => {
@@ -23,23 +24,28 @@ suite('collection saga', ({ expect, spy, stub }) => {
     describe('fetchCount()', () => {
       it('should return collection count', () => {
         const collection = 'myCollection';
+        const buildAndParse = true;
         const receiveCollectionCountAction: any = { c: 'd' };
         const receiveCollectionCount = spy(() => receiveCollectionCountAction);
-        const flux: any = { actions: { receiveCollectionCount } };
+        const replaceState = spy();
+        const route = 'search';
+        const flux: any = { replaceState, actions: { receiveCollectionCount } };
         const recordCount = 89;
         const request = { e: 'f', collection };
         const response = { g: 'h', totalRecordCount: recordCount };
         const searchRequest = stub(Requests, 'search').returns(response);
         const state = { a: 'b' };
         stub(collectionRequest, 'composeRequest').withArgs(state, { collection }).returns(request);
+        stub(Selectors, 'route').withArgs(state).returns(route);
 
-        const task = CollectionTasks.fetchCount(flux, <any>{ payload: { collection } });
+        const task = CollectionTasks.fetchCount(flux, <any>{ payload: { collection, buildAndParse } });
 
         expect(task.next().value).to.eql(effects.select());
         expect(task.next(state).value).to.eql(effects.call(searchRequest, flux, request));
         expect(task.next(response).value).to.eql(effects.put(receiveCollectionCountAction));
         expect(receiveCollectionCount).to.be.calledWithExactly({ collection, count: recordCount });
         task.next();
+        expect(replaceState).to.be.calledWith(route, buildAndParse);
       });
 
       it('should override request', () => {

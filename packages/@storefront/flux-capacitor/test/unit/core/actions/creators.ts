@@ -62,6 +62,22 @@ suite('ActionCreators', ({ expect, spy, stub }) => {
     });
   });
 
+  describe('history action creators', () => {
+    const state = {
+      method: () => null,
+      request: { c: 'd' },
+      url: 'www.example.com',
+      route: 'search',
+      shouldFetch: true
+    };
+
+    describe('updateHistory()', () => {
+      it('should return history state with type UPDATE_HISTORY', () => {
+        expectAction(ActionCreators.updateHistory(state), Actions.UPDATE_HISTORY, state);
+      });
+    });
+  });
+
   describe('fetch action creators', () => {
     describe('fetchMorePastPurchaseRefinements()', () => {
       // tslint:disable-next-line max-line-length
@@ -252,14 +268,18 @@ suite('ActionCreators', ({ expect, spy, stub }) => {
       itShouldAcceptAnOptionsObject(
         ActionCreators.fetchProductDetails,
         Actions.FETCH_PRODUCT_DETAILS,
-        'redirect', false
+        'buildAndParse', false
       );
 
       it('should return an action', () => {
         const id = '12345';
-        const redirect = true;
+        const buildAndParse = true;
 
-        expectAction(ActionCreators.fetchProductDetails(id, redirect), Actions.FETCH_PRODUCT_DETAILS, { id, redirect });
+        expectAction(
+          ActionCreators.fetchProductDetails(id, buildAndParse),
+          Actions.FETCH_PRODUCT_DETAILS,
+          { id, buildAndParse }
+        );
       });
     });
 

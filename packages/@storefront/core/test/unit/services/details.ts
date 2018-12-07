@@ -4,7 +4,7 @@ import Service from '../../../src/services/details';
 import StoreFront from '../../../src/storefront';
 import suite from './_suite';
 
-suite('Details Service', ({ expect, spy, itShouldExtendBaseService }) => {
+suite('Details Service', ({ expect, spy, itShouldExtendBaseService, stub }) => {
   let app: StoreFront;
   let service: Service;
   let on: sinon.SinonSpy;
@@ -19,7 +19,11 @@ suite('Details Service', ({ expect, spy, itShouldExtendBaseService }) => {
     itShouldExtendBaseService(() => service);
 
     it('should listen for DETAILS_CHANGED', () => {
-      expect(on).to.be.calledWithExactly(Events.DETAILS_CHANGED, service.fetchDetails, service);
+      expect(on).to.be.calledWithExactly(Events.DETAILS_CHANGED, service.pushState, service);
+    });
+
+    it('should listen for DETAILS_URL_UPDATED', () => {
+      expect(on).to.be.calledWithExactly(Events.DETAILS_URL_UPDATED, service.fetchProduct, service);
     });
   });
 
@@ -29,14 +33,29 @@ suite('Details Service', ({ expect, spy, itShouldExtendBaseService }) => {
     });
   });
 
-  describe('fetchDetails()', () => {
+  describe('pushState()', () => {
     it('should save state', () => {
-      const saveState = spy();
-      app.flux = <any>{ saveState };
+      const pushState = spy();
+      app.flux = <any>{ pushState };
 
-      service.fetchDetails();
+      service.pushState();
 
-      expect(saveState).to.be.calledWith(Routes.DETAILS);
+      expect(pushState).to.be.calledWith({ route: Routes.DETAILS });
+    });
+  });
+
+  describe('fetchProduct()', () => {
+    it('should dispatch fetchProductDetails', () => {
+      const id = 12034;
+      const urlState: any = { request: { data: { id } } };
+      const FETCH = 'FETCH';
+      const dispatch = spy();
+      const fetchProductDetails = stub().withArgs({ id }).returns(FETCH);
+      app.flux = <any>{ store: { dispatch }, actions: { fetchProductDetails } };
+
+      service.fetchProduct(urlState);
+
+      expect(dispatch).to.be.calledWith(FETCH);
     });
   });
 });

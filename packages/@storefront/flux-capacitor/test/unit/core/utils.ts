@@ -59,4 +59,78 @@ suite('utils', ({ expect, spy, stub }) => {
       expect(utils.normalizeToFunction(o)(o2)).to.eql({ ...o2, ...o });
     });
   });
+
+  describe('filterState()', () => {
+    it('should filter config from state and remove products when history length is 0', () => {
+      const data = { a: 'b', past: [{ a: 'b' }], present: { products: [1, 2, 3, 4, 5] } };
+      const payload = { e: 'f' };
+      const fullPayload = { ...payload, method: () => null };
+      const config = { history: { length: 0 } };
+      const session = { a: 'b', c: 'd' };
+      const sessionWithConfig = { ...session, config };
+      const otherData = {
+        e: 'f',
+        j: { h: 1 },
+        o: [2, 3, 4],
+        n: { i: 'r', k: {} },
+      };
+      const state: any = { ...otherData, session: sessionWithConfig, data };
+      Object.freeze(state);
+      Object.freeze(session);
+      Object.freeze(sessionWithConfig);
+
+      const stateWithoutConfig = utils.filterState(state, fullPayload);
+
+      expect(stateWithoutConfig).to.eql({
+        ...otherData,
+        session,
+        data: { ...data, past: [], present: { history: { ...payload }, products: [] } }
+      });
+    });
+
+    it('should filter config from state without modifying state', () => {
+      const config = { history: { length: 5 } };
+      const session = { a: 'b', c: 'd' };
+      const sessionWithConfig = { ...session, config };
+      const payload = { e: 'f' };
+      const fullPayload = { method: () => null, ...payload };
+      const otherData = {
+        e: 'f',
+        j: {
+          h: 1,
+        },
+        o: [2, 3, 4],
+        n: {
+          i: 'r',
+          k: {},
+        },
+        data: {
+          past: [{ a: 'b' }],
+          present: {
+            history: { g: 'h' },
+            products: [{ c: 'd' }],
+          },
+        },
+      };
+      const state: any = { ...otherData, session: sessionWithConfig };
+      Object.freeze(state);
+      Object.freeze(session);
+      Object.freeze(sessionWithConfig);
+
+      const stateWithoutConfig = utils.filterState(state, fullPayload);
+
+      expect(stateWithoutConfig).to.eql({
+        ...otherData,
+        session,
+        data: {
+          ...otherData.data,
+          past: [],
+          present: {
+            ...otherData.data.present,
+            history: { ...otherData.data.present.history, ...payload },
+          }
+        },
+      });
+    });
+  });
 });

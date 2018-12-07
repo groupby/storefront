@@ -3,6 +3,42 @@ import Selectors from '../../../src/core/selectors';
 import suite from '../_suite';
 
 suite('selectors', ({ expect, stub }) => {
+  describe('history()', () => {
+    it('should select the history state', () => {
+      const history = { a: 'b' };
+      const state: any = { data: { present: { history } } };
+
+      expect(Selectors.history(state)).to.eq(history);
+    });
+  });
+
+  describe('url()', () => {
+    it('should select the history url state', () => {
+      const url = 'www.url.com';
+      const state: any = { data: { present: { history: { url } } } };
+
+      expect(Selectors.url(state)).to.eq(url);
+    });
+  });
+
+  describe('route()', () => {
+    it('should select the history route state', () => {
+      const route = 'search';
+      const state: any = { data: { present: { history: { route } } } };
+
+      expect(Selectors.route(state)).to.eq(route);
+    });
+  });
+
+  describe('urlRequest()', () => {
+    it('should select the history request state', () => {
+      const request = { a: 'b' };
+      const state: any = { data: { present: { history: { request } } } };
+
+      expect(Selectors.urlRequest(state)).to.eq(request);
+    });
+  });
+
   describe('navigation()', () => {
     it('should select a navigation from the state', () => {
       const id = 'my navigation';

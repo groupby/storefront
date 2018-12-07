@@ -4,6 +4,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] [minor]
+### Added
+- SF-1185: Make a URL store
+  - `initHistory`, `pushState`, `updateHistory`, and `refreshState` methods added on `flux`.
+  - `updateHistory` action creator that triggers history `pushState` and `replaceState`, and updates the `history` section in the store.
+  - `data.present.history` store section was created:
+    - eg,
+      ```js
+        history: {
+          request: {...},
+          route: '...',
+          url: '...',
+          shouldFetch: true,
+        }
+      ```
+    - Associated selectors: `history`, `url`, `route`, `urlRequest`.
+    - Associated events: `URL_UPDATED`, `ROUTE_UPDATED`, `SEARCH_URL_UPDATED`, `DETAILS_URL_UPDATED`, `PAST_PURCHASE_URL_UPDATED`, `CUSTOM_URL_UPDATED`.
+
 ## [1.68.0] - 2019-01-14
 ### Added
 - SF-1073: Created new `selectMultipleRefinements` and `selectMultiplePastPurchaseRefinements` actions.

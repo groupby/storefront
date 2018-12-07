@@ -323,7 +323,7 @@ suite('recommendations saga', ({ expect, spy, stub }) => {
           .withArgs(navigations)
           .returns(prunedRefinements);
 
-        const task = RecommendationsTasks.fetchPastPurchaseProducts(flux, <any>{ payload: {} });
+        const task = RecommendationsTasks.fetchPastPurchaseProducts(flux, <any>{ payload: { buildAndParse: true } });
 
         expect(task.next().value).to.eql(effects.select(Selectors.pastPurchases));
         expect(task.next(pastPurchaseSkus).value).to.eql(effects.select());
@@ -341,7 +341,7 @@ suite('recommendations saga', ({ expect, spy, stub }) => {
         expect(augmentProducts).to.be.calledWithExactly(productData);
         expect(receivePastPurchasePage).to.be.calledWithExactly(productData, currentPage, pageSize);
         expect(extractRecordCount).to.be.calledWithExactly(productData.totalRecordCount);
-        expect(replaceState).to.be.calledWithExactly(utils.Routes.PAST_PURCHASE);
+        expect(replaceState).to.be.calledWithExactly(utils.Routes.PAST_PURCHASE, true);
       });
     });
 

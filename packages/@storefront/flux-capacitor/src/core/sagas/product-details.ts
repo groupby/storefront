@@ -7,7 +7,8 @@ import * as utils from '../utils';
 import RequestsTasks from './requests';
 
 export namespace ProductDetailsTasks {
-  export function* fetchProductDetails(flux: FluxCapacitor, { payload: { id, request } }: Actions.FetchProductDetails) {
+  // tslint:disable-next-line max-line-length
+  export function* fetchProductDetails(flux: FluxCapacitor, { payload: { id, request, buildAndParse } }: Actions.FetchProductDetails) {
     try {
       const state = yield effects.select();
       const requestBody =  productDetailsRequest.composeRequest(
@@ -30,7 +31,7 @@ export namespace ProductDetailsTasks {
         }
         yield effects.put(flux.actions.receiveDetails({ data: record, template }));
 
-        flux.replaceState(utils.Routes.DETAILS);
+        flux.replaceState(utils.Routes.DETAILS, buildAndParse);
       } else {
         throw new Error(`no records found matching id: ${id}`);
       }

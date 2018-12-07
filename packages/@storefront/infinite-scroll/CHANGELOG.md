@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] [patch]
+### Changed
+- SF-1185: Make a URL store
+  - Use flag to indicate to `replaceState` that it should build and parse the url.
+
 ## [1.7.0] - 2019-01-14
 ### Changed
 - Update `@storefront/core` to 1.56.0.
@@ -33,4 +38,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - SF-1075: Only fetch more products when crossing a threshold.
   - More products are only fetched when the view gets within 50px of the top or bottom of the container.
-

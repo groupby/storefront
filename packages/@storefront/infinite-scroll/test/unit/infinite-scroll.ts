@@ -541,7 +541,7 @@ suite('InfiniteScroll', ({ expect, spy, stub, itShouldBeConfigurable, itShouldPr
       const fetchMoreItems = (infiniteScroll.fetchMoreItems = spy());
       const getState = spy();
       const scrollTop = 100;
-      const state:any = {
+      const state: any = {
         wrapper: { getBoundingClientRect: getWrapperHeight },
         scroller: { root: { getBoundingClientRect: getScrollerHeight, scrollTop, scrollHeight: 1300, clientHeight: 700 } },
         lastScroll: 10,
@@ -566,7 +566,7 @@ suite('InfiniteScroll', ({ expect, spy, stub, itShouldBeConfigurable, itShouldPr
       const fetchMoreItems = (infiniteScroll.fetchMoreItems = spy());
       const getState = spy();
       const scrollTop = 60;
-      const state:any = {
+      const state: any = {
         wrapper: { getBoundingClientRect: getWrapperHeight },
         scroller: { root: { getBoundingClientRect: getScrollerHeight, scrollTop, scrollHeight: 1300, clientHeight: 700 } },
         lastScroll: 100,
@@ -576,9 +576,9 @@ suite('InfiniteScroll', ({ expect, spy, stub, itShouldBeConfigurable, itShouldPr
       };
       infiniteScroll.flux = <any>{ store: { getState } };
       infiniteScroll.state = state;
-  
+
       infiniteScroll.scroll();
-  
+
       expect(fetchMoreItems).to.not.have.been.called;
       expect(infiniteScroll.state).to.eql({ ...state, lastScroll: scrollTop, getPage: true });
     });
@@ -840,7 +840,7 @@ suite('InfiniteScroll', ({ expect, spy, stub, itShouldBeConfigurable, itShouldPr
 
       infiniteScroll.replaceState();
 
-      expect(replaceState).to.be.calledWithExactly(Routes.SEARCH);
+      expect(replaceState).to.be.calledWithExactly(Routes.SEARCH, true);
     });
 
     it('should not call replaceState if firstLoad is true', () => {

@@ -77,7 +77,7 @@ suite('products saga', ({ sinon, expect, spy, stub }) => {
         const replaceState = spy();
         const search = () => null;
         const bridge = { search };
-        const payload = { a: 'b' };
+        const payload = { a: 'b', buildAndParse: true };
         const action: any = { payload };
         const receiveProductsAction: any = { c: 'd' };
         const receiveNavigationsAction: any = { e: 'f' };
@@ -101,7 +101,7 @@ suite('products saga', ({ sinon, expect, spy, stub }) => {
         expect(emit).to.be.calledWithExactly(Events.BEACON_SEARCH, id);
         expect(receiveProducts).to.be.calledWithExactly({ ...response, availableNavigation });
         task.next();
-        expect(replaceState).to.be.calledWith(utils.Routes.SEARCH);
+        expect(replaceState).to.be.calledWith(utils.Routes.SEARCH, true);
       });
 
       it('should call actions.receiveRedirect when products.redirect is true', () => {

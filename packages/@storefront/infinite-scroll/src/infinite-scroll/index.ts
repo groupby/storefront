@@ -340,7 +340,7 @@ class InfiniteScroll {
 
   setPage = (count: number, page: number) => {
     let event;
-    switch(this.props.storeSection) {
+    switch (this.props.storeSection) {
       case Core.StoreSections.PAST_PURCHASES:
         event = Core.Events.PAST_PURCHASE_PAGE_UPDATED;
         break;
@@ -353,7 +353,7 @@ class InfiniteScroll {
   };
 
   replaceState = () => {
-    if (!this.state.firstLoad) this.flux.replaceState(this.state.route);
+    if (!this.state.firstLoad) this.flux.replaceState(this.state.route, true);
   };
 
   fetchMoreItems = (forward: boolean = true) => {
@@ -365,7 +365,7 @@ class InfiniteScroll {
   };
 }
 
-interface InfiniteScroll extends Core.Tag<InfiniteScroll.Props, InfiniteScroll.State> {}
+interface InfiniteScroll extends Core.Tag<InfiniteScroll.Props, InfiniteScroll.State> { }
 namespace InfiniteScroll {
   export interface Props extends Core.Tag.Props {
     loadMore: boolean;

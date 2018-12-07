@@ -1,4 +1,6 @@
 import * as fetchPonyfill from 'fetch-ponyfill';
+import Actions from './actions';
+import Store from './store';
 
 export const { fetch } = fetchPonyfill();
 
@@ -53,4 +55,25 @@ export function normalizeToFunction<T>(objOrFn: Partial<T> | GenericTransformer<
   return typeof objOrFn === 'function'
     ? objOrFn
     : (obj) => (Object.assign(obj, objOrFn));
+}
+
+export function filterState(state: Store.State, actionPayload: Actions.Payload.History.State) {
+  const { session: { config, ...session }, data, ...rootConfig } = state;
+  const { method, ...payload } = actionPayload;
+  const history = { ...data.present.history, ...payload };
+  const products = config.history.length === 0 ? [] : data.present.products;
+
+  return {
+    ...rootConfig,
+    session,
+    data: {
+      ...data,
+      past: [],
+      present: {
+        ...data.present,
+        history,
+        products
+      },
+    },
+  };
 }

@@ -20,6 +20,8 @@ import Middleware, {
   SEARCH_CHANGE_ACTIONS,
   UNDOABLE_ACTIONS,
 } from '../../../../src/core/store/middleware';
+import * as utils from '../../../../src/core/utils';
+import { STOREFRONT_APP_ID } from '../../../../src/flux-capacitor';
 import suite from '../../_suite';
 
 suite('Middleware', ({ expect, spy, stub }) => {
@@ -33,6 +35,7 @@ suite('Middleware', ({ expect, spy, stub }) => {
   });
 
   describe('create()', () => {
+    const updateHistoryMiddleware = { c: 'd' };
     const sagaMiddleware = { a: 'b' };
     const idGeneratorMiddleware = { g: 'h' };
     const errorHandlerMiddleware = { i: 'j' };
@@ -42,6 +45,7 @@ suite('Middleware', ({ expect, spy, stub }) => {
       Middleware.thunkEvaluator,
       Middleware.arrayMiddleware,
       batchMiddleware,
+      updateHistoryMiddleware,
       saveStateAnalyzer,
       Middleware.injectStateIntoRehydrate,
       Middleware.validator,
@@ -71,6 +75,7 @@ suite('Middleware', ({ expect, spy, stub }) => {
       const simpleMiddleware = ['k', 'l'];
       const middlewares = ['k', 'l'];
       const thunkMiddleware = ['k', 'l'];
+      const updateHistory = stub(Middleware, 'updateHistory').withArgs(flux).returns(updateHistoryMiddleware);
       const idGenerator = stub(Middleware, 'idGenerator').returns(idGeneratorMiddleware);
       const errorHandler = stub(Middleware, 'errorHandler').returns(errorHandlerMiddleware);
       const checkPastPurchaseSkus = stub(Middleware, 'checkPastPurchaseSkus').returns(checkPastPurchaseSkusMiddleware);
@@ -78,6 +83,7 @@ suite('Middleware', ({ expect, spy, stub }) => {
       const applyMiddleware = stub(redux, 'applyMiddleware');
       applyMiddleware.withArgs(
         ...normalizingMiddleware,
+        updateHistoryMiddleware,
         saveStateAnalyzer,
         Middleware.injectStateIntoRehydrate,
         Middleware.validator,
@@ -111,6 +117,7 @@ suite('Middleware', ({ expect, spy, stub }) => {
     it('should include redux-logger when running in development and debug set', () => {
       const flux: any = { __config: { services: { logging: { debug: { flux: true } } } } };
       const applyMiddleware = stub(redux, 'applyMiddleware');
+      stub(Middleware, 'updateHistory').returns(updateHistoryMiddleware);
       stub(Middleware, 'idGenerator').returns(idGeneratorMiddleware);
       stub(Middleware, 'errorHandler').returns(errorHandlerMiddleware);
       stub(Middleware, 'validator').returns(Middleware.validator);
@@ -126,6 +133,7 @@ suite('Middleware', ({ expect, spy, stub }) => {
     it('should not include redux-logger when running in development and debug not set', () => {
       const flux: any = { __config: {} };
       const applyMiddleware = stub(redux, 'applyMiddleware');
+      stub(Middleware, 'updateHistory').returns(updateHistoryMiddleware);
       stub(Middleware, 'idGenerator').returns(idGeneratorMiddleware);
       stub(Middleware, 'errorHandler').returns(errorHandlerMiddleware);
       stub(Middleware, 'validator').returns(Middleware.validator);
@@ -136,6 +144,49 @@ suite('Middleware', ({ expect, spy, stub }) => {
       Middleware.create(sagaMiddleware, flux);
 
       expect(applyMiddleware).to.be.calledWithExactly(...allMiddleware());
+    });
+  });
+
+  describe('updateHistory()', () => {
+    const filteredState = { c: 'd' };
+    const state = { a: 'b' };
+    const store: any = { getState: () => state };
+    const url = 'www.google.com';
+    let method;
+    let filterState;
+
+    beforeEach(() => {
+      filterState = stub(utils, 'filterState').withArgs(state).returns(filteredState);
+      method = spy();
+    });
+
+    it('should call next with the action if type is not UPDATE_HISTORY', () => {
+      const action = { type: null, payload: { method } };
+
+      Middleware.updateHistory(null)(null)(next)(action);
+
+      expect(next).to.be.calledWith(action);
+      expect(method).to.not.be.called;
+    });
+
+    it('should call payload method if type is UPDATE_HISTORY', () => {
+      const action = { type: Actions.UPDATE_HISTORY, payload: { method, url } };
+
+      Middleware.updateHistory(null)(store)(next)(action);
+
+      expect(method).to.be.calledWith({ url, state: filteredState, app: STOREFRONT_APP_ID }, '', url);
+      expect(next).to.be.calledWith(action);
+    });
+
+    it('should use state url if no url in payload', () => {
+      const stateUrl = 'www.notgoogle.com';
+      const action = { type: Actions.UPDATE_HISTORY, payload: { method } };
+      stub(Selectors, 'url').withArgs(state).returns(stateUrl);
+
+      Middleware.updateHistory(null)(store)(next)(action);
+
+      expect(method).to.be.calledWith({ url: stateUrl, state: filteredState, app: STOREFRONT_APP_ID }, '', stateUrl);
+      expect(next).to.be.calledWith(action);
     });
   });
 

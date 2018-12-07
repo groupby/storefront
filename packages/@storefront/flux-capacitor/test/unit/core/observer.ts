@@ -288,6 +288,85 @@ suite('Observer', ({ expect, spy, stub }) => {
         observers = Observer.create(<any>{ emit });
       });
 
+      describe('history()', () => {
+        it('should not emit if state is identical to old state', () => {
+          const state = { a: 'b' };
+
+          observers.data.present.history(<any>state, <any>state, path);
+
+          expect(emit).to.not.be.called;
+        });
+
+        it('should emit URL_UPDATED when urls differ', () => {
+          const oldState = { url: 'www.google.ca' };
+          const newState = { url: 'www.example.ca' };
+
+          observers.data.present.history(oldState, newState, path);
+
+          expect(emit).to.be.calledWith(Events.URL_UPDATED);
+        });
+
+        it('should emit SEARCH_URL_UPDATED when urls differ, shouldFetch is true, and route is search', () => {
+          const oldState = { url: 'www.google.ca', route: utils.Routes.DETAILS, shouldFetch: false };
+          const newState = { url: 'www.example.ca', route: utils.Routes.SEARCH, shouldFetch: true };
+
+          observers.data.present.history(oldState, newState, path);
+
+          expect(emit).to.be.calledWith(Events.SEARCH_URL_UPDATED);
+        });
+
+        it('should emit DETAILS_URL_UPDATED when urls differ, shouldFetch is true, and route is details', () => {
+          const oldState = { url: 'www.google.ca', route: utils.Routes.SEARCH, shouldFetch: false };
+          const newState = { url: 'www.example.ca', route: utils.Routes.DETAILS, shouldFetch: true };
+
+          observers.data.present.history(oldState, newState, path);
+
+          expect(emit).to.be.calledWith(Events.DETAILS_URL_UPDATED);
+        });
+
+        // tslint:disable-next-line max-line-length
+        it('should emit PAST_PURCHASE_URL_UPDATED when urls differ, shouldFetch is true, and route is past purchase', () => {
+          const oldState = { url: 'www.google.ca', route: utils.Routes.SEARCH, shouldFetch: false };
+          const newState = { url: 'www.example.ca', route: utils.Routes.PAST_PURCHASE, shouldFetch: true };
+
+          observers.data.present.history(oldState, newState, path);
+
+          expect(emit).to.be.calledWith(Events.PAST_PURCHASE_URL_UPDATED);
+        });
+
+        it('should emit CUSTOM_URL_UPDATED when urls differ, shouldFetch is true, and route is not known', () => {
+          const oldState = { url: 'www.google.ca', route: utils.Routes.SEARCH, shouldFetch: false };
+          const newState = { url: 'www.example.ca', route: null, shouldFetch: true };
+
+          observers.data.present.history(oldState, newState, path);
+
+          expect(emit).to.be.calledWith(Events.CUSTOM_URL_UPDATED);
+        });
+
+        it('should not emit when urls differ, and shouldFetch is false', () => {
+          const oldState = { url: 'www.google.ca', route: utils.Routes.SEARCH, shouldFetch: false };
+          const newState = { url: 'www.example.ca', route: utils.Routes.SEARCH, shouldFetch: false };
+
+          observers.data.present.history(oldState, newState, path);
+
+          expect(emit).to.be.calledWith(Events.URL_UPDATED);
+          expect(emit).to.not.be.calledWith(Events.SEARCH_URL_UPDATED);
+          expect(emit).to.not.be.calledWith(Events.DETAILS_URL_UPDATED);
+          expect(emit).to.not.be.calledWith(Events.PAST_PURCHASE_URL_UPDATED);
+          expect(emit).to.not.be.calledWith(Events.CUSTOM_URL_UPDATED);
+        });
+
+        it('should emit ROUTE_UPDATED when routes differ', () => {
+          const url = 'www.google.ca';
+          const oldState = { url, route: utils.Routes.SEARCH, shouldFetch: false };
+          const newState = { url, route: utils.Routes.DETAILS, shouldFetch: false };
+
+          observers.data.present.history(oldState, newState, path);
+
+          expect(emit).to.be.calledWith(Events.ROUTE_UPDATED);
+        });
+      });
+
       describe('autocomplete()', () => {
         it('should not emit update if state identical to old state', () => {
           const state = { a: 'b' };
@@ -563,7 +642,7 @@ suite('Observer', ({ expect, spy, stub }) => {
             expect(stubbed.data.present.pastPurchases.navigations).to.eql(nav);
             expect(navigations).to.be.calledWith(Events.NAVIGATIONS_UPDATED, Events.SELECTED_REFINEMENTS_UPDATED)
               .and.be.calledWith(Events.PAST_PURCHASE_NAVIGATIONS_UPDATED,
-              Events.PAST_PURCHASE_SELECTED_REFINEMENTS_UPDATED);
+                Events.PAST_PURCHASE_SELECTED_REFINEMENTS_UPDATED);
           });
 
           it('should emit PAST_PURCHASE_SORT_UPDATED event and call saveState', () => {
