@@ -5,6 +5,11 @@ import Search, { MAX_RECORDS } from './adapters/search';
 import Store from './store';
 
 namespace Selectors {
+  /**
+   * Returns the history state.
+   */
+  export const history = (state: Store.State) =>
+    Selectors.config(state).history;
 
   /**
    * Returns the applied area.

@@ -39,7 +39,9 @@ namespace Actions {
 
   // history actions
   export const PUSH_STATE = 'PUSH_STATE';
-  export type PushState = Action<typeof PUSH_STATE, Payload.History.PushState>;
+  export type PushState = Action<typeof PUSH_STATE, Payload.History.State>;
+  export const REPLACE_STATE = 'REPLACE_STATE';
+  export type ReplaceState = Action<typeof REPLACE_STATE, Payload.History.State>;
 
   // tslint:disable max-line-length
   // update actions

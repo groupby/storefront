@@ -10,7 +10,7 @@ import * as validators from './validators';
 
 namespace ActionCreators {
   // tslint:disable-next-line max-line-length
-  export function pushState(urlState: { route?: string, url?: string, state?: any, title?: string }): Actions.PushState {
+  export function pushState(urlState: Actions.Payload.History.State): Actions.PushState {
     return createAction(Actions.PUSH_STATE, urlState);
   }
 
