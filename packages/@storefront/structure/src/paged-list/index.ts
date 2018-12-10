@@ -9,6 +9,11 @@ class PagedList {
   state: PagedList.State = {
     items: [],
   };
+
+  childProps() {
+    const { itemAlias, indexAlias } = this.props;
+    return { itemAlias, indexAlias, items: this.state.items };
+  }
 }
 
 interface PagedList extends Tag<PagedList.Props, PagedList.State> {}

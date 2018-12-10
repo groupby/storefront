@@ -24,5 +24,16 @@ suite('PagedList', ({ expect, spy }) => {
       });
     });
   });
+
+  describe('childProps()', () => {
+    it('should return childProps object', () => {
+      const itemAlias = 'itemAlias';
+      const indexAlias = 'indexAlias';
+      const items = (pagedList.state.items = <any>[1, 2, 3, 4]);
+
+      pagedList.props = { ...pagedList.props, itemAlias, indexAlias };
+      expect(pagedList.childProps()).to.eql({ itemAlias, indexAlias, items });
+    });
+  });
 });
 
