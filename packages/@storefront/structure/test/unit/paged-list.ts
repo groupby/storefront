@@ -21,6 +21,7 @@ suite('PagedList', ({ expect, spy }) => {
     describe('state', () => {
       it('should set initial values', () => {
         expect(pagedList.state.items).to.eql([]);
+        expect(pagedList.state.page).to.eql(1);
       });
     });
   });

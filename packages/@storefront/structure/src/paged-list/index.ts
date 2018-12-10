@@ -8,6 +8,7 @@ class PagedList {
   };
   state: PagedList.State = {
     items: [],
+    page: 1,
   };
 
   childProps() {
@@ -27,6 +28,7 @@ namespace PagedList {
 
   export interface State {
     items: Item[];
+    page: number;
   }
 
   export type Item = string | ItemObject;
