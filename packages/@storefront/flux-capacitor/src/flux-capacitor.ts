@@ -40,6 +40,11 @@ class FluxCapacitor extends Emitter {
    * instance of the state store
    */
   store: ReduxStore<Store.State> = Store.create(this, Observer.listener(this));
+
+  history: {
+    parse: () => void,
+    build: () => void,
+  };
   /**
    * storefront config
    */
@@ -53,19 +58,27 @@ class FluxCapacitor extends Emitter {
     delete this.__config;
   }
 
-  // this function is here to support legacy implementations.
+  initHistory(build, parse) {
+    this.build = build;
+    this.parse = parse;
+    const url = this.parse();
+
+    this.pushState({ url });
+  }
+
+  // this function is here to support legacy implementations >.<"
   saveState(route: string) {
     // this.emit(Events.HISTORY_SAVE, { route, state: this.store.getState() });
     this.pushState({ route });
   }
 
   pushState(urlState: Actions.Payload.History.PreState) {
-    // const state = this.store.getState();
-    // const route = urlState.route || Selectors.getRoute(state);
+    const state = this.store.getState();
+    const route = urlState.route || Selectors.getRoute(state);
     // TODO: fix how build is
-    // const url = urlState.url || this.build(route, state);
+    const url = urlState.url || this.history.build(route, state);
 
-    this.store.dispatch(this.actions.pushState({ ...urlState, method: 'pushState' }));
+    this.store.dispatch(this.actions.pushState({ url, route, method: 'pushState' }));
   }
 
   replaceState(route: string) {

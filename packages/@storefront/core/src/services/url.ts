@@ -35,6 +35,7 @@ class UrlService extends BaseService<UrlService.Options> {
   init() {
     // this.listenForHistoryChange();
     // this.handleUrl();
+    this.flux.initHistory(parse, build);
   }
 
   handleUrl() {
