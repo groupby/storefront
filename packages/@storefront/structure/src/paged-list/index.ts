@@ -15,6 +15,13 @@ class PagedList {
     const { itemAlias, indexAlias } = this.props;
     return { itemAlias, indexAlias, items: this.state.items };
   }
+
+  onPageChange(newPage: number) {
+    const startIndex = this.props.pageSize * (newPage - 1);
+    this.set({
+      items: this.props.items.slice(startIndex, startIndex + this.props.pageSize),
+    });
+  }
 }
 
 interface PagedList extends Tag<PagedList.Props, PagedList.State> {}

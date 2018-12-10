@@ -36,5 +36,17 @@ suite('PagedList', ({ expect, spy }) => {
       expect(pagedList.childProps()).to.eql({ itemAlias, indexAlias, items });
     });
   });
+
+  describe('onPageChange()', () => {
+    it('should set new items', () => {
+      const items = ['a', 'b', 'c', 'd', 'e'];
+      const set = pagedList.set = spy();
+      pagedList.props = { items, pageSize: 2 };
+
+      pagedList.onPageChange(2);
+
+      expect(set).to.be.calledWith({ items: ['c', 'd'] });
+    });
+  });
 });
 
