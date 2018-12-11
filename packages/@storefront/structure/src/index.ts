@@ -5,6 +5,7 @@ import CarouselSlide from './carousel-slide';
 import './container';
 import CustomSelect from './custom-select';
 import FilteredList from './filtered-list';
+import GenericPager from './generic-pager';
 import Icon from './icon';
 import './infinite-list';
 import Link from './link';
@@ -12,6 +13,7 @@ import List from './list';
 import ListItem from './list-item';
 import Modal from './modal';
 import NativeSelect from './native-select';
+import PagedList from './paged-list';
 import Pill from './pill';
 import Raw from './raw';
 import Select from './select';
@@ -28,13 +30,15 @@ export {
   CarouselSlide,
   CustomSelect,
   FilteredList,
+  GenericPager,
   Icon,
   Link,
   List,
   ListItem,
   Modal,
-  Pill,
   NativeSelect,
+  PagedList,
+  Pill,
   Raw,
   Select,
   SelectOption,
