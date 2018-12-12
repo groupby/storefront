@@ -37,15 +37,46 @@ suite('PagedList', ({ expect, spy }) => {
     });
   });
 
-  describe('onPageChange()', () => {
-    it('should set new items', () => {
+  describe('init()', () => {
+    it('should call updateItems', () => {
+      const updateItems = pagedList.updateItems = spy();
+
+      pagedList.init();
+
+      expect(updateItems).to.be.calledWith(pagedList.state.page);
+    });
+  });
+
+  describe('onUpdate()', () => {
+    it('should call updateItems', () => {
+      const updateItems = pagedList.updateItems = spy();
+
+      pagedList.onUpdate();
+
+      expect(updateItems).to.be.calledWith(pagedList.state.page);
+    });
+  });
+
+  describe('updateItems()', () => {
+    it('should return new items', () => {
       const items = ['a', 'b', 'c', 'd', 'e'];
-      const set = pagedList.set = spy();
       pagedList.props = { items, pageSize: 2 };
+      pagedList.state = <any>{ a: 'b' };
 
-      pagedList.onPageChange(2);
+      pagedList.updateItems(2);
 
-      expect(set).to.be.calledWith({ items: ['c', 'd'] });
+      expect(pagedList.state).to.eql({ a: 'b', items: ['c', 'd'] });
+    });
+  });
+
+  describe('onPageChange()', () => {
+    it('should set page', () => {
+      const page = 2;
+      const set = pagedList.set = spy();
+
+      pagedList.onPageChange(page);
+
+      expect(set).to.be.calledWith({ page });
     });
   });
 });

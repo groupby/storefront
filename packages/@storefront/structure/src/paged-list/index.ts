@@ -16,11 +16,24 @@ class PagedList {
     return { itemAlias, indexAlias, items: this.state.items };
   }
 
-  onPageChange(newPage: number) {
+  init() {
+    this.updateItems(this.state.page);
+  }
+
+  onUpdate() {
+    this.updateItems(this.state.page);
+  }
+
+  updateItems(newPage: number) {
     const startIndex = this.props.pageSize * (newPage - 1);
-    this.set({
+    this.state = {
+      ...this.state,
       items: this.props.items.slice(startIndex, startIndex + this.props.pageSize),
-    });
+    };
+  }
+
+  onPageChange = (page: number) => {
+    this.set({ page });
   }
 }
 
