@@ -20,7 +20,14 @@ class PagedList {
     this.updateItems(this.state.page);
   }
 
-  onUpdate() {
+  onUpdate(prevProps: any) {
+    if (Object.keys(this.props).some((prop) => this.props[prop] !== prevProps[prop])) {
+      this.state = {
+        ...this.state,
+        page: 1,
+      };
+    }
+
     this.updateItems(this.state.page);
   }
 

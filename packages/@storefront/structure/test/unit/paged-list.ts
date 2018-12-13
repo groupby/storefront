@@ -51,9 +51,20 @@ suite('PagedList', ({ expect, spy }) => {
     it('should call updateItems', () => {
       const updateItems = pagedList.updateItems = spy();
 
-      pagedList.onUpdate();
+      pagedList.onUpdate(<any>{});
 
       expect(updateItems).to.be.calledWith(pagedList.state.page);
+    });
+
+    it('should reset page if props have changed', () => {
+      const updateItems = pagedList.updateItems = spy();
+      pagedList.props = { items: ['d', 'e', 'f'] };
+      pagedList.state = <any>{ page: 3 };
+
+      pagedList.onUpdate(<any>{ items: ['a', 'b', 'c'] });
+
+      expect(pagedList.state.page).to.eq(1);
+      expect(updateItems).to.be.calledWith(1);
     });
   });
 
