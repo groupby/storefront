@@ -34,6 +34,8 @@ namespace ActionCreators {
   export function fetchMoreRefinements(navigationId: string): Actions.FetchMoreRefinements;
   // tslint:disable-next-line typedef
   export function fetchMoreRefinements(options) {
+    console.log('__ INSIDE `fetchMoreRefinements`'); // TEMP
+
     const opts = typeof options === 'string' ? { navigationId: options } : options;
 
     return createAction(Actions.FETCH_MORE_REFINEMENTS, opts);
