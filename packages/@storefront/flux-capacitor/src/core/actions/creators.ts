@@ -254,6 +254,28 @@ namespace ActionCreators {
     return createAction(Actions.FETCH_MORE_PAST_PURCHASE_PRODUCTS, opts);
   }
 
+  // TODO: Consider adding `PastPurchase` to options interface.
+  /**
+   * Makes a request for more past purchase refinements for given navigation.
+   * @param  {Actions.Payload.Fetch.MoreRefinements} options - An object with the navigationId for
+   * the navigation to fetch more refinements against and a request object for override.
+   * @return {Actions.FetchMorePastPurchaseRefinements} - Action with `{ navigationId, request }`.
+   */
+  // tslint:disable-next-line max-line-length
+  export function fetchMorePastPurchaseRefinements(options: Actions.Payload.Fetch.MoreRefinements): Actions.FetchMorePastPurchaseRefinements;
+  /**
+   * Makes a request for more past purchase refinements for given navigation.
+   * @param  {string} navigationId - The navigationId for the navigation to fetch more refinements against.
+   * @return {Actions.FetchMorePastPurchaseRefinements} - Action with `{ navigationId }`.
+   */
+  export function fetchMorePastPurchaseRefinements(navigationId: string): Actions.FetchMorePastPurchaseRefinements;
+  // tslint:disable-next-line typedef
+  export function fetchMorePastPurchaseRefinements(options) {
+    const opts = typeof options === 'string' ? { navigationId: options } : options;
+
+    return createAction(Actions.FETCH_MORE_PAST_PURCHASE_REFINEMENTS, opts);
+  }
+
   /**
    * Makes a request for sayt past purchases.
    * @param {Actions.Payload.Fetch.PastPurchases} options - An object with a query string,
