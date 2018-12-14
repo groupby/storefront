@@ -9,6 +9,7 @@ bootstrap(chai, __dirname, [
   '../src/custom-select/index.html',
   '../src/custom-select/index.css',
   '../src/filtered-list/index.html',
+  '../src/generic-paging/index.html',
   '../src/icon/index.html',
   '../src/infinite-list/index.html',
   '../src/infinite-list/index.css',
