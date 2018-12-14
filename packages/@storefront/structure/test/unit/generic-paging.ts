@@ -1,7 +1,7 @@
 import GenericPaging from '../../src/generic-paging';
 import suite from './_suite';
 
-suite('GenericPaging', ({ expect, itShouldProvideAlias }) => {
+suite('GenericPaging', ({ expect, spy, itShouldProvideAlias }) => {
   let genericPaging: GenericPaging;
 
   beforeEach(() => {
@@ -23,29 +23,18 @@ suite('GenericPaging', ({ expect, itShouldProvideAlias }) => {
         });
       });
     });
-
-    describe('firstPage()', () => {
-      it('should not throw when no props are passed in', () => {
-        expect(() => genericPaging.firstPage()).to.not.throw();
-      })
-    });
-
-    describe('lastPage()', () => {
-      it('should not throw when no props are passed in', () => {
-        expect(() => genericPaging.lastPage()).to.not.throw();
-      })
-    });
-
-    describe('prevPage()', () => {
-      it('should not throw when no props are passed in', () => {
-        expect(() => genericPaging.prevPage()).to.not.throw();
-      })
-    });
-
-    describe('nextPage()', () => {
-      it('should not throw when no props are passed in', () => {
-        expect(() => genericPaging.nextPage()).to.not.throw();
-      })
-    });
   });
+
+  function testHandler(handlerName: string) {
+    describe(handlerName + '()', () => {
+      it('should not throw when no props are passed in',  () => {
+        expect(() => genericPaging[handlerName]()).to.not.throw();
+      });
+    });
+  }
+
+  testHandler('firstPage');
+  testHandler('lastPage');
+  testHandler('prevPage');
+  testHandler('nextPage');
 });
