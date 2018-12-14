@@ -41,6 +41,26 @@ class GenericPaging {
       this.props.switchPage(page);
     }
   }
+
+  static generateRange(lastPage: number, current: number, limit: number) {
+    const last = Math.min(lastPage, limit);
+    const border = Math.floor(limit / 2);
+    if (current <= border) {
+      return GenericPaging.range(1, last);
+    } else if (current >= lastPage - border) {
+      return GenericPaging.range(lastPage - last + 1, lastPage);
+    } else {
+      return GenericPaging.range(current - border, current + border);
+    }
+  }
+
+  static range(low: number, high: number) {
+    const arr = new Array(high - low + 1);
+    for (let i = 0; i < arr.length; i++) {
+      arr[i] = i + low;
+    }
+    return arr;
+  }
 }
 
 interface GenericPaging extends Tag<GenericPaging.Props> {}
