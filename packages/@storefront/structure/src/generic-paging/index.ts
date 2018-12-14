@@ -11,6 +11,10 @@ class GenericPaging {
     limit: 5,
     icons: {},
   };
+
+  firstPage() {
+    this.props.firstPage();
+  };
 }
 
 interface GenericPaging extends Tag<GenericPaging.Props> {}
@@ -32,6 +36,12 @@ namespace GenericPaging {
       prev?: string;
       next?: string;
     };
+
+    firstPage?: () => void;
+    lastPage?: () => void;
+    prevPage?: () => void;
+    nextPage?: () => void;
+    switchPage?: (page: number) => void;
   }
 }
 

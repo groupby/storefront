@@ -23,5 +23,11 @@ suite('GenericPaging', ({ expect, itShouldProvideAlias }) => {
         });
       });
     });
+
+    describe('firstPage()', () => {
+      it.only('should not throw when no props are passed in', () => {
+        expect(() => genericPaging.firstPage()).to.not.throw;
+      })
+    });
   });
 });
