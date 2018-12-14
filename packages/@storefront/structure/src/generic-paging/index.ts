@@ -24,6 +24,12 @@ class GenericPaging {
     }
   };
 
+  prevPage = () => {
+    if (typeof this.props.prevPage === 'function') {
+      this.props.prevPage();
+    }
+  };
+
   nextPage = () => {
     if (typeof this.props.nextPage === 'function') {
       this.props.nextPage();
