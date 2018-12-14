@@ -25,8 +25,14 @@ suite('GenericPaging', ({ expect, itShouldProvideAlias }) => {
     });
 
     describe('firstPage()', () => {
-      it.only('should not throw when no props are passed in', () => {
+      it('should not throw when no props are passed in', () => {
         expect(() => genericPaging.firstPage()).to.not.throw();
+      })
+    });
+
+    describe('lastPage()', () => {
+      it('should not throw when no props are passed in', () => {
+        expect(() => genericPaging.lastPage()).to.not.throw();
       })
     });
   });

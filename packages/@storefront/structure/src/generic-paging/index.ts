@@ -17,6 +17,12 @@ class GenericPaging {
       this.props.firstPage();
     }
   };
+
+  lastPage = () => {
+    if (typeof this.props.lastPage === 'function') {
+      this.props.lastPage();
+    }
+  };
 }
 
 interface GenericPaging extends Tag<GenericPaging.Props> {}
