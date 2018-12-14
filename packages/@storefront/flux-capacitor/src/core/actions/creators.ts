@@ -722,6 +722,20 @@ namespace ActionCreators {
   }
 
   /**
+   * The more past purchase refinements to receive and update state with.
+   * @param  {string}                         navigationId - The navigation the
+   * more refinements correspond to.
+   * @param  {Store.Refinement[]}             refinements  - The more refinements.
+   * @param  {number[]}                       selected     - The selected array,
+   * indicating which indexes of the refinements are set to selected.
+   * @return {Actions.ReceiveMoreRefinements}              - Action with navigationId, refinements, and selected.
+   */
+  // tslint:disable-next-line max-line-length
+  export function receiveMorePastPurchaseRefinements(navigationId: string, refinements: Store.Refinement[], selected: number[]): Actions.ReceiveMorePastPurchaseRefinements {
+    return createAction(Actions.RECEIVE_MORE_PAST_PURCHASE_REFINEMENTS, { navigationId, refinements, selected });
+  }
+
+  /**
    * The autocomplete suggestions to receive and update state with.
    * @param  {Actions.Payload.Autocomplete.Suggestions} suggestions - The suggestions
    * to update the state to.

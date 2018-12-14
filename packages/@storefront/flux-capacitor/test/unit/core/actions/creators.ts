@@ -943,6 +943,21 @@ suite('ActionCreators', ({ expect, spy, stub }) => {
       });
     });
 
+    describe('receiveMorePastPurchaseRefinements()', () => {
+      it('should return an action', () => {
+        const navigationId = 'brand';
+        const refinements: any[] = ['a', 'b'];
+        const selected = [1, 7];
+
+        // tslint:disable-next-line max-line-length
+        expectAction(ActionCreators.receiveMorePastPurchaseRefinements(navigationId, refinements, selected), Actions.RECEIVE_MORE_PAST_PURCHASE_REFINEMENTS, {
+          navigationId,
+          refinements,
+          selected
+        });
+      });
+    });
+
     describe('receiveMoreRefinements()', () => {
       it('should return an action', () => {
         const navigationId = 'brand';
