@@ -31,7 +31,7 @@ suite('GenericPaging', ({ expect, spy, itShouldProvideAlias }) => {
         expect(() => genericPaging[handlerName]()).to.not.throw();
       });
 
-      it('should wrap the function passed as props', () => {
+      it('should wrap the function passed in as props', () => {
         const handler = spy();
         genericPaging.props = { [handlerName]: handler };
 
@@ -46,4 +46,20 @@ suite('GenericPaging', ({ expect, spy, itShouldProvideAlias }) => {
   testHandler('lastPage');
   testHandler('prevPage');
   testHandler('nextPage');
+
+  describe('switchPage()', () => {
+    it('should not throw when no props are passed in',  () => {
+      expect(() => genericPaging.switchPage(5)).to.not.throw();
+    });
+
+    it('should wrap the function passed in as props', () => {
+      const switchPage = spy();
+      const page = 5;
+      genericPaging.props = { switchPage };
+
+      genericPaging.switchPage(page);
+
+      expect(switchPage).to.be.calledWith(page);
+    });
+  });
 });

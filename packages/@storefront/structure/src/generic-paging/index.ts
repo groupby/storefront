@@ -35,6 +35,12 @@ class GenericPaging {
       this.props.nextPage();
     }
   };
+
+  switchPage = (page: number) => {
+    if (typeof this.props.switchPage === 'function') {
+      this.props.switchPage(page);
+    }
+  }
 }
 
 interface GenericPaging extends Tag<GenericPaging.Props> {}
