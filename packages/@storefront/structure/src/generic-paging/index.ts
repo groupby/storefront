@@ -12,8 +12,10 @@ class GenericPaging {
     icons: {},
   };
 
-  firstPage() {
-    this.props.firstPage();
+  firstPage = () => {
+    if (typeof this.props.firstPage === 'function') {
+      this.props.firstPage();
+    }
   };
 }
 
