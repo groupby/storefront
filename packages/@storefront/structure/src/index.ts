@@ -5,7 +5,6 @@ import CarouselSlide from './carousel-slide';
 import './container';
 import CustomSelect from './custom-select';
 import FilteredList from './filtered-list';
-import GenericPager from './generic-pager';
 import Icon from './icon';
 import './infinite-list';
 import Link from './link';
@@ -30,7 +29,6 @@ export {
   CarouselSlide,
   CustomSelect,
   FilteredList,
-  GenericPager,
   Icon,
   Link,
   List,
