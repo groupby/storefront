@@ -12,7 +12,7 @@ import RequestsTasks from './requests';
 
 export namespace RefinementsTasks {
   // tslint:disable-next-line max-line-length
-  export function* fetchMoreRefinements(flux: FluxCapacitor, { payload }: Actions.FetchMoreRefinements) {
+  export function* fetchMoreRefinements(flux: FluxCapacitor, { payload }: Actions.FetchMoreRefinements | Actions.FetchMorePastPurchaseRefinements) {
     console.log('__ INSIDE `fetchMoreRefinements` SAGA TASK', payload); // TEMP
 
     try {
@@ -26,6 +26,7 @@ export namespace RefinementsTasks {
       const res = yield effects.call(RequestsTasks.refinements, flux, requestBody, payload.navigationId);
 
       // TODO: Ensure that `BEACON_MORE_REFINEMENTS` is applicable when refinement-type is PP.
+      // NOTE: Since `navigationId` will be present on both default/search AND PP-type requests, this will continue to work as expected.
       flux.emit(Events.BEACON_MORE_REFINEMENTS, payload.navigationId);
 
       // TODO:
@@ -40,9 +41,7 @@ export namespace RefinementsTasks {
       // TODO: Ensure that `mergeRefinements`  accounts for both default/search and PP-type refinements.
       const { navigationId, refinements, selected } = RefinementsAdapter.mergeRefinements(res, state);
 
-      // TODO: Ensure that the correct action creator is invoked (based on refinement type).
-      yield effects.put(flux.actions.receiveMoreRefinements(navigationId, refinements, selected));
-
+      yield effects.put(payload.receiveAction(navigationId, refinements, selected));
     } catch (e) {
       // TODO: Ensure that the correct action is dispatched (based on refinement type).
       yield effects.put(utils.createAction(Actions.RECEIVE_MORE_REFINEMENTS, e));

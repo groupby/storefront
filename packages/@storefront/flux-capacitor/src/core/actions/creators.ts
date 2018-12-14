@@ -38,7 +38,7 @@ namespace ActionCreators {
 
     const opts = typeof options === 'string' ? { navigationId: options } : options;
 
-    return createAction(Actions.FETCH_MORE_REFINEMENTS, opts);
+    return createAction(Actions.FETCH_MORE_REFINEMENTS, { ...opts, receiveAction: ActionCreators.receiveMoreRefinements });
   }
 
   /**
@@ -273,7 +273,8 @@ namespace ActionCreators {
   export function fetchMorePastPurchaseRefinements(options) {
     const opts = typeof options === 'string' ? { navigationId: options } : options;
 
-    return createAction(Actions.FETCH_MORE_PAST_PURCHASE_REFINEMENTS, opts);
+    // tslint:disable-next-line max-line-length
+    return createAction(Actions.FETCH_MORE_PAST_PURCHASE_REFINEMENTS, { ...opts, receiveAction: ActionCreators.receiveMorePastPurchaseRefinements });
   }
 
   /**
