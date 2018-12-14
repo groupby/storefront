@@ -3,9 +3,36 @@ import { provide, tag, Tag } from '@storefront/core';
 @provide('paging')
 @tag('gb-generic-paging', require('./index.html'))
 class GenericPaging {
-
+  props: GenericPaging.Props = {
+    showIcons: true,
+    showLabels: true,
+    numericLabels: false,
+    labels: { first: 'First', next: 'Next', prev: 'Prev', last: 'Last' },
+    limit: 5,
+    icons: {},
+  };
 }
 
-interface GenericPaging extends Tag {}
+interface GenericPaging extends Tag<GenericPaging.Props> {}
+namespace GenericPaging {
+  export interface Props extends Tag.Props {
+    showIcons?: boolean;
+    showLabels?: boolean;
+    numericLabels?: boolean;
+    labels?: {
+      first?: string;
+      last?: string;
+      prev?: string;
+      next?: string;
+    };
+    limit?: number;
+    icons?: {
+      first?: string;
+      last?: string;
+      prev?: string;
+      next?: string;
+    };
+  }
+}
 
 export default GenericPaging;
