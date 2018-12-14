@@ -16,15 +16,68 @@ suite('ValueRefinementControls', ({ expect, spy, stub }) => {
 
     describe('state', () => {
       describe('moreRefinements()', () => {
+        let fetchMorePastPurchaseRefinements;
+        let fetchMoreRefinements;
+
+        beforeEach(() => {
+          fetchMorePastPurchaseRefinements = spy();
+          fetchMoreRefinements = spy();
+          valueRefinementControls.actions = <any>{
+            fetchMorePastPurchaseRefinements,
+            fetchMoreRefinements,
+          };
+        });
+
         it('should call actions.fetchMoreRefinements()', () => {
-          const fetchMoreRefinements = spy();
-          valueRefinementControls.props = { navigation: { field } };
-          valueRefinementControls.actions = <any>{ fetchMoreRefinements };
+          valueRefinementControls.props = {
+            navigation: { field },
+            storeSection: StoreSections.SEARCH,
+          };
+          valueRefinementControls.actionNames = { fetchMore: 'fetchMoreRefinements' };
 
           valueRefinementControls.state.moreRefinements();
 
           expect(fetchMoreRefinements).to.be.calledWith(field);
         });
+
+        it('should call actions.fetchMorePastPurchasesRefinements()', () => {
+          valueRefinementControls.props = {
+            navigation: { field },
+            storeSection: StoreSections.PAST_PURCHASES,
+          };
+          valueRefinementControls.actionNames = { fetchMore: 'fetchMorePastPurchaseRefinements' };
+
+          valueRefinementControls.state.moreRefinements();
+
+          expect(fetchMorePastPurchaseRefinements).to.be.calledWith(field);
+        });
+      });
+    });
+  });
+
+  describe('init', () => {
+    beforeEach(() => {
+      valueRefinementControls.provide = () => null;
+      valueRefinementControls.updateState = () => null;
+    });
+
+    it('it should correctly set the action names for search', () => {
+      valueRefinementControls.props = <any>{ storeSection: StoreSections.SEARCH };
+      valueRefinementControls.init();
+      expect(valueRefinementControls.actionNames).to.eql({
+        deselect: 'deselectRefinement',
+        fetchMore: 'fetchMoreRefinements',
+        select: 'selectRefinement',
+      });
+    });
+
+    it('it should correctly set the action names for past purchases', () => {
+      valueRefinementControls.props = <any>{ storeSection: StoreSections.PAST_PURCHASES };
+      valueRefinementControls.init();
+      expect(valueRefinementControls.actionNames).to.eql({
+        deselect: 'deselectPastPurchaseRefinement',
+        fetchMore: 'fetchMorePastPurchaseRefinements',
+        select: 'selectPastPurchaseRefinement',
       });
     });
   });
@@ -35,34 +88,12 @@ suite('ValueRefinementControls', ({ expect, spy, stub }) => {
     });
   });
 
-  describe('selectRefinement', () => {
-    it('should return `selectRefinement` if storeSection is search', () => {
-      valueRefinementControls.props = <any>{ storeSection: StoreSections.SEARCH };
-      expect(valueRefinementControls.selectRefinement).to.eq('selectRefinement');
-    });
-
-    it('should return `selectPastPurchaseRefinement` if storeSection is past purchases', () => {
-      valueRefinementControls.props = <any>{ storeSection: StoreSections.PAST_PURCHASES };
-      expect(valueRefinementControls.selectRefinement).to.eq('selectPastPurchaseRefinement');
-    });
-  })
-
-  describe('deselectRefinement', () => {
-    it('should return `selectRefinement` if storeSection is search', () => {
-      valueRefinementControls.props = <any>{ storeSection: StoreSections.SEARCH };
-      expect(valueRefinementControls.deselectRefinement).to.eq('deselectRefinement');
-    });
-
-    it('should return `deselectPastPurchaseRefinement` if storeSection is past purchases', () => {
-      valueRefinementControls.props = <any>{ storeSection: StoreSections.PAST_PURCHASES };
-      expect(valueRefinementControls.deselectRefinement).to.eq('deselectPastPurchaseRefinement');
-    });
-  })
-
   describe('transformNavigation()', () => {
     beforeEach(() => {
-      stub(valueRefinementControls, 'selectRefinement').value('selectRefinement');
-      stub(valueRefinementControls, 'deselectRefinement').value('deselectRefinement');
+      valueRefinementControls.actionNames = {
+        deselect: 'deselectRefinement',
+        select: 'selectRefinement',
+      };
     });
 
     it('should add onClick() handlers', () => {
