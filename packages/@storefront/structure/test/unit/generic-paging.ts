@@ -30,6 +30,15 @@ suite('GenericPaging', ({ expect, spy, itShouldProvideAlias }) => {
       it('should not throw when no props are passed in',  () => {
         expect(() => genericPaging[handlerName]()).to.not.throw();
       });
+
+      it('should wrap the function passed as props', () => {
+        const handler = spy();
+        genericPaging.props = { [handlerName]: handler };
+
+        genericPaging[handlerName]();
+
+        expect(handler).to.be.called;
+      });
     });
   }
 
