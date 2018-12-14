@@ -7,8 +7,9 @@ namespace Payload {
       request?: any;
     }
 
-    // TODO: Update `receive` typedef to use `ActionCreators`.
-    export interface MoreRefinements extends Navigation.Id, Override { receiveAction: any; }
+    // TODO: Update `type` typedef to use `StoreSections`.
+    // TODO: Phase out `receiveAction`.
+    export interface MoreRefinements extends Navigation.Id, Override { receiveAction: any; type?: string }
     export interface MoreProducts extends More, Override {}
     export interface AutocompleteSuggestions extends SimpleQuery, Override {}
     export interface AutocompleteProducts extends Autocomplete.Products, Override {}
