@@ -7,7 +7,21 @@ namespace RefinementsAdapter {
 
   // tslint:disable-next-line max-line-length
   export const mergeRefinements = ({ navigation: { name: navigationId, refinements: original } }: RefinementResults, state: Store.State) => {
-    const navigation = Selectors.navigation(state, navigationId);
+    const { refinements, selected } = RefinementsAdapter
+        .extractRefinements(Selectors.navigation(state, navigationId), original);
+
+    return { navigationId, refinements, selected };
+  };
+
+  // tslint:disable-next-line max-line-length
+  export const mergePastPurchaseRefinements = ({ navigation: { name: navigationId, refinements: original } }: RefinementResults, state: Store.State) => {
+    const { refinements, selected } = RefinementsAdapter
+        .extractRefinements(Selectors.pastPurchaseNavigation(state, navigationId), original);
+
+    return { navigationId, refinements, selected };
+  };
+
+  export const extractRefinements = (navigation, original) => {
     const navigationType = navigation.range ? 'Range' : 'Value';
     const selectedRefinements = navigation.refinements
       .filter((_, index) => navigation.selected.includes(index));
@@ -21,7 +35,7 @@ namespace RefinementsAdapter {
       return refs;
     }, []);
 
-    return { navigationId, refinements, selected };
+    return { refinements, selected };
   };
 }
 

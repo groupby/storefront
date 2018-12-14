@@ -5,52 +5,55 @@ import * as utils from '../actions/utils';
 import RecommendationsAdapter from '../adapters/recommendations';
 import RefinementsAdapter from '../adapters/refinements';
 import Events from '../events';
-import { refinementsRequest } from '../requests';
+import {
+  pastPurchaseRefinementsRequest,
+  refinementsRequest,
+} from '../requests';
 import Selectors from '../selectors';
 import Store from '../store';
 import RequestsTasks from './requests';
 
 export namespace RefinementsTasks {
   // tslint:disable-next-line max-line-length
-  export function* fetchMoreRefinements(flux: FluxCapacitor, { payload }: Actions.FetchMoreRefinements | Actions.FetchMorePastPurchaseRefinements) {
-    console.log('__ INSIDE `fetchMoreRefinements` SAGA TASK', payload); // TEMP
-
+  export function* fetchMorePastPurchaseRefinements(flux: FluxCapacitor, { payload }: Actions.FetchMoreRefinements  | Actions.FetchMorePastPurchaseRefinements) {
     try {
       const state: Store.State = yield effects.select();
       const config = yield effects.select(Selectors.config);
-
-      // TODO: Ensure that the correct request is composed (either default/search or PP).
-      const requestBody = refinementsRequest.composeRequest(state, payload.request);
-
-      // TODO: Ensure that the item below works as expected.
+      const requestBody = pastPurchaseRefinementsRequest.composeRequest(state, payload.request);
       const res = yield effects.call(RequestsTasks.refinements, flux, requestBody, payload.navigationId);
 
-      // TODO: Ensure that `BEACON_MORE_REFINEMENTS` is applicable when refinement-type is PP.
-      // NOTE: Since `navigationId` will be present on both default/search AND PP-type requests, this will continue to work as expected.
       flux.emit(Events.BEACON_MORE_REFINEMENTS, payload.navigationId);
+      const { navigationId, refinements, selected } = RefinementsAdapter.mergePastPurchaseRefinements(res, state);
+      yield effects.put(flux.actions.receiveMorePastPurchaseRefinements(navigationId, refinements, selected));
+    } catch (e) {
+      yield effects.put(flux.actions.receiveMorePastPurchaseRefinements(e));
+    }
+  }
 
-      // TODO:
-      // - Ensure that correct adapter is applied.
-      // - Ensure that correct sort is applied.
+  // tslint:disable-next-line max-line-length
+  export function* fetchMoreRefinements(flux: FluxCapacitor, { payload }: Actions.FetchMoreRefinements | Actions.FetchMorePastPurchaseRefinements) {
+    try {
+      const state: Store.State = yield effects.select();
+      const config = yield effects.select(Selectors.config);
+      const requestBody = refinementsRequest.composeRequest(state, payload.request);
+      const res = yield effects.call(RequestsTasks.refinements, flux, requestBody, payload.navigationId);
+
+      flux.emit(Events.BEACON_MORE_REFINEMENTS, payload.navigationId);
       res.navigation = RecommendationsAdapter.sortAndPinNavigations(
         [res.navigation],
         Selectors.navigationSort(flux.store.getState()),
         config
       )[0];
-
-      // TODO: Ensure that `mergeRefinements`  accounts for both default/search and PP-type refinements.
       const { navigationId, refinements, selected } = RefinementsAdapter.mergeRefinements(res, state);
-
-      yield effects.put(payload.receiveAction(navigationId, refinements, selected));
+      yield effects.put(flux.actions.receiveMoreRefinements(navigationId, refinements, selected));
     } catch (e) {
-      // TODO: Ensure that the correct action is dispatched (based on refinement type).
-      yield effects.put(utils.createAction(Actions.RECEIVE_MORE_REFINEMENTS, e));
-      yield effects.put(payload.receiveAction(e));
+      yield effects.put(flux.actions.receiveMoreRefinements(e));
     }
   }
 }
 
 export default (flux: FluxCapacitor) => function* saga() {
   yield effects.takeLatest(Actions.FETCH_MORE_REFINEMENTS, RefinementsTasks.fetchMoreRefinements, flux);
-  yield effects.takeLatest(Actions.FETCH_MORE_PAST_PURCHASE_REFINEMENTS, RefinementsTasks.fetchMoreRefinements, flux);
+  // tslint:disable-next-line max-line-length
+  yield effects.takeLatest(Actions.FETCH_MORE_PAST_PURCHASE_REFINEMENTS, RefinementsTasks.fetchMorePastPurchaseRefinements, flux);
 };

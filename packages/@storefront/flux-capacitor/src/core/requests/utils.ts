@@ -65,6 +65,15 @@ namespace RequestHelpers {
     return <Request>{ ...request, ...overrideRequest };
   };
 
+  export const pastPurchaseWithSort: BuildFunction<Partial<Request>, Request> = (state, overrideRequest = {}) => {
+    const request: Partial<Request> = {
+      ...RequestHelpers.pastPurchaseProducts(state),
+      sort: RequestAdapter.extractSort(Selectors.pastPurchaseSortSelected(state)),
+    };
+
+    return <Request>{ ...request, ...overrideRequest };
+  };
+
   // tslint:disable-next-line max-line-length
   export const recommendationsSuggestions: BuildFunction<Partial<RecommendationsAdapter.Request & { query: string }>, RecommendationsAdapter.Request> = (state, overrideRequest = {}) => {
     const config = Selectors.config(state);

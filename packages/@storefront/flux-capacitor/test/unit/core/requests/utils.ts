@@ -190,6 +190,42 @@ suite('requests helpers', ({ expect, stub, spy }) => {
     });
   });
 
+  describe('pastPurchaseWithSort', () => {
+    let pastPurchaseProductsStub;
+    let pastPurchaseSortSelectStub;
+    let req = { foo: 'bar' };
+    let sort: any = { field: 'baz', descending: true };
+
+    beforeEach(() => {
+      pastPurchaseProductsStub = stub(RequestHelpers, 'pastPurchaseProducts').returns(req);
+      pastPurchaseSortSelectStub = stub(Selectors, 'pastPurchaseSortSelected').returns(sort);
+    });
+
+    afterEach(() => {
+      pastPurchaseProductsStub.restore();
+      pastPurchaseSortSelectStub.restore();
+    });
+
+    it('should overwrite properties of the past purchase products request', () => {
+      expect(RequestHelpers.pastPurchaseWithSort(<any>{})).to.eql({
+        foo: 'bar',
+        sort: {
+          field: sort.field,
+          order: 'Descending',
+        }
+      });
+    });
+
+    it('should apply overrideRequest', () => {
+      const overrideSort = { field: 'Hello', order: 'Descending' };
+
+      expect(RequestHelpers.pastPurchaseWithSort(<any>{}, <any>{ sort: overrideSort })).to.eql({
+        foo: 'bar',
+        sort: overrideSort,
+      });
+    });
+  });
+
   describe('recommendationsSuggestions()', () => {
     const query = 'dresses';
     const state: any = { a: 'b' };

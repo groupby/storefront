@@ -4,25 +4,77 @@ import Selectors from '../../../../src/core/selectors';
 import suite from '../../_suite';
 
 suite('Refinements Adapter', ({ expect, stub }) => {
+  describe('mergePastPurchaseRefinements', () => {
+    let extractRefinementsStub;
+    let pastPurchaseNav;
+    let pastPurchaseNavigationStub;
 
-  describe('mergeRefinements()', () => {
+    beforeEach(() => {
+      extractRefinementsStub = stub(Adapter, 'extractRefinements').returns({ refinements: [], selected: [] });
+      pastPurchaseNav = { foo: 'bar' };
+      pastPurchaseNavigationStub = stub(Selectors, 'pastPurchaseNavigation').returns(pastPurchaseNav);
+    });
+
+    afterEach(() => {
+      extractRefinementsStub.restore();
+      pastPurchaseNavigationStub.restore();
+    });
+
+    it('should call extractRefinements() with the correct selector', () => {
+      const navigationId = 'foo';
+      const refinements = ['a', 'b'];
+      const data = <any>{ navigation: { name: navigationId, refinements } };
+      const state = <any>{ a: 'b' };
+
+      const result = Adapter.mergePastPurchaseRefinements(data, state);
+
+      expect(result).to.eql({ navigationId, refinements: [], selected: [] });
+      expect(pastPurchaseNavigationStub).to.be.calledWithExactly(state, navigationId);
+      expect(extractRefinementsStub).to.be.calledWithExactly(pastPurchaseNav, refinements);
+    });
+  });
+
+  describe('mergeRefinements', () => {
+    let extractRefinementsStub;
+    let nav;
+    let navigationStub;
+
+    beforeEach(() => {
+      extractRefinementsStub = stub(Adapter, 'extractRefinements').returns({ refinements: [], selected: [] });
+      nav = { foo: 'bar' };
+      navigationStub = stub(Selectors, 'pastPurchaseNavigation').returns(nav);
+    });
+
+    afterEach(() => {
+      extractRefinementsStub.restore();
+      navigationStub.restore();
+    });
+
+    it('should call extractRefinements() with the correct selector', () => {
+      const navigationId = 'foo';
+      const refinements = ['a', 'b'];
+      const data = <any>{ navigation: { name: navigationId, refinements } };
+      const state = <any>{ a: 'b' };
+
+      const result = Adapter.mergePastPurchaseRefinements(data, state);
+
+      expect(result).to.eql({ navigationId, refinements: [], selected: [] });
+      expect(navigationStub).to.be.calledWithExactly(state, navigationId);
+      expect(extractRefinementsStub).to.be.calledWithExactly(nav, refinements);
+    });
+  });
+
+  describe('extractRefinements()', () => {
     it('should merge refinements', () => {
-      const name = 'brand';
       const refinements = ['a', 'b', 'c', 'd'];
-      const state: any = { e: 'f' };
       const navigation = { range: false, refinements: ['g', 'h', 'i', 'j'], selected: [1, 3] };
-      const navigationSelector = stub(Selectors, 'navigation').returns(navigation);
       const extractRefinement = stub(Search, 'extractRefinement').returns('x');
       const refinementsMatch = stub(Search, 'refinementsMatch').returns(true);
 
-      const merged = Adapter.mergeRefinements(<any>{ navigation: { name, refinements } }, state);
+      const { refinements: extractedRefinements, selected } = Adapter.extractRefinements(navigation, refinements);
 
-      expect(merged).to.eql({
-        navigationId: name,
-        refinements: ['x', 'x', 'x', 'x'],
-        selected: [0, 1, 2, 3]
-      });
-      expect(navigationSelector).to.be.calledWith(state, name);
+      expect(extractedRefinements).to.eql(['x', 'x', 'x', 'x']);
+      expect(selected).to.eql([0, 1, 2, 3]);
       expect(extractRefinement).to.have.callCount(4)
         .and.calledWith('a')
         .and.calledWith('b')
@@ -33,22 +85,15 @@ suite('Refinements Adapter', ({ expect, stub }) => {
     });
 
     it('should not select non-matching refinements', () => {
-      const name = 'brand';
       const refinements = ['a', 'b', 'c', 'd'];
-      const state: any = { e: 'f' };
       const navigation = { range: false, refinements: ['g', 'h', 'i', 'j'], selected: [1, 3] };
-      const navigationSelector = stub(Selectors, 'navigation').returns(navigation);
       const extractRefinement = stub(Search, 'extractRefinement').returns('x');
       const refinementsMatch = stub(Search, 'refinementsMatch').returns(false);
 
-      const merged = Adapter.mergeRefinements(<any>{ navigation: { name, refinements } }, state);
+      const { refinements: extractedRefinements, selected } = Adapter.extractRefinements(navigation, refinements);
 
-      expect(merged).to.eql({
-        navigationId: name,
-        refinements: ['x', 'x', 'x', 'x'],
-        selected: []
-      });
-      expect(navigationSelector).to.be.calledWith(state, name);
+      expect(selected).to.eql([]);
+      expect(extractedRefinements).to.eql(['x', 'x', 'x', 'x']);
       expect(extractRefinement).to.have.callCount(4)
         .and.calledWith('a')
         .and.calledWith('b')
@@ -59,22 +104,15 @@ suite('Refinements Adapter', ({ expect, stub }) => {
     });
 
     it('should merge range refinements', () => {
-      const name = 'brand';
       const refinements = ['a', 'b', 'c', 'd'];
-      const state: any = { e: 'f' };
       const navigation = { range: true, refinements: ['g', 'h', 'i', 'j'], selected: [1, 3] };
-      const navigationSelector = stub(Selectors, 'navigation').returns(navigation);
       const extractRefinement = stub(Search, 'extractRefinement').returns('x');
       const refinementsMatch = stub(Search, 'refinementsMatch').returns(true);
 
-      const merged = Adapter.mergeRefinements(<any>{ navigation: { name, refinements } }, state);
+      const { refinements: extractedRefinements, selected } = Adapter.extractRefinements(navigation, refinements);
 
-      expect(merged).to.eql({
-        navigationId: name,
-        refinements: ['x', 'x', 'x', 'x'],
-        selected: [0, 1, 2, 3]
-      });
-      expect(navigationSelector).to.be.calledWith(state, name);
+      expect(extractedRefinements).to.eql(['x', 'x', 'x', 'x']);
+      expect(selected).to.eql([0, 1, 2, 3]);
       expect(extractRefinement).to.have.callCount(4)
         .and.calledWith('a')
         .and.calledWith('b')
