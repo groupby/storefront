@@ -51,4 +51,5 @@ export namespace RefinementsTasks {
 
 export default (flux: FluxCapacitor) => function* saga() {
   yield effects.takeLatest(Actions.FETCH_MORE_REFINEMENTS, RefinementsTasks.fetchMoreRefinements, flux);
+  yield effects.takeLatest(Actions.FETCH_MORE_PAST_PURCHASE_REFINEMENTS, RefinementsTasks.fetchMoreRefinements, flux);
 };
