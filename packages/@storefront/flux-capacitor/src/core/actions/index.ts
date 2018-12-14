@@ -154,6 +154,8 @@ namespace Actions {
   export type ReceivePastPurchaseSkus = Action<typeof RECEIVE_PAST_PURCHASE_SKUS, Store.PastPurchases.PastPurchaseProduct[]>;
   export const RECEIVE_SAYT_PAST_PURCHASES = 'RECEIVE_SAYT_PAST_PURCHASES';
   export type ReceiveSaytPastPurchases = Action<typeof RECEIVE_SAYT_PAST_PURCHASES, Store.ProductWithMetadata[]>;
+  export const RECEIVE_MORE_PAST_PURCHASE_REFINEMENTS = 'RECEIVE_MORE_PAST_PURCHASE_REFINEMENTS';
+  export type ReceiveMorePastPurchaseRefinements = Action<typeof RECEIVE_MORE_PAST_PURCHASE_REFINEMENTS, Payload.Navigation.MoreRefinements>;
   export const RECEIVE_PAST_PURCHASE_PRODUCTS = 'RECEIVE_PAST_PURCHASE_PRODUCTS';
   export type ReceivePastPurchaseProducts = Action<typeof RECEIVE_PAST_PURCHASE_PRODUCTS, Store.ProductWithMetadata[]>;
   export const RECEIVE_MORE_PAST_PURCHASE_PRODUCTS = 'RECEIVE_MORE_PAST_PURCHASE_PRODUCTS';
