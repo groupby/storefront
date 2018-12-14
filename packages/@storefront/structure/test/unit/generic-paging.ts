@@ -57,9 +57,58 @@ suite('GenericPaging', ({ expect, spy, stub, itShouldProvideAlias }) => {
       const page = 5;
       genericPaging.props = { switchPage };
 
-      genericPaging.switchPage(page);
+      genericPaging.switchPage(page)();
 
       expect(switchPage).to.be.calledWith(page);
+    });
+  });
+
+  describe('updateRange()', () => {
+    it('should set the range in state', () => {
+      const itemCount = 20;
+      const pageSize = 2;
+      const currentPage = 5;
+      const limit = 5;
+
+      genericPaging.updateRange(itemCount, pageSize, currentPage, limit);
+
+      expect(genericPaging.state.range).to.eql([3, 4, 5, 6, 7]);
+    });
+
+    it('should set overflow values in state', () => {
+      const itemCount = 20;
+      const pageSize = 2;
+      const currentPage = 5;
+      const limit = 5;
+
+      genericPaging.updateRange(itemCount, pageSize, currentPage, limit);
+
+      expect(genericPaging.state.lowOverflow).to.be.true;
+      expect(genericPaging.state.highOverflow).to.be.true;
+    });
+
+    it('should set lowOverflow to false in state for the lowest range', () => {
+      const itemCount = 20;
+      const pageSize = 2;
+      const currentPage = 2;
+      const limit = 5;
+
+      genericPaging.updateRange(itemCount, pageSize, currentPage, limit);
+
+      expect(genericPaging.state.lowOverflow).to.be.false;
+      expect(genericPaging.state.highOverflow).to.be.true;
+    });
+
+    it('should set highOverflow to false in state for the highest range', () => {
+      const itemCount = 20;
+      const pageSize = 2;
+      const currentPage = 19;
+      const limit = 5;
+
+      genericPaging.updateRange(itemCount, pageSize, currentPage, limit);
+
+      expect(genericPaging.state.lowOverflow).to.be.true;
+      expect(genericPaging.state.highOverflow).to.be.false;
     });
   });
 

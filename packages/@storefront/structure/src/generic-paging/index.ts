@@ -36,10 +36,26 @@ class GenericPaging {
     }
   };
 
-  switchPage = (page: number) => {
+  switchPage = (page: number) => () => {
     if (typeof this.props.switchPage === 'function') {
       this.props.switchPage(page);
     }
+  }
+
+  updateRange(itemCount: number, pageSize: number, currentPage: number, limit: number) {
+    const lastPage = Math.ceil(itemCount / pageSize);
+    const range = GenericPaging.generateRange(
+      lastPage,
+      currentPage,
+      limit
+    );
+
+    this.state = {
+      ...this.state,
+      range,
+      lowOverflow: range[0] > 1,
+      highOverflow: range[range.length - 1] < lastPage,
+    };
   }
 
   static generateRange(lastPage: number, current: number, limit: number) {
