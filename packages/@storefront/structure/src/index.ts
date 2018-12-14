@@ -14,6 +14,8 @@ import ListItem from './list-item';
 import Modal from './modal';
 import NativeSelect from './native-select';
 import PagedList from './paged-list';
+import Pager from './pager';
+import Pages from './pages';
 import Pill from './pill';
 import Raw from './raw';
 import Select from './select';
@@ -21,6 +23,7 @@ import SelectOption from './select-option';
 import Slider from './slider';
 import Swatch from './swatch';
 import Swatches from './swatches';
+import TerminalPager from './terminal-pager';
 import Toggle from './toggle';
 import Tooltip from './tooltip';
 
@@ -38,6 +41,8 @@ export {
   Modal,
   NativeSelect,
   PagedList,
+  Pager,
+  Pages,
   Pill,
   Raw,
   Select,
@@ -45,6 +50,7 @@ export {
   Slider,
   Swatch,
   Swatches,
+  TerminalPager,
   Toggle,
   Tooltip
 };
