@@ -45,6 +45,7 @@ export namespace RefinementsTasks {
     } catch (e) {
       // TODO: Ensure that the correct action is dispatched (based on refinement type).
       yield effects.put(utils.createAction(Actions.RECEIVE_MORE_REFINEMENTS, e));
+      yield effects.put(payload.receiveAction(e));
     }
   }
 }
