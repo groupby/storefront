@@ -98,6 +98,24 @@ suite('GenericPaging', ({ expect, spy, stub, itShouldProvideAlias }) => {
     });
   });
 
+  describe('updateState()', () => {
+    it('should spread props into state', () => {
+      const state = genericPaging.state = <any>{ a: 'b', c: 'd' };
+      const props = genericPaging.props = <any>{ c: 'z', e: 'f', g: 'h' };
+
+      genericPaging.updateState();
+
+      expect(genericPaging.state).to.eql({ ...state, ...props });
+    });
+
+    it.skip('should call updateRange()', () => {
+      const itemCount = 20;
+      const pageSize = 2;
+      const currentPage = 5;
+      const limit = 5;
+    });
+  });
+
   describe('updateRange()', () => {
     it('should set the range in state', () => {
       const itemCount = 20;

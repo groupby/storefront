@@ -63,6 +63,13 @@ class GenericPaging {
     }
   }
 
+  updateState() {
+    this.state = {
+      ...this.state,
+      ...this.props,
+    }
+  }
+
   updateRange(itemCount: number, pageSize: number, currentPage: number, limit: number) {
     const lastPage = Math.ceil(itemCount / pageSize);
     const range = GenericPaging.generateRange(
