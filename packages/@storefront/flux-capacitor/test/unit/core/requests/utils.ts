@@ -130,6 +130,7 @@ suite('requests helpers', ({ expect, stub, spy }) => {
     const refinements = ['a', 'b', 'c'];
     const skip = pageSize * (page - 1);
     const state: any = { a: 1 };
+    const sort = { field: 'foo' };
 
     beforeEach(() => {
       stub(RequestHelpers, 'search').returns(searchRequest);
@@ -137,6 +138,7 @@ suite('requests helpers', ({ expect, stub, spy }) => {
       stub(Selectors, 'pastPurchaseQuery').returns(query);
       stub(Selectors, 'pastPurchaseSelectedRefinements').returns(refinements);
       stub(Selectors, 'pastPurchasePage').returns(page);
+      stub(Selectors, 'pastPurchaseSortSelected').returns(sort);
     });
 
     it('should spread the search request', () => {
@@ -160,6 +162,7 @@ suite('requests helpers', ({ expect, stub, spy }) => {
         high: 3,
       }];
       searchRequest.skip = -4;
+      searchRequest.sort = { field: 'Foo', order: 'Descending' };
 
       const req = RequestHelpers.pastPurchaseProducts(state);
 
@@ -167,6 +170,7 @@ suite('requests helpers', ({ expect, stub, spy }) => {
       expect(req.query).to.eql(query);
       expect(req.refinements).to.eql(refinements);
       expect(req.skip).to.eql(skip);
+      expect(req.sort).to.eql({ ...sort, order: undefined });
     });
 
     it('should apply overrideRequest', () => {
@@ -187,42 +191,6 @@ suite('requests helpers', ({ expect, stub, spy }) => {
       expect(req.skip).to.eq(overrideRequest.skip);
       expect(req.sort).to.eq(overrideRequest.sort);
       expect(req.extra).to.eq(overrideRequest.extra);
-    });
-  });
-
-  describe('pastPurchaseWithSort', () => {
-    let pastPurchaseProductsStub;
-    let pastPurchaseSortSelectStub;
-    let req = { foo: 'bar' };
-    let sort: any = { field: 'baz', descending: true };
-
-    beforeEach(() => {
-      pastPurchaseProductsStub = stub(RequestHelpers, 'pastPurchaseProducts').returns(req);
-      pastPurchaseSortSelectStub = stub(Selectors, 'pastPurchaseSortSelected').returns(sort);
-    });
-
-    afterEach(() => {
-      pastPurchaseProductsStub.restore();
-      pastPurchaseSortSelectStub.restore();
-    });
-
-    it('should overwrite properties of the past purchase products request', () => {
-      expect(RequestHelpers.pastPurchaseWithSort(<any>{})).to.eql({
-        foo: 'bar',
-        sort: {
-          field: sort.field,
-          order: 'Descending',
-        }
-      });
-    });
-
-    it('should apply overrideRequest', () => {
-      const overrideSort = { field: 'Hello', order: 'Descending' };
-
-      expect(RequestHelpers.pastPurchaseWithSort(<any>{}, <any>{ sort: overrideSort })).to.eql({
-        foo: 'bar',
-        sort: overrideSort,
-      });
     });
   });
 

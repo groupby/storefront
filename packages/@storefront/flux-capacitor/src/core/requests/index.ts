@@ -49,5 +49,5 @@ export const recommendationsProductIdsRequest = new RequestBuilder<Recommendatio
 export const recommendationsProductsRequest = new RequestBuilder<Request>(RequestHelpers.search, Configuration.recommendationsProductsOverrides);
 export const recommendationsSuggestionsRequest = new RequestBuilder<RecommendationsAdapter.Request & { query: string }, RecommendationsAdapter.Request>(RequestHelpers.recommendationsSuggestions, Configuration.recommendationsSuggestionsOverrides);
 export const refinementsRequest = new RequestBuilder<Request>(RequestHelpers.search, Configuration.refinementsOverrides)
-export const pastPurchaseRefinementsRequest = new RequestBuilder<Request>(RequestHelpers.pastPurchaseWithSort, Configuration.refinementsOverrides);
+export const pastPurchaseRefinementsRequest = new RequestBuilder<Request>(RequestHelpers.pastPurchaseProducts, Configuration.refinementsOverrides);
 /* tslint:enable */

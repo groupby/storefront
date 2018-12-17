@@ -58,16 +58,6 @@ namespace RequestHelpers {
       query: Selectors.pastPurchaseQuery(state),
       refinements: Selectors.pastPurchaseSelectedRefinements(state),
       skip: Selectors.pastPurchasePageSize(state) * (Selectors.pastPurchasePage(state) - 1),
-      // no sort needed, saves backend from processing this
-      sort: undefined,
-    };
-
-    return <Request>{ ...request, ...overrideRequest };
-  };
-
-  export const pastPurchaseWithSort: BuildFunction<Partial<Request>, Request> = (state, overrideRequest = {}) => {
-    const request: Partial<Request> = {
-      ...RequestHelpers.pastPurchaseProducts(state),
       sort: RequestAdapter.extractSort(Selectors.pastPurchaseSortSelected(state)),
     };
 
