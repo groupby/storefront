@@ -102,17 +102,24 @@ suite('GenericPaging', ({ expect, spy, stub, itShouldProvideAlias }) => {
     it('should spread props into state', () => {
       const state = genericPaging.state = <any>{ a: 'b', c: 'd' };
       const props = genericPaging.props = <any>{ c: 'z', e: 'f', g: 'h' };
+      genericPaging.updateRange = () => null;
 
       genericPaging.updateState();
 
       expect(genericPaging.state).to.eql({ ...state, ...props });
     });
 
-    it.skip('should call updateRange()', () => {
+    it('should call updateRange()', () => {
       const itemCount = 20;
       const pageSize = 2;
       const currentPage = 5;
       const limit = 5;
+      const updateRange = genericPaging.updateRange = spy();
+      genericPaging.props = { itemCount, pageSize, currentPage, limit };
+
+      genericPaging.updateState();
+
+      expect(updateRange).to.be.calledWith(itemCount, pageSize, currentPage, limit);
     });
   });
 

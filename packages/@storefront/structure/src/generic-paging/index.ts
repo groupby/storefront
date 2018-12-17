@@ -64,10 +64,13 @@ class GenericPaging {
   }
 
   updateState() {
+    const { itemCount, pageSize, currentPage, limit } = this.props;
+
     this.state = {
       ...this.state,
       ...this.props,
-    }
+    };
+    this.updateRange(itemCount, pageSize, currentPage, limit);
   }
 
   updateRange(itemCount: number, pageSize: number, currentPage: number, limit: number) {
