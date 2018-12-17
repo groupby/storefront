@@ -44,6 +44,22 @@ suite('GenericPaging', ({ expect, spy, stub, itShouldProvideAlias }) => {
     })
   });
 
+  describe('onUpdate()', () => {
+    it('should call updateRange()', () => {
+      const updateRange = genericPaging.updateRange = spy();
+      const itemCount = 30;
+      const pageSize = 20;
+      const currentPage = 1;
+      const limit = 5;
+
+      genericPaging.props = { itemCount, pageSize, currentPage, limit };
+
+      genericPaging.onUpdate();
+
+      expect(updateRange).to.be.calledWith(itemCount, pageSize, currentPage, limit);
+    })
+  });
+
   function testHandler(handlerName: string) {
     describe(handlerName + '()', () => {
       it('should not throw when no props are passed in',  () => {
