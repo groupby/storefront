@@ -8,10 +8,21 @@ class GenericPaging {
     showLabels: true,
     numericLabels: false,
     labels: { first: 'First', next: 'Next', prev: 'Prev', last: 'Last' },
-    limit: 5,
     icons: {},
+    pageSize: 20,
     currentPage: 1,
+    itemCount: 0,
+    limit: 5,
   };
+
+  init() {
+    this.updateRange(
+      this.props.itemCount,
+      this.props.pageSize,
+      this.props.currentPage,
+      this.props.limit
+    );
+  }
 
   firstPage = () => {
     if (typeof this.props.firstPage === 'function') {
@@ -92,14 +103,16 @@ namespace GenericPaging {
       prev?: string;
       next?: string;
     };
-    limit?: number;
     icons?: {
       first?: string;
       last?: string;
       prev?: string;
       next?: string;
     };
+    pageSize?: number;
     currentPage?: number;
+    itemCount?: number;
+    limit?: number;
 
     firstPage?: () => void;
     lastPage?: () => void;
