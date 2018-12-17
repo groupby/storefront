@@ -29,35 +29,23 @@ suite('GenericPaging', ({ expect, spy, stub, itShouldProvideAlias }) => {
   });
 
   describe('init()', () => {
-    it('should call updateRange()', () => {
-      const updateRange = genericPaging.updateRange = spy();
-      const itemCount = 30;
-      const pageSize = 20;
-      const currentPage = 1;
-      const limit = 5;
-
-      genericPaging.props = { itemCount, pageSize, currentPage, limit };
+    it('should call updateState()', () => {
+      const updateState = genericPaging.updateState = spy();
 
       genericPaging.init();
 
-      expect(updateRange).to.be.calledWith(itemCount, pageSize, currentPage, limit);
-    })
+      expect(updateState).to.be.called;
+    });
   });
 
   describe('onUpdate()', () => {
     it('should call updateRange()', () => {
-      const updateRange = genericPaging.updateRange = spy();
-      const itemCount = 30;
-      const pageSize = 20;
-      const currentPage = 1;
-      const limit = 5;
-
-      genericPaging.props = { itemCount, pageSize, currentPage, limit };
+      const updateState = genericPaging.updateState = spy();
 
       genericPaging.onUpdate();
 
-      expect(updateRange).to.be.calledWith(itemCount, pageSize, currentPage, limit);
-    })
+      expect(updateState).to.be.called;
+    });
   });
 
   function testHandler(handlerName: string) {

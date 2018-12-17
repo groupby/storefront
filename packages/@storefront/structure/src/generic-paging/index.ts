@@ -16,21 +16,11 @@ class GenericPaging {
   };
 
   init() {
-    this.updateRange(
-      this.props.itemCount,
-      this.props.pageSize,
-      this.props.currentPage,
-      this.props.limit
-    );
+    this.updateState();
   }
 
   onUpdate() {
-    this.updateRange(
-      this.props.itemCount,
-      this.props.pageSize,
-      this.props.currentPage,
-      this.props.limit
-    );
+    this.updateState();
   }
 
   firstPage = () => {
