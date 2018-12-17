@@ -80,57 +80,79 @@ suite('PagedList', ({ expect, spy }) => {
     });
   });
 
-  describe('switchPage()', () => {
+  describe('onSwitchPage()', () => {
     it('should set page', () => {
       const page = 2;
       const set = pagedList.set = spy();
 
-      pagedList.switchPage(page);
+      pagedList.onSwitchPage(page);
 
       expect(set).to.be.calledWith({ page });
     });
   });
 
-  describe('firstPage()', () => {
-    it('should call switchPage with page 1', () => {
-      const switchPage = pagedList.switchPage = spy();
+  describe('onFirstPage()', () => {
+    it('should call onSwitchPage with page 1', () => {
+      const onSwitchPage = pagedList.onSwitchPage = spy();
 
-      pagedList.firstPage();
+      pagedList.onFirstPage();
 
-      expect(switchPage).to.be.calledWith(1);
+      expect(onSwitchPage).to.be.calledWith(1);
     });
   });
 
-  describe('lastPage()', () => {
-    it('should call switchPage with the last page', () => {
-      const switchPage = pagedList.switchPage = spy();
-      pagedList.props = { pageSize: 2, items: ['a', 'b', 'c', 'd'] };
+  describe('onLastPage()', () => {
+    it('should call onSwitchPage with the last page', () => {
+      const onSwitchPage = pagedList.onSwitchPage = spy();
+      pagedList.props = { pageSize: 2, items: ['a', 'b', 'c', 'd', 'e', 'f'] };
 
-      pagedList.lastPage();
+      pagedList.onLastPage();
 
-      expect(switchPage).to.be.calledWith(2);
+      expect(onSwitchPage).to.be.calledWith(3);
     });
   });
 
-  describe('prevPage()', () => {
-    it('should call switchPage with the previous page', () => {
-      const switchPage = pagedList.switchPage = spy();
+  describe('onPrevPage()', () => {
+    it('should call onSwitchPage with the previous page', () => {
+      const onSwitchPage = pagedList.onSwitchPage = spy();
       pagedList.state = <any>{ page: 3 };
 
-      pagedList.prevPage();
+      pagedList.onPrevPage();
 
-      expect(switchPage).to.be.calledWith(2);
+      expect(onSwitchPage).to.be.calledWith(2);
+    });
+
+    it('should not go past the first page', () => {
+      const onSwitchPage = pagedList.onSwitchPage = spy();
+      pagedList.state = <any>{ page: 1 };
+
+      pagedList.onPrevPage();
+
+      expect(onSwitchPage).to.not.be.called;
     });
   });
 
-  describe('nextPage()', () => {
-    it('should call switchPage with next page', () => {
-      const switchPage = pagedList.switchPage = spy();
+  describe('onNextPage()', () => {
+    it('should call onSwitchPage with next page', () => {
+      const onSwitchPage = pagedList.onSwitchPage = spy();
+      pagedList.props = {
+        pageSize: 2,
+        items: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'],
+      }
       pagedList.state = <any>{ page: 3 };
 
-      pagedList.nextPage();
+      pagedList.onNextPage();
 
-      expect(switchPage).to.be.calledWith(4);
+      expect(onSwitchPage).to.be.calledWith(4);
+    });
+
+    it('should not go past the last page', () => {
+      const onSwitchPage = pagedList.onSwitchPage = spy();
+      pagedList.state = <any>{ page: pagedList.lastPage };
+
+      pagedList.onNextPage();
+
+      expect(onSwitchPage).to.not.be.called;
     });
   });
 });

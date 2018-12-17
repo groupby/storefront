@@ -32,6 +32,10 @@ class PagedList {
     this.updateItems(this.state.page);
   }
 
+  get lastPage() {
+    return Math.ceil(this.props.items.length / this.props.pageSize);
+  }
+
   updateItems(newPage: number) {
     const startIndex = this.props.pageSize * (newPage - 1);
     this.state = {
@@ -40,24 +44,28 @@ class PagedList {
     };
   }
 
-  switchPage = (page: number) => {
+  onSwitchPage = (page: number) => {
     this.set({ page });
   }
 
-  firstPage = () => {
-    this.switchPage(1);
+  onFirstPage = () => {
+    this.onSwitchPage(1);
   }
 
-  lastPage = () => {
-    this.switchPage(Math.ceil(this.props.items.length / this.props.pageSize));
+  onLastPage = () => {
+    this.onSwitchPage(this.lastPage);
   }
 
-  prevPage = () => {
-    this.switchPage(this.state.page - 1);
+  onPrevPage = () => {
+    if (this.state.page > 1) {
+      this.onSwitchPage(this.state.page - 1);
+    }
   }
 
-  nextPage = () => {
-    this.switchPage(this.state.page + 1);
+  onNextPage = () => {
+    if (this.state.page < this.lastPage) {
+      this.onSwitchPage(this.state.page + 1);
+    }
   }
 }
 
