@@ -15,42 +15,43 @@ class GenericPaging {
     limit: 5,
   };
 
+  state: GenericPaging.State = {
+    range: [],
+    lowOverflow: false,
+    highOverflow: false,
+    firstPage: () => {
+      if (typeof this.props.onFirstPage === 'function') {
+        this.props.onFirstPage();
+      }
+    },
+    lastPage: () => {
+      if (typeof this.props.onLastPage === 'function') {
+        this.props.onLastPage();
+      }
+    },
+    prevPage: () => {
+      if (typeof this.props.onPrevPage === 'function') {
+        this.props.onPrevPage();
+      }
+    },
+    nextPage: () => {
+      if (typeof this.props.onNextPage === 'function') {
+        this.props.onNextPage();
+      }
+    },
+    switchPage: (page: number) => () => {
+      if (typeof this.props.onSwitchPage === 'function') {
+        this.props.onSwitchPage(page);
+      }
+    },
+  }
+
   init() {
     this.updateState();
   }
 
   onUpdate() {
     this.updateState();
-  }
-
-  firstPage = () => {
-    if (typeof this.props.firstPage === 'function') {
-      this.props.firstPage();
-    }
-  };
-
-  lastPage = () => {
-    if (typeof this.props.lastPage === 'function') {
-      this.props.lastPage();
-    }
-  };
-
-  prevPage = () => {
-    if (typeof this.props.prevPage === 'function') {
-      this.props.prevPage();
-    }
-  };
-
-  nextPage = () => {
-    if (typeof this.props.nextPage === 'function') {
-      this.props.nextPage();
-    }
-  };
-
-  switchPage = (page: number) => () => {
-    if (typeof this.props.switchPage === 'function') {
-      this.props.switchPage(page);
-    }
   }
 
   updateState() {
@@ -123,11 +124,22 @@ namespace GenericPaging {
     itemCount?: number;
     limit?: number;
 
+    onFirstPage?: () => void;
+    onLastPage?: () => void;
+    onPrevPage?: () => void;
+    onNextPage?: () => void;
+    onSwitchPage?: (page: number) => void;
+  }
+
+  export interface State extends GenericPaging.Props {
+    range: number[];
+    lowOverflow: boolean;
+    highOverflow: boolean;
     firstPage?: () => void;
     lastPage?: () => void;
     prevPage?: () => void;
     nextPage?: () => void;
-    switchPage?: (page: number) => void;
+    switchPage?: (page: number) => () => void;
   }
 }
 

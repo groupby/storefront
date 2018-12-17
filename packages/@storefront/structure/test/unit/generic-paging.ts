@@ -26,6 +26,54 @@ suite('GenericPaging', ({ expect, spy, stub, itShouldProvideAlias }) => {
         });
       });
     });
+
+    describe('state', () => {
+      it('should have initial values', () => {
+        expect(genericPaging.state).to.deep.include({
+          range: [],
+          lowOverflow: false,
+          highOverflow: false
+        });
+      });
+
+      function testHandler(handlerName: string, propName: string) {
+        describe(handlerName + '()', () => {
+          it('should not throw when no props are passed in', () => {
+            expect(() => genericPaging.state[handlerName]()).to.not.throw();
+          });
+
+          it('should wrap the function passed in as props', () => {
+            const handler = spy();
+            genericPaging.props = { [propName]: handler };
+
+            genericPaging.state[handlerName]();
+
+            expect(handler).to.be.called;
+          });
+        });
+      }
+
+      testHandler('firstPage', 'onFirstPage');
+      testHandler('lastPage', 'onLastPage');
+      testHandler('prevPage', 'onPrevPage');
+      testHandler('nextPage', 'onNextPage');
+
+      describe('switchPage()', () => {
+        it('should not throw when no props are passed in', () => {
+          expect(() => genericPaging.state.switchPage(5)()).to.not.throw();
+        });
+
+        it('should wrap the function passed in as props', () => {
+          const onSwitchPage = spy();
+          const page = 5;
+          genericPaging.props = { onSwitchPage };
+
+          genericPaging.state.switchPage(page)();
+
+          expect(onSwitchPage).to.be.calledWith(page);
+        });
+      });
+    });
   });
 
   describe('init()', () => {
@@ -45,44 +93,6 @@ suite('GenericPaging', ({ expect, spy, stub, itShouldProvideAlias }) => {
       genericPaging.onUpdate();
 
       expect(updateState).to.be.called;
-    });
-  });
-
-  function testHandler(handlerName: string) {
-    describe(handlerName + '()', () => {
-      it('should not throw when no props are passed in',  () => {
-        expect(() => genericPaging[handlerName]()).to.not.throw();
-      });
-
-      it('should wrap the function passed in as props', () => {
-        const handler = spy();
-        genericPaging.props = { [handlerName]: handler };
-
-        genericPaging[handlerName]();
-
-        expect(handler).to.be.called;
-      });
-    });
-  }
-
-  testHandler('firstPage');
-  testHandler('lastPage');
-  testHandler('prevPage');
-  testHandler('nextPage');
-
-  describe('switchPage()', () => {
-    it('should not throw when no props are passed in',  () => {
-      expect(() => genericPaging.switchPage(5)).to.not.throw();
-    });
-
-    it('should wrap the function passed in as props', () => {
-      const switchPage = spy();
-      const page = 5;
-      genericPaging.props = { switchPage };
-
-      genericPaging.switchPage(page)();
-
-      expect(switchPage).to.be.calledWith(page);
     });
   });
 
