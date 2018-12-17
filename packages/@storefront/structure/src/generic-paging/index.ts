@@ -10,6 +10,7 @@ class GenericPaging {
     labels: { first: 'First', next: 'Next', prev: 'Prev', last: 'Last' },
     limit: 5,
     icons: {},
+    currentPage: 1,
   };
 
   firstPage = () => {
@@ -98,6 +99,7 @@ namespace GenericPaging {
       prev?: string;
       next?: string;
     };
+    currentPage?: number;
 
     firstPage?: () => void;
     lastPage?: () => void;

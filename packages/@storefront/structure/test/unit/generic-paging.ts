@@ -20,6 +20,7 @@ suite('GenericPaging', ({ expect, spy, stub, itShouldProvideAlias }) => {
           labels: { first: 'First', next: 'Next', prev: 'Prev', last: 'Last' },
           limit: 5,
           icons: {},
+          currentPage: 1,
         });
       });
     });
