@@ -100,5 +100,38 @@ suite('PagedList', ({ expect, spy }) => {
       expect(switchPage).to.be.calledWith(1);
     });
   });
+
+  describe('lastPage()', () => {
+    it('should call switchPage with the last page', () => {
+      const switchPage = pagedList.switchPage = spy();
+      pagedList.props = { pageSize: 2, items: ['a', 'b', 'c', 'd'] };
+
+      pagedList.lastPage();
+
+      expect(switchPage).to.be.calledWith(2);
+    });
+  });
+
+  describe('prevPage()', () => {
+    it('should call switchPage with the previous page', () => {
+      const switchPage = pagedList.switchPage = spy();
+      pagedList.state = <any>{ page: 3 };
+
+      pagedList.prevPage();
+
+      expect(switchPage).to.be.calledWith(2);
+    });
+  });
+
+  describe('nextPage()', () => {
+    it('should call switchPage with next page', () => {
+      const switchPage = pagedList.switchPage = spy();
+      pagedList.state = <any>{ page: 3 };
+
+      pagedList.nextPage();
+
+      expect(switchPage).to.be.calledWith(4);
+    });
+  });
 });
 
