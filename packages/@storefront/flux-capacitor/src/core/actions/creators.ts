@@ -712,10 +712,6 @@ namespace ActionCreators {
   }
 
   /**
-   *  // TODO: docs.
-   */
-  export function receiveMoreRefinements(e: any): Actions.ReceiveMoreRefinements
-  /**
    * The more refinements to receive and update state with.
    * @param  {string}                         navigationId - The navigation the
    * more refinements correspond to.
@@ -725,18 +721,10 @@ namespace ActionCreators {
    * @return {Actions.ReceiveMoreRefinements}              - Action with navigationId, refinements, and selected.
    */
   // tslint:disable-next-line max-line-length
-  export function receiveMoreRefinements(navigationId: string, refinements: Store.Refinement[], selected: number[]): Actions.ReceiveMoreRefinements
-  // tslint:disable-next-line typedef max-line-length
-  export function receiveMoreRefinements(navigationId: string, refinements?: Store.Refinement[], selected?: number[]): Actions.ReceiveMoreRefinements {
-    const opts = <any>navigationId instanceof Error ? navigationId : { navigationId, refinements, selected };
-
-    return createAction(Actions.RECEIVE_MORE_REFINEMENTS, opts);
+  export function receiveMoreRefinements(navigationId: string, refinements: Store.Refinement[], selected: number[]): Actions.ReceiveMoreRefinements {
+    return createAction(Actions.RECEIVE_MORE_REFINEMENTS, { navigationId, refinements, selected });
   }
 
-  /**
-   * // TODO: docs.
-   */
-  export function receiveMorePastPurchaseRefinements(e: any): Actions.ReceiveMorePastPurchaseRefinements
   /**
    * The more past purchase refinements to receive and update state with.
    * @param  {string}                         navigationId - The navigation the
@@ -747,12 +735,8 @@ namespace ActionCreators {
    * @return {Actions.ReceiveMoreRefinements}              - Action with navigationId, refinements, and selected.
    */
   // tslint:disable-next-line max-line-length
-  export function receiveMorePastPurchaseRefinements(navigationId: string, refinements: Store.Refinement[], selected: number[]): Actions.ReceiveMorePastPurchaseRefinements
-  // tslint:disable-next-line max-line-length typedef
-  export function receiveMorePastPurchaseRefinements(navigationId: string, refinements?: Store.Refinement[], selected?: number[]): Actions.ReceiveMorePastPurchaseRefinements {
-    const opts = <any>navigationId instanceof Error ? navigationId : { navigationId, refinements, selected };
-
-    return createAction(Actions.RECEIVE_MORE_PAST_PURCHASE_REFINEMENTS, opts);
+  export function receiveMorePastPurchaseRefinements(navigationId: string, refinements: Store.Refinement[], selected: number[]): Actions.ReceiveMorePastPurchaseRefinements {
+    return createAction(Actions.RECEIVE_MORE_PAST_PURCHASE_REFINEMENTS, { navigationId, refinements, selected });
   }
 
   /**

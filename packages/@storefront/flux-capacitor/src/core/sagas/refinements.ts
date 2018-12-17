@@ -26,7 +26,7 @@ export namespace RefinementsTasks {
       const { navigationId, refinements, selected } = RefinementsAdapter.mergePastPurchaseRefinements(res, state);
       yield effects.put(flux.actions.receiveMorePastPurchaseRefinements(navigationId, refinements, selected));
     } catch (e) {
-      yield effects.put(flux.actions.receiveMorePastPurchaseRefinements(e));
+      yield effects.put(utils.createAction(Actions.RECEIVE_MORE_PAST_PURCHASE_REFINEMENTS, e));
     }
   }
 
@@ -47,7 +47,7 @@ export namespace RefinementsTasks {
       const { navigationId, refinements, selected } = RefinementsAdapter.mergeRefinements(res, state);
       yield effects.put(flux.actions.receiveMoreRefinements(navigationId, refinements, selected));
     } catch (e) {
-      yield effects.put(flux.actions.receiveMoreRefinements(e));
+      yield effects.put(utils.createAction(Actions.RECEIVE_MORE_REFINEMENTS, e));
     }
   }
 }
