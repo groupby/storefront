@@ -80,14 +80,24 @@ suite('PagedList', ({ expect, spy }) => {
     });
   });
 
-  describe('onPageChange()', () => {
+  describe('switchPage()', () => {
     it('should set page', () => {
       const page = 2;
       const set = pagedList.set = spy();
 
-      pagedList.onPageChange(page);
+      pagedList.switchPage(page);
 
       expect(set).to.be.calledWith({ page });
+    });
+  });
+
+  describe('firstPage()', () => {
+    it('should call switchPage with page 1', () => {
+      const switchPage = pagedList.switchPage = spy();
+
+      pagedList.firstPage();
+
+      expect(switchPage).to.be.calledWith(1);
     });
   });
 });

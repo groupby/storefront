@@ -39,8 +39,24 @@ class PagedList {
     };
   }
 
-  onPageChange = (page: number) => {
+  switchPage = (page: number) => {
     this.set({ page });
+  }
+
+  firstPage = () => {
+    this.switchPage(1);
+  }
+
+  lastPage = () => {
+    this.switchPage(Math.ceil(this.props.items.length / this.props.pageSize));
+  }
+
+  prevPage = () => {
+    this.switchPage(this.state.page - 1);
+  }
+
+  nextPage = () => {
+    this.switchPage(this.state.page + 1);
   }
 }
 
