@@ -5,7 +5,6 @@ import SearchAdapter from '../adapters/search';
 import Configuration from '../configuration';
 import Selectors from '../selectors';
 import Store from '../store';
-import { StoreSections } from '../utils';
 import { createAction, handleError, refinementPayload, shouldResetRefinements } from './utils';
 import * as validators from './validators';
 
@@ -35,12 +34,9 @@ namespace ActionCreators {
   export function fetchMoreRefinements(navigationId: string): Actions.FetchMoreRefinements;
   // tslint:disable-next-line typedef
   export function fetchMoreRefinements(options) {
-    console.log('__ INSIDE `fetchMoreRefinements`'); // TEMP
-
     const opts = typeof options === 'string' ? { navigationId: options } : options;
 
-    // TODO: Phase out `receiveAction` if possible.
-    return createAction(Actions.FETCH_MORE_REFINEMENTS, { ...opts, receiveAction: ActionCreators.receiveMoreRefinements, type: StoreSections.SEARCH });
+    return createAction(Actions.FETCH_MORE_REFINEMENTS, opts);
   }
 
   /**
@@ -275,9 +271,7 @@ namespace ActionCreators {
   export function fetchMorePastPurchaseRefinements(options) {
     const opts = typeof options === 'string' ? { navigationId: options } : options;
 
-    // TODO: Phase out `receiveAction` if possible.
-    // tslint:disable-next-line max-line-length
-    return createAction(Actions.FETCH_MORE_PAST_PURCHASE_REFINEMENTS, { ...opts, receiveAction: ActionCreators.receiveMorePastPurchaseRefinements, type: StoreSections.PAST_PURCHASES });
+    return createAction(Actions.FETCH_MORE_PAST_PURCHASE_REFINEMENTS, opts);
   }
 
   /**
