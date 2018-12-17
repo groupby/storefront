@@ -123,9 +123,20 @@ suite('requests helpers', ({ expect, stub, spy }) => {
   });
 
   describe('pastPurchaseProducts', () => {
+    const biasing: any = {
+      biasing: {
+        restrictToIds: [1,2,3],
+        sort: [{ type: 'ByIds', ids: [1,2,3] }],
+      },
+    };
     const searchRequest: Request = <any>{};
     const pageSize = 5;
     const page = 2;
+    const pastPurchases = [
+      { sku: 1 },
+      { sku: 2 },
+      { sku: 3 },
+    ];
     const query = 'hat';
     const refinements = ['a', 'b', 'c'];
     const skip = pageSize * (page - 1);
@@ -133,7 +144,9 @@ suite('requests helpers', ({ expect, stub, spy }) => {
     const sort = { field: 'foo' };
 
     beforeEach(() => {
+      stub(PastPurchaseAdapter, 'biasSkus').returns(biasing);
       stub(RequestHelpers, 'search').returns(searchRequest);
+      stub(Selectors, 'pastPurchases').returns(pastPurchases);
       stub(Selectors, 'pastPurchasePageSize').returns(pageSize);
       stub(Selectors, 'pastPurchaseQuery').returns(query);
       stub(Selectors, 'pastPurchaseSelectedRefinements').returns(refinements);

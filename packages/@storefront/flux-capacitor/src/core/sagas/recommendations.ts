@@ -115,11 +115,7 @@ export namespace RecommendationsTasks {
       const pastPurchaseSkus: Store.PastPurchases.PastPurchaseProduct[] = yield effects.select(Selectors.pastPurchases);
       if (pastPurchaseSkus.length > 0) {
         const state = yield effects.select();
-        const pastPurchasesFromSkus = RecommendationsTasks.buildRequestFromSkus(flux, pastPurchaseSkus);
-        const request = pastPurchaseProductsRequest.composeRequest(state, {
-          ...pastPurchasesFromSkus,
-          ...action.payload.request
-        });
+        const request = pastPurchaseProductsRequest.composeRequest(state, action.payload.request);
         const results = yield effects.call(RequestsTasks.search, flux, request);
         const pageSize = request.pageSize;
         yield effects.put(<any>[
@@ -157,11 +153,9 @@ export namespace RecommendationsTasks {
         yield effects.put(<any>flux.actions.infiniteScrollRequestState({ isFetchingBackward: true }));
       }
 
-      const pastPurchasesFromSkus = RecommendationsTasks.buildRequestFromSkus(flux, pastPurchaseSkus);
       const request = pastPurchaseProductsRequest.composeRequest(state, {
         pageSize,
         skip,
-        ...pastPurchasesFromSkus,
         ...action.payload.request
       });
       const result = yield effects.call(RequestsTasks.search, flux, request);
@@ -195,18 +189,6 @@ export namespace RecommendationsTasks {
     } catch (e) {
       return effects.put(flux.actions.receiveSaytPastPurchases(e));
     }
-  }
-
-  // tslint:disable-next-line max-line-length
-  export function buildRequestFromSkus(flux: FluxCapacitor, skus: Store.PastPurchases.PastPurchaseProduct[]): Partial<Request> {
-    const ids: string[] = skus.map(({ sku }) => sku);
-
-    return {
-      biasing: <Biasing>{
-        restrictToIds: ids,
-      },
-      sort: <Sort[]>[{ type: 'ByIds', ids }],
-    };
   }
 }
 

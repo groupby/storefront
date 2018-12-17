@@ -84,6 +84,29 @@ suite('PastPurchase Adapter', ({ expect, stub }) => {
     });
   });
 
+  describe('biasSkus()', () => {
+    let pastPurchasesStub;
+    let skus;
+
+    beforeEach(() => {
+      skus = [{ sku: 1 }, { sku: 2 }];
+      pastPurchasesStub = stub(Selectors, 'pastPurchases').returns(skus);
+    });
+
+    afterEach(() => {
+      pastPurchasesStub.restore();
+    });
+
+    it('should extract biasing and sort information from skus', () => {
+      expect(PastPurchaseAdapter.biasSkus(<any>{})).to.eql({
+        biasing: {
+          restrictToIds: [1,2],
+        },
+        sort: [{ type: 'ByIds', ids: [1, 2] }],
+      });
+    });
+  });
+
   describe('sku sorts', () => {
     const product1 = { quantity: 1, lastPurchased: 20 };
     const product2 = { quantity: 3, lastPurchased: 10 };

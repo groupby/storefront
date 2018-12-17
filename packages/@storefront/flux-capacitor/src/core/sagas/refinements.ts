@@ -1,3 +1,4 @@
+import { Biasing, Sort } from 'groupby-api';
 import * as effects from 'redux-saga/effects';
 import FluxCapacitor from '../../flux-capacitor';
 import Actions from '../actions';
@@ -6,7 +7,7 @@ import RecommendationsAdapter from '../adapters/recommendations';
 import RefinementsAdapter from '../adapters/refinements';
 import Events from '../events';
 import {
-  pastPurchaseRefinementsRequest,
+  pastPurchaseProductsRequest,
   refinementsRequest,
 } from '../requests';
 import Selectors from '../selectors';
@@ -17,14 +18,17 @@ export namespace RefinementsTasks {
   // tslint:disable-next-line max-line-length
   export function* fetchMorePastPurchaseRefinements(flux: FluxCapacitor, { payload }: Actions.FetchMoreRefinements  | Actions.FetchMorePastPurchaseRefinements) {
     try {
-      const state: Store.State = yield effects.select();
-      const config = yield effects.select(Selectors.config);
-      const requestBody = pastPurchaseRefinementsRequest.composeRequest(state, payload.request);
-      const res = yield effects.call(RequestsTasks.refinements, flux, requestBody, payload.navigationId);
+      const pastPurchaseSkus: Store.PastPurchases.PastPurchaseProduct[] = yield effects.select(Selectors.pastPurchases);
 
-      flux.emit(Events.BEACON_MORE_REFINEMENTS, payload.navigationId);
-      const { navigationId, refinements, selected } = RefinementsAdapter.mergePastPurchaseRefinements(res, state);
-      yield effects.put(flux.actions.receiveMorePastPurchaseRefinements(navigationId, refinements, selected));
+      if (pastPurchaseSkus.length > 0) {
+        const state: Store.State = yield effects.select();
+        const requestBody = pastPurchaseProductsRequest.composeRequest(state, payload.request);
+        const res = yield effects.call(RequestsTasks.refinements, flux, requestBody, payload.navigationId);
+
+        flux.emit(Events.BEACON_MORE_REFINEMENTS, payload.navigationId);
+        const { navigationId, refinements, selected } = RefinementsAdapter.mergePastPurchaseRefinements(res, state);
+        yield effects.put(flux.actions.receiveMorePastPurchaseRefinements(navigationId, refinements, selected));
+      }
     } catch (e) {
       yield effects.put(utils.createAction(Actions.RECEIVE_MORE_PAST_PURCHASE_REFINEMENTS, e));
     }

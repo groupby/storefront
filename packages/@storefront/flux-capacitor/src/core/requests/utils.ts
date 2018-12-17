@@ -54,6 +54,7 @@ namespace RequestHelpers {
   export const pastPurchaseProducts: BuildFunction<Partial<Request>, Request> = (state, overrideRequest = {}) => {
     const request: Partial<Request> = {
       ...RequestHelpers.search(state),
+      ...PastPurchaseAdapter.biasSkus(state),
       pageSize: Selectors.pastPurchasePageSize(state),
       query: Selectors.pastPurchaseQuery(state),
       refinements: Selectors.pastPurchaseSelectedRefinements(state),

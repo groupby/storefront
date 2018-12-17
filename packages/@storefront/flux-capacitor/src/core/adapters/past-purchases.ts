@@ -1,3 +1,4 @@
+import { Biasing, Sort } from 'groupby-api';
 import Selectors from '../selectors';
 import Store from '../store';
 
@@ -31,6 +32,17 @@ namespace PastPurchasesAdapter {
   export const sortSkus = (skus: Store.PastPurchases.PastPurchaseProduct[], field: string) => {
     return [...skus].sort(({ [field]: lhs }, { [field]: rhs }) => rhs - lhs);
   };
+
+  export const biasSkus = (state: Store.State) => {
+    const ids: string[] = Selectors.pastPurchases(state).map(({ sku }) => sku);
+
+    return {
+      biasing: <Biasing>{
+        restrictToIds: ids,
+      },
+      sort: <Sort[]>[{ type: 'ByIds', ids }],
+    };
+  }
 }
 
 export default PastPurchasesAdapter;
