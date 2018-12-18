@@ -3,33 +3,30 @@ import RefinementControls from '../refinement-controls';
 
 @tag('gb-value-refinement-controls', require('./index.html'))
 class ValueRefinementControls extends RefinementControls<RefinementControls.Props, ValueRefinementControls.State> {
-  actionNames: { [key: string]: string };
   state: ValueRefinementControls.State = {
     moreRefinements: () => this.actions[this.actionNames.fetchMore](this.props.navigation.field),
   };
 
-  get actionCreators(): any {
-    return {
-      [StoreSections.PAST_PURCHASES]: {
-        deselect: 'deselectPastPurchaseRefinement',
-        fetchMore: 'fetchMorePastPurchaseRefinements',
-        select: 'selectPastPurchaseRefinement',
-      },
-      [StoreSections.SEARCH]: {
-        deselect: 'deselectRefinement',
-        fetchMore: 'fetchMoreRefinements',
-        select: 'selectRefinement',
-      },
-    };
+  get actionNames(): any {
+    switch (this.props.storeSection) {
+      case StoreSections.PAST_PURCHASES:
+        return {
+          deselect: 'deselectPastPurchaseRefinement',
+          fetchMore: 'fetchMorePastPurchaseRefinements',
+          select: 'selectPastPurchaseRefinement',
+        };
+      case StoreSections.SEARCH:
+        return {
+          deselect: 'deselectRefinement',
+          fetchMore: 'fetchMoreRefinements',
+          select: 'selectRefinement',
+        };
+      default: return {};
+    }
   }
 
   get alias() {
     return 'valueControls';
-  }
-
-  init() {
-    super.init();
-    this.actionNames = this.actionCreators[this.props.storeSection];
   }
 
   transformNavigation<T extends RefinementControls.SelectedNavigation>(
