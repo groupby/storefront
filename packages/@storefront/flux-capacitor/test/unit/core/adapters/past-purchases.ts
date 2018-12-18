@@ -85,9 +85,9 @@ suite('PastPurchase Adapter', ({ expect, stub }) => {
   });
 
   describe('biasSkus()', () => {
-    let pastPurchasesStub;
     const sku1 = 1;
     const sku2 = 2;
+    let pastPurchasesStub;
 
     beforeEach(() => {
       pastPurchasesStub = stub(Selectors, 'pastPurchases').returns([{ sku: sku1 }, { sku: sku2 }]);
