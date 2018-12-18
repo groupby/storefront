@@ -6,10 +6,7 @@ import * as utils from '../actions/utils';
 import RecommendationsAdapter from '../adapters/recommendations';
 import RefinementsAdapter from '../adapters/refinements';
 import Events from '../events';
-import {
-  pastPurchaseProductsRequest,
-  refinementsRequest,
-} from '../requests';
+import { pastPurchaseProductsRequest, refinementsRequest } from '../requests';
 import Selectors from '../selectors';
 import Store from '../store';
 import RequestsTasks from './requests';

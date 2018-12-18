@@ -93,10 +93,6 @@ suite('PastPurchase Adapter', ({ expect, stub }) => {
       pastPurchasesStub = stub(Selectors, 'pastPurchases').returns(skus);
     });
 
-    afterEach(() => {
-      pastPurchasesStub.restore();
-    });
-
     it('should extract biasing and sort information from skus', () => {
       expect(PastPurchaseAdapter.biasSkus(<any>{})).to.eql({
         biasing: {

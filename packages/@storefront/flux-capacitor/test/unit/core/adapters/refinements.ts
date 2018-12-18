@@ -15,16 +15,11 @@ suite('Refinements Adapter', ({ expect, stub }) => {
       pastPurchaseNavigationStub = stub(Selectors, 'pastPurchaseNavigation').returns(pastPurchaseNav);
     });
 
-    afterEach(() => {
-      extractRefinementsStub.restore();
-      pastPurchaseNavigationStub.restore();
-    });
-
     it('should call extractRefinements() with the correct selector', () => {
       const navigationId = 'foo';
       const refinements = ['a', 'b'];
-      const data = <any>{ navigation: { name: navigationId, refinements } };
-      const state = <any>{ a: 'b' };
+      const data: any = { navigation: { name: navigationId, refinements } };
+      const state: any = { a: 'b' };
 
       const result = Adapter.mergePastPurchaseRefinements(data, state);
 
@@ -45,16 +40,11 @@ suite('Refinements Adapter', ({ expect, stub }) => {
       navigationStub = stub(Selectors, 'pastPurchaseNavigation').returns(nav);
     });
 
-    afterEach(() => {
-      extractRefinementsStub.restore();
-      navigationStub.restore();
-    });
-
     it('should call extractRefinements() with the correct selector', () => {
       const navigationId = 'foo';
       const refinements = ['a', 'b'];
-      const data = <any>{ navigation: { name: navigationId, refinements } };
-      const state = <any>{ a: 'b' };
+      const data: any = { navigation: { name: navigationId, refinements } };
+      const state: any = { a: 'b' };
 
       const result = Adapter.mergePastPurchaseRefinements(data, state);
 
