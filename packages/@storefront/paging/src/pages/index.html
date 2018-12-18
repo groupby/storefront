@@ -1,7 +1,0 @@
-<ul class="gb-pages {gb-low-overflow: $paging.lowOverflow, gb-high-overflow: $paging.highOverflow}">
-  <li each="{page in $paging.range}">
-    <gb-link class="gb-pages__page {gb-selected: $paging.current === page}" on-click="{$paging.switchPage(page)}" page="{page}">
-      <yield>{props.page}</yield>
-    </gb-link>
-  </li>
-</ul>

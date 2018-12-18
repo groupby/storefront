@@ -1,7 +1,0 @@
-<gb-link class="gb-terminal-pager {gb-disabled: $paging.backDisabled}" on-click="{$paging.firstPage}" _consumes="paging">
-  <span if="{$paging.showLabels}">{$paging.numericLabels ? $paging.first : $paging.labels.first}</span>
-</gb-link>
-<yield/>
-<gb-link class="gb-terminal-pager {gb-disabled: $paging.forwardDisabled}" on-click="{$paging.lastPage}" _consumes="paging">
-  <span if="{$paging.showLabels}">{$paging.numericLabels ? $paging.last : $paging.labels.last}</span>
-</gb-link>
