@@ -10,7 +10,7 @@ class GenericPaging {
     labels: { first: 'First', next: 'Next', prev: 'Prev', last: 'Last' },
     icons: {},
     pageSize: 20,
-    currentPage: 1,
+    current: 1,
     itemCount: 0,
     limit: 5,
   };
@@ -55,20 +55,20 @@ class GenericPaging {
   }
 
   updateState() {
-    const { itemCount, pageSize, currentPage, limit } = this.props;
+    const { itemCount, pageSize, current, limit } = this.props;
 
     this.state = {
       ...this.state,
       ...this.props,
     };
-    this.updateRange(itemCount, pageSize, currentPage, limit);
+    this.updateRange(itemCount, pageSize, current, limit);
   }
 
-  updateRange(itemCount: number, pageSize: number, currentPage: number, limit: number) {
+  updateRange(itemCount: number, pageSize: number, current: number, limit: number) {
     const lastPage = Math.ceil(itemCount / pageSize);
     const range = GenericPaging.generateRange(
       lastPage,
-      currentPage,
+      current,
       limit
     );
 
@@ -120,7 +120,7 @@ namespace GenericPaging {
       next?: string;
     };
     pageSize?: number;
-    currentPage?: number;
+    current?: number;
     itemCount?: number;
     limit?: number;
 
