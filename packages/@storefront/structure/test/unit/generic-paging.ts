@@ -179,7 +179,19 @@ suite('GenericPaging', ({ expect, spy, stub, itShouldProvideAlias }) => {
 
       expect(genericPaging.state.backDisabled).to.be.false;
       expect(genericPaging.state.forwardDisabled).to.be.false;
-    })
+    });
+
+    it('should set backDisabled to true in state when on the first page', () => {
+      const itemCount = 20;
+      const pageSize = 2;
+      const current = 1;
+      const limit = 5;
+
+      genericPaging.updateRange(itemCount, pageSize, current, limit);
+
+      expect(genericPaging.state.backDisabled).to.be.true;
+      expect(genericPaging.state.forwardDisabled).to.be.false;
+    });
   });
 
   describe('static', () => {
