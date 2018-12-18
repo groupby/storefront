@@ -84,7 +84,7 @@ class GenericPaging {
     };
   }
 
-  static generateRange(lastPage: number, current: number, limit: number) {
+  static generateRange(lastPage: number = 0, current: number, limit: number) {
     const last = Math.min(lastPage, limit);
     const border = Math.floor(limit / 2);
     if (current <= border) {
