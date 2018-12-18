@@ -1,4 +1,5 @@
 import { Events, Selectors, StoreSections } from '@storefront/core';
+import { GenericPaging } from '@storefront/structure';
 import Paging from '../../src/paging';
 import suite from './_suite';
 
@@ -296,78 +297,27 @@ suite('Paging', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvideAli
 
   describe('static', () => {
     describe('generateRange()', () => {
-      // TODO: move to integration tests
-      it('should return correct range when current page is close to firstPage', () => {
-        const limit = 3;
-        const last = 10;
-        const current = 1;
+      it('should wrap the parent method', () => {
+        const lastPage = 5;
+        const current = 3;
+        const limit = 10;
+        const generateRange = stub(GenericPaging, 'generateRange');
 
-        const updateRange = Paging.generateRange(last, current, limit);
+        Paging.generateRange(lastPage, current, limit);
 
-        expect(updateRange).to.eql([1, 2, 3]);
-      });
-
-      // TODO: move to integration tests
-      it('should return correct range when current page is close to lastPage', () => {
-        const limit = 5;
-        const last = 10;
-        const current = 8;
-
-        const updateRange = Paging.generateRange(last, current, limit);
-
-        expect(updateRange).to.eql([6, 7, 8, 9, 10]);
-      });
-
-      // TODO: move to integration tests
-      it('should return correct range when current page is in the middle', () => {
-        const limit = 5;
-        const last = 10;
-        const current = 6;
-
-        const updateRange = Paging.generateRange(last, current, limit);
-
-        expect(updateRange).to.eql([4, 5, 6, 7, 8]);
-      });
-
-      it('should call range() when current page is close to firstPage', () => {
-        const limit = 3;
-        const last = 10;
-        const current = 1;
-        const range = stub(Paging, 'range');
-
-        Paging.generateRange(last, current, limit);
-
-        expect(range).to.be.calledWithExactly(1, limit);
-      });
-
-      it('should call range() when current page is close to lastPage', () => {
-        const last = 10;
-        const current = 8;
-        const range = stub(Paging, 'range');
-
-        Paging.generateRange(last, current, 5);
-
-        expect(range).to.be.calledWithExactly(6, 10);
-      });
-
-      it('should call range() when current page is in the middle', () => {
-        const limit = 5;
-        const last = 10;
-        const current = 6;
-        const range = stub(Paging, 'range');
-        paging.props = <any>{ limit };
-
-        const updateRange = Paging.generateRange(last, current, limit);
-
-        expect(range).to.be.calledWithExactly(4, 8);
+        expect(generateRange).to.be.calledWith(lastPage, current, limit);
       });
     });
 
     describe('range()', () => {
-      it('should return an array of numbers from low to high', () => {
-        expect(Paging.range(3, 10)).to.eql([3, 4, 5, 6, 7, 8, 9, 10]);
-        expect(Paging.range(2, 5)).to.eql([2, 3, 4, 5]);
-        expect(Paging.range(0, 1)).to.eql([0, 1]);
+      it('should wrap the parent method', () => {
+        const low = 1;
+        const high = 5;
+        const range = stub(GenericPaging, 'range');
+
+        Paging.range(low, high);
+
+        expect(range).to.be.calledWith(low, high);
       });
     });
   });
