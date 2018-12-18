@@ -86,19 +86,19 @@ suite('PastPurchase Adapter', ({ expect, stub }) => {
 
   describe('biasSkus()', () => {
     let pastPurchasesStub;
-    let skus;
+    const sku1 = 1;
+    const sku2 = 2;
 
     beforeEach(() => {
-      skus = [{ sku: 1 }, { sku: 2 }];
-      pastPurchasesStub = stub(Selectors, 'pastPurchases').returns(skus);
+      pastPurchasesStub = stub(Selectors, 'pastPurchases').returns([{ sku: sku1 }, { sku: sku2 }]);
     });
 
     it('should extract biasing and sort information from skus', () => {
       expect(PastPurchaseAdapter.biasSkus(<any>{})).to.eql({
         biasing: {
-          restrictToIds: [1,2],
+          restrictToIds: [sku1, sku2],
         },
-        sort: [{ type: 'ByIds', ids: [1, 2] }],
+        sort: [{ type: 'ByIds', ids: [sku1, sku2] }],
       });
     });
   });

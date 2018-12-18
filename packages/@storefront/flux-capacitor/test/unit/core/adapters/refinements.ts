@@ -5,17 +5,10 @@ import suite from '../../_suite';
 
 suite('Refinements Adapter', ({ expect, stub }) => {
   describe('mergePastPurchaseRefinements', () => {
-    let extractRefinementsStub;
-    let pastPurchaseNav;
-    let pastPurchaseNavigationStub;
-
-    beforeEach(() => {
-      extractRefinementsStub = stub(Adapter, 'extractRefinements').returns({ refinements: [], selected: [] });
-      pastPurchaseNav = { foo: 'bar' };
-      pastPurchaseNavigationStub = stub(Selectors, 'pastPurchaseNavigation').returns(pastPurchaseNav);
-    });
-
     it('should call extractRefinements() with the correct selector', () => {
+      const pastPurchaseNav = { foo: 'bar' };
+      const extractRefinementsStub = stub(Adapter, 'extractRefinements').returns({ refinements: [], selected: [] });
+      const pastPurchaseNavigationStub = stub(Selectors, 'pastPurchaseNavigation').returns(pastPurchaseNav);
       const navigationId = 'foo';
       const refinements = ['a', 'b'];
       const data: any = { navigation: { name: navigationId, refinements } };
@@ -30,17 +23,10 @@ suite('Refinements Adapter', ({ expect, stub }) => {
   });
 
   describe('mergeRefinements', () => {
-    let extractRefinementsStub;
-    let nav;
-    let navigationStub;
-
-    beforeEach(() => {
-      extractRefinementsStub = stub(Adapter, 'extractRefinements').returns({ refinements: [], selected: [] });
-      nav = { foo: 'bar' };
-      navigationStub = stub(Selectors, 'pastPurchaseNavigation').returns(nav);
-    });
-
     it('should call extractRefinements() with the correct selector', () => {
+      const nav = { foo: 'bar' };
+      const extractRefinementsStub = stub(Adapter, 'extractRefinements').returns({ refinements: [], selected: [] });
+      const navigationStub = stub(Selectors, 'pastPurchaseNavigation').returns(nav);
       const navigationId = 'foo';
       const refinements = ['a', 'b'];
       const data: any = { navigation: { name: navigationId, refinements } };

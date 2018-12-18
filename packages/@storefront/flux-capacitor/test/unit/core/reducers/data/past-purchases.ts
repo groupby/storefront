@@ -8,7 +8,7 @@ import suite from '../../../_suite';
 
 suite('recommendations', ({ expect, stub }) => {
   describe('updateRecommendations()', () => {
-    const Foo = {
+    const Foo = { // tslint:disable-line variable-name
       field: 'foo',
       label: 'Foo',
       more: true,
