@@ -17,6 +17,8 @@ class GenericPaging {
 
   state: GenericPaging.State = {
     range: [],
+    backDisabled: true,
+    forwardDisabled: true,
     lowOverflow: false,
     highOverflow: false,
     firstPage: () => {
@@ -75,6 +77,8 @@ class GenericPaging {
     this.state = {
       ...this.state,
       range,
+      backDisabled: current === 1,
+      forwardDisabled: current === lastPage,
       lowOverflow: range[0] > 1,
       highOverflow: range[range.length - 1] < lastPage,
     };
@@ -133,6 +137,8 @@ namespace GenericPaging {
 
   export interface State extends GenericPaging.Props {
     range: number[];
+    backDisabled: boolean;
+    forwardDisabled: boolean;
     lowOverflow: boolean;
     highOverflow: boolean;
     firstPage?: () => void;
