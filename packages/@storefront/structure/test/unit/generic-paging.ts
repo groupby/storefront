@@ -168,6 +168,18 @@ suite('GenericPaging', ({ expect, spy, stub, itShouldProvideAlias }) => {
       expect(genericPaging.state.lowOverflow).to.be.true;
       expect(genericPaging.state.highOverflow).to.be.false;
     });
+
+    it('should set back/forwardDisabled values in state', () => {
+      const itemCount = 20;
+      const pageSize = 2;
+      const current = 5;
+      const limit = 5;
+
+      genericPaging.updateRange(itemCount, pageSize, current, limit);
+
+      expect(genericPaging.state.backDisabled).to.be.false;
+      expect(genericPaging.state.forwardDisabled).to.be.false;
+    })
   });
 
   describe('static', () => {
