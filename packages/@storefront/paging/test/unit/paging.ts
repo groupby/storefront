@@ -276,6 +276,16 @@ suite('Paging', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvideAli
     });
   });
 
+  describe('updateState()', () => {
+    it('should not call the parent method', () => {
+      const parentUpdateState = stub(GenericPaging.prototype, 'updateState');
+
+      paging.updateState();
+
+      expect(parentUpdateState).to.not.be.called;
+    });
+  });
+
   describe('updatePage()', () => {
     it('should call set with updated values', () => {
       const set = (paging.set = spy());
