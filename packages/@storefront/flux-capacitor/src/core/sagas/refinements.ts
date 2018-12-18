@@ -22,7 +22,6 @@ export namespace RefinementsTasks {
         const requestBody = pastPurchaseProductsRequest.composeRequest(state, payload.request);
         const res = yield effects.call(RequestsTasks.refinements, flux, requestBody, payload.navigationId);
 
-        flux.emit(Events.BEACON_MORE_REFINEMENTS, payload.navigationId);
         const { navigationId, refinements, selected } = RefinementsAdapter.mergePastPurchaseRefinements(res, state);
         yield effects.put(flux.actions.receiveMorePastPurchaseRefinements(navigationId, refinements, selected));
       }
