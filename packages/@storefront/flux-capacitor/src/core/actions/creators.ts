@@ -5,6 +5,7 @@ import SearchAdapter from '../adapters/search';
 import Configuration from '../configuration';
 import Selectors from '../selectors';
 import Store from '../store';
+import { StoreSections } from '../utils';
 import { createAction, handleError, refinementPayload, shouldResetRefinements } from './utils';
 import * as validators from './validators';
 
@@ -617,7 +618,7 @@ namespace ActionCreators {
           ActionCreators.receiveQuery(SearchAdapter.extractQuery(res)),
           ActionCreators.receiveProductRecords(SearchAdapter.augmentProducts(res)),
           ActionCreators.receiveNavigations(
-            SearchAdapter.pruneRefinements(SearchAdapter.combineNavigations(res), state)),
+            SearchAdapter.pruneRefinements(SearchAdapter.combineNavigations(res), StoreSections.SEARCH, state)),
           ActionCreators.receiveRecordCount(res.totalRecordCount),
           ActionCreators.receiveCollectionCount({
             collection: Selectors.collection(state),

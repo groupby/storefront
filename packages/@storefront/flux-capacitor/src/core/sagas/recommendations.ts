@@ -128,7 +128,8 @@ export namespace RecommendationsTasks {
           flux.actions.receivePastPurchaseCurrentRecordCount(results.totalRecordCount),
           flux.actions.receivePastPurchaseProducts(SearchAdapter.augmentProducts(results)),
           flux.actions.receivePastPurchaseTemplate(SearchAdapter.extractTemplate(results.template)),
-          flux.actions.receivePastPurchaseRefinements(SearchAdapter.combineNavigations(results)),
+          flux.actions.receivePastPurchaseRefinements(
+            SearchAdapter.pruneRefinements(SearchAdapter.combineNavigations(results), utils.StoreSections.PAST_PURCHASES, state)),
         ]);
         flux.replaceState(utils.Routes.PAST_PURCHASE);
       }

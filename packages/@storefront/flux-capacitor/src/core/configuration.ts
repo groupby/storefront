@@ -343,6 +343,11 @@ namespace Configuration {
       enabled: boolean;
 
       /**
+       * maximum number of refinements to show in a single section
+       */
+      maxRefinements?: number;
+
+      /**
        * override any computed request value
        */
       overrides?: {
