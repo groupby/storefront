@@ -96,38 +96,6 @@ suite('recommendations', ({ expect, stub }) => {
       expect(reducer).to.eql({ ...state, products: newState, });
     });
 
-    it('it should update refinements state on RECEIVE_MORE_PAST_PURCHASE_REFINEMENTS', () => {
-      const selected = [0, 1, 2, 3];
-      const refinements = [
-        { value: '__FOO__', total: 4200 },
-      ];
-      const newState = {
-        ...state,
-        navigations: {
-          ...state.navigations,
-          byId: {
-            Foo: {
-              ...Foo,
-              more: false,
-              refinements,
-              selected,
-            },
-          },
-        },
-      };
-
-      const reducer = pastPurchases(state, {
-        type: Actions.RECEIVE_MORE_PAST_PURCHASE_REFINEMENTS,
-        payload:{
-          navigationId: 'Foo',
-          refinements,
-          selected,
-        }
-      });
-
-      expect(reducer).to.eql(newState);
-    });
-
     it('should return state on RECEIVE_MORE_PAST_PURCHASE_REFINEMENTS if no navigationId and refinements', () => {
       const reducer = pastPurchases(state, <any>{
         type: Actions.RECEIVE_MORE_PAST_PURCHASE_REFINEMENTS,
@@ -336,6 +304,22 @@ suite('recommendations', ({ expect, stub }) => {
           page: returnValue
         });
         expect(pageReducer).to.be.calledWithExactly(state.page, payload);
+      });
+    });
+
+    describe('applyMoreRefinementsReducer()', () => {
+      it('should call function with navigations section of store', () => {
+        const payload = 'load';
+        const returnValue = 'returned value';
+        const receiveMoreRefinements = stub().returns(returnValue);
+
+        const reducer = past.applyMoreRefinementsReducer(state, <any>{ payload }, receiveMoreRefinements);
+
+        expect(reducer).to.eql({
+          ...state,
+          navigations: returnValue,
+        });
+        expect(receiveMoreRefinements).to.be.calledWithExactly(state.navigations, payload);
       });
     });
   });
