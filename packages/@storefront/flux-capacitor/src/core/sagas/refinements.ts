@@ -13,7 +13,7 @@ import RequestsTasks from './requests';
 
 export namespace RefinementsTasks {
   // tslint:disable-next-line max-line-length
-  export function* fetchMorePastPurchaseRefinements(flux: FluxCapacitor, { payload }: Actions.FetchMoreRefinements  | Actions.FetchMorePastPurchaseRefinements) {
+  export function* fetchMorePastPurchaseRefinements(flux: FluxCapacitor, { payload }: Actions.FetchMorePastPurchaseRefinements) {
     try {
       const pastPurchaseSkus: Store.PastPurchases.PastPurchaseProduct[] = yield effects.select(Selectors.pastPurchases);
 
@@ -32,7 +32,7 @@ export namespace RefinementsTasks {
   }
 
   // tslint:disable-next-line max-line-length
-  export function* fetchMoreRefinements(flux: FluxCapacitor, { payload }: Actions.FetchMoreRefinements | Actions.FetchMorePastPurchaseRefinements) {
+  export function* fetchMoreRefinements(flux: FluxCapacitor, { payload }: Actions.FetchMorePastPurchaseRefinements) {
     try {
       const state: Store.State = yield effects.select();
       const config = yield effects.select(Selectors.config);
