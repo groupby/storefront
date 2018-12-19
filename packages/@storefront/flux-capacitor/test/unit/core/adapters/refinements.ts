@@ -26,13 +26,13 @@ suite('Refinements Adapter', ({ expect, stub }) => {
     it('should call extractRefinements() with the correct selector', () => {
       const nav = { foo: 'bar' };
       const extractRefinementsStub = stub(Adapter, 'extractRefinements').returns({ refinements: [], selected: [] });
-      const navigationStub = stub(Selectors, 'pastPurchaseNavigation').returns(nav);
+      const navigationStub = stub(Selectors, 'navigation').returns(nav);
       const navigationId = 'foo';
       const refinements = ['a', 'b'];
       const data: any = { navigation: { name: navigationId, refinements } };
       const state: any = { a: 'b' };
 
-      const result = Adapter.mergePastPurchaseRefinements(data, state);
+      const result = Adapter.mergeRefinements(data, state);
 
       expect(result).to.eql({ navigationId, refinements: [], selected: [] });
       expect(navigationStub).to.be.calledWithExactly(state, navigationId);
