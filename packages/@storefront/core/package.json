@@ -54,7 +54,7 @@
     "singleQuote": true
   },
   "dependencies": {
-    "@storefront/flux-capacitor": "1.66.0",
+    "@storefront/flux-capacitor": "1.67.0",
     "@types/clone": "^0.1.30",
     "@types/deep-assign": "^0.1.0",
     "@types/js-cookie": "^2.0.28",
