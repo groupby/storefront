@@ -74,7 +74,7 @@ const DEFAULTS: Partial<Configuration> = {
         autocomplete: {},
         products: {},
       },
-      maxRefinements: 30,
+      maxRefinements: 20,
     },
     overrides: {
       navigations: {},
