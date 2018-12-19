@@ -50,7 +50,7 @@ shift $((OPTIND - 1))
 cd "${BASH_SOURCE%/*}/.."
 
 package="$1"
-changelog="packages/@storefront/${1}/CHANGELOG.md"
+changelog="packages/@storefront/${package}/CHANGELOG.md"
 
 [[ -f "$changelog" ]] || die "Changelog for ${package} not found."
 
