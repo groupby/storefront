@@ -227,6 +227,7 @@ suite('Search Adapter', ({ expect, stub }) => {
   describe('pruneRefinements()', () => {
     it('should mark which refinements to show', () => {
       const state: any = {};
+      const storeSection = 'search';
       const conf = {};
       const max = stub(ConfigAdapter, 'extractMaxRefinements').returns(2);
       const config = stub(Selectors, 'config').returns(conf);
@@ -240,7 +241,7 @@ suite('Search Adapter', ({ expect, stub }) => {
       stub(ConfigAdapter, 'extractToggleNavigations').returns([]);
 
       // tslint:disable max-line-length
-      expect(Adapter.pruneRefinements(navigations, state)).to.eql([
+      expect(Adapter.pruneRefinements(navigations, storeSection, state)).to.eql([
         { field: 'Adds non-selected refinement', refinements: [4], selected: [], show: [0], more: false, boolean: false },
         { field: 'Adds selected refinements', refinements: [6, 7, 4, 5, 6, 8], selected: [1, 5], show: [1, 5], more: true, boolean: false },
         { field: 'Adds selected refinement first', refinements: [8, 9], selected: [1], show: [1, 0], more: true, boolean: false },
@@ -253,6 +254,7 @@ suite('Search Adapter', ({ expect, stub }) => {
     });
 
     it('should mark which navigations are boolean type', () => {
+      const storeSection = 'search';
       const nav1 = { field: 'one', refinements: [2, 4], selected: [], more: false };
       const nav2 = { field: 'two', refinements: [2, 6], selected: [], more: true };
       const nav3 = { field: 'three', refinements: [2, 3, 5], selected: [1, 2], more: false };
@@ -270,7 +272,7 @@ suite('Search Adapter', ({ expect, stub }) => {
       stub(ConfigAdapter, 'extractMaxRefinements').returns(2);
       stub(Selectors, 'config').withArgs(state).returns(config);
 
-      expect(Adapter.pruneRefinements(navigations, state)).to.eql([
+      expect(Adapter.pruneRefinements(navigations, storeSection, state)).to.eql([
         { ...nav1, show: [0, 1], boolean: true },
         { ...nav2, show: [0, 1], boolean: false },
         { ...nav3, more: true, show: [1, 2], boolean: true },
@@ -279,6 +281,7 @@ suite('Search Adapter', ({ expect, stub }) => {
 
     it('should do nothing if max not truthy', () => {
       const state: any = {};
+      const storeSection = 'search';
       const conf = {};
       const navigations: any = [
         { field: 'A', refinements: [4], boolean: false },
@@ -289,7 +292,20 @@ suite('Search Adapter', ({ expect, stub }) => {
       stub(Selectors, 'config').returns(conf);
       stub(ConfigAdapter, 'extractToggleNavigations').returns([]);
 
-      expect(Adapter.pruneRefinements(navigations, state)).to.eql(navigations);
+      expect(Adapter.pruneRefinements(navigations, storeSection, state)).to.eql(navigations);
+    });
+
+    it('should extract the max past purchase refinements', () => {
+      const state: any = {};
+      const storeSection = 'pastPurchases';
+      const conf = {};
+      const extractStub = stub(ConfigAdapter, 'extractMaxPastPurchaseRefinements');
+      stub(ConfigAdapter, 'extractToggleNavigations').returns([]);
+      stub(Selectors, 'config').returns({});
+
+      Adapter.pruneRefinements([], storeSection, state);
+
+      expect(extractStub).to.be.calledWith(conf);
     });
   });
 

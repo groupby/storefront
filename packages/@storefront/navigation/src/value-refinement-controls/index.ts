@@ -4,29 +4,29 @@ import RefinementControls from '../refinement-controls';
 @tag('gb-value-refinement-controls', require('./index.html'))
 class ValueRefinementControls extends RefinementControls<RefinementControls.Props, ValueRefinementControls.State> {
   state: ValueRefinementControls.State = {
-    moreRefinements: () => this.actions.fetchMoreRefinements(this.props.navigation.field),
+    moreRefinements: () => this.actions[this.actionNames.fetchMore](this.props.navigation.field),
   };
+
+  get actionNames(): any {
+    switch (this.props.storeSection) {
+      case StoreSections.PAST_PURCHASES:
+        return {
+          deselect: 'deselectPastPurchaseRefinement',
+          fetchMore: 'fetchMorePastPurchaseRefinements',
+          select: 'selectPastPurchaseRefinement',
+        };
+      case StoreSections.SEARCH:
+        return {
+          deselect: 'deselectRefinement',
+          fetchMore: 'fetchMoreRefinements',
+          select: 'selectRefinement',
+        };
+      default: return {};
+    }
+  }
 
   get alias() {
     return 'valueControls';
-  }
-
-  get deselectRefinement(): string {
-    switch (this.props.storeSection) {
-      case StoreSections.PAST_PURCHASES:
-        return 'deselectPastPurchaseRefinement';
-      case StoreSections.SEARCH:
-        return 'deselectRefinement';
-    }
-  }
-
-  get selectRefinement(): string {
-    switch (this.props.storeSection) {
-      case StoreSections.PAST_PURCHASES:
-        return 'selectPastPurchaseRefinement';
-      case StoreSections.SEARCH:
-        return 'selectRefinement';
-    }
   }
 
   transformNavigation<T extends RefinementControls.SelectedNavigation>(
@@ -36,7 +36,7 @@ class ValueRefinementControls extends RefinementControls<RefinementControls.Prop
       ...navigation,
       refinements: navigation.refinements.map((refinement) => ({
         ...refinement,
-        onClick: () => this.actions[refinement.selected ? this.deselectRefinement : this.selectRefinement](
+        onClick: () => this.actions[refinement.selected ? this.actionNames.deselect : this.actionNames.select](
           this.props.navigation.field,
           refinement.index
         ),

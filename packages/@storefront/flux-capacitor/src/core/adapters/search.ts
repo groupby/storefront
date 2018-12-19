@@ -15,6 +15,7 @@ import {
 import Actions from '../actions';
 import Selectors from '../selectors';
 import Store from '../store';
+import { StoreSections } from '../utils';
 import ConfigAdapter from './configuration';
 import PageAdapter from './page';
 
@@ -84,9 +85,11 @@ namespace SearchAdapter {
     });
   };
 
-  export const pruneRefinements = (navigations: Store.Navigation[], state: Store.State): Store.Navigation[] => {
+  export const pruneRefinements = (navigations: Store.Navigation[], storeSection: string, state: Store.State): Store.Navigation[] => {
     const config = Selectors.config(state);
-    const max = ConfigAdapter.extractMaxRefinements(config);
+    const max = storeSection === StoreSections.PAST_PURCHASES
+      ? ConfigAdapter.extractMaxPastPurchaseRefinements(config)
+      : ConfigAdapter.extractMaxRefinements(config);
     const booleanNavs = ConfigAdapter.extractToggleNavigations(config);
     return navigations.map((navigation) => {
       const bool = booleanNavs.includes(navigation.field);

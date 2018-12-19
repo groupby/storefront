@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] [minor]
+### Changed
+- SF-1230: Improve support for past purchase features.
+  - Navigation components can now be configured to fetch and display 'more' past purchase refinements.
+
 ## [1.42.0] - 2018-12-04
 ### Changed
 - Update `@storefront/core` to 1.54.0.

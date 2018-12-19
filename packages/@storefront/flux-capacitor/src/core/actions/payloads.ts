@@ -7,6 +7,7 @@ namespace Payload {
       request?: any;
     }
 
+    export interface MorePastPurchaseRefinements extends Navigation.Id, Override {}
     export interface MoreRefinements extends Navigation.Id, Override {}
     export interface MoreProducts extends More, Override {}
     export interface AutocompleteSuggestions extends SimpleQuery, Override {}

@@ -173,6 +173,9 @@ namespace ConfigurationAdapter {
     return typeof payload === 'function' ? payload() : payload;
   };
 
+  export const extractMaxPastPurchaseRefinements = (config: Configuration) =>
+    config.recommendations.pastPurchases.maxRefinements;
+
   export const extractPastPurchaseProductCount = (config: Configuration) =>
     config.recommendations.pastPurchases.productCount;
 

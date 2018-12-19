@@ -108,6 +108,8 @@ namespace Actions {
   export type FetchPastPurchases = Action<typeof FETCH_PAST_PURCHASES, Payload.Fetch.PastPurchases>;
   export const FETCH_PAST_PURCHASE_PRODUCTS = 'FETCH_PAST_PURCHASE_PRODUCTS';
   export type FetchPastPurchaseProducts = Action<typeof FETCH_PAST_PURCHASE_PRODUCTS, Payload.Fetch.PastPurchases>;
+  export const FETCH_MORE_PAST_PURCHASE_REFINEMENTS = 'FETCH_MORE_PAST_PURCHASE_REFINEMENTS';
+  export type FetchMorePastPurchaseRefinements = Action<typeof FETCH_MORE_PAST_PURCHASE_REFINEMENTS, Payload.Fetch.MoreRefinements>;
   export const FETCH_MORE_PAST_PURCHASE_PRODUCTS = 'FETCH_MORE_PAST_PURCHASE_PRODUCTS';
   export type FetchMorePastPurchaseProducts = Action<typeof FETCH_MORE_PAST_PURCHASE_PRODUCTS, Payload.Fetch.MorePastPurchases>;
   export const FETCH_SAYT_PAST_PURCHASES = 'FETCH_SAYT_PAST_PURCHASES';
@@ -152,6 +154,8 @@ namespace Actions {
   export type ReceivePastPurchaseSkus = Action<typeof RECEIVE_PAST_PURCHASE_SKUS, Store.PastPurchases.PastPurchaseProduct[]>;
   export const RECEIVE_SAYT_PAST_PURCHASES = 'RECEIVE_SAYT_PAST_PURCHASES';
   export type ReceiveSaytPastPurchases = Action<typeof RECEIVE_SAYT_PAST_PURCHASES, Store.ProductWithMetadata[]>;
+  export const RECEIVE_MORE_PAST_PURCHASE_REFINEMENTS = 'RECEIVE_MORE_PAST_PURCHASE_REFINEMENTS';
+  export type ReceiveMorePastPurchaseRefinements = Action<typeof RECEIVE_MORE_PAST_PURCHASE_REFINEMENTS, Payload.Navigation.MoreRefinements>;
   export const RECEIVE_PAST_PURCHASE_PRODUCTS = 'RECEIVE_PAST_PURCHASE_PRODUCTS';
   export type ReceivePastPurchaseProducts = Action<typeof RECEIVE_PAST_PURCHASE_PRODUCTS, Store.ProductWithMetadata[]>;
   export const RECEIVE_MORE_PAST_PURCHASE_PRODUCTS = 'RECEIVE_MORE_PAST_PURCHASE_PRODUCTS';

@@ -8,6 +8,17 @@ import suite from '../../../_suite';
 
 suite('recommendations', ({ expect, stub }) => {
   describe('updateRecommendations()', () => {
+    const Foo = { // tslint:disable-line variable-name
+      field: 'foo',
+      label: 'Foo',
+      more: true,
+      or: true,
+      selected: [0],
+      refinements: [
+        { value: '__FOO__', total: 420 },
+      ],
+    };
+
     const state: Store.PastPurchase = <any>{
       defaultSkus: [
         { sku: '1652791', quantity: 2, lastPurchased: 1501732800001 },
@@ -32,8 +43,10 @@ suite('recommendations', ({ expect, stub }) => {
       currentRecordCount: 4,
       allRecordCount: 5,
       navigations: {
-        byId: {},
-        allIds: []
+        byId: {
+          Foo,
+        },
+        allIds: ['Foo']
       },
       page: {
         sizes: {
@@ -81,6 +94,15 @@ suite('recommendations', ({ expect, stub }) => {
       const reducer = pastPurchases(state, { type: Actions.RECEIVE_MORE_PAST_PURCHASE_PRODUCTS, payload });
 
       expect(reducer).to.eql({ ...state, products: newState, });
+    });
+
+    it('should return state on RECEIVE_MORE_PAST_PURCHASE_REFINEMENTS if no navigationId and refinements', () => {
+      const reducer = pastPurchases(state, <any>{
+        type: Actions.RECEIVE_MORE_PAST_PURCHASE_REFINEMENTS,
+        payload: {}
+      });
+
+      expect(reducer).to.eql(state);
     });
 
     it('should overwrite saytPastPurchases on RECEIVE_SAYT_PAST_PURCHASES', () => {
@@ -282,6 +304,22 @@ suite('recommendations', ({ expect, stub }) => {
           page: returnValue
         });
         expect(pageReducer).to.be.calledWithExactly(state.page, payload);
+      });
+    });
+
+    describe('applyMoreRefinementsReducer()', () => {
+      it('should call function with navigations section of store', () => {
+        const payload = 'load';
+        const returnValue = 'returned value';
+        const receiveMoreRefinements = stub().returns(returnValue);
+
+        const reducer = past.applyMoreRefinementsReducer(state, <any>{ payload }, receiveMoreRefinements);
+
+        expect(reducer).to.eql({
+          ...state,
+          navigations: returnValue,
+        });
+        expect(receiveMoreRefinements).to.be.calledWithExactly(state.navigations, payload);
       });
     });
   });

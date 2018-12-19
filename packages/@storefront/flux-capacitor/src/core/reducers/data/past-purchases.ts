@@ -10,6 +10,7 @@ export { DEFAULT_PAGE_SIZE } from './page';
 export type Action = Actions.ReceivePastPurchaseSkus
   | Actions.ReceivePastPurchaseProducts
   | Actions.ReceiveMorePastPurchaseProducts
+  | Actions.ReceiveMorePastPurchaseRefinements
   | Actions.ReceiveSaytPastPurchases
   | Actions.ReceivePastPurchaseRefinements
   | Actions.UpdatePastPurchaseQuery
@@ -86,6 +87,7 @@ export default function updatePastPurchases(state: State = DEFAULTS, action: Act
     case Actions.UPDATE_PAST_PURCHASE_PAGE_SIZE: return applyPageReducer(state, action, page.updateSize);
     case Actions.RECEIVE_PAST_PURCHASE_PAGE: return applyPageReducer(state, action, page.receivePage);
     case Actions.RECEIVE_PAST_PURCHASE_TEMPLATE: return updatePastPurchaseTemplate(state, action);
+    case Actions.RECEIVE_MORE_PAST_PURCHASE_REFINEMENTS: return applyMoreRefinementsReducer(state, action, navigations.receiveMoreRefinements);
     default: return state;
   }
   // tslint:enable max-line-length
@@ -147,6 +149,13 @@ export const applyNavigationReducer = (state: State, { payload }: Action, reduce
       ...state.navigations,
       sort: []
     }, payload),
+  });
+
+// tslint:disable-next-line max-line-length
+export const applyMoreRefinementsReducer = (state: State, { payload }: Actions.ReceiveMorePastPurchaseRefinements, reducer: Function) =>
+  ({
+    ...state,
+    navigations: reducer(state.navigations, payload),
   });
 
 export const updatePastPurchaseQuery = (state: State, { payload }: Actions.UpdatePastPurchaseQuery) =>

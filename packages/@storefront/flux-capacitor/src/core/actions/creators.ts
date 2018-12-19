@@ -5,6 +5,7 @@ import SearchAdapter from '../adapters/search';
 import Configuration from '../configuration';
 import Selectors from '../selectors';
 import Store from '../store';
+import { StoreSections } from '../utils';
 import { createAction, handleError, refinementPayload, shouldResetRefinements } from './utils';
 import * as validators from './validators';
 
@@ -250,6 +251,27 @@ namespace ActionCreators {
     const opts = typeof options === 'number' ? { amount: options, forward } : { forward, ...options };
 
     return createAction(Actions.FETCH_MORE_PAST_PURCHASE_PRODUCTS, opts);
+  }
+
+  /**
+   * Makes a request for more past purchase refinements for given navigation.
+   * @param  {Actions.Payload.Fetch.MorePastPurchaseRefinements} options - An object with the navigationId for
+   * the navigation to fetch more refinements against and a request object for override.
+   * @return {Actions.FetchMorePastPurchaseRefinements} - Action with `{ navigationId, request }`.
+   */
+  // tslint:disable-next-line max-line-length
+  export function fetchMorePastPurchaseRefinements(options: Actions.Payload.Fetch.MorePastPurchaseRefinements): Actions.FetchMorePastPurchaseRefinements;
+  /**
+   * Makes a request for more past purchase refinements for given navigation.
+   * @param  {string} navigationId - The navigationId for the navigation to fetch more refinements against.
+   * @return {Actions.FetchMorePastPurchaseRefinements} - Action with `{ navigationId }`.
+   */
+  export function fetchMorePastPurchaseRefinements(navigationId: string): Actions.FetchMorePastPurchaseRefinements;
+  // tslint:disable-next-line typedef
+  export function fetchMorePastPurchaseRefinements(options) {
+    const opts = typeof options === 'string' ? { navigationId: options } : options;
+
+    return createAction(Actions.FETCH_MORE_PAST_PURCHASE_REFINEMENTS, opts);
   }
 
   /**
@@ -596,7 +618,7 @@ namespace ActionCreators {
           ActionCreators.receiveQuery(SearchAdapter.extractQuery(res)),
           ActionCreators.receiveProductRecords(SearchAdapter.augmentProducts(res)),
           ActionCreators.receiveNavigations(
-            SearchAdapter.pruneRefinements(SearchAdapter.combineNavigations(res), state)),
+            SearchAdapter.pruneRefinements(SearchAdapter.combineNavigations(res), StoreSections.SEARCH, state)),
           ActionCreators.receiveRecordCount(res.totalRecordCount),
           ActionCreators.receiveCollectionCount({
             collection: Selectors.collection(state),
@@ -695,6 +717,20 @@ namespace ActionCreators {
   // tslint:disable-next-line max-line-length
   export function receiveMoreRefinements(navigationId: string, refinements: Store.Refinement[], selected: number[]): Actions.ReceiveMoreRefinements {
     return createAction(Actions.RECEIVE_MORE_REFINEMENTS, { navigationId, refinements, selected });
+  }
+
+  /**
+   * The more past purchase refinements to receive and update state with.
+   * @param  {string}                         navigationId - The navigation the
+   * more refinements correspond to.
+   * @param  {Store.Refinement[]}             refinements  - The more refinements.
+   * @param  {number[]}                       selected     - The selected array,
+   * indicating which indexes of the refinements are set to selected.
+   * @return {Actions.ReceiveMoreRefinements}              - Action with navigationId, refinements, and selected.
+   */
+  // tslint:disable-next-line max-line-length
+  export function receiveMorePastPurchaseRefinements(navigationId: string, refinements: Store.Refinement[], selected: number[]): Actions.ReceiveMorePastPurchaseRefinements {
+    return createAction(Actions.RECEIVE_MORE_PAST_PURCHASE_REFINEMENTS, { navigationId, refinements, selected });
   }
 
   /**

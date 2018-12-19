@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] [minor]
+### Changed
+- SF-1230: Add support for fetching more past purchase refinements.
+  - Implementations can now fetch and ingest additional refinements for past purchase-type navigations.
+
 ## [1.66.0] - 2018-12-04
 ### Added
 - SF-1196: Added support for `toggle` type navigations.

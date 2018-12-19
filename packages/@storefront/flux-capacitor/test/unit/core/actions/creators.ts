@@ -63,6 +63,19 @@ suite('ActionCreators', ({ expect, spy, stub }) => {
   });
 
   describe('fetch action creators', () => {
+    describe('fetchMorePastPurchaseRefinements()', () => {
+      // tslint:disable-next-line max-line-length
+      itShouldAcceptAnOptionsObject(ActionCreators.fetchMorePastPurchaseRefinements, Actions.FETCH_MORE_PAST_PURCHASE_REFINEMENTS);
+
+      it('should return an action', () => {
+        const navigationId = 'brand';
+
+        const action = ActionCreators.fetchMorePastPurchaseRefinements(navigationId);
+
+        expectAction(action, Actions.FETCH_MORE_PAST_PURCHASE_REFINEMENTS, { navigationId });
+      });
+    });
+
     describe('fetchMoreRefinements()', () => {
       itShouldAcceptAnOptionsObject(ActionCreators.fetchMoreRefinements, Actions.FETCH_MORE_REFINEMENTS);
 
@@ -927,6 +940,21 @@ suite('ActionCreators', ({ expect, spy, stub }) => {
         const redirect = 'page.html';
 
         expectAction(ActionCreators.receiveRedirect(redirect), Actions.RECEIVE_REDIRECT, redirect);
+      });
+    });
+
+    describe('receiveMorePastPurchaseRefinements()', () => {
+      it('should return an action', () => {
+        const navigationId = 'brand';
+        const refinements: any[] = ['a', 'b'];
+        const selected = [1, 7];
+
+        // tslint:disable-next-line max-line-length
+        expectAction(ActionCreators.receiveMorePastPurchaseRefinements(navigationId, refinements, selected), Actions.RECEIVE_MORE_PAST_PURCHASE_REFINEMENTS, {
+          navigationId,
+          refinements,
+          selected
+        });
       });
     });
 

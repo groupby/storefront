@@ -123,20 +123,35 @@ suite('requests helpers', ({ expect, stub, spy }) => {
   });
 
   describe('pastPurchaseProducts', () => {
+    const biasing: any = {
+      biasing: {
+        restrictToIds: [1,2,3],
+        sort: [{ type: 'ByIds', ids: [1,2,3] }],
+      },
+    };
     const searchRequest: Request = <any>{};
     const pageSize = 5;
     const page = 2;
+    const pastPurchases = [
+      { sku: 1 },
+      { sku: 2 },
+      { sku: 3 },
+    ];
     const query = 'hat';
     const refinements = ['a', 'b', 'c'];
     const skip = pageSize * (page - 1);
     const state: any = { a: 1 };
+    const sort = { field: 'foo' };
 
     beforeEach(() => {
+      stub(PastPurchaseAdapter, 'biasSkus').returns(biasing);
       stub(RequestHelpers, 'search').returns(searchRequest);
+      stub(Selectors, 'pastPurchases').returns(pastPurchases);
       stub(Selectors, 'pastPurchasePageSize').returns(pageSize);
       stub(Selectors, 'pastPurchaseQuery').returns(query);
       stub(Selectors, 'pastPurchaseSelectedRefinements').returns(refinements);
       stub(Selectors, 'pastPurchasePage').returns(page);
+      stub(Selectors, 'pastPurchaseSortSelected').returns(sort);
     });
 
     it('should spread the search request', () => {
@@ -160,6 +175,7 @@ suite('requests helpers', ({ expect, stub, spy }) => {
         high: 3,
       }];
       searchRequest.skip = -4;
+      searchRequest.sort = { field: 'Foo', order: 'Descending' };
 
       const req = RequestHelpers.pastPurchaseProducts(state);
 
@@ -167,6 +183,7 @@ suite('requests helpers', ({ expect, stub, spy }) => {
       expect(req.query).to.eql(query);
       expect(req.refinements).to.eql(refinements);
       expect(req.skip).to.eql(skip);
+      expect(req.sort).to.eql({ ...sort, order: undefined });
     });
 
     it('should apply overrideRequest', () => {

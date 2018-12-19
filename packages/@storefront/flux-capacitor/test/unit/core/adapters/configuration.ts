@@ -441,6 +441,14 @@ suite('Configuration Adapter', ({ expect, stub }) => {
     });
   });
 
+  describe('extractMaxPastPurchaseRefinements', () => {
+    it('should return the max past purchases refinements', () => {
+      const maxRefinements = 42;
+      // tslint:disable-next-line max-line-length
+      expect(Adapter.extractMaxPastPurchaseRefinements(<any>{ recommendations: { pastPurchases: { maxRefinements } } })).to.eql(maxRefinements);
+    });
+  });
+
   describe('shouldAddPastPurchaseBias()', () => {
     it('should return true if requesting positive number of biases', () => {
       // tslint:disable-next-line max-line-length
