@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] [minor]
 ### Changed
+- Update `@storefront/core` to 1.55.0.
 - SF-1230: Improve support for past purchase features.
   - Navigation components can now be configured to fetch and display 'more' past purchase refinements.
 
