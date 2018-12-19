@@ -5,6 +5,91 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.4.0] - 2018-12-19
+
+Package versions:
+
+- `@storefront/breadcrumbs`: 1.33.0
+- `@storefront/collections`: 1.32.0
+- `@storefront/core`: 1.55.0
+- `@storefront/details`: 1.32.0
+- `@storefront/did-you-mean`: 1.32.0
+- `@storefront/flux-capacitor`: 1.67.0
+- `@storefront/infinite-scroll`: 1.6.0
+- `@storefront/navigation`: 1.43.0
+- `@storefront/page-size`: 1.34.0
+- `@storefront/paging`: 1.33.0
+- `@storefront/products`: 1.38.0
+- `@storefront/query`: 1.39.0
+- `@storefront/recommendations`: 1.29.0
+- `@storefront/record-count`: 1.33.0
+- `@storefront/related-queries`: 1.32.0
+- `@storefront/sayt`: 1.40.0
+- `@storefront/sort`: 1.35.0
+- `@storefront/structure`: 1.45.0
+- `@storefront/template`: 1.34.0
+
+### Changed
+#### breadcrumbs
+- Update `@storefront/core` to 1.55.0.
+
+#### collections
+- Update `@storefront/core` to 1.55.0.
+
+#### core
+- Update `@storefront/flux-capacitor` to 1.67.0.
+
+#### details
+- Update `@storefront/core` to 1.55.0.
+
+#### did-you-mean
+- Update `@storefront/core` to 1.55.0.
+
+#### flux-capacitor
+- SF-1230: Add support for fetching more past purchase refinements.
+  - Implementations can now fetch and ingest additional refinements for past purchase-type navigations.
+
+#### infinite-scroll
+- Update `@storefront/core` to 1.55.0.
+
+#### navigation
+- Update `@storefront/core` to 1.55.0.
+- SF-1230: Improve support for past purchase features.
+  - Navigation components can now be configured to fetch and display 'more' past purchase refinements.
+
+#### page-size
+- Update `@storefront/core` to 1.55.0.
+
+#### paging
+- Update `@storefront/core` to 1.55.0.
+
+#### products
+- Update `@storefront/core` to 1.55.0.
+
+#### query
+- Update `@storefront/core` to 1.55.0.
+
+#### recommendations
+- Update `@storefront/core` to 1.55.0.
+
+#### record-count
+- Update `@storefront/core` to 1.55.0.
+
+#### related-queries
+- Update `@storefront/core` to 1.55.0.
+
+#### sayt
+- Update `@storefront/core` to 1.55.0.
+
+#### sort
+- Update `@storefront/core` to 1.55.0.
+
+#### structure
+- Update `@storefront/core` to 1.55.0.
+
+#### template
+- Update `@storefront/core` to 1.55.0.
+
 ## [v1.3.3] - 2018-12-07
 
 Package versions:
