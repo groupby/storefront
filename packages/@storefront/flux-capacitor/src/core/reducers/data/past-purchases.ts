@@ -31,6 +31,12 @@ export enum SORT_ENUMS {
   DEFAULT, MOST_PURCHASED, MOST_RECENT
 }
 
+export const SORT_FIELDS = [
+  'Default',
+  'Most Purchased',
+  'Most Recent',
+];
+
 export const DEFAULTS: State = <any>{
   defaultSkus: [],
   skus: [],
@@ -43,17 +49,17 @@ export const DEFAULTS: State = <any>{
   query: '',
   sort: {
     items: [{
-      field: 'Default',
+      field: SORT_FIELDS[SORT_ENUMS.DEFAULT],
       descending: true,
       type: SORT_ENUMS.DEFAULT,
     },
     {
-      field: 'Most Recent',
+      field: SORT_FIELDS[SORT_ENUMS.MOST_RECENT],
       descending: true,
       type: SORT_ENUMS.MOST_RECENT,
     },
     {
-      field: 'Most Purchased',
+      field: SORT_FIELDS[SORT_ENUMS.MOST_PURCHASED],
       descending: true,
       type: SORT_ENUMS.MOST_PURCHASED,
     }],

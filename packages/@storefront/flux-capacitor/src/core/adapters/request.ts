@@ -1,6 +1,7 @@
 import { SelectedRefinement, Sort } from 'groupby-api';
 import Store from '../store';
 import { MAX_RECORDS } from './search';
+import { SORT_FIELDS } from '../reducers/data/past-purchases';
 
 namespace RequestAdapter {
   export const clampPageSize = (page: number, pageSize: number): number =>
@@ -11,6 +12,12 @@ namespace RequestAdapter {
 
   export const extractSort = ({ field, descending }: Store.Sort): Sort =>
     ({ field, order: descending ? 'Descending' : undefined });
+
+  // tslint:disable-next-line max-line-length
+  export const extractPastPurchaseSort = ({ field, descending }: Store.Sort, skus: Store.PastPurchases.PastPurchaseProduct[]): Sort =>
+    SORT_FIELDS.includes(field)
+      ? { type: 'ByIds', ids: skus.map(({ sku }) => sku) }
+      : RequestAdapter.extractSort({ field, descending });
 
   export const extractRefinement = (field: string, refinement: Store.Refinement): SelectedRefinement =>
     (<Store.ValueRefinement>refinement).value
