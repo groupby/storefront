@@ -7,6 +7,7 @@ import PersonalizationAdapter from '../../../../src/core/adapters/personalizatio
 import RecommendationsAdapter from '../../../../src/core/adapters/recommendations';
 import RequestAdapter from '../../../../src/core/adapters/request';
 import SearchAdapter, { MAX_RECORDS } from '../../../../src/core/adapters/search';
+import { SORT_FIELDS } from '../../../../src/core/reducers/data/past-purchases';
 import RequestHelpers from '../../../../src/core/requests/utils';
 import Selectors from '../../../../src/core/selectors';
 import * as utils from '../../../../src/core/utils';
@@ -143,7 +144,10 @@ suite('requests helpers', ({ expect, stub, spy }) => {
     const state: any = { a: 1 };
     const sort = { field: 'foo' };
 
+    let ppSortStub;
+
     beforeEach(() => {
+      ppSortStub = stub(Selectors, 'pastPurchaseSortSelected').returns(sort);
       stub(PastPurchaseAdapter, 'biasSkus').returns(biasing);
       stub(RequestHelpers, 'search').returns(searchRequest);
       stub(Selectors, 'pastPurchases').returns(pastPurchases);
@@ -151,7 +155,6 @@ suite('requests helpers', ({ expect, stub, spy }) => {
       stub(Selectors, 'pastPurchaseQuery').returns(query);
       stub(Selectors, 'pastPurchaseSelectedRefinements').returns(refinements);
       stub(Selectors, 'pastPurchasePage').returns(page);
-      stub(Selectors, 'pastPurchaseSortSelected').returns(sort);
     });
 
     it('should spread the search request', () => {
@@ -204,6 +207,18 @@ suite('requests helpers', ({ expect, stub, spy }) => {
       expect(req.skip).to.eq(overrideRequest.skip);
       expect(req.sort).to.eq(overrideRequest.sort);
       expect(req.extra).to.eq(overrideRequest.extra);
+    });
+
+    SORT_FIELDS.forEach((field) => {
+      it(`should handle the "${field}" sort`, () => {
+        ppSortStub.returns({ field });
+
+        const req = RequestHelpers.pastPurchaseProducts(state);
+
+        expect(req.sort).to.eql({ type: 'ByIds', ids: [1, 2, 3] });
+
+        ppSortStub.returns(sort);
+      });
     });
   });
 

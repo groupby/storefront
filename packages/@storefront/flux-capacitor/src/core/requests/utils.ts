@@ -59,7 +59,10 @@ namespace RequestHelpers {
       query: Selectors.pastPurchaseQuery(state),
       refinements: Selectors.pastPurchaseSelectedRefinements(state),
       skip: Selectors.pastPurchasePageSize(state) * (Selectors.pastPurchasePage(state) - 1),
-      sort: RequestAdapter.extractSort(Selectors.pastPurchaseSortSelected(state)),
+      sort: RequestAdapter.extractPastPurchaseSort(
+        Selectors.pastPurchaseSortSelected(state),
+        Selectors.pastPurchases(state)
+      ),
     };
 
     return <Request>{ ...request, ...overrideRequest };
