@@ -29,7 +29,7 @@ class FilteredList {
     const value = this.refs.filter.value.trim().toLowerCase();
     if (event.keyCode === RETURN_KEY_CODE) {
       const foundItem = this.props.items.find((item) => item && (<FilteredList.ItemObject>item).value && (<FilteredList.ItemObject>item).value.toLowerCase() === value);
-       
+
       if (foundItem && typeof (<FilteredList.ItemObject>foundItem).onClick === 'function') {
         (<FilteredList.ItemObject>foundItem).onClick(event)
       }
