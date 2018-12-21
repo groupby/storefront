@@ -200,10 +200,7 @@ namespace UrlUtils {
             ...pastPurchaseData,
             page: mergePastPurchasePageState(state, request),
             navigations: mergePastPurchaseNavigationsState(state, request),
-            sort: {
-              ...presentState.pastPurchases.sort,
-              ...Selectors.pastPurchaseSort(state),
-            },
+            sort: mergePastPurchaseSortsState(state, request),
           },
         },
       },
@@ -274,13 +271,22 @@ namespace UrlUtils {
     };
   };
 
-  export const mergeSearchSortsState = (state: Store.State, request: UrlBeautifier.SearchUrlState) => {
-    const currentSortIndex = getSortIndex(Selectors.sorts(state).items, request.sort);
-    return {
-      ...Selectors.sorts(state),
-      selected: currentSortIndex === -1 ? Selectors.sortIndex(state) : currentSortIndex,
-    };
+  export const mergePastPurchaseSortsState = (state: Store.State, request: UrlBeautifier.SearchUrlState) => {
+    return UrlUtils.mergeSortsState(Selectors.pastPurchaseSort(state), request);
   };
+
+  export const mergeSearchSortsState = (state: Store.State, request: UrlBeautifier.SearchUrlState) => {
+    return UrlUtils.mergeSortsState(Selectors.sorts(state), request);
+  };
+
+  export const mergeSortsState = (sorts: Store.SelectableList<Store.Sort>, request: UrlBeautifier.SearchUrlState) => {
+    const currentSortIndex = getSortIndex(sorts.items, request.sort);
+
+    return {
+      ...sorts,
+      selected: currentSortIndex === -1 ? sorts.selected : currentSortIndex,
+    }
+  }
 
   export const mergeSearchNavigationsState = (state: Store.State, request: UrlBeautifier.SearchUrlState) => {
     const navigationsObject = Selectors.navigationsObject(state);

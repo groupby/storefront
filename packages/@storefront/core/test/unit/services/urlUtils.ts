@@ -518,7 +518,7 @@ suite('URL Service', ({ expect, spy, stub }) => {
                     }
                   }
                 },
-                sort: { items: [{ field: 'price' }, { field: 'price', descending: true }], selected: 0 },
+                sort: { items: [{ field: 'price' }, { field: 'price', descending: true }], selected: 1 },
               },
             },
           },
@@ -676,6 +676,73 @@ suite('URL Service', ({ expect, spy, stub }) => {
         const newState = Utils.mergeSearchState(state, request);
 
         expect(newState).to.eql(state);
+      });
+    });
+
+    describe('mergePastPurchaseSortsState()', () => {
+      it('should call `mergeSortsState()` with `Selectors.pastPurchaseSort`', () => {
+        const pastPurchaseSort = { foo: 'bar' };
+        const mergeSortsStateStub = stub(Utils, 'mergeSortsState');
+        stub(Selectors, 'pastPurchaseSort').returns(pastPurchaseSort);
+
+        Utils.mergePastPurchaseSortsState(<any>{}, <any>{});
+
+        expect(mergeSortsStateStub).to.be.calledWith(pastPurchaseSort);
+      });
+    });
+
+    describe('mergeSearchSortsState()', () => {
+      it('should call `mergeSortsState()` with `Selectors.sorts`', () => {
+        const sort = { foo: 'bar' };
+        const mergeSortsStateStub = stub(Utils, 'mergeSortsState');
+        stub(Selectors, 'sorts').returns(sort);
+
+        Utils.mergeSearchSortsState(<any>{}, <any>{});
+
+        expect(mergeSortsStateStub).to.be.calledWith(sort);
+      });
+    });
+
+    describe('mergeSortsState()', () => {
+      it('should spread the `sorts`', () => {
+        const request = { sort: {} };
+        const sorts = {
+          items: [],
+          selected: 0,
+        };
+
+        const result = Utils.mergeSortsState(sorts, <any>request);
+
+        expect(result).to.include(sorts);
+      });
+
+      it('should update the selected sort', () => {
+        const item1 = { field: 'foo', descending: false };
+        const item2 = { field: 'bar', descending: false };
+        const request = { sort: item2 };
+        const sorts = {
+          items: [item1, item2],
+          selected: 0,
+        };
+
+        const result = Utils.mergeSortsState(sorts, <any>request);
+
+        expect(result).to.eql({
+          items: [item1, item2],
+          selected: 1,
+        });
+      });
+
+      it('should not update the selected sort if the index is not found', () => {
+        const request = { sort: { field: 'Missing Field' } };
+        const sorts = {
+          items: [{ field: 'foo' }, { field: 'bar' }],
+          selected: 1,
+        };
+
+        const result = Utils.mergeSortsState(sorts, <any>request);
+
+        expect(result).to.eql(sorts);
       });
     });
   });
