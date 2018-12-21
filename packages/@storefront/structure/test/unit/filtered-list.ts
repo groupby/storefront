@@ -11,6 +11,7 @@ suite('FilteredList', ({ expect, spy }) => {
       it('should set initial value', () => {
         expect(filteredList.props).eql(<any>{
           items: [],
+          paginate: true,
         });
       });
     });

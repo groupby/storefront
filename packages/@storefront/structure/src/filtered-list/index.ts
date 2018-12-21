@@ -7,6 +7,7 @@ class FilteredList {
   refs: { filter: HTMLInputElement };
   props: FilteredList.Props = {
     items: [],
+    paginate: true,
   };
   state: FilteredList.State = {
     items: [],
@@ -73,6 +74,7 @@ namespace FilteredList {
     items?: Item[];
     itemAlias?: string;
     indexAlias?: string;
+    paginate?: boolean;
     onFilterFocus?: (event: FocusEvent) => void;
   }
 
