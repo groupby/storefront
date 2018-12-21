@@ -2,10 +2,12 @@ import FilteredRefinementList from '../../src/filtered-refinement-list';
 import RefinementList from '../../src/refinement-list';
 import suite from './_suite';
 
-suite('FilteredRefinementList', ({ expect }) => {
+suite('FilteredRefinementList', ({ expect, itShouldConsumeAlias }) => {
   let filteredRefinementList: FilteredRefinementList;
 
   beforeEach(() => (filteredRefinementList = new FilteredRefinementList()));
+
+  itShouldConsumeAlias(FilteredRefinementList, 'filterControls');
 
   describe('constructor()', () => {
     it('should extend RefinementList', () => {

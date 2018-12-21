@@ -15,7 +15,13 @@ class FilteredList {
 
   childProps() {
     const { itemAlias, indexAlias } = this.props;
-    return { itemAlias, indexAlias, items: this.state.items };
+    const props: any = { itemAlias, indexAlias, items: this.state.items };
+
+    if (!this.props.paginate) {
+      props.pageSize = props.items.length;
+    }
+
+    return props;
   }
 
   onBeforeMount() {

@@ -27,10 +27,24 @@ suite('FilteredList', ({ expect, spy }) => {
     it('should return childProps object', () => {
       const itemAlias = 'itemAlias';
       const indexAlias = 'indexAlias';
-      const items = (filteredList.state.items = <any>[1, 2, 3, 4]);
+      const items = (filteredList.state.items = ['a', 'b', 'c', 'd']);
+      const paginate = true;
+      filteredList.props = {
+        ...filteredList.props,
+        itemAlias,
+        indexAlias,
+        paginate,
+      };
 
       filteredList.props = { ...filteredList.props, itemAlias, indexAlias };
       expect(filteredList.childProps()).to.eql({ itemAlias, indexAlias, items });
+    });
+
+    it('should set pageSize to the number of items if pagination is disabled', () => {
+      const items = filteredList.state.items = ['a', 'b', 'c', 'd', 'e', 'f'];
+      filteredList.props = { paginate: false };
+
+      expect(filteredList.childProps().pageSize).to.eq(items.length);
     });
   });
 
