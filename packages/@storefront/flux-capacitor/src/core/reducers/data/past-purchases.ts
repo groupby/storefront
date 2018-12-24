@@ -103,7 +103,7 @@ export const updatePastPurchaseSkus = (state: State, { payload }: Actions.Receiv
   ({
     ...state,
     defaultSkus: payload,
-    skus: payload,
+    skus: Adapter.sortSkusByType(payload, state.sort.items[state.sort.selected].type),
   });
 
 export const updatePastPurchaseProducts = (state: State, { payload }: Actions.ReceivePastPurchaseProducts) =>
@@ -171,20 +171,9 @@ export const updatePastPurchaseQuery = (state: State, { payload }: Actions.Updat
   });
 
 export const updatePastPurchaseSortSelected = (state: State, { payload }: Actions.SelectPastPurchaseSort) => {
-  let skus = state.defaultSkus;
-
-  switch (state.sort.items[payload].type) {
-    case SORT_ENUMS.MOST_PURCHASED:
-      skus = Adapter.sortSkus(skus, 'quantity');
-      break;
-    case SORT_ENUMS.MOST_RECENT:
-      skus = Adapter.sortSkus(skus, 'lastPurchased');
-      break;
-  }
-
   return {
     ...state,
-    skus,
+    skus: Adapter.sortSkusByType(state.defaultSkus, state.sort.items[payload].type),
     sort: {
       ...state.sort,
       selected: payload,

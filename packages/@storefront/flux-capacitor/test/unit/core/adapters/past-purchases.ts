@@ -121,4 +121,33 @@ suite('PastPurchase Adapter', ({ expect, stub }) => {
       });
     });
   });
+
+  describe('sortSkusByType()', () => {
+    let skus;
+    let sortSkusStub;
+
+    beforeEach(() => {
+      skus = [{ quantity: 1, lastPurchased: 420 }];
+      sortSkusStub = stub(PastPurchaseAdapter, 'sortSkus');
+    });
+
+    it('should sort the SKUs by quantity', () => {
+      PastPurchaseAdapter.sortSkusByType(skus, 1);
+
+      expect(sortSkusStub).to.be.calledWithExactly(skus, 'quantity');
+    });
+
+    it('should sort the SKUs by last purchased', () => {
+      PastPurchaseAdapter.sortSkusByType(skus, 2);
+
+      expect(sortSkusStub).to.be.calledWithExactly(skus, 'lastPurchased');
+    });
+
+    it('should return the unsorted SKUs', () => {
+      const result = PastPurchaseAdapter.sortSkusByType(skus, -1);
+
+      expect(sortSkusStub).to.not.be.called;
+      expect(result).to.eq(skus);
+    });
+  });
 });
