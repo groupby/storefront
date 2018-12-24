@@ -195,7 +195,6 @@ suite('requests helpers', ({ expect, stub, spy }) => {
         query: 'hmm ok',
         refinements: [{ a: 'b' }],
         skip: 234,
-        sort: { c: 'd' },
         extra: 'extra override',
       };
 
@@ -205,8 +204,31 @@ suite('requests helpers', ({ expect, stub, spy }) => {
       expect(req.query).to.eq(overrideRequest.query);
       expect(req.refinements).to.eq(overrideRequest.refinements);
       expect(req.skip).to.eq(overrideRequest.skip);
-      expect(req.sort).to.eq(overrideRequest.sort);
       expect(req.extra).to.eq(overrideRequest.extra);
+    });
+
+    it('should use the overrideRequest to generate the sanitized sort', () => {
+      const sanitizedSort = { baz: 'quux' };
+      const overrideRequest: any = {
+        sort: { foo: 'bar' },
+      };
+      stub(RequestAdapter, 'extractPastPurchaseSort').withArgs(overrideRequest.sort).returns(sanitizedSort);
+
+      const req: any = RequestHelpers.pastPurchaseProducts(state, overrideRequest);
+
+      expect(req.sort).to.eql(sanitizedSort);
+    });
+
+    it('should use the selected sort to generate the sanitized sort', () => {
+      const sanitizedSort = { baz: 'quux' };
+      const overrideRequest: any = {
+        a: 'b',
+      };
+      stub(RequestAdapter, 'extractPastPurchaseSort').withArgs(sort).returns(sanitizedSort);
+
+      const req: any = RequestHelpers.pastPurchaseProducts(state, overrideRequest);
+
+      expect(req.sort).to.eql(sanitizedSort);
     });
 
     SORT_FIELDS.forEach((field) => {

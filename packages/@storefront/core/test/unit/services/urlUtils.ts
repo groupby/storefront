@@ -280,7 +280,6 @@ suite('URL Service', ({ expect, spy, stub }) => {
       let query;
       let refinements;
       let skip;
-      let skus;
       let sort;
 
       beforeEach(() => {
@@ -290,7 +289,6 @@ suite('URL Service', ({ expect, spy, stub }) => {
         query = 'dress';
         refinements = [1,2,3,4,5];
         skip = 30;
-        skus = [{ sku: 1 }, { sku: 2 }];
         sort = { a: 'b' };
       });
 
@@ -307,8 +305,7 @@ suite('URL Service', ({ expect, spy, stub }) => {
         stub(Adapters.Request, 'clampPageSize').withArgs(page, pageSize).returns(pageSize);
         stub(Adapters.Request, 'extractRefinement').returnsArg(1);
         stub(Adapters.Request, 'extractSkip').withArgs(page).returns(skip);
-        stub(Adapters.Request, 'extractPastPurchaseSort').withArgs(sort, skus).returns(sort);
-        stub(Selectors, 'pastPurchases').withArgs(store).returns(skus);
+        stub(Adapters.Request, 'extractSort').withArgs(sort).returns(sort);
 
         expect(Utils.pastPurchaseStateToRequest(state, store)).to.eql({
           pageSize,
@@ -316,29 +313,24 @@ suite('URL Service', ({ expect, spy, stub }) => {
           collection,
           query,
           refinements,
-          sort
+          sort,
         });
       });
 
       it('should return past purchase request based off store', () => {
         const state: any = {};
         const store: any = { c: 'd' };
-
         stub(Selectors, 'pastPurchasePageSize').withArgs(store).returns(pageSize);
         stub(Adapters.Request, 'clampPageSize').withArgs(1, pageSize).returns(pageSize);
         stub(Selectors, 'collection').withArgs(store).returns(collection);
         stub(Selectors, 'pastPurchaseQuery').withArgs(store).returns(query);
         stub(Adapters.Request, 'extractSkip').withArgs(1).returns(skip);
-        stub(Selectors, 'pastPurchaseSortSelected').withArgs(store).returns(sort);
-        stub(Adapters.Request, 'extractPastPurchaseSort').withArgs(sort).returns(sort);
-        stub(Selectors, 'pastPurchases').withArgs(store).returns(skus);
 
         expect(Utils.pastPurchaseStateToRequest(state, store)).to.eql({
           pageSize,
           skip,
           collection,
           query,
-          sort,
         });
       });
 

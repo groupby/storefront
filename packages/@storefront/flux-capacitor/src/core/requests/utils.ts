@@ -59,13 +59,14 @@ namespace RequestHelpers {
       query: Selectors.pastPurchaseQuery(state),
       refinements: Selectors.pastPurchaseSelectedRefinements(state),
       skip: Selectors.pastPurchasePageSize(state) * (Selectors.pastPurchasePage(state) - 1),
-      sort: RequestAdapter.extractPastPurchaseSort(
-        Selectors.pastPurchaseSortSelected(state),
-        Selectors.pastPurchases(state)
-      ),
     };
 
-    return <Request>{ ...request, ...overrideRequest };
+    const sort = RequestAdapter.extractPastPurchaseSort(
+      <any>overrideRequest.sort || Selectors.pastPurchaseSortSelected(state),
+      Selectors.pastPurchases(state)
+    );
+
+    return <Request>{ ...request, ...overrideRequest, sort };
   };
 
   // tslint:disable-next-line max-line-length

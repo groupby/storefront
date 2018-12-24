@@ -121,13 +121,7 @@ namespace UrlUtils {
       sort = Selectors.pastPurchaseSortSelected(store),
     } = state;
 
-    const request = stateToBaseRequest({ ...state, pageSize, query }, store);
-
-    if (sort) {
-      request.sort = Adapters.Request.extractPastPurchaseSort(sort, Selectors.pastPurchases(store));
-    }
-
-    return request;
+    return stateToBaseRequest({ ...state, pageSize, query, sort }, store);
   };
 
   export const getSortIndex = (stateSort: Store.Sort[], requestSort: Store.Sort) => {
