@@ -325,12 +325,15 @@ suite('URL Service', ({ expect, spy, stub }) => {
         stub(Selectors, 'collection').withArgs(store).returns(collection);
         stub(Selectors, 'pastPurchaseQuery').withArgs(store).returns(query);
         stub(Adapters.Request, 'extractSkip').withArgs(1).returns(skip);
+        stub(Selectors, 'pastPurchaseSortSelected').withArgs(store).returns(sort);
+        stub(Adapters.Request, 'extractSort').withArgs(sort).returns(sort);
 
         expect(Utils.pastPurchaseStateToRequest(state, store)).to.eql({
           pageSize,
           skip,
           collection,
           query,
+          sort,
         });
       });
 
