@@ -58,7 +58,7 @@ suite('Request Adapter', ({ expect, stub }) => {
       expect(Adapter.extractPastPurchaseSort(sort, skus)).to.eql({ type: 'ByIds', ids: [sku1, sku2] });
     });
 
-    it('should called `extractSort()`', () => {
+    it('should call `extractSort()`', () => {
       const extractSortStub = stub(Adapter, 'extractSort');
       const sort = { field: '__FOO__' };
 
