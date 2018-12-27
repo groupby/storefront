@@ -63,15 +63,20 @@ class TrackerService extends BaseService<TrackerService.Options> {
     }
   }
 
-  buildEvent = <S, T>(override: Override<S, T>, event: T, value: S | T = event) => {
-    const currentEvent = this.addMetadata(event);
-    const { metadata = [], ...overrideEvent } = <any>override(value, currentEvent);
+  attachGbiEventMetadata = (override: any) => {
+    const { metadata = [], ...overrideEvent } = override;
 
     if (metadata.some((item) => item.key === 'gbi')) {
       return { ...overrideEvent, metadata };
     } else {
       return { ...overrideEvent, metadata: [GBI_EVENT, ...metadata] };
     };
+  }
+
+  buildEvent = <S, T>(override: Override<S, T>, event: T, value: S | T = event) => {
+    const currentEvent = this.addMetadata(event);
+
+    return this.attachGbiEventMetadata(override(value, currentEvent));
   }
 
   sendSearchEvent = (id: string, override: Override<string, GbTracker.SearchEvent> = (value, val) => val) => {

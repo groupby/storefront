@@ -161,9 +161,7 @@ suite('Tracker Service', ({ expect, spy, stub, itShouldExtendBaseService }) => {
     });
   });
 
-  describe.only('buildEvent()', () => {
-    const GBI_EVENT = { key: 'gbi', value: 'true' };
-
+  describe('buildEvent()', () => {
     it('should build and send an event', () => {
       const event: any = { a: 'b' };
       const currentEvent = { c: 'd' };
@@ -193,30 +191,39 @@ suite('Tracker Service', ({ expect, spy, stub, itShouldExtendBaseService }) => {
       expect(override).to.be.calledWithExactly(value, currentEvent);
     });
 
-    it('should add the GBI_EVENT object to the event metadata', () => {
+    it('should call attachGbiEventMetadata() with override', () => {
       const event: any = { a: 'b' };
       const currentEvent = { c: 'd' };
       const result = { e: 'f', metadata: [{ i: 'j' }] };
       const override = spy(() => result);
       const value = { g: 'h' };
+      const attachGbiEventMetadataSpy = spy();
+      service.attachGbiEventMetadata = attachGbiEventMetadataSpy;
       stub(service, 'addMetadata').withArgs(event).returns(currentEvent);
 
-      const overriddenEvent = service.buildEvent(override, event, value);
+      service.buildEvent(override, event, value);
 
-      expect(overriddenEvent.metadata).to.eql([GBI_EVENT, ...result.metadata]);
+      expect(attachGbiEventMetadataSpy).to.be.calledWith(result);
+    });
+  });
+
+  describe('attachGbiEventMetadata()', () => {
+    const GBI_EVENT = { key: 'gbi', value: 'true' };
+
+    it('should add the GBI_EVENT object to the override event metadata', () => {
+      const override = { e: 'f', metadata: [{ i: 'j' }] };
+
+      const overriddenEvent = service.attachGbiEventMetadata(override);
+
+      expect(overriddenEvent.metadata).to.eql([GBI_EVENT, ...override.metadata]);
     });
 
     it('should not add the GBI_EVENT if it is already present in the event metadata', () => {
-      const event: any = { a: 'b' };
-      const currentEvent = { c: 'd' };
-      const result = { e: 'f', metadata: [GBI_EVENT, { i: 'j' }] };
-      const override = spy(() => result);
-      const value = { g: 'h' };
-      stub(service, 'addMetadata').withArgs(event).returns(currentEvent);
+      const override = { e: 'f', metadata: [GBI_EVENT, { i: 'j' }] };
 
-      const overriddenEvent = service.buildEvent(override, event, value);
+      const overriddenEvent = service.attachGbiEventMetadata(override);
 
-      expect(overriddenEvent.metadata).to.be.eql([...result.metadata]);
+      expect(overriddenEvent.metadata).to.be.eql([...override.metadata]);
     });
   });
 
