@@ -677,24 +677,26 @@ suite('URL Service', ({ expect, spy, stub }) => {
     describe('mergePastPurchaseSortsState()', () => {
       it('should call `mergeSortsState()` with `Selectors.pastPurchaseSort`', () => {
         const pastPurchaseSort = { foo: 'bar' };
+        const request = { baz: 'quux' };
         const mergeSortsStateStub = stub(Utils, 'mergeSortsState');
         stub(Selectors, 'pastPurchaseSort').returns(pastPurchaseSort);
 
-        Utils.mergePastPurchaseSortsState(<any>{}, <any>{});
+        Utils.mergePastPurchaseSortsState(<any>{}, <any>request);
 
-        expect(mergeSortsStateStub).to.be.calledWith(pastPurchaseSort);
+        expect(mergeSortsStateStub).to.be.calledWith(pastPurchaseSort, request);
       });
     });
 
     describe('mergeSearchSortsState()', () => {
       it('should call `mergeSortsState()` with `Selectors.sorts`', () => {
         const sort = { foo: 'bar' };
+        const request = { baz: 'quux' };
         const mergeSortsStateStub = stub(Utils, 'mergeSortsState');
         stub(Selectors, 'sorts').returns(sort);
 
-        Utils.mergeSearchSortsState(<any>{}, <any>{});
+        Utils.mergeSearchSortsState(<any>{}, <any>request);
 
-        expect(mergeSortsStateStub).to.be.calledWith(sort);
+        expect(mergeSortsStateStub).to.be.calledWith(sort, request);
       });
     });
 
