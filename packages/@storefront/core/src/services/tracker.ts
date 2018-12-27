@@ -4,6 +4,7 @@ import { core, BaseService } from '../core/service';
 import { GbTracker } from '../core/utils';
 import StoreFront from '../storefront';
 
+export const GBI_EVENT = { key: 'gbi', value: 'true' };
 export const TRACKER_EVENT = 'tracker:send_event';
 export const DEFAULT_ORIGINS = {
   dym: false,
@@ -64,7 +65,13 @@ class TrackerService extends BaseService<TrackerService.Options> {
 
   buildEvent = <S, T>(override: Override<S, T>, event: T, value: S | T = event) => {
     const currentEvent = this.addMetadata(event);
-    return override(value, currentEvent);
+    const { metadata = [], ...overrideEvent } = <any>override(value, currentEvent);
+
+    if (metadata.some((item) => item.key === 'gbi')) {
+      return { ...overrideEvent, metadata };
+    } else {
+      return { ...overrideEvent, metadata: [GBI_EVENT, ...metadata] };
+    };
   }
 
   sendSearchEvent = (id: string, override: Override<string, GbTracker.SearchEvent> = (value, val) => val) => {
