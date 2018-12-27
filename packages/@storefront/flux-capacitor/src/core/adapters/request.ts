@@ -1,7 +1,7 @@
 import { SelectedRefinement, Sort } from 'groupby-api';
+import { SORT_FIELDS } from '../reducers/data/past-purchases';
 import Store from '../store';
 import { MAX_RECORDS } from './search';
-import { SORT_FIELDS } from '../reducers/data/past-purchases';
 
 namespace RequestAdapter {
   export const clampPageSize = (page: number, pageSize: number): number =>
