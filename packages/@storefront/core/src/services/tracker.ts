@@ -63,7 +63,7 @@ class TrackerService extends BaseService<TrackerService.Options> {
     }
   }
 
-  attachGbiEventMetadata = (override: any) => {
+  attachGbiEventMetadata = (override: GbTracker.Event): GbTracker.Event => {
     const { metadata = [], ...overrideEvent } = override;
 
     if (metadata.some((item) => item.key === 'gbi')) {
