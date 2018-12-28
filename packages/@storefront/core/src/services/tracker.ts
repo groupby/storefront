@@ -67,7 +67,7 @@ class TrackerService extends BaseService<TrackerService.Options> {
     const { metadata = [], ...overrideEvent } = override;
 
     if (metadata.some((item) => item.key === 'gbi')) {
-      return { ...overrideEvent, metadata };
+      return override;
     } else {
       return { ...overrideEvent, metadata: [GBI_EVENT, ...metadata] };
     };

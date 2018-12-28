@@ -231,6 +231,8 @@ suite('Tracker Service', ({ expect, spy, stub, itShouldExtendBaseService }) => {
     const id = '12345';
     const metadata = [{ a: 'b' }];
 
+    beforeEach(() => service.attachGbiEventMetadata = <T>(override: T): T => override);
+
     it('should send search event with origin and metadata', () => {
       const origin = 'myOrigin';
       const tagOrigin = { origin };
@@ -291,6 +293,8 @@ suite('Tracker Service', ({ expect, spy, stub, itShouldExtendBaseService }) => {
   });
 
   describe('sendViewCartEvent()', () => {
+    beforeEach(() => service.attachGbiEventMetadata = <T>(override: T): T => override);
+
     it('should send event with metadata', () => {
       const event: any = { a: 'b' };
       const withMetadata = { c: 'd' };
@@ -319,6 +323,8 @@ suite('Tracker Service', ({ expect, spy, stub, itShouldExtendBaseService }) => {
   });
 
   describe('sendAddToCartEvent()', () => {
+    beforeEach(() => service.attachGbiEventMetadata = <T>(override: T): T => override);
+
     it('should send event with metadata', () => {
       const event: any = { a: 'b' };
       const withMetadata = { c: 'd' };
@@ -347,6 +353,8 @@ suite('Tracker Service', ({ expect, spy, stub, itShouldExtendBaseService }) => {
   });
 
   describe('sendRemoveFromCartEvent()', () => {
+    beforeEach(() => service.attachGbiEventMetadata = <T>(override: T): T => override);
+
     it('should send event with metadata', () => {
       const event: any = { a: 'b' };
       const withMetadata = { c: 'd' };
@@ -375,6 +383,8 @@ suite('Tracker Service', ({ expect, spy, stub, itShouldExtendBaseService }) => {
   });
 
   describe('sendOrderEvent()', () => {
+    beforeEach(() => service.attachGbiEventMetadata = <T>(override: T): T => override);
+
     it('should send event with metadata', () => {
       const event: any = { a: 'b' };
       const withMetadata = { c: 'd' };
@@ -403,6 +413,8 @@ suite('Tracker Service', ({ expect, spy, stub, itShouldExtendBaseService }) => {
   });
 
   describe('sendViewProductEvent()', () => {
+    beforeEach(() => service.attachGbiEventMetadata = <T>(override: T): T => override);
+
     it('should send event with metadata', () => {
       const id = '1234';
       const collection = 'myCollection';
@@ -449,6 +461,8 @@ suite('Tracker Service', ({ expect, spy, stub, itShouldExtendBaseService }) => {
   });
 
   describe('sendMoreRefinementsEvent()', () => {
+    beforeEach(() => service.attachGbiEventMetadata = <T>(override: T): T => override);
+
     it('should send event with metadata', () => {
       const id = 'colour';
       const withMetadata = { c: 'd' };
