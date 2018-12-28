@@ -35,11 +35,11 @@ declare module 'gb-tracker-client/slim' {
       value: string;
     }
 
-    export interface Event {
+    export interface BaseEvent {
       metadata?: Metadata[];
     }
 
-    export interface Product extends Event {
+    export interface Product extends BaseEvent {
       productId: string;
       title: string;
       price: number;
@@ -50,7 +50,7 @@ declare module 'gb-tracker-client/slim' {
       margin?: number;
     }
 
-    export interface SearchEvent extends Event {
+    export interface SearchEvent extends BaseEvent {
       search: {
         id: string;
         origin: {
@@ -65,7 +65,7 @@ declare module 'gb-tracker-client/slim' {
       };
     }
 
-    export interface CartEvent extends Event{
+    export interface CartEvent extends BaseEvent{
       cart: {
         id?: string;
         items: Product[];
@@ -73,7 +73,7 @@ declare module 'gb-tracker-client/slim' {
       };
     }
 
-    export interface OrderEvent extends Event {
+    export interface OrderEvent extends BaseEvent {
       cart: {
         id?: string;
         totalItems?: number;
@@ -82,11 +82,11 @@ declare module 'gb-tracker-client/slim' {
       };
     }
 
-    export interface ViewProductEvent extends Event {
+    export interface ViewProductEvent extends BaseEvent {
       product: Product;
     }
 
-    export interface MoreRefinementsEvent extends Event {
+    export interface MoreRefinementsEvent extends BaseEvent {
       moreRefinements: {
         id: string;
       };

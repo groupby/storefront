@@ -63,7 +63,7 @@ class TrackerService extends BaseService<TrackerService.Options> {
     }
   }
 
-  attachGbiEventMetadata = (override: GbTracker.Event): GbTracker.Event => {
+  attachGbiEventMetadata = <S>(override: S): S => {
     const { metadata = [], ...overrideEvent } = override;
 
     if (metadata.some((item) => item.key === 'gbi')) {
@@ -76,7 +76,7 @@ class TrackerService extends BaseService<TrackerService.Options> {
   buildEvent = <S, T>(override: Override<S, T>, event: T, value: S | T = event) => {
     const currentEvent = this.addMetadata(event);
 
-    return this.attachGbiEventMetadata(override(value, currentEvent));
+    return this.attachGbiEventMetadata<T>(override(value, currentEvent));
   }
 
   sendSearchEvent = (id: string, override: Override<string, GbTracker.SearchEvent> = (value, val) => val) => {
@@ -91,27 +91,27 @@ class TrackerService extends BaseService<TrackerService.Options> {
       }
     };
 
-    this.sendEvent('sendAutoSearchEvent', this.buildEvent(override, currentEvent, id));
+    this.sendEvent('sendAutoSearchEvent', this.buildEvent<string, GbTracker.SearchEvent>(override, currentEvent, id));
   }
 
   // tslint:disable-next-line max-line-length
   sendViewCartEvent = (event: GbTracker.CartEvent, override: Override<GbTracker.CartEvent, GbTracker.CartEvent> = (value, val) => val) => {
-    this.sendEvent('sendViewCartEvent', this.buildEvent(override, event));
+    this.sendEvent('sendViewCartEvent', this.buildEvent<GbTracker.CartEvent, GbTracker.CartEvent>(override, event));
   }
 
   // tslint:disable-next-line max-line-length
   sendAddToCartEvent = (event: GbTracker.CartEvent, override: Override<GbTracker.CartEvent, GbTracker.CartEvent> = (value, val) => val) => {
-    this.sendEvent('sendAddToCartEvent', this.buildEvent(override, event));
+    this.sendEvent('sendAddToCartEvent', this.buildEvent<GbTracker.CartEvent, GbTracker.CartEvent>(override, event));
   }
 
   // tslint:disable-next-line max-line-length
   sendRemoveFromCartEvent = (event: GbTracker.CartEvent, override: Override<GbTracker.CartEvent, GbTracker.CartEvent> = (value, val) => val) => {
-    this.sendEvent('sendRemoveFromCartEvent', this.buildEvent(override, event));
+    this.sendEvent('sendRemoveFromCartEvent', this.buildEvent<GbTracker.CartEvent, GbTracker.CartEvent>(override, event));
   }
 
   // tslint:disable-next-line max-line-length
   sendOrderEvent = (event: GbTracker.OrderEvent, override: Override<GbTracker.OrderEvent, GbTracker.OrderEvent> = (value, val) => val) => {
-    this.sendEvent('sendOrderEvent', this.buildEvent(override, event));
+    this.sendEvent('sendOrderEvent', this.buildEvent<GbTracker.OrderEvent, GbTracker.OrderEvent>(override, event));
   }
 
   // tslint:disable-next-line max-line-length
@@ -126,14 +126,14 @@ class TrackerService extends BaseService<TrackerService.Options> {
       }
     };
 
-    this.sendEvent('sendViewProductEvent', this.buildEvent(override, currentEvent, record));
+    this.sendEvent('sendViewProductEvent', this.buildEvent<GbTracker.ViewProductEvent, GbTracker.ViewProductEvent>(override, currentEvent, record));
   }
 
   // tslint:disable-next-line max-line-length
   sendMoreRefinementsEvent = (id: string, override: Override<string, GbTracker.MoreRefinementsEvent> = (value, val) => val) => {
     const currentEvent = { moreRefinements: { id } };
 
-    this.sendEvent('sendMoreRefinementsEvent', this.buildEvent(override, currentEvent, id));
+    this.sendEvent('sendMoreRefinementsEvent', this.buildEvent<string, GbTracker.MoreRefinementsEvent>(override, currentEvent, id));
   }
 
   addMetadata(event: any) {
