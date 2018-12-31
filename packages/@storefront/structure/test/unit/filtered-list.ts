@@ -85,30 +85,27 @@ suite('FilteredList', ({ expect, spy }) => {
   });
 
   describe('onKeyDown()', () => {
-    it('should select refinement', () => {
-      const refinements: any = [{ value: 'a' , onClick: spy() }, { value: 'b', onClick: spy() }];
-      const keyboardEvent = { keyCode: 13 }
-      const input = <any>{ value: 'a' };
-      filteredList.props = { items: refinements };
-      filteredList.refs = {filter: input}
+    it('should exit early if the key is not Enter', () => {
+      const keyboardEvent = { keyCode: 1970 };
+      const trim = spy();
+      filteredList.refs = <any>{ filter: { value: { trim } } };
 
       filteredList.onKeyDown(keyboardEvent);
 
-      expect(refinements[0].onClick).to.be.called
-      expect(refinements[1].onClick).to.be.not.called
+      expect(trim).to.not.be.called;
     });
 
-    it('should not select refinement', () => {
+    it('should select the matched refinement', () => {
       const refinements: any = [{ value: 'a' , onClick: spy() }, { value: 'b', onClick: spy() }];
-      const keyboardEvent = { keyCode: 15 }
+      const keyboardEvent = { keyCode: 13 };
       const input = <any>{ value: 'a' };
       filteredList.props = { items: refinements };
-      filteredList.refs = {filter: input}
+      filteredList.refs = { filter: input };
 
       filteredList.onKeyDown(keyboardEvent);
 
-      expect(refinements[0].onClick).to.be.not.called
-      expect(refinements[1].onClick).to.be.not.called
+      expect(refinements[0].onClick).to.be.called;
+      expect(refinements[1].onClick).to.be.not.called;
     });
 
     it('should select the last refinement', () => {
@@ -123,6 +120,19 @@ suite('FilteredList', ({ expect, spy }) => {
       filteredList.onKeyDown(keyboardEvent);
 
       expect(selected.onClick).to.be.called;
+    });
+
+    it('should do nothing if no refinements are matched', () => {
+      const refinements: any = [{ value: 'a' , onClick: spy() }, { value: 'b', onClick: spy() }];
+      const keyboardEvent = { keyCode: 13 };
+      const input = <any>{ value: 'c' };
+      filteredList.props = { items: refinements };
+      filteredList.refs = { filter: input };
+
+      filteredList.onKeyDown(keyboardEvent);
+
+      expect(refinements[0].onClick).to.be.not.called;
+      expect(refinements[1].onClick).to.be.not.called;
     });
   });
 
