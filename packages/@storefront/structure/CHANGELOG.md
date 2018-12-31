@@ -4,6 +4,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] [minor]
+### Changed
+- <Describe changes>
+
+### Removed
+- <Describe removals>
+
+### Added
+- SF-1133: Add support for selecting last filtered refinement on Enter.
+  - In cases where a filter term yields 1x result, hitting the enter key now selects the remaining refinement.
+
+### Fixed
+- <Describe fixes>
+
+### Deprecated
+- <Describe deprecations>
+
+### Security
+- <Describe security fixes>
+
 ## [1.46.0] - 2019-01-03
 ### Changed
 - SF-1197: `gb-filtered-list` now uses a `gb-paged-list` instead of a `gb-list`.

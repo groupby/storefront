@@ -110,6 +110,20 @@ suite('FilteredList', ({ expect, spy }) => {
       expect(refinements[0].onClick).to.be.not.called
       expect(refinements[1].onClick).to.be.not.called
     });
+
+    it('should select the last refinement', () => {
+      const selected = { value: 'foo', onClick: spy() };
+      const refinements: any = [selected, { value: 'a', onClick: spy() }, { value: 'b', onClick: spy() }];
+      const keyboardEvent = { keyCode: 13 };
+      const input: any = { value: 'bar' };
+      filteredList.props = { items: refinements };
+      filteredList.state = { items: [selected] };
+      filteredList.refs = { filter: input };
+
+      filteredList.onKeyDown(keyboardEvent);
+
+      expect(selected.onClick).to.be.called;
+    });
   });
 
   describe('onFilterFocus()', () => {
