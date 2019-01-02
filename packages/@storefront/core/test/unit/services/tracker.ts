@@ -211,17 +211,17 @@ suite('Tracker Service', ({ expect, spy, stub, itShouldExtendBaseService }) => {
     const GBI_EVENT = { key: 'gbi', value: 'true' };
 
     it('should add the GBI_EVENT object to the override event metadata', () => {
-      const override = { e: 'f', metadata: [{ i: 'j' }] };
+      const override: any = { e: 'f', metadata: [{ i: 'j' }] };
 
-      const overriddenEvent = service.attachGbiEventMetadata(<any>override);
+      const overriddenEvent = service.attachGbiEventMetadata(override);
 
       expect(overriddenEvent.metadata).to.eql([GBI_EVENT, ...override.metadata]);
     });
 
     it('should not add the GBI_EVENT if it is already present in the event metadata', () => {
-      const override = { e: 'f', metadata: [GBI_EVENT, { i: 'j' }] };
+      const override: any = { e: 'f', metadata: [GBI_EVENT, { i: 'j' }] };
 
-      const overriddenEvent = service.attachGbiEventMetadata(<any>override);
+      const overriddenEvent = service.attachGbiEventMetadata(override);
 
       expect(overriddenEvent.metadata).to.be.eql([...override.metadata]);
     });
