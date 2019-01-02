@@ -6,7 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] [patch]
 ### Added
-  - SF-1163: Add hardcoded `GBI_EVENT` to the metadata of all tracking events.
+- SF-1163: Add hardcoded `GBI_EVENT` to the metadata of all tracking events.
+  - `GBI_EVENT` indicates to our tracking service that an event is of gbi origin.
 
 ## [1.55.6] - 2019-01-07
 ### Changed
