@@ -108,7 +108,7 @@ suite('FilteredList', ({ expect, spy }) => {
       expect(refinements[1].onClick).to.be.not.called;
     });
 
-    it('should select the last refinement', () => {
+    it('should select the only refinement', () => {
       const selected = { value: 'foo', onClick: spy() };
       const refinements: any = [selected, { value: 'a', onClick: spy() }, { value: 'b', onClick: spy() }];
       const keyboardEvent = { keyCode: 13 };
