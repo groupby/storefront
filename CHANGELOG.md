@@ -5,6 +5,34 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.4.2] - 2019-01-02
+
+Package versions:
+
+- `@storefront/breadcrumbs`: 1.33.0
+- `@storefront/collections`: 1.32.0
+- `@storefront/core`: 1.55.2
+- `@storefront/details`: 1.32.0
+- `@storefront/did-you-mean`: 1.32.0
+- `@storefront/flux-capacitor`: 1.67.0
+- `@storefront/infinite-scroll`: 1.6.0
+- `@storefront/navigation`: 1.43.0
+- `@storefront/page-size`: 1.34.0
+- `@storefront/paging`: 1.33.0
+- `@storefront/products`: 1.38.0
+- `@storefront/query`: 1.39.0
+- `@storefront/recommendations`: 1.29.0
+- `@storefront/record-count`: 1.33.0
+- `@storefront/related-queries`: 1.32.0
+- `@storefront/sayt`: 1.40.0
+- `@storefront/sort`: 1.35.0
+- `@storefront/structure`: 1.45.0
+- `@storefront/template`: 1.34.0
+
+### Added
+#### core
+- SF-1239: Set `maxRefinements` default to 20 in `search` configuration object.
+
 ## [v1.4.1] - 2018-12-20
 
 Package versions:
