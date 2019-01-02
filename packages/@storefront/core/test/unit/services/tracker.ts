@@ -227,267 +227,263 @@ suite('Tracker Service', ({ expect, spy, stub, itShouldExtendBaseService }) => {
     });
   });
 
-  describe('sendSearchEvent()', () => {
-    const id = '12345';
-    const metadata = [{ a: 'b' }];
-
+  describe('send events', () => {
     beforeEach(() => service.attachGbiEventMetadata = <T>(override: T): T => override);
 
-    it('should send search event with origin and metadata', () => {
-      const origin = 'myOrigin';
-      const tagOrigin = { origin };
-      const sendEvent = service.sendEvent = spy();
-      const getMetadata = service.getMetadata = spy(() => metadata);
-      service.getSearchOrigin = (): any => tagOrigin;
+    describe('sendSearchEvent()', () => {
+      const id = '12345';
+      const metadata = [{ a: 'b' }];
 
-      service.sendSearchEvent(id);
+      it('should send search event with origin and metadata', () => {
+        const origin = 'myOrigin';
+        const tagOrigin = { origin };
+        const sendEvent = service.sendEvent = spy();
+        const getMetadata = service.getMetadata = spy(() => metadata);
+        service.getSearchOrigin = (): any => tagOrigin;
 
-      expect(sendEvent).to.be.calledWith('sendAutoSearchEvent', {
-        metadata,
-        search: { id, origin: { ...DEFAULT_ORIGINS, [origin]: true }, },
+        service.sendSearchEvent(id);
+
+        expect(sendEvent).to.be.calledWith('sendAutoSearchEvent', {
+          metadata,
+          search: { id, origin: { ...DEFAULT_ORIGINS, [origin]: true }, },
+        });
+      });
+
+      it('should fall back to default search origin with empty origin', () => {
+        const sendEvent = service.sendEvent = spy();
+        service.getMetadata = spy(() => metadata);
+        service.getSearchOrigin = (): any => ({});
+
+        service.sendSearchEvent(id);
+
+        expect(sendEvent).to.be.calledWith('sendAutoSearchEvent', {
+          metadata,
+          search: { id, origin: { ...DEFAULT_ORIGINS, search: true }, },
+        });
+      });
+
+      it('should fall back to default search origin with no origin', () => {
+        const sendEvent = service.sendEvent = spy();
+        service.getMetadata = spy(() => metadata);
+        service.getSearchOrigin = () => null;
+
+        service.sendSearchEvent(id);
+
+        expect(sendEvent).to.be.calledWith('sendAutoSearchEvent', {
+          metadata,
+          search: { id, origin: { ...DEFAULT_ORIGINS, search: true }, },
+        });
+      });
+
+      it('should override event with the override function if it exists', () => {
+        const sendEvent = service.sendEvent = spy();
+        const currEvent = {
+          metadata,
+          search: { id, origin: { ...DEFAULT_ORIGINS, search: true }, },
+        };
+        const result = { a: 'b' };
+        const override = spy(() => result);
+        service.getMetadata = stub().returns(metadata);
+        service.getSearchOrigin = () => null;
+
+        service.sendSearchEvent(id, override);
+
+        expect(sendEvent).to.be.calledWith('sendAutoSearchEvent', result);
+        expect(override).to.be.calledWithExactly(id, currEvent);
       });
     });
 
-    it('should fall back to default search origin with empty origin', () => {
-      const sendEvent = service.sendEvent = spy();
-      service.getMetadata = spy(() => metadata);
-      service.getSearchOrigin = (): any => ({});
+    describe('sendViewCartEvent()', () => {
 
-      service.sendSearchEvent(id);
+      it('should send event with metadata', () => {
+        const event: any = { a: 'b' };
+        const withMetadata = { c: 'd' };
+        const sendEvent = service.sendEvent = spy();
+        const addMetadata = service.addMetadata = spy(() => withMetadata);
 
-      expect(sendEvent).to.be.calledWith('sendAutoSearchEvent', {
-        metadata,
-        search: { id, origin: { ...DEFAULT_ORIGINS, search: true }, },
+        service.sendViewCartEvent(event);
+
+        expect(addMetadata).to.be.calledWith(event);
+        expect(sendEvent).to.be.calledWith('sendViewCartEvent', withMetadata);
+      });
+
+      it('should override event with the override function if it exists', () => {
+        const event: any = { a: 'b' };
+        const withMetadata = { c: 'd' };
+        const sendEvent = service.sendEvent = spy();
+        const addMetadata = service.addMetadata = spy(() => withMetadata);
+        const result = { e: 'f' };
+        const override = spy(() => result);
+
+        service.sendViewCartEvent(event, override);
+
+        expect(sendEvent).to.be.calledWith('sendViewCartEvent', result);
+        expect(override).to.be.calledWithExactly(event, withMetadata);
       });
     });
 
-    it('should fall back to default search origin with no origin', () => {
-      const sendEvent = service.sendEvent = spy();
-      service.getMetadata = spy(() => metadata);
-      service.getSearchOrigin = () => null;
+    describe('sendAddToCartEvent()', () => {
 
-      service.sendSearchEvent(id);
+      it('should send event with metadata', () => {
+        const event: any = { a: 'b' };
+        const withMetadata = { c: 'd' };
+        const sendEvent = service.sendEvent = spy();
+        const addMetadata = service.addMetadata = spy(() => withMetadata);
 
-      expect(sendEvent).to.be.calledWith('sendAutoSearchEvent', {
-        metadata,
-        search: { id, origin: { ...DEFAULT_ORIGINS, search: true }, },
+        service.sendAddToCartEvent(event);
+
+        expect(addMetadata).to.be.calledWith(event);
+        expect(sendEvent).to.be.calledWith('sendAddToCartEvent', withMetadata);
+      });
+
+      it('should override event with the override function if it exists', () => {
+        const event: any = { a: 'b' };
+        const withMetadata = { c: 'd' };
+        const sendEvent = service.sendEvent = spy();
+        const addMetadata = service.addMetadata = spy(() => withMetadata);
+        const result = { e: 'f' };
+        const override = spy(() => result);
+
+        service.sendAddToCartEvent(event, override);
+
+        expect(sendEvent).to.be.calledWith('sendAddToCartEvent', result);
+        expect(override).to.be.calledWithExactly(event, withMetadata);
       });
     });
 
-    it('should override event with the override function if it exists', () => {
-      const sendEvent = service.sendEvent = spy();
-      const currEvent = {
-        metadata,
-        search: { id, origin: { ...DEFAULT_ORIGINS, search: true }, },
-      };
-      const result = { a: 'b' };
-      const override = spy(() => result);
-      service.getMetadata = stub().returns(metadata);
-      service.getSearchOrigin = () => null;
+    describe('sendRemoveFromCartEvent()', () => {
 
-      service.sendSearchEvent(id, override);
+      it('should send event with metadata', () => {
+        const event: any = { a: 'b' };
+        const withMetadata = { c: 'd' };
+        const sendEvent = service.sendEvent = spy();
+        const addMetadata = service.addMetadata = spy(() => withMetadata);
 
-      expect(sendEvent).to.be.calledWith('sendAutoSearchEvent', result);
-      expect(override).to.be.calledWithExactly(id, currEvent);
-    });
-  });
+        service.sendRemoveFromCartEvent(event);
 
-  describe('sendViewCartEvent()', () => {
-    beforeEach(() => service.attachGbiEventMetadata = <T>(override: T): T => override);
-
-    it('should send event with metadata', () => {
-      const event: any = { a: 'b' };
-      const withMetadata = { c: 'd' };
-      const sendEvent = service.sendEvent = spy();
-      const addMetadata = service.addMetadata = spy(() => withMetadata);
-
-      service.sendViewCartEvent(event);
-
-      expect(addMetadata).to.be.calledWith(event);
-      expect(sendEvent).to.be.calledWith('sendViewCartEvent', withMetadata);
-    });
-
-    it('should override event with the override function if it exists', () => {
-      const event: any = { a: 'b' };
-      const withMetadata = { c: 'd' };
-      const sendEvent = service.sendEvent = spy();
-      const addMetadata = service.addMetadata = spy(() => withMetadata);
-      const result = { e: 'f' };
-      const override = spy(() => result);
-
-      service.sendViewCartEvent(event, override);
-
-      expect(sendEvent).to.be.calledWith('sendViewCartEvent', result);
-      expect(override).to.be.calledWithExactly(event, withMetadata);
-    });
-  });
-
-  describe('sendAddToCartEvent()', () => {
-    beforeEach(() => service.attachGbiEventMetadata = <T>(override: T): T => override);
-
-    it('should send event with metadata', () => {
-      const event: any = { a: 'b' };
-      const withMetadata = { c: 'd' };
-      const sendEvent = service.sendEvent = spy();
-      const addMetadata = service.addMetadata = spy(() => withMetadata);
-
-      service.sendAddToCartEvent(event);
-
-      expect(addMetadata).to.be.calledWith(event);
-      expect(sendEvent).to.be.calledWith('sendAddToCartEvent', withMetadata);
-    });
-
-    it('should override event with the override function if it exists', () => {
-      const event: any = { a: 'b' };
-      const withMetadata = { c: 'd' };
-      const sendEvent = service.sendEvent = spy();
-      const addMetadata = service.addMetadata = spy(() => withMetadata);
-      const result = { e: 'f' };
-      const override = spy(() => result);
-
-      service.sendAddToCartEvent(event, override);
-
-      expect(sendEvent).to.be.calledWith('sendAddToCartEvent', result);
-      expect(override).to.be.calledWithExactly(event, withMetadata);
-    });
-  });
-
-  describe('sendRemoveFromCartEvent()', () => {
-    beforeEach(() => service.attachGbiEventMetadata = <T>(override: T): T => override);
-
-    it('should send event with metadata', () => {
-      const event: any = { a: 'b' };
-      const withMetadata = { c: 'd' };
-      const sendEvent = service.sendEvent = spy();
-      const addMetadata = service.addMetadata = spy(() => withMetadata);
-
-      service.sendRemoveFromCartEvent(event);
-
-      expect(addMetadata).to.be.calledWith(event);
-      expect(sendEvent).to.be.calledWith('sendRemoveFromCartEvent', withMetadata);
-    });
-
-    it('should override event with the override function if it exists', () => {
-      const event: any = { a: 'b' };
-      const withMetadata = { c: 'd' };
-      const sendEvent = service.sendEvent = spy();
-      const addMetadata = service.addMetadata = spy(() => withMetadata);
-      const result = { e: 'f' };
-      const override = spy(() => result);
-
-      service.sendRemoveFromCartEvent(event, override);
-
-      expect(sendEvent).to.be.calledWith('sendRemoveFromCartEvent', result);
-      expect(override).to.be.calledWithExactly(event, withMetadata);
-    });
-  });
-
-  describe('sendOrderEvent()', () => {
-    beforeEach(() => service.attachGbiEventMetadata = <T>(override: T): T => override);
-
-    it('should send event with metadata', () => {
-      const event: any = { a: 'b' };
-      const withMetadata = { c: 'd' };
-      const sendEvent = service.sendEvent = spy();
-      const addMetadata = service.addMetadata = spy(() => withMetadata);
-
-      service.sendOrderEvent(event);
-
-      expect(addMetadata).to.be.calledWith(event);
-      expect(sendEvent).to.be.calledWith('sendOrderEvent', withMetadata);
-    });
-
-    it('should override event with the override function if it exists', () => {
-      const event: any = { a: 'b' };
-      const withMetadata = { c: 'd' };
-      const sendEvent = service.sendEvent = spy();
-      const addMetadata = service.addMetadata = spy(() => withMetadata);
-      const result = { e: 'f' };
-      const override = spy(() => result);
-
-      service.sendOrderEvent(event, override);
-
-      expect(sendEvent).to.be.calledWith('sendOrderEvent', result);
-      expect(override).to.be.calledWithExactly(event, withMetadata);
-    });
-  });
-
-  describe('sendViewProductEvent()', () => {
-    beforeEach(() => service.attachGbiEventMetadata = <T>(override: T): T => override);
-
-    it('should send event with metadata', () => {
-      const id = '1234';
-      const collection = 'myCollection';
-      const title = 'top hat';
-      const price = 132.40;
-      const allMeta = { a: 'b' };
-      const withMetadata = { c: 'd' };
-      const sendEvent = service.sendEvent = spy();
-      const addMetadata = service.addMetadata = spy(() => withMetadata);
-      service.transform = spy(() => ({ data: { id, title, price } }));
-
-      service.sendViewProductEvent({ allMeta, collection });
-
-      expect(addMetadata).to.be.calledWith({
-        product: {
-          productId: id,
-          title,
-          price,
-          collection
-        }
+        expect(addMetadata).to.be.calledWith(event);
+        expect(sendEvent).to.be.calledWith('sendRemoveFromCartEvent', withMetadata);
       });
-      expect(sendEvent).to.be.calledWith('sendViewProductEvent', withMetadata);
+
+      it('should override event with the override function if it exists', () => {
+        const event: any = { a: 'b' };
+        const withMetadata = { c: 'd' };
+        const sendEvent = service.sendEvent = spy();
+        const addMetadata = service.addMetadata = spy(() => withMetadata);
+        const result = { e: 'f' };
+        const override = spy(() => result);
+
+        service.sendRemoveFromCartEvent(event, override);
+
+        expect(sendEvent).to.be.calledWith('sendRemoveFromCartEvent', result);
+        expect(override).to.be.calledWithExactly(event, withMetadata);
+      });
     });
 
-    it('should override event with the override function if it exists', () => {
-      const id = '1234';
-      const collection = 'myCollection';
-      const title = 'top hat';
-      const price = 132.40;
-      const allMeta = { a: 'b' };
-      const withMetadata = { c: 'd' };
-      const record = { allMeta, collection };
-      const sendEvent = service.sendEvent = spy();
-      const addMetadata = service.addMetadata = spy(() => withMetadata);
-      const result = { e: 'f' };
-      const override = spy(() => result);
-      service.transform = spy(() => ({ data: { id, title, price } }));
+    describe('sendOrderEvent()', () => {
 
-      service.sendViewProductEvent({ allMeta, collection }, override);
+      it('should send event with metadata', () => {
+        const event: any = { a: 'b' };
+        const withMetadata = { c: 'd' };
+        const sendEvent = service.sendEvent = spy();
+        const addMetadata = service.addMetadata = spy(() => withMetadata);
 
-      expect(sendEvent).to.be.calledWith('sendViewProductEvent', result);
-      expect(override).to.be.calledWithExactly({ allMeta, collection }, withMetadata);
-    });
-  });
+        service.sendOrderEvent(event);
 
-  describe('sendMoreRefinementsEvent()', () => {
-    beforeEach(() => service.attachGbiEventMetadata = <T>(override: T): T => override);
+        expect(addMetadata).to.be.calledWith(event);
+        expect(sendEvent).to.be.calledWith('sendOrderEvent', withMetadata);
+      });
 
-    it('should send event with metadata', () => {
-      const id = 'colour';
-      const withMetadata = { c: 'd' };
-      const sendEvent = service.sendEvent = spy();
-      const addMetadata = service.addMetadata = spy(() => withMetadata);
+      it('should override event with the override function if it exists', () => {
+        const event: any = { a: 'b' };
+        const withMetadata = { c: 'd' };
+        const sendEvent = service.sendEvent = spy();
+        const addMetadata = service.addMetadata = spy(() => withMetadata);
+        const result = { e: 'f' };
+        const override = spy(() => result);
 
-      service.sendMoreRefinementsEvent(id);
+        service.sendOrderEvent(event, override);
 
-      expect(addMetadata).to.be.calledWith({ moreRefinements: { id } });
-
-      expect(sendEvent).to.be.calledWith('sendMoreRefinementsEvent', withMetadata);
+        expect(sendEvent).to.be.calledWith('sendOrderEvent', result);
+        expect(override).to.be.calledWithExactly(event, withMetadata);
+      });
     });
 
-    it('should override event with the override function if it exists', () => {
-      const id = 'colour';
-      const withMetadata = { c: 'd' };
-      const sendEvent = service.sendEvent = spy();
-      const addMetadata = service.addMetadata = spy(() => withMetadata);
-      const result = { e: 'f' };
-      const override = spy(() => result);
+    describe('sendViewProductEvent()', () => {
 
-      service.sendMoreRefinementsEvent(id, override);
+      it('should send event with metadata', () => {
+        const id = '1234';
+        const collection = 'myCollection';
+        const title = 'top hat';
+        const price = 132.40;
+        const allMeta = { a: 'b' };
+        const withMetadata = { c: 'd' };
+        const sendEvent = service.sendEvent = spy();
+        const addMetadata = service.addMetadata = spy(() => withMetadata);
+        service.transform = spy(() => ({ data: { id, title, price } }));
 
-      expect(sendEvent).to.be.calledWith('sendMoreRefinementsEvent', result);
-      expect(override).to.be.calledWithExactly(id, withMetadata);
+        service.sendViewProductEvent({ allMeta, collection });
+
+        expect(addMetadata).to.be.calledWith({
+          product: {
+            productId: id,
+            title,
+            price,
+            collection
+          }
+        });
+        expect(sendEvent).to.be.calledWith('sendViewProductEvent', withMetadata);
+      });
+
+      it('should override event with the override function if it exists', () => {
+        const id = '1234';
+        const collection = 'myCollection';
+        const title = 'top hat';
+        const price = 132.40;
+        const allMeta = { a: 'b' };
+        const withMetadata = { c: 'd' };
+        const record = { allMeta, collection };
+        const sendEvent = service.sendEvent = spy();
+        const addMetadata = service.addMetadata = spy(() => withMetadata);
+        const result = { e: 'f' };
+        const override = spy(() => result);
+        service.transform = spy(() => ({ data: { id, title, price } }));
+
+        service.sendViewProductEvent({ allMeta, collection }, override);
+
+        expect(sendEvent).to.be.calledWith('sendViewProductEvent', result);
+        expect(override).to.be.calledWithExactly({ allMeta, collection }, withMetadata);
+      });
+    });
+
+    describe('sendMoreRefinementsEvent()', () => {
+
+      it('should send event with metadata', () => {
+        const id = 'colour';
+        const withMetadata = { c: 'd' };
+        const sendEvent = service.sendEvent = spy();
+        const addMetadata = service.addMetadata = spy(() => withMetadata);
+
+        service.sendMoreRefinementsEvent(id);
+
+        expect(addMetadata).to.be.calledWith({ moreRefinements: { id } });
+
+        expect(sendEvent).to.be.calledWith('sendMoreRefinementsEvent', withMetadata);
+      });
+
+      it('should override event with the override function if it exists', () => {
+        const id = 'colour';
+        const withMetadata = { c: 'd' };
+        const sendEvent = service.sendEvent = spy();
+        const addMetadata = service.addMetadata = spy(() => withMetadata);
+        const result = { e: 'f' };
+        const override = spy(() => result);
+
+        service.sendMoreRefinementsEvent(id, override);
+
+        expect(sendEvent).to.be.calledWith('sendMoreRefinementsEvent', result);
+        expect(override).to.be.calledWithExactly(id, withMetadata);
+      });
     });
   });
 
