@@ -8,12 +8,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/groupby/storefront-navigation.git"
+    "url": "https://github.com/groupby/storefront.git"
   },
   "bugs": {
-    "url": "https://github.com/groupby/storefront-navigation/issues"
+    "url": "https://github.com/groupby/storefront/issues"
   },
-  "homepage": "https://github.com/groupby/storefront-navigation#readme",
+  "homepage": "https://github.com/groupby/storefront/tree/master/packages/%40storefront/navigation",
   "license": "MIT",
   "main": "dist/index.js",
   "module:esnext": "esnext/index.js",

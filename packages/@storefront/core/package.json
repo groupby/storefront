@@ -4,12 +4,12 @@
   "description": "Core library for StoreFront components",
   "repository": {
     "type": "git",
-    "url": "https://github.com/groupby/storefront-core.git"
+    "url": "https://github.com/groupby/storefront.git"
   },
   "bugs": {
-    "url": "https://github.com/groupby/storefront-core/issues"
+    "url": "https://github.com/groupby/storefront/issues"
   },
-  "homepage": "https://github.com/groupby/storefront-core#readme",
+  "homepage": "https://github.com/groupby/storefront/tree/master/packages/%40storefront/core",
   "author": "Ben Teichman <ben.teichman@groupbyinc.com>",
   "license": "MIT",
   "main": "dist/index.js",

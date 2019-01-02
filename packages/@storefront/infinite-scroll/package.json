@@ -8,12 +8,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/groupby/storefront-infinite-scroll.git"
+    "url": "https://github.com/groupby/storefront.git"
   },
   "bugs": {
-    "url": "https://github.com/groupby/storefront-infinite-scroll/issues"
+    "url": "https://github.com/groupby/storefront/issues"
   },
-  "homepage": "https://github.com/groupby/storefront-infinite-scroll#readme",
+  "homepage": "https://github.com/groupby/storefront/tree/master/packages/%40storefront/infinite-scroll",
   "license": "MIT",
   "main": "dist/index.js",
   "module:esnext": "esnext/index.js",

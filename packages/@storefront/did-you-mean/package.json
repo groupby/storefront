@@ -8,12 +8,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/groupby/storefront-did-you-mean.git"
+    "url": "https://github.com/groupby/storefront.git"
   },
   "bugs": {
-    "url": "https://github.com/groupby/storefront-did-you-mean/issues"
+    "url": "https://github.com/groupby/storefront/issues"
   },
-  "homepage": "https://github.com/groupby/storefront-did-you-mean#readme",
+  "homepage": "https://github.com/groupby/storefront/tree/master/packages/%40storefront/did-you-mean",
   "author": "Ben Teichman <ben.teichman@groupbyinc.com>",
   "license": "MIT",
   "main": "dist/index.js",

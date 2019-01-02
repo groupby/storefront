@@ -8,12 +8,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/groupby/storefront-related-queries.git"
+    "url": "https://github.com/groupby/storefront.git"
   },
   "bugs": {
-    "url": "https://github.com/groupby/storefront-related-queries/issues"
+    "url": "https://github.com/groupby/storefront/issues"
   },
-  "homepage": "https://github.com/groupby/storefront-related-queries#readme",
+  "homepage": "https://github.com/groupby/storefront/tree/master/packages/%40storefront/related-queries",
   "author": "Ben Teichman <ben.teichman@groupbyinc.com>",
   "license": "MIT",
   "main": "dist/index.js",

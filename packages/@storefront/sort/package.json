@@ -8,12 +8,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/groupby/storefront-sort.git"
+    "url": "https://github.com/groupby/storefront.git"
   },
   "bugs": {
-    "url": "https://github.com/groupby/storefront-sort/issues"
+    "url": "https://github.com/groupby/storefront/issues"
   },
-  "homepage": "https://github.com/groupby/storefront-sort#readme",
+  "homepage": "https://github.com/groupby/storefront/tree/master/packages/%40storefront/sort",
   "license": "MIT",
   "main": "dist/index.js",
   "module:esnext": "esnext/index.js",

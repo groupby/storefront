@@ -8,12 +8,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/groupby/storefront-page-size.git"
+    "url": "https://github.com/groupby/storefront.git"
   },
   "bugs": {
-    "url": "https://github.com/groupby/storefront-page-size/issues"
+    "url": "https://github.com/groupby/storefront/issues"
   },
-  "homepage": "https://github.com/groupby/storefront-page-size#readme",
+  "homepage": "https://github.com/groupby/storefront/tree/master/packages/%40storefront/page-size",
   "license": "MIT",
   "main": "dist/index.js",
   "module:esnext": "esnext/index.js",

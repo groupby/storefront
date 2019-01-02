@@ -1,15 +1,15 @@
 {
-  "name": "@storefront/flux-capacitor",
+  "name": "@storefront/storefront",
   "version": "1.67.0",
   "description": "State management for StoreFront",
   "repository": {
     "type": "git",
-    "url": "https://github.com/groupby/flux-capacitor.git"
+    "url": "https://github.com/groupby/storefront.git"
   },
   "bugs": {
-    "url": "https://github.com/groupby/flux-capacitor/issues"
+    "url": "https://github.com/groupby/storefront/issues"
   },
-  "homepage": "https://github.com/groupby/flux-capacitor#readme",
+  "homepage": "https://github.com/groupby/storefront/tree/master/packages/%40storefront/flux-capacitor",
   "author": "Ben Teichman <ben.teichman@groupbyinc.com>",
   "license": "MIT",
   "main": "dist/index.js",
