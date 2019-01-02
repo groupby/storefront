@@ -1,6 +1,6 @@
 {
   "name": "@storefront/core",
-  "version": "1.55.2",
+  "version": "1.55.3",
   "description": "Core library for StoreFront components",
   "repository": {
     "type": "git",
@@ -54,7 +54,7 @@
     "singleQuote": true
   },
   "dependencies": {
-    "@storefront/flux-capacitor": "1.67.0",
+    "@storefront/flux-capacitor": "1.67.1",
     "@types/clone": "^0.1.30",
     "@types/deep-assign": "^0.1.0",
     "@types/js-cookie": "^2.0.28",
