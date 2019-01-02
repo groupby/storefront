@@ -61,20 +61,37 @@ class FilteredList {
 
   updateItems(value: string = this.refs.filter.value) {
     value = value.trim().toLowerCase();
-    const filtered = this.props.items.filter((item) => {
-      if (!item) {
-        return false;
-      } else if (typeof item === 'string') {
-        return item.toLowerCase().includes(value);
-      } else if (typeof item.value === 'string') {
-        return item.value.toLowerCase().includes(value);
-      } else {
-        return false;
-      }
-    });
+
+    const filtered = this.props.items
+      .filter((item) => this.filterItem(value, item))
+      .map((item, _, items) => this.decorateItem(value, item, items));
 
     if (filtered.length !== 0 || this.state.items.length !== 0) {
       this.state.items = filtered;
+    }
+  }
+
+  filterItem(value: string, item: FilteredList.Item) {
+    if (!item) {
+      return false;
+    } else if (typeof item === 'string') {
+      return item.toLowerCase().includes(value);
+    } else if (typeof item.value === 'string') {
+      return item.value.toLowerCase().includes(value);
+    } else {
+      return false;
+    }
+  }
+
+  decorateItem(value: string, item: FilteredList.Item, items: FilteredList.Item[]) {
+    if (typeof item === 'string') {
+      return item;
+    } else if (typeof item.value === 'string') {
+      return item.value.toLowerCase() === value || items.length === 1
+        ? { ...item, matchesTerm: true }
+        : item;
+    } else {
+      return item;
     }
   }
 }

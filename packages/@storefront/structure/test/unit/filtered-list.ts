@@ -1,7 +1,7 @@
 import FilteredList from '../../src/filtered-list';
 import suite from './_suite';
 
-suite('FilteredList', ({ expect, spy }) => {
+suite('FilteredList', ({ expect, spy, stub }) => {
   let filteredList: FilteredList;
 
   beforeEach(() => (filteredList = new FilteredList()));
@@ -156,8 +156,83 @@ suite('FilteredList', ({ expect, spy }) => {
     });
   });
 
+  describe('filterItem()', () => {
+    it('should return true if the item matches the filter string', () => {
+      expect(filteredList.filterItem('e', 'def')).to.be.true;
+    });
+
+    it('should return false if the item does not match the filter string', () => {
+      expect(filteredList.filterItem('z', 'def')).to.be.false;
+    });
+
+    it('should return true if the item matches the filter object', () => {
+      expect(filteredList.filterItem('e', <any>{ value: 'def' })).to.be.true;
+    });
+
+    it('should return false if the item does not match the filter object', () => {
+      expect(filteredList.filterItem('z', <any>{ value: 'def' })).to.be.false;
+    });
+
+    [
+      false,
+      0,
+      '',
+      null,
+      undefined,
+      NaN,
+    ].forEach((item) => {
+      it(`should return false if the item is: ${item}`, () => {
+        expect(filteredList.filterItem('foo', <any>item)).to.be.false;
+      });
+    });
+
+    it('should return false if the item is invalid', () => {
+      expect(filteredList.filterItem('foo', <any>{ value: true })).to.be.false;
+    });
+  });
+
+  describe('decorateItem()', () => {
+    let noop;
+    let item1;
+    let item2;
+    let item3;
+
+    beforeEach(() => {
+      noop = () => null;
+      item1 = { value: 'foo', onClick: noop };
+      item2 = { value: 'bar', onClick: noop };
+      item3 = { value: 'baz', onClick: noop };
+    })
+
+    it('should decorate if the item matches the filter term', () => {
+      expect(filteredList.decorateItem('foo', item1, [item1, item2, item3])).to.eql({ ...item1, matchesTerm: true });
+    });
+
+    it('should decorate if the item is the only refinement', () => {
+      expect(filteredList.decorateItem('foo', item1, [item1])).to.eql({ ...item1, matchesTerm: true });
+    });
+
+    it('should do nothing if the item does not match the filter term', () => {
+      expect(filteredList.decorateItem('quux', item1, [item1, item2, item3])).to.eq(item1);
+    });
+
+    it('should do nothing if the item is a string', () => {
+      const item = 'foo';
+
+      expect(filteredList.decorateItem('foo', item, [item])).to.eq(item);
+    });
+  });
+
   describe('updateItems()', () => {
-    it('should filter items', () => {
+    let decorateItemStub;
+    let filterItemStub;
+
+    beforeEach(() => {
+      decorateItemStub = stub(filteredList, 'decorateItem').returns((v, item) => item);
+      filterItemStub = stub(filteredList, 'filterItem').returns((v, item) => item);
+    });
+
+    it('should call filterItem with each item', () => {
       const filterValue = 'e';
       const items = ['abc', 'def', 'ghi', 'eee'];
       filteredList.refs = <any>{ filter: { value: filterValue } };
@@ -165,30 +240,26 @@ suite('FilteredList', ({ expect, spy }) => {
 
       filteredList.updateItems();
 
-      expect(filteredList.state.items).to.eql(['def', 'eee']);
+      expect(filterItemStub.args).to.eql([
+        [filterValue, items[0]],
+        [filterValue, items[1]],
+        [filterValue, items[2]],
+        [filterValue, items[3]],
+      ]);
     });
 
-    it('should filter falsey item', () => {
+    it('should call decorateItem', () => {
       const filterValue = 'e';
-      const items = [null, 'abc', 'efg'];
+      const items = ['def', 'eee'];
       filteredList.refs = <any>{ filter: { value: filterValue } };
       filteredList.props = { items };
+      filterItemStub.restore();
 
       filteredList.updateItems();
 
-      expect(filteredList.state.items).to.eql(['efg']);
+      expect(decorateItemStub).to.be.called;
     });
 
-    it('should filter out invalid items', () => {
-      const filterValue = 'e';
-      const items = <any>[null, { i: 'e' }, { value: 'efg' }, { value: true }];
-      filteredList.refs = <any>{ filter: { value: filterValue } };
-      filteredList.props = { items };
-
-      filteredList.updateItems();
-
-      expect(filteredList.state.items).to.eql([{ value: 'efg' }]);
-    });
 
     it('should trim filter value', () => {
       const filterValue = ' \t e \n   ';
@@ -198,7 +269,7 @@ suite('FilteredList', ({ expect, spy }) => {
 
       filteredList.updateItems();
 
-      expect(filteredList.state.items).to.eql(['def', 'eee']);
+      expect(filterItemStub).to.be.calledWith('e');
     });
 
     it('should filter case-insensitively', () => {
@@ -209,7 +280,7 @@ suite('FilteredList', ({ expect, spy }) => {
 
       filteredList.updateItems();
 
-      expect(filteredList.state.items).to.eql(['dEf', 'efe']);
+      expect(filterItemStub).to.be.calledWith('ef');
     });
 
     it('should use value passed in', () => {
@@ -220,7 +291,7 @@ suite('FilteredList', ({ expect, spy }) => {
 
       filteredList.updateItems('e');
 
-      expect(filteredList.state.items).to.eql(['def', 'eee']);
+      expect(filterItemStub).to.be.calledWith('e');
     });
   });
 });
