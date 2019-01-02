@@ -1,3 +1,4 @@
+/// <reference path="./../../custom_typings/gb-tracker-client.d.ts"/>
 import FluxCapacitor, { Actions, Store } from '@storefront/flux-capacitor';
 import * as clone from 'clone';
 import * as GbTracker from 'gb-tracker-client/slim';

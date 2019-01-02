@@ -4,7 +4,7 @@ import { core, BaseService } from '../core/service';
 import { GbTracker } from '../core/utils';
 import StoreFront from '../storefront';
 
-export const GBI_EVENT = { key: 'gbi', value: 'true' };
+export const GBI_EVENT: GbTracker.Metadata = { key: 'gbi', value: 'true' };
 export const TRACKER_EVENT = 'tracker:send_event';
 export const DEFAULT_ORIGINS = {
   dym: false,
@@ -63,13 +63,14 @@ class TrackerService extends BaseService<TrackerService.Options> {
     }
   }
 
-  attachGbiEventMetadata = <S>(override: S): S => {
-    const { metadata = [], ...overrideEvent } = override;
+  attachGbiEventMetadata = <S extends GbTracker.BaseEvent>(override: S): S => {
+    const { metadata = [] } = override;
 
     if (metadata.some((item) => item.key === 'gbi')) {
       return override;
     } else {
-      return { ...overrideEvent, metadata: [GBI_EVENT, ...metadata] };
+      // below needs to be cast as such in order to get around the restrictions of typeScript version 3.1.5, not allowing for generic types to be spread.
+      return <S>{ ...<object>override, metadata: [GBI_EVENT, ...metadata]};
     };
   }
 
