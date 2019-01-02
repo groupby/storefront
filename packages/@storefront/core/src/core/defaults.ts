@@ -17,6 +17,7 @@ const DEFAULTS: Partial<Configuration> = {
     redirectSingleResult: false,
     overrides: {},
     useDefaultCollection: false,
+    maxRefinements: 20,
   },
   personalization: {
     realTimeBiasing: {
