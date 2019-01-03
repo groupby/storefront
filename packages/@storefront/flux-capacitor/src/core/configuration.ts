@@ -337,6 +337,14 @@ namespace Configuration {
        */
       securedPayload: Recommendations.SecuredPayload | (() => Recommendations.SecuredPayload);
 
+      sort?: Configuration.ValueOptions<{
+        /**
+         * field path to sort on
+         */
+        field: string;
+        descending?: boolean;
+      }>;
+
       /**
        * Enable past purchases or not
        */
