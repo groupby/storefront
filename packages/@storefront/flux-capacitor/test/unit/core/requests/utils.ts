@@ -7,7 +7,7 @@ import PersonalizationAdapter from '../../../../src/core/adapters/personalizatio
 import RecommendationsAdapter from '../../../../src/core/adapters/recommendations';
 import RequestAdapter from '../../../../src/core/adapters/request';
 import SearchAdapter, { MAX_RECORDS } from '../../../../src/core/adapters/search';
-import { SORT_FIELDS } from '../../../../src/core/reducers/data/past-purchases';
+import { PAST_PURCHASE_SORTS } from '../../../../src/core/reducers/data/past-purchases';
 import RequestHelpers from '../../../../src/core/requests/utils';
 import Selectors from '../../../../src/core/selectors';
 import * as utils from '../../../../src/core/utils';
@@ -231,7 +231,7 @@ suite('requests helpers', ({ expect, stub, spy }) => {
       expect(req.sort).to.eql(sanitizedSort);
     });
 
-    SORT_FIELDS.forEach((field) => {
+    PAST_PURCHASE_SORTS.ALL.forEach((field) => {
       it(`should handle the "${field}" sort`, () => {
         pastPurchaseSortSelected.returns({ field });
 

@@ -27,15 +27,16 @@ export type Action = Actions.ReceivePastPurchaseSkus
   | Actions.ReceivePastPurchaseTemplate;
 export type State = Store.PastPurchase;
 
-export enum SORT_ENUMS {
-  DEFAULT, MOST_PURCHASED, MOST_RECENT
+export namespace PAST_PURCHASE_SORTS {
+  export const DEFAULT = 'Default';
+  export const MOST_PURCHASED = 'Most Purchased';
+  export const MOST_RECENT = 'Most Recent';
+  export const ALL = [
+    PAST_PURCHASE_SORTS.DEFAULT,
+    PAST_PURCHASE_SORTS.MOST_PURCHASED,
+    PAST_PURCHASE_SORTS.MOST_RECENT,
+  ];
 }
-
-export const SORT_FIELDS = [
-  'Default',
-  'Most Purchased',
-  'Most Recent',
-];
 
 export const DEFAULTS: State = <any>{
   defaultSkus: [],
@@ -49,19 +50,16 @@ export const DEFAULTS: State = <any>{
   query: '',
   sort: {
     items: [{
-      field: SORT_FIELDS[SORT_ENUMS.DEFAULT],
+      field: PAST_PURCHASE_SORTS.DEFAULT,
       descending: true,
-      type: SORT_ENUMS.DEFAULT,
     },
     {
-      field: SORT_FIELDS[SORT_ENUMS.MOST_RECENT],
+      field: PAST_PURCHASE_SORTS.MOST_RECENT,
       descending: true,
-      type: SORT_ENUMS.MOST_RECENT,
     },
     {
-      field: SORT_FIELDS[SORT_ENUMS.MOST_PURCHASED],
+      field: PAST_PURCHASE_SORTS.MOST_PURCHASED,
       descending: true,
-      type: SORT_ENUMS.MOST_PURCHASED,
     }],
     selected: 0,
   },
@@ -103,7 +101,7 @@ export const updatePastPurchaseSkus = (state: State, { payload }: Actions.Receiv
   ({
     ...state,
     defaultSkus: payload,
-    skus: Adapter.sortSkusByType(payload, state.sort.items[state.sort.selected].type),
+    skus: Adapter.sortSkusByField(payload, state.sort.items[state.sort.selected].field),
   });
 
 export const updatePastPurchaseProducts = (state: State, { payload }: Actions.ReceivePastPurchaseProducts) =>
@@ -173,7 +171,7 @@ export const updatePastPurchaseQuery = (state: State, { payload }: Actions.Updat
 export const updatePastPurchaseSortSelected = (state: State, { payload }: Actions.SelectPastPurchaseSort) => {
   return {
     ...state,
-    skus: Adapter.sortSkusByType(state.defaultSkus, state.sort.items[payload].type),
+    skus: Adapter.sortSkusByField(state.defaultSkus, state.sort.items[payload].field),
     sort: {
       ...state.sort,
       selected: payload,

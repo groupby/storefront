@@ -122,7 +122,7 @@ suite('PastPurchase Adapter', ({ expect, stub }) => {
     });
   });
 
-  describe('sortSkusByType()', () => {
+  describe('sortSkusByField()', () => {
     const skus = [{ sku: '0', quantity: 1, lastPurchased: 420 }];
     let sortSkusStub;
 
@@ -131,26 +131,26 @@ suite('PastPurchase Adapter', ({ expect, stub }) => {
     });
 
     it('should sort the SKUs by quantity', () => {
-      PastPurchaseAdapter.sortSkusByType(skus, 1);
+      PastPurchaseAdapter.sortSkusByField(skus, 'Most Purchased');
 
       expect(sortSkusStub).to.be.calledWithExactly(skus, 'quantity');
     });
 
     it('should sort the SKUs by last purchased', () => {
-      PastPurchaseAdapter.sortSkusByType(skus, 2);
+      PastPurchaseAdapter.sortSkusByField(skus, 'Most Recent');
 
       expect(sortSkusStub).to.be.calledWithExactly(skus, 'lastPurchased');
     });
 
     it('should return the unsorted SKUs when the type is invalid', () => {
-      const result = PastPurchaseAdapter.sortSkusByType(skus, -1);
+      const result = PastPurchaseAdapter.sortSkusByField(skus, 'foo');
 
       expect(sortSkusStub).to.not.be.called;
       expect(result).to.eq(skus);
     });
 
     it('should return the unsorted SKUs when the type is not provided', () => {
-      const result = PastPurchaseAdapter.sortSkusByType(skus);
+      const result = PastPurchaseAdapter.sortSkusByField(skus);
 
       expect(sortSkusStub).to.not.be.called;
       expect(result).to.eq(skus);

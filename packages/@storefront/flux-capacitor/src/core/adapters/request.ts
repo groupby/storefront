@@ -1,5 +1,5 @@
 import { SelectedRefinement, Sort } from 'groupby-api';
-import { SORT_FIELDS } from '../reducers/data/past-purchases';
+import { PAST_PURCHASE_SORTS } from '../reducers/data/past-purchases';
 import Store from '../store';
 import { MAX_RECORDS } from './search';
 
@@ -15,7 +15,7 @@ namespace RequestAdapter {
 
   // tslint:disable-next-line max-line-length
   export const extractPastPurchaseSort = ({ field, descending }: Store.Sort, skus: Store.PastPurchases.PastPurchaseProduct[]): Sort =>
-    SORT_FIELDS.includes(field)
+    PAST_PURCHASE_SORTS.ALL.includes(field)
       ? { type: 'ByIds', ids: skus.map(({ sku }) => sku) }
       : RequestAdapter.extractSort({ field, descending });
 

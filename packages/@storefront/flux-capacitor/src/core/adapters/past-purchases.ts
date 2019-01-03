@@ -1,5 +1,5 @@
 import { Biasing, Sort } from 'groupby-api';
-import { SORT_ENUMS } from '../reducers/data/past-purchases';
+import { PAST_PURCHASE_SORTS } from '../reducers/data/past-purchases';
 import Selectors from '../selectors';
 import Store from '../store';
 
@@ -34,10 +34,10 @@ namespace PastPurchasesAdapter {
     return [...skus].sort(({ [field]: lhs }, { [field]: rhs }) => rhs - lhs);
   };
 
-  export const sortSkusByType = (skus: Store.PastPurchases.PastPurchaseProduct[], type?: number) => {
-    switch (type) {
-      case SORT_ENUMS.MOST_PURCHASED: return PastPurchasesAdapter.sortSkus(skus, 'quantity');
-      case SORT_ENUMS.MOST_RECENT: return PastPurchasesAdapter.sortSkus(skus, 'lastPurchased');
+  export const sortSkusByField = (skus: Store.PastPurchases.PastPurchaseProduct[], field?: string) => {
+    switch (field) {
+      case PAST_PURCHASE_SORTS.MOST_PURCHASED: return PastPurchasesAdapter.sortSkus(skus, 'quantity');
+      case PAST_PURCHASE_SORTS.MOST_RECENT: return PastPurchasesAdapter.sortSkus(skus, 'lastPurchased');
       default: return skus;
     }
   };
@@ -51,7 +51,7 @@ namespace PastPurchasesAdapter {
       },
       sort: <Sort[]>[{ type: 'ByIds', ids }],
     };
-  }
+  };
 }
 
 export default PastPurchasesAdapter;
