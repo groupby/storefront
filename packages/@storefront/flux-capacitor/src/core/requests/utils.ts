@@ -66,6 +66,8 @@ namespace RequestHelpers {
       Selectors.pastPurchases(state)
     );
 
+    // Since the final past purchase sort is extracted from the override request,
+    // it must applied after the base and override objects.
     return <Request>{ ...request, ...overrideRequest, sort };
   };
 
