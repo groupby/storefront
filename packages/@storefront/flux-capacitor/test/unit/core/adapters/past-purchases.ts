@@ -123,11 +123,10 @@ suite('PastPurchase Adapter', ({ expect, stub }) => {
   });
 
   describe('sortSkusByType()', () => {
-    let skus;
+    const skus = [{ sku: '0', quantity: 1, lastPurchased: 420 }];
     let sortSkusStub;
 
     beforeEach(() => {
-      skus = [{ quantity: 1, lastPurchased: 420 }];
       sortSkusStub = stub(PastPurchaseAdapter, 'sortSkus');
     });
 
