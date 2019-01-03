@@ -111,18 +111,8 @@ namespace GenericPaging {
     showIcons?: boolean;
     showLabels?: boolean;
     numericLabels?: boolean;
-    labels?: {
-      first?: string;
-      last?: string;
-      prev?: string;
-      next?: string;
-    };
-    icons?: {
-      first?: string;
-      last?: string;
-      prev?: string;
-      next?: string;
-    };
+    labels?: PageLabels;
+    icons?: PageLabels;
     pageSize?: number;
     current?: number;
     itemCount?: number;
@@ -146,6 +136,13 @@ namespace GenericPaging {
     prevPage?: () => void;
     nextPage?: () => void;
     switchPage?: (page: number) => () => void;
+  }
+
+  export interface PageLabels {
+    first?: string;
+    last?: string;
+    prev?: string;
+    next?: string;
   }
 }
 
