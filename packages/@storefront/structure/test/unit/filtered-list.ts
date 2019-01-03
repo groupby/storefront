@@ -192,13 +192,12 @@ suite('FilteredList', ({ expect, spy, stub }) => {
   });
 
   describe('decorateItem()', () => {
-    let noop;
+    const noop = () => null;
     let item1;
     let item2;
     let item3;
 
     beforeEach(() => {
-      noop = () => null;
       item1 = { value: 'foo', onClick: noop };
       item2 = { value: 'bar', onClick: noop };
       item3 = { value: 'baz', onClick: noop };
