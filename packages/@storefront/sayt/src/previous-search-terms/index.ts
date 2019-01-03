@@ -15,7 +15,7 @@ class PreviousSearch {
   }
 
   init() {
-    this.flux.on(Events.ORIGINAL_QUERY_UPDATED, this.updatePreviousSearches);
+    this.subscribe(Events.ORIGINAL_QUERY_UPDATED, this.updatePreviousSearches);
   }
 
 
