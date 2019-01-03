@@ -12,13 +12,19 @@ suite('Configuration Adapter', ({ expect, stub }) => {
     it('should return initialState based on defaults', () => {
       const category = 'cat';
       const sort = 'prices';
+      const pastPurchaseSort = 'sizes';
       const config = <any>{
         autocomplete: {
           category
         },
         search: {
           sort
-        }
+        },
+        recommendations: {
+          pastPurchases: {
+            sort: pastPurchaseSort
+          },
+        },
       };
 
       expect(Adapter.initialState(config)).to.eql({
@@ -66,7 +72,11 @@ suite('Configuration Adapter', ({ expect, stub }) => {
                   selected: 0,
                   items: [PastPurchaseReducer.DEFAULT_PAGE_SIZE]
                 }
-              }
+              },
+              sort: {
+                selected: 0,
+                items: [pastPurchaseSort],
+              },
             }
           }
         },
@@ -88,6 +98,10 @@ suite('Configuration Adapter', ({ expect, stub }) => {
         default: 50,
         options: [10, 20, 50]
       };
+      const pastPurchaseSort = {
+        default: 'things',
+        options: [{ field: 'things', descending: true }, { field: 'other things' }],
+      };
       const sort = {
         default: 'stuff',
         options: [{ field: 'stuff', descending: true }, { field: 'other stuff' }]
@@ -102,7 +116,12 @@ suite('Configuration Adapter', ({ expect, stub }) => {
           fields,
           pageSize,
           sort
-        }
+        },
+        recommendations: {
+          pastPurchases: {
+            sort: pastPurchaseSort,
+          },
+        },
       };
       const state = {
         data: {
@@ -152,7 +171,11 @@ suite('Configuration Adapter', ({ expect, stub }) => {
                   selected: 2,
                   items: pageSize.options
                 }
-              }
+              },
+              sort: {
+                selected: 0,
+                items: pastPurchaseSort.options,
+              },
             }
           }
         },
@@ -207,29 +230,49 @@ suite('Configuration Adapter', ({ expect, stub }) => {
     });
   });
 
+  describe('extractSearchSorts()', () => {
+    it('should call extractSorts() with search sort config', () => {
+      const extractSorts = stub(Adapter, 'extractSorts');
+      const sort = { foo: 'bar' };
+      const config: any = { search: { sort } };
+
+      Adapter.extractSearchSorts(config);
+
+      expect(extractSorts).to.be.calledWithExactly(sort);
+    });
+  });
+
+  describe('extractPastPurchaseSorts()', () => {
+    it('should call extractSorts() with past purchase sort config', () => {
+      const extractSorts = stub(Adapter, 'extractSorts');
+      const sort = { foo: 'bar' };
+      const config: any = { recommendations: { pastPurchases: { sort } } };
+
+      Adapter.extractPastPurchaseSorts(config);
+
+      expect(extractSorts).to.be.calledWithExactly(sort);
+    });
+  });
+
   describe('extractSorts()', () => {
     it('should do nothing if state does not contain default or options', () => {
-      const sort = {};
+      const sort: any = {};
 
-      const sorts = Adapter.extractSorts(<any>{ search: { sort } });
+      const sorts = Adapter.extractSorts(sort);
 
       expect(sorts).to.eql({ selected: 0, items: [sort] });
     });
 
     it('should default selected to empty object', () => {
-      const sorts = Adapter.extractSorts(<any>{
-        search: {
-          sort: {
-            options: false,
-          },
-        }
-      });
+      const sort: any = { options: false };
+
+      const sorts = Adapter.extractSorts(sort);
 
       expect(sorts).to.eql({ selected: 0, items: [] });
     });
 
     it('should return selected sorts', () => {
-      const sort = {
+      const sort: any = {
         default: false,
         options: [
           {
@@ -240,11 +283,8 @@ suite('Configuration Adapter', ({ expect, stub }) => {
         ]
       };
 
-      expect(Adapter.extractSorts(<any>{
-        search: {
-          sort
-        }
-      })).to.eql({ selected: 1, items: sort.options });
+      expect(Adapter.extractSorts(sort))
+        .to.eql({ selected: 1, items: sort.options });
     });
   });
 

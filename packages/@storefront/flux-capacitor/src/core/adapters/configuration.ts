@@ -25,7 +25,7 @@ namespace ConfigurationAdapter {
           },
           fields: ConfigurationAdapter.extractFields(config),
           collections: ConfigurationAdapter.extractCollections(config, CollectionsReducer.DEFAULT_COLLECTION),
-          sorts: ConfigurationAdapter.extractSorts(config),
+          sorts: ConfigurationAdapter.extractSearchSorts(config),
           page: {
             ...PageReducer.DEFAULTS,
             sizes: ConfigurationAdapter.extractPageSizes(config, PageReducer.DEFAULT_PAGE_SIZE)
@@ -35,7 +35,8 @@ namespace ConfigurationAdapter {
             page: {
               ...PastPurchaseReducer.DEFAULTS.page,
               sizes: ConfigurationAdapter.extractPageSizes(config, PastPurchaseReducer.DEFAULT_PAGE_SIZE)
-            }
+            },
+            sort: ConfigurationAdapter.extractPastPurchaseSorts(config),
           }
         }
       },
@@ -123,8 +124,16 @@ namespace ConfigurationAdapter {
     }
   };
 
-  export const extractSorts = (config: Configuration): Store.SelectableList<Store.Sort> => {
-    const state = config.search.sort;
+  export const extractSearchSorts = (config: Configuration): Store.SelectableList<Store.Sort> => {
+    return ConfigurationAdapter.extractSorts(config.search.sort);
+  };
+
+  export const extractPastPurchaseSorts = (config: Configuration): Store.SelectableList<Store.Sort> => {
+    return ConfigurationAdapter.extractSorts(config.recommendations.pastPurchases.sort);
+  };
+
+  // tslint:disable-next-line max-line-length
+  export const extractSorts = (state: Configuration.ValueOptions<{ field: string; descending?: boolean; }> ): Store.SelectableList<Store.Sort> => {
     if (typeof state === 'object' && ('options' in state || 'default' in state)) {
       const selected: Store.Sort = (<{ default: Store.Sort }>state).default || <any>{};
       const items = (<{ options: Store.Sort[] }>state).options || [];
