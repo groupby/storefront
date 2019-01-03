@@ -61,7 +61,7 @@ class Paging extends GenericPaging {
   }
 
   updatePage = (page: Store.Page) => {
-    const range = Paging.generateRange(page.last, page.current, this.props.limit);
+    const range = Paging.generateRange(page.last || 0, page.current, this.props.limit);
     this.set({
       ...this.props,
       ...page,

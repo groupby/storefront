@@ -303,6 +303,17 @@ suite('Paging', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvideAli
         range: [3, 4, 5, 6, 7],
       });
     });
+
+    it('should call generateRange with 0 as last if last does not exist', () => {
+      const limit = 5;
+      const generateRange = spy(Paging, 'generateRange');
+      paging.props = <any>{ limit };
+      paging.set = () => null;
+
+      paging.updatePage({ ...page, last: undefined });
+
+      expect(generateRange).to.be.calledWith(0, page.current, limit);
+    });
   });
 
   describe('static', () => {
