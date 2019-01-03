@@ -143,8 +143,15 @@ suite('PastPurchase Adapter', ({ expect, stub }) => {
       expect(sortSkusStub).to.be.calledWithExactly(skus, 'lastPurchased');
     });
 
-    it('should return the unsorted SKUs', () => {
+    it('should return the unsorted SKUs when the type is invalid', () => {
       const result = PastPurchaseAdapter.sortSkusByType(skus, -1);
+
+      expect(sortSkusStub).to.not.be.called;
+      expect(result).to.eq(skus);
+    });
+
+    it('should return the unsorted SKUs when the type is not provided', () => {
+      const result = PastPurchaseAdapter.sortSkusByType(skus);
 
       expect(sortSkusStub).to.not.be.called;
       expect(result).to.eq(skus);

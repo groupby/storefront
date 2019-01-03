@@ -34,7 +34,7 @@ namespace PastPurchasesAdapter {
     return [...skus].sort(({ [field]: lhs }, { [field]: rhs }) => rhs - lhs);
   };
 
-  export const sortSkusByType = (skus: Store.PastPurchases.PastPurchaseProduct[], type: number = -1) => {
+  export const sortSkusByType = (skus: Store.PastPurchases.PastPurchaseProduct[], type?: number) => {
     switch (type) {
       case SORT_ENUMS.MOST_PURCHASED: return PastPurchasesAdapter.sortSkus(skus, 'quantity');
       case SORT_ENUMS.MOST_RECENT: return PastPurchasesAdapter.sortSkus(skus, 'lastPurchased');
