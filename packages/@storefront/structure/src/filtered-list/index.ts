@@ -1,4 +1,5 @@
 import { tag, Tag } from '@storefront/core';
+import PagedList from '../paged-list';
 
 const RETURN_KEY_CODE = 13;
 
@@ -15,7 +16,7 @@ class FilteredList {
 
   childProps() {
     const { itemAlias, indexAlias } = this.props;
-    const props: any = { itemAlias, indexAlias, items: this.state.items };
+    const props: PagedList.Props = { itemAlias, indexAlias, items: this.state.items };
 
     if (!this.props.paginate) {
       props.pageSize = props.items.length;
