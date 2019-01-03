@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { provide, tag, Events, Store, Tag } from '@storefront/core';
 
 @provide('previousSearchTerms', (props) => props)
@@ -57,29 +58,37 @@ export default PreviousSearchTerms;
 =======
 import { provide, tag, Events, Selectors, Store, Tag } from '@storefront/core';
 import Sayt from '../sayt';
+=======
+import { provide, tag, Events, Tag } from '@storefront/core';
+>>>>>>> made requested changes to previousSearches component
 
 @provide('previousSearch', (props) => props)
 @tag('gb-sayt-previous-search', require('./index.html'))
 class PreviousSearch {
   props: PreviousSearch.Props = {
-    onClick: (query) => () => this.actions.search(query),
-  } as any;
+    onClick: (query) => this.actions.search(query),
+  };
+  state: PreviousSearch.State = {
+    previousSearches: [],
+  }
 
   constructor() {
-    const previousSearches = []
-    this.state = {...this.state, previousSearches}
+    this.updatePreviousSearches = this.updatePreviousSearches.bind(this);
   }
 
   init() {
     this.flux.on(Events.ORIGINAL_QUERY_UPDATED, this.updatePreviousSearches);
   }
 
-  updatePreviousSearches = (originalQuery: string) => {
-    if(!this.state.previousSearches.includes(originalQuery) && this.state.previousSearches.length < 6) {
-      this.state.previousSearches.push(originalQuery)
-    } else if (!this.state.previousSearches.includes(originalQuery) && this.state.previousSearches.length >= 6) {
-      this.state.previousSearches.shift()
-      this.state.previousSearches.push(originalQuery)
+
+  updatePreviousSearches(originalQuery: string) {
+    if (!this.state.previousSearches.includes(originalQuery)) {
+      if (this.state.previousSearches.length < 6) { // to be set in the storefront config
+        this.state.previousSearches = [...this.state.previousSearches, originalQuery];
+      } else {
+        this.state.previousSearches.shift();
+        this.state.previousSearches = [...this.state.previousSearches, originalQuery];
+      }
     }
   }
 }
@@ -87,7 +96,10 @@ class PreviousSearch {
 interface PreviousSearch extends Tag<PreviousSearch.Props, PreviousSearch.State> {}
 namespace PreviousSearch {
   export interface Props {
-    onClick: (query: string) => () => void;;
+    onClick: (query: string) => void;
+  }
+  export interface State {
+    previousSearches: string[];
   }
 }
 
