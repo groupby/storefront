@@ -144,10 +144,10 @@ suite('requests helpers', ({ expect, stub, spy }) => {
     const state: any = { a: 1 };
     const sort = { field: 'foo' };
 
-    let ppSortStub;
+    let pastPurchaseSortSelected;
 
     beforeEach(() => {
-      ppSortStub = stub(Selectors, 'pastPurchaseSortSelected').returns(sort);
+      pastPurchaseSortSelected = stub(Selectors, 'pastPurchaseSortSelected').returns(sort);
       stub(PastPurchaseAdapter, 'biasSkus').returns(biasing);
       stub(RequestHelpers, 'search').returns(searchRequest);
       stub(Selectors, 'pastPurchases').returns(pastPurchases);
@@ -233,13 +233,13 @@ suite('requests helpers', ({ expect, stub, spy }) => {
 
     SORT_FIELDS.forEach((field) => {
       it(`should handle the "${field}" sort`, () => {
-        ppSortStub.returns({ field });
+        pastPurchaseSortSelected.returns({ field });
 
         const req = RequestHelpers.pastPurchaseProducts(state);
 
         expect(req.sort).to.eql({ type: 'ByIds', ids: [1, 2, 3] });
 
-        ppSortStub.returns(sort);
+        pastPurchaseSortSelected.returns(sort);
       });
     });
   });
