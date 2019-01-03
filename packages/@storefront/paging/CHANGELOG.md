@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] [minor]
+### Removed
+- SF-1197: Components `pager`, `pages` and `terminal-pager` have been moved to
+  `@storefront/structure`.
+
+### Added
+- SF-1197: Added `@storefront/structure` `^1.45.0` as a peer dependency.
+
+### Deprecated
+- SF-1197: The static methods `Paging.generateRange` and `Paging.range` have
+  been moved to `GenericPaging` in `@storefront/structure` and are deprecated
+  in favor of their `GenericPaging` equivalents.
+- SF-1197: Importing `Pager`, `Pages` and `TerminalPager` from
+  `@storefront/paging` is now deprecated. Import them from
+  `@storefront/structure` instead.
+
 ## [1.33.1] - 2019-01-02
 ### Fixed
 - Update repository, issues, and homepage fields in `package.json` file.

@@ -1,9 +1,10 @@
 import { configurable, provide, tag, Events, Selectors, Store, StoreSections, Tag } from '@storefront/core';
+import { GenericPaging } from '@storefront/structure';
 
 @configurable
 @provide('paging')
 @tag('gb-paging', require('./index.html'))
-class Paging {
+class Paging extends GenericPaging {
   props: Paging.Props = {
     showIcons: true,
     showLabels: true,
@@ -52,8 +53,15 @@ class Paging {
     }
   }
 
+  /**
+   * @override
+   */
+  updateState() {
+    // do nothing
+  }
+
   updatePage = (page: Store.Page) => {
-    const range = Paging.generateRange(page.last, page.current, this.props.limit);
+    const range = Paging.generateRange(page.last || 0, page.current, this.props.limit);
     this.set({
       ...this.props,
       ...page,
@@ -65,24 +73,18 @@ class Paging {
     });
   };
 
+  /**
+   * @deprecated
+   */
   static generateRange(lastPage: number, current: number, limit: number) {
-    const last = Math.min(lastPage, limit);
-    const border = Math.floor(limit / 2);
-    if (current <= border) {
-      return Paging.range(1, last);
-    } else if (current >= lastPage - border) {
-      return Paging.range(lastPage - last + 1, lastPage);
-    } else {
-      return Paging.range(current - border, current + border);
-    }
+    return super.generateRange(lastPage, current, limit);
   }
 
+  /**
+   * @deprecated
+   */
   static range(low: number, high: number) {
-    const arr = [];
-    for (let i = low; i < high + 1; i++) {
-      arr.push(i);
-    }
-    return arr;
+    return super.range(low, high);
   }
 }
 

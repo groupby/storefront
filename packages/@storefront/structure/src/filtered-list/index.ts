@@ -1,4 +1,5 @@
 import { tag, Tag } from '@storefront/core';
+import PagedList from '../paged-list';
 
 const RETURN_KEY_CODE = 13;
 
@@ -7,6 +8,7 @@ class FilteredList {
   refs: { filter: HTMLInputElement };
   props: FilteredList.Props = {
     items: [],
+    paginate: true,
   };
   state: FilteredList.State = {
     items: [],
@@ -14,7 +16,13 @@ class FilteredList {
 
   childProps() {
     const { itemAlias, indexAlias } = this.props;
-    return { itemAlias, indexAlias, items: this.state.items };
+    const props: PagedList.Props = { itemAlias, indexAlias, items: this.state.items };
+
+    if (!this.props.paginate) {
+      props.pageSize = props.items.length;
+    }
+
+    return props;
   }
 
   onBeforeMount() {
@@ -29,7 +37,7 @@ class FilteredList {
     const value = this.refs.filter.value.trim().toLowerCase();
     if (event.keyCode === RETURN_KEY_CODE) {
       const foundItem = this.props.items.find((item) => item && (<FilteredList.ItemObject>item).value && (<FilteredList.ItemObject>item).value.toLowerCase() === value);
-       
+
       if (foundItem && typeof (<FilteredList.ItemObject>foundItem).onClick === 'function') {
         (<FilteredList.ItemObject>foundItem).onClick(event)
       }
@@ -73,6 +81,7 @@ namespace FilteredList {
     items?: Item[];
     itemAlias?: string;
     indexAlias?: string;
+    paginate?: boolean;
     onFilterFocus?: (event: FocusEvent) => void;
   }
 

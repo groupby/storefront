@@ -1,0 +1,17 @@
+<gb-list _props="{childProps()}">
+  <yield/>
+</gb-list>
+<gb-generic-paging
+    if="{props.items.length > props.pageSize}"
+    page-size="{props.pageSize}"
+    current="{state.page}"
+    item-count="{props.items.length}"
+    on-first-page="{onFirstPage}"
+    on-last-page="{onLastPage}"
+    on-prev-page="{onPrevPage}"
+    on-next-page="{onNextPage}"
+    on-switch-page="{onSwitchPage}">
+  <gb-terminal-pager>
+    <gb-pages></gb-pages>
+  </gb-terminal-pager>
+</gb-generic-paging>
