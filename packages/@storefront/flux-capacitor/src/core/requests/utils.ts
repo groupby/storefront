@@ -52,6 +52,11 @@ namespace RequestHelpers {
   };
 
   export const pastPurchaseProducts: BuildFunction<Partial<Request>, Request> = (state, overrideRequest = {}) => {
+    const { sort: overrideSort, ...override } = overrideRequest;
+    const sort = RequestAdapter.extractPastPurchaseSort(
+      <any>overrideSort || Selectors.pastPurchaseSortSelected(state),
+      Selectors.pastPurchases(state)
+    );
     const request: Partial<Request> = {
       ...RequestHelpers.search(state),
       ...PastPurchaseAdapter.biasSkus(state),
@@ -59,16 +64,10 @@ namespace RequestHelpers {
       query: Selectors.pastPurchaseQuery(state),
       refinements: Selectors.pastPurchaseSelectedRefinements(state),
       skip: Selectors.pastPurchasePageSize(state) * (Selectors.pastPurchasePage(state) - 1),
+      sort,
     };
 
-    const sort = RequestAdapter.extractPastPurchaseSort(
-      <any>overrideRequest.sort || Selectors.pastPurchaseSortSelected(state),
-      Selectors.pastPurchases(state)
-    );
-
-    // Since the final past purchase sort is extracted from the override request,
-    // it must applied after the base and override objects.
-    return <Request>{ ...request, ...overrideRequest, sort };
+    return <Request>{ ...request, ...override };
   };
 
   // tslint:disable-next-line max-line-length
