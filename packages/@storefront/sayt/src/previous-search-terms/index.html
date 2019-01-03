@@ -1,3 +1,5 @@
-<gb-list items="{state.previousSearches}" item-alias="previous-search" item-props="{ onClick: props.onClick }">
-  <yield/>
+<gb-list items="{state.previousSearches}" item-alias="previous-search" item-props="{{ onClick: props.onClick }}">
+  <yield>
+    <span class="gb-previous-search-terms">{item}</span>
+  </yield>
 </gb-list>
