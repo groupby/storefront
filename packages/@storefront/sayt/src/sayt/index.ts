@@ -10,6 +10,7 @@ class Sayt {
     labels: {
       trending: 'Trending',
     },
+    previousSearchLimit: 5,
   };
   state: Sayt.State = {
     isActive: true,
@@ -68,6 +69,7 @@ namespace Sayt {
   export interface Props extends Tag.Props {
     labels?: Labels;
     recommendations?: boolean;
+    previousSearchLimit?: number;
   }
 
   export interface State {
