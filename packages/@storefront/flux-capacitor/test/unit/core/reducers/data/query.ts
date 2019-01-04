@@ -1,5 +1,5 @@
 import { Actions, Store } from '../../../../../src/core';
-import query from '../../../../../src/core/reducers/data/query';
+import query, { DEFAULTS } from '../../../../../src/core/reducers/data/query';
 import suite from '../../../_suite';
 
 suite('query', ({ expect }) => {
@@ -13,11 +13,11 @@ suite('query', ({ expect }) => {
   };
 
   describe('updateQuery()', () => {
-    it('should update original state on UPDATE_QUERY if query is in payload', () => {
+    it('should update original state on UPDATE_QUERY if query is in payload, and set rest of query to defaults', () => {
       const newOriginal = 'potatoes';
       const newState = {
-        ...state,
-        original: newOriginal,
+        ...DEFAULTS,
+        original: newOriginal
       };
 
       const reducer = query(state, { type: Actions.UPDATE_QUERY, payload: newOriginal });
