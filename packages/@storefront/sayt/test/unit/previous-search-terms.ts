@@ -24,7 +24,10 @@ suite('PreviousSearchTerms', ({ expect, spy, itShouldProvideAlias }) => {
         })
       })
     })
+<<<<<<< HEAD
 
+=======
+>>>>>>> changed alias name, wrote initial unit test for previous searches component and added file to bootstrap
     describe('state', () => {
       describe('previousSearches', () => {
         it('should set inital value', () => {
@@ -33,7 +36,10 @@ suite('PreviousSearchTerms', ({ expect, spy, itShouldProvideAlias }) => {
       })
     })
   })
+<<<<<<< HEAD
 
+=======
+>>>>>>> changed alias name, wrote initial unit test for previous searches component and added file to bootstrap
   describe('init()', () => {
     it('should listen for flux events', () => {
       const subscribe = (previousSearchTerms.subscribe = spy());
@@ -42,6 +48,7 @@ suite('PreviousSearchTerms', ({ expect, spy, itShouldProvideAlias }) => {
       expect(subscribe).to.be.calledWith(Events.ORIGINAL_QUERY_UPDATED, previousSearchTerms.updatePreviousSearches)
     })
   })
+<<<<<<< HEAD
 
   describe('updatePreviousSearches', () => {
     let subscribe, query, handler;
@@ -76,4 +83,19 @@ suite('PreviousSearchTerms', ({ expect, spy, itShouldProvideAlias }) => {
       expect(previousSearchTerms.state.previousSearches).to.eql(['diamond rings', 'saphire', 'rings', 'opals', 'necklaces', 'earrings'])
     })
   })
+=======
+  describe('updatePreviousSearches', () => {
+    beforeEach(() => {
+      const subscribe = (previousSearchTerms.subscribe = spy());
+      previousSearchTerms.init()
+    })
+    it('should add search term if not in array and array length less than limit', () => {
+      const query = 'diamond rings';
+      const handler = previousSearchTerms.updatePreviousSearches;
+      handler(query)
+      expect(previousSearchTerms.state.previousSearches).to.eql(['diamond rings'])
+    })
+  })
+
+>>>>>>> changed alias name, wrote initial unit test for previous searches component and added file to bootstrap
 })

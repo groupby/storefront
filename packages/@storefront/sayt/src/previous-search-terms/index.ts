@@ -62,13 +62,13 @@ import Sayt from '../sayt';
 import { provide, tag, Events, Tag } from '@storefront/core';
 >>>>>>> made requested changes to previousSearches component
 
-@provide('previousSearch', (props) => props)
+@provide('previousSearchTerms', (props) => props)
 @tag('gb-sayt-previous-search', require('./index.html'))
-class PreviousSearch {
-  props: PreviousSearch.Props = {
-    onClick: (query) => this.actions.search(query),
+class PreviousSearchTerms {
+  props: PreviousSearchTerms.Props = {
+    onClick: (query) => () => this.actions.search(query),
   };
-  state: PreviousSearch.State = {
+  state: PreviousSearchTerms.State = {
     previousSearches: [],
   }
 
@@ -82,7 +82,7 @@ class PreviousSearch {
 
 
   updatePreviousSearches(originalQuery: string) {
-    if (!this.state.previousSearches.includes(originalQuery)) {
+    if (this.state.previousSearches.indexOf(originalQuery) === -1) {
       if (this.state.previousSearches.length < 6) { // to be set in the storefront config
         this.state.previousSearches = [...this.state.previousSearches, originalQuery];
       } else {
@@ -93,15 +93,19 @@ class PreviousSearch {
   }
 }
 
-interface PreviousSearch extends Tag<PreviousSearch.Props, PreviousSearch.State> {}
-namespace PreviousSearch {
+interface PreviousSearchTerms extends Tag<PreviousSearchTerms.Props, PreviousSearchTerms.State> {}
+namespace PreviousSearchTerms {
   export interface Props {
-    onClick: (query: string) => void;
+    onClick: (query: string) => () => void;
   }
   export interface State {
     previousSearches: string[];
   }
 }
 
+<<<<<<< HEAD
 export default PreviousSearch;
 >>>>>>>  Made initial previous search terms component
+=======
+export default PreviousSearchTerms;
+>>>>>>> changed alias name, wrote initial unit test for previous searches component and added file to bootstrap
