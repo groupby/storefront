@@ -85,6 +85,7 @@ suite('PreviousSearchTerms', ({ expect, spy, itShouldProvideAlias }) => {
   })
 =======
   describe('updatePreviousSearches', () => {
+<<<<<<< HEAD
     let subscribe, query, handler;
     beforeEach(() => {
       subscribe = (previousSearchTerms.subscribe = spy());
@@ -111,6 +112,18 @@ suite('PreviousSearchTerms', ({ expect, spy, itShouldProvideAlias }) => {
       handler(query);
       expect(previousSearchTerms.state.previousSearches).to.eql(['diamond rings', 'saphire', 'rings', 'opals', 'necklaces', 'earrings'])
     })
+=======
+    beforeEach(() => {
+      const subscribe = (previousSearchTerms.subscribe = spy());
+      previousSearchTerms.init()
+    })
+    it('should add search term if not in array and array length less than limit', () => {
+      const query = 'diamond rings';
+      const handler = previousSearchTerms.updatePreviousSearches;
+      handler(query)
+      expect(previousSearchTerms.state.previousSearches).to.eql(['diamond rings'])
+    })
+>>>>>>> changed alias name, wrote initial unit test for previous searches component and added file to bootstrap
   })
 
 >>>>>>> changed alias name, wrote initial unit test for previous searches component and added file to bootstrap
