@@ -131,7 +131,7 @@ namespace ConfigurationAdapter {
     ConfigurationAdapter.extractSorts(config.recommendations.pastPurchases.sort);
 
   // tslint:disable-next-line max-line-length
-  export const extractSorts = (state: Configuration.ValueOptions<{ field: string; descending?: boolean; }> ): Store.SelectableList<Store.Sort> => {
+  export const extractSorts = (state: Configuration.ValueOptions<Configuration.Sort>): Store.SelectableList<Store.Sort> => {
     if (typeof state === 'object' && ('options' in state || 'default' in state)) {
       const selected: Store.Sort = (<{ default: Store.Sort }>state).default || <any>{};
       const items = (<{ options: Store.Sort[] }>state).options || [];

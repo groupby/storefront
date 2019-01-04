@@ -113,6 +113,14 @@ namespace Configuration {
     sayt: Sayt;
   }
 
+  export interface Sort {
+    /**
+     * field path to sort on
+     */
+    field: string;
+    descending?: boolean;
+  }
+
   export interface Search {
     /**
      * product fields to request
@@ -126,13 +134,7 @@ namespace Configuration {
     /**
      * sorting of products or sort options and default
      */
-    sort?: Configuration.ValueOptions<{
-      /**
-       * field path to sort on
-       */
-      field: string;
-      descending?: boolean;
-    }>;
+    sort?: Configuration.ValueOptions<Configuration.Sort>;
     /**
      * redirect to the details page of product if there is only 1 product result for a search
      */
@@ -337,13 +339,10 @@ namespace Configuration {
        */
       securedPayload: Recommendations.SecuredPayload | (() => Recommendations.SecuredPayload);
 
-      sort?: Configuration.ValueOptions<{
-        /**
-         * field path to sort on
-         */
-        field: string;
-        descending?: boolean;
-      }>;
+      /**
+       * sorting of products or sort options and default
+       */
+      sort?: Configuration.ValueOptions<Configuration.Sort>;
 
       /**
        * Enable past purchases or not
