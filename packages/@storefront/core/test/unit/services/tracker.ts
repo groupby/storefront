@@ -294,7 +294,6 @@ suite('Tracker Service', ({ expect, spy, stub, itShouldExtendBaseService }) => {
     });
 
     describe('sendViewCartEvent()', () => {
-
       it('should send event with metadata', () => {
         const event: any = { a: 'b' };
         const withMetadata = { c: 'd' };
@@ -323,7 +322,6 @@ suite('Tracker Service', ({ expect, spy, stub, itShouldExtendBaseService }) => {
     });
 
     describe('sendAddToCartEvent()', () => {
-
       it('should send event with metadata', () => {
         const event: any = { a: 'b' };
         const withMetadata = { c: 'd' };
@@ -352,7 +350,6 @@ suite('Tracker Service', ({ expect, spy, stub, itShouldExtendBaseService }) => {
     });
 
     describe('sendRemoveFromCartEvent()', () => {
-
       it('should send event with metadata', () => {
         const event: any = { a: 'b' };
         const withMetadata = { c: 'd' };
@@ -381,7 +378,6 @@ suite('Tracker Service', ({ expect, spy, stub, itShouldExtendBaseService }) => {
     });
 
     describe('sendOrderEvent()', () => {
-
       it('should send event with metadata', () => {
         const event: any = { a: 'b' };
         const withMetadata = { c: 'd' };
@@ -410,7 +406,6 @@ suite('Tracker Service', ({ expect, spy, stub, itShouldExtendBaseService }) => {
     });
 
     describe('sendViewProductEvent()', () => {
-
       it('should send event with metadata', () => {
         const id = '1234';
         const collection = 'myCollection';
@@ -457,7 +452,6 @@ suite('Tracker Service', ({ expect, spy, stub, itShouldExtendBaseService }) => {
     });
 
     describe('sendMoreRefinementsEvent()', () => {
-
       it('should send event with metadata', () => {
         const id = 'colour';
         const withMetadata = { c: 'd' };
