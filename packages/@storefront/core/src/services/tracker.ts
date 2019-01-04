@@ -69,9 +69,12 @@ class TrackerService extends BaseService<TrackerService.Options> {
     if (metadata.some((item) => item.key === 'gbi')) {
       return override;
     } else {
+      // tslint:disable comment-format
       // XXX: Below needs to be cast as such in order to get around the restrictions of TypeScript version 3.1.5, not allowing for generic types to be spread.
+      // Source: https://stackoverflow.com/a/51193091
       // TODO: These casts can be removed once we update to TypeScript 3.2.
       return <S>{ ...<GbTracker.BaseEvent>override, metadata: [GBI_EVENT, ...metadata]};
+      // tslint:enable
     };
   }
 
