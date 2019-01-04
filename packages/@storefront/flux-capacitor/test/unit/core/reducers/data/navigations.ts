@@ -199,24 +199,6 @@ suite('navigations', ({ expect }) => {
       expect(reducer).to.eql(newState);
     });
 
-    it('should return state on SELECT_REFINEMENT if no navigationId', () => {
-      const reducer = navigations(state, <any>{
-        type: Actions.SELECT_REFINEMENT,
-        payload: { index: 1 },
-      });
-
-      expect(reducer).to.eq(state);
-    });
-
-    it('should return state on SELECT_REFINEMENT if no refinementIndex', () => {
-      const reducer = navigations(state, <any>{
-        type: Actions.SELECT_REFINEMENT,
-        payload: { navigationId: 'Section' },
-      });
-
-      expect(reducer).to.eq(state);
-    });
-
     it('should add selected refinement state on SELECT_MULTIPLE_REFINEMENTS', () => {
       const newState = {
         ...state,
@@ -239,15 +221,6 @@ suite('navigations', ({ expect }) => {
       });
 
       expect(reducer).to.eql(newState);
-    });
-
-    it('should return state on SELECT_MULTIPLE_REFINEMENTS if no navigationId', () => {
-      const reducer = navigations(state, <any>{
-        type: Actions.SELECT_MULTIPLE_REFINEMENTS,
-        payload: { indices: [1, 2, 3] },
-      });
-
-      expect(reducer).to.eq(state);
     });
 
     it('should not add duplicate indices on SELECT_MULTIPLE_REFINEMENTS', () => {

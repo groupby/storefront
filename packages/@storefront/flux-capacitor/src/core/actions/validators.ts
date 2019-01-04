@@ -71,13 +71,14 @@ export const notOnFirstPage: Validator = {
 };
 
 export const isRefinementDeselectedByIndex: Validator<Actions.Payload.Navigation.Refinement> = {
-  func: ({ navigationId, index }, state) => Selectors.isRefinementDeselected(state, navigationId, index),
+  // tslint:disable-next-line max-line-length
+  func: ({ navigationId, index }, state) => !!navigationId && Selectors.isRefinementDeselected(state, navigationId, index),
   msg: 'navigation does not exist or refinements are already selected'
 };
 
 export const areMultipleRefinementsDeselectedByIndex: Validator<Actions.Payload.Navigation.MultipleRefinements> = {
   // tslint:disable-next-line max-line-length
-  func: ({ navigationId, indices }, state) => Array.isArray(indices) && indices.some((index) => Selectors.isRefinementDeselected(state, navigationId, index)),
+  func: ({ navigationId, indices }, state) =>  !!navigationId && Array.isArray(indices) && indices.some((index) => Selectors.isRefinementDeselected(state, navigationId, index)),
   msg: 'navigation does not exist or all refinements are already selected'
 };
 

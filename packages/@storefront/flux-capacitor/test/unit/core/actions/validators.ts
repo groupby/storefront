@@ -197,6 +197,12 @@ suite('validators', ({ expect, spy, stub }) => {
 
       expect(validators.isRefinementDeselectedByIndex.func({ navigationId, index }, state)).to.be.false;
     });
+
+    it('should be invalid if navigationId is not present', () => {
+      const state: any = { a: 'b' };
+
+      expect(validators.isRefinementDeselectedByIndex.func(<any>{ index }, state)).to.be.false;
+    });
   });
 
   describe('areMultipleRefinementsDeselectedByIndex', () => {
@@ -224,6 +230,13 @@ suite('validators', ({ expect, spy, stub }) => {
       const indices = [];
 
       expect(validators.areMultipleRefinementsDeselectedByIndex.func({ navigationId, indices }, state)).to.be.false;
+    });
+
+    it('should be invalid if navigationId is not present', () => {
+      const state: any = { a: 'b' };
+      const indices = [1, 2, 3, 4, 5, 6, 7];
+
+      expect(validators.areMultipleRefinementsDeselectedByIndex.func(<any>{ indices }, state)).to.be.false;
     });
   });
 

@@ -68,9 +68,6 @@ export const receiveNavigations = (state: State, navigations: Store.Navigation[]
 
 // tslint:disable-next-line max-line-length
 export const selectMultipleRefinements = (state: State, { navigationId, indices }: Actions.Payload.Navigation.MultipleRefinements) => {
-  if (!navigationId) {
-    return state;
-  }
 
   return {
     ...state,
@@ -86,9 +83,6 @@ export const selectMultipleRefinements = (state: State, { navigationId, indices 
 
 // tslint:disable-next-line max-line-length
 export const selectRefinement = (state: State, { navigationId, index: refinementIndex }: Actions.Payload.Navigation.Refinement) => {
-  if (!navigationId || refinementIndex == null) {
-    return state;
-  }
 
   return selectMultipleRefinements(state, { navigationId, indices: [refinementIndex] });
 };
