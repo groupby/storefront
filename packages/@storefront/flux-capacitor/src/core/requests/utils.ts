@@ -1,4 +1,4 @@
-import { Request } from 'groupby-api';
+import { FieldSort, Request } from 'groupby-api';
 import { QueryTimeAutocompleteConfig } from 'sayt';
 import Autocomplete from '../adapters/autocomplete';
 import Configuration from '../adapters/configuration';
@@ -54,7 +54,7 @@ namespace RequestHelpers {
   export const pastPurchaseProducts: BuildFunction<Partial<Request>, Request> = (state, overrideRequest = {}) => {
     const { sort: overrideSort, ...override } = overrideRequest;
     const sort = RequestAdapter.extractPastPurchaseSort(
-      <any>overrideSort || Selectors.pastPurchaseSortSelected(state),
+      <FieldSort>overrideSort || Selectors.pastPurchaseSortSelected(state),
       Selectors.pastPurchases(state)
     );
     const request: Partial<Request> = {
