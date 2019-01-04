@@ -70,7 +70,7 @@ class TrackerService extends BaseService<TrackerService.Options> {
       return override;
     } else {
       // XXX: Below needs to be cast as such in order to get around the restrictions of TypeScript version 3.1.5, not allowing for generic types to be spread.
-      // FIXME: These casts can be removed once we update to TypeScript 3.2.
+      // TODO: These casts can be removed once we update to TypeScript 3.2.
       return <S>{ ...<GbTracker.BaseEvent>override, metadata: [GBI_EVENT, ...metadata]};
     };
   }
