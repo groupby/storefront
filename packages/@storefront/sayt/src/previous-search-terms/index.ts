@@ -1,7 +1,16 @@
 import { provide, tag, Events, Store, Tag } from '@storefront/core';
 
 @provide('previousSearchTerms', (props) => props)
+<<<<<<< HEAD
 @tag('gb-sayt-previous-search-terms', require('./index.html'))
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+@tag('gb-sayt-previous-search', require('./index.html'))
+=======
+@tag('gb-sayt-previous-search-terms', require('./index.html'))
+>>>>>>> made previous search limit configurable
+>>>>>>> made previous search limit configurable
 class PreviousSearchTerms {
   props: PreviousSearchTerms.Props = {
     onClick: (query) => () => this.actions.search(query),
@@ -27,7 +36,11 @@ class PreviousSearchTerms {
     let previousSearches = this.state.previousSearches;
     if (this.state.previousSearches.indexOf(originalQuery) === -1) {
       if (this.state.previousSearches.length < this.props.previousSearchLimit) {
+<<<<<<< HEAD
         previousSearches = [...this.state.previousSearches, originalQuery];
+=======
+        this.state.previousSearches = [...this.state.previousSearches, originalQuery];
+>>>>>>> made previous search limit configurable
       } else {
         this.state.previousSearches.shift();
         previousSearches = [...this.state.previousSearches, originalQuery];
@@ -106,3 +119,28 @@ namespace PreviousSearchTerms {
 }
 
 export default PreviousSearchTerms;
+<<<<<<< HEAD
+=======
+=======
+interface PreviousSearch extends Tag<PreviousSearch.Props, PreviousSearch.State> {}
+namespace PreviousSearch {
+=======
+interface PreviousSearchTerms extends Tag<PreviousSearchTerms.Props, PreviousSearchTerms.State> {}
+namespace PreviousSearchTerms {
+>>>>>>> changed alias name, wrote initial unit test for previous searches component and added file to bootstrap
+  export interface Props {
+    onClick: (query: string) => () => void;
+    previousSearchLimit?: number;
+  }
+  export interface State {
+    previousSearches?: string[];
+  }
+}
+
+<<<<<<< HEAD
+export default PreviousSearch;
+>>>>>>>  Made initial previous search terms component
+=======
+export default PreviousSearchTerms;
+>>>>>>> changed alias name, wrote initial unit test for previous searches component and added file to bootstrap
+>>>>>>> made previous search limit configurable
