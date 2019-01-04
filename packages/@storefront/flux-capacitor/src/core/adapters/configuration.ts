@@ -124,13 +124,11 @@ namespace ConfigurationAdapter {
     }
   };
 
-  export const extractSearchSorts = (config: Configuration): Store.SelectableList<Store.Sort> => {
-    return ConfigurationAdapter.extractSorts(config.search.sort);
-  };
+  export const extractSearchSorts = (config: Configuration): Store.SelectableList<Store.Sort> =>
+    ConfigurationAdapter.extractSorts(config.search.sort);
 
-  export const extractPastPurchaseSorts = (config: Configuration): Store.SelectableList<Store.Sort> => {
-    return ConfigurationAdapter.extractSorts(config.recommendations.pastPurchases.sort);
-  };
+  export const extractPastPurchaseSorts = (config: Configuration): Store.SelectableList<Store.Sort> =>
+    ConfigurationAdapter.extractSorts(config.recommendations.pastPurchases.sort);
 
   // tslint:disable-next-line max-line-length
   export const extractSorts = (state: Configuration.ValueOptions<{ field: string; descending?: boolean; }> ): Store.SelectableList<Store.Sort> => {
