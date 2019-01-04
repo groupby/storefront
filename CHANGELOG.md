@@ -5,6 +5,73 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.6.0] - 2019-01-04
+
+Package versions:
+
+- `@storefront/breadcrumbs`: 1.33.1
+- `@storefront/collections`: 1.32.1
+- `@storefront/core`: 1.55.3
+- `@storefront/details`: 1.32.1
+- `@storefront/did-you-mean`: 1.32.1
+- `@storefront/flux-capacitor`: 1.67.1
+- `@storefront/infinite-scroll`: 1.6.1
+- `@storefront/navigation`: 1.44.0
+- `@storefront/page-size`: 1.34.1
+- `@storefront/paging`: 1.34.0
+- `@storefront/products`: 1.38.1
+- `@storefront/query`: 1.39.1
+- `@storefront/recommendations`: 1.29.1
+- `@storefront/record-count`: 1.33.1
+- `@storefront/related-queries`: 1.32.1
+- `@storefront/sayt`: 1.40.1
+- `@storefront/sort`: 1.35.1
+- `@storefront/structure`: 1.46.0
+- `@storefront/template`: 1.34.1
+
+### Changed
+#### navigation
+- SF-1197: Restored the "more" button on `gb-filter-refinement-controls`.
+- SF-1197: `gb-filtered-refinement-list` is paginated when there are no more refinements
+  to fetch for that navigation.
+- SF-1197: `FilteredRefinementList` now consumes `filterControls`.
+
+#### structure
+- SF-1197: `gb-filtered-list` now uses a `gb-paged-list` instead of a `gb-list`.
+  - The list is paginated to prevent large lists from locking up the display.
+  - **Potentially breaking:** Stylesheets relying on `gb-list` being a direct
+    child of `gb-filtered-list` (i.e. `gb-filtered-list > gb-list`) will need
+    to be changed.
+  - Pagination is enabled by default. To disable it, set the `paginated` prop
+    on `gb-filtered-list` to `false`.
+
+### Removed
+#### paging
+- SF-1197: Components `pager`, `pages` and `terminal-pager` have been moved to
+  `@storefront/structure`.
+
+### Added
+#### paging
+- SF-1197: Added `@storefront/structure` `^1.45.0` as a peer dependency.
+
+#### structure
+- SF-1197: `Pager`, `Pages` and `TerminalPager` components from `@storefront/paging`
+  have been moved into this package.
+- SF-1197: A new `GenericPaging` component was added as a generic version of
+  `Paging` in `@storefront/paging` that does not rely on the store.
+- SF-1197: A new `PagedList` component was added to display a paginated list of items.
+- SF-1197: `FilteredList` learned the `paginated` prop to enable or disable pagination.
+  - It is `true` by default to enable pagination.
+
+### Deprecated
+#### paging
+- SF-1197: The static methods `Paging.generateRange` and `Paging.range` have
+  been moved to `GenericPaging` in `@storefront/structure` and are deprecated
+  in favor of their `GenericPaging` equivalents.
+- SF-1197: Importing `Pager`, `Pages` and `TerminalPager` from
+  `@storefront/paging` is now deprecated. Import them from
+  `@storefront/structure` instead.
+
 ## [v1.5.0] - 2019-01-04
 
 Package versions:
