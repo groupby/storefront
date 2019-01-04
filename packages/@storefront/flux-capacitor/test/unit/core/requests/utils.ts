@@ -238,8 +238,6 @@ suite('requests helpers', ({ expect, stub, spy }) => {
         const req = RequestHelpers.pastPurchaseProducts(state);
 
         expect(req.sort).to.eql({ type: 'ByIds', ids: [1, 2, 3] });
-
-        pastPurchaseSortSelected.returns(sort);
       });
     });
   });
