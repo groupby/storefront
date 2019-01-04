@@ -6,6 +6,7 @@ import * as AutocompleteReducer from '../reducers/data/autocomplete';
 import * as CollectionsReducer from '../reducers/data/collections';
 import * as PageReducer from '../reducers/data/page';
 import * as PastPurchaseReducer from '../reducers/data/past-purchases';
+import * as SortsReducer from '../reducers/data/sorts';
 import Store from '../store';
 import { normalizeToFunction, GenericTransformer } from '../utils';
 
@@ -25,7 +26,7 @@ namespace ConfigurationAdapter {
           },
           fields: ConfigurationAdapter.extractFields(config),
           collections: ConfigurationAdapter.extractCollections(config, CollectionsReducer.DEFAULT_COLLECTION),
-          sorts: ConfigurationAdapter.extractSearchSorts(config),
+          sorts: ConfigurationAdapter.extractSearchSorts(config, SortsReducer.DEFAULTS),
           page: {
             ...PageReducer.DEFAULTS,
             sizes: ConfigurationAdapter.extractPageSizes(config, PageReducer.DEFAULT_PAGE_SIZE)
@@ -124,8 +125,9 @@ namespace ConfigurationAdapter {
     }
   };
 
-  export const extractSearchSorts = (config: Configuration): Store.SelectableList<Store.Sort> =>
-    ConfigurationAdapter.extractSorts(config.search.sort);
+  // tslint:disable-next-line max-line-length
+  export const extractSearchSorts = (config: Configuration, defaultValue: Store.SelectableList<Store.Sort>): Store.SelectableList<Store.Sort> =>
+    ConfigurationAdapter.extractSorts(config.search.sort, defaultValue);
 
   // tslint:disable-next-line max-line-length
   export const extractPastPurchaseSorts = (config: Configuration, defaultValue: Store.SelectableList<Store.Sort>): Store.SelectableList<Store.Sort> =>

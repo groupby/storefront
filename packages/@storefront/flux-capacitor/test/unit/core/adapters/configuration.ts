@@ -231,14 +231,15 @@ suite('Configuration Adapter', ({ expect, stub }) => {
   });
 
   describe('extractSearchSorts()', () => {
-    it('should call extractSorts() with search sort config', () => {
+    it('should call extractSorts() with search sort config and default', () => {
       const extractSorts = stub(Adapter, 'extractSorts');
       const sort = { foo: 'bar' };
+      const defaultValue: any = { baz: 'quux' };
       const config: any = { search: { sort } };
 
-      Adapter.extractSearchSorts(config);
+      Adapter.extractSearchSorts(config, defaultValue);
 
-      expect(extractSorts).to.be.calledWithExactly(sort);
+      expect(extractSorts).to.be.calledWithExactly(sort, defaultValue);
     });
   });
 
