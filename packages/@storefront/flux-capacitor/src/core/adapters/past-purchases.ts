@@ -1,7 +1,7 @@
 import { Biasing, Sort } from 'groupby-api';
-import { PAST_PURCHASE_SORTS } from '../reducers/data/past-purchases';
 import Selectors from '../selectors';
 import Store from '../store';
+import { PAST_PURCHASE_SORTS } from '../utils';
 
 namespace PastPurchasesAdapter {
 

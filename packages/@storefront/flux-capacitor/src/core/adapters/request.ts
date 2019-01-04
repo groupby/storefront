@@ -1,5 +1,5 @@
 import { SelectedRefinement, Sort } from 'groupby-api';
-import { PAST_PURCHASE_SORTS } from '../reducers/data/past-purchases';
+import { PAST_PURCHASE_SORTS } from '../utils';
 import Store from '../store';
 import { MAX_RECORDS } from './search';
 

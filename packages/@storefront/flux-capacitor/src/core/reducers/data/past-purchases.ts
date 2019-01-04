@@ -1,6 +1,7 @@
 import Actions from '../../actions';
 import Adapter from '../../adapters/past-purchases';
 import Store from '../../store';
+import { PAST_PURCHASE_SORTS } from '../../utils';
 import * as navigations from './navigations';
 import * as page from './page';
 import * as products from './products';
@@ -27,11 +28,14 @@ export type Action = Actions.ReceivePastPurchaseSkus
   | Actions.ReceivePastPurchaseTemplate;
 export type State = Store.PastPurchase;
 
-export namespace PAST_PURCHASE_SORTS {
-  export const DEFAULT = 'Default';
-  export const MOST_PURCHASED = 'Most Purchased';
-  export const MOST_RECENT = 'Most Recent';
-}
+export const PAST_PURCHASE_SORT = {
+  items: [
+    { field: PAST_PURCHASE_SORTS.DEFAULT, descending: true },
+    { field: PAST_PURCHASE_SORTS.MOST_RECENT, descending: true },
+    { field: PAST_PURCHASE_SORTS.MOST_PURCHASED, descending: true },
+  ],
+  selected: 0,
+};
 
 export const DEFAULTS: State = <any>{
   defaultSkus: [],
@@ -43,21 +47,7 @@ export const DEFAULTS: State = <any>{
     allRecordCount: 0,
   },
   query: '',
-  sort: {
-    items: [{
-      field: PAST_PURCHASE_SORTS.DEFAULT,
-      descending: true,
-    },
-    {
-      field: PAST_PURCHASE_SORTS.MOST_RECENT,
-      descending: true,
-    },
-    {
-      field: PAST_PURCHASE_SORTS.MOST_PURCHASED,
-      descending: true,
-    }],
-    selected: 0,
-  },
+  sort: PAST_PURCHASE_SORT,
   navigations: {
     byId: {},
     allIds: [],

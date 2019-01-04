@@ -243,18 +243,27 @@ suite('Configuration Adapter', ({ expect, stub }) => {
   });
 
   describe('extractPastPurchaseSorts()', () => {
-    it('should call extractSorts() with past purchase sort config', () => {
+    it('should call extractSorts() with past purchase sort config and default', () => {
       const extractSorts = stub(Adapter, 'extractSorts');
       const sort = { foo: 'bar' };
+      const defaultValue: any = { baz: 'quux' };
       const config: any = { recommendations: { pastPurchases: { sort } } };
 
-      Adapter.extractPastPurchaseSorts(config);
+      Adapter.extractPastPurchaseSorts(config, defaultValue);
 
-      expect(extractSorts).to.be.calledWithExactly(sort);
+      expect(extractSorts).to.be.calledWithExactly(sort, defaultValue);
     });
   });
 
   describe('extractSorts()', () => {
+    it('should return the default value if sort config does not exist', () => {
+      const defaultValue: any = {};
+
+      const sorts = Adapter.extractSorts(undefined, defaultValue);
+
+      expect(sorts).to.eql(defaultValue);
+    });
+
     it('should do nothing if state does not contain default or options', () => {
       const sort: any = {};
 

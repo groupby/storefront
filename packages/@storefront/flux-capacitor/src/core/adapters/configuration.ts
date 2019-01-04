@@ -36,7 +36,7 @@ namespace ConfigurationAdapter {
               ...PastPurchaseReducer.DEFAULTS.page,
               sizes: ConfigurationAdapter.extractPageSizes(config, PastPurchaseReducer.DEFAULT_PAGE_SIZE)
             },
-            sort: ConfigurationAdapter.extractPastPurchaseSorts(config),
+            sort: ConfigurationAdapter.extractPastPurchaseSorts(config, PastPurchaseReducer.PAST_PURCHASE_SORT),
           }
         }
       },
@@ -127,11 +127,12 @@ namespace ConfigurationAdapter {
   export const extractSearchSorts = (config: Configuration): Store.SelectableList<Store.Sort> =>
     ConfigurationAdapter.extractSorts(config.search.sort);
 
-  export const extractPastPurchaseSorts = (config: Configuration): Store.SelectableList<Store.Sort> =>
-    ConfigurationAdapter.extractSorts(config.recommendations.pastPurchases.sort);
+  // tslint:disable-next-line max-line-length
+  export const extractPastPurchaseSorts = (config: Configuration, defaultValue: Store.SelectableList<Store.Sort>): Store.SelectableList<Store.Sort> =>
+    ConfigurationAdapter.extractSorts(config.recommendations.pastPurchases.sort, defaultValue);
 
   // tslint:disable-next-line max-line-length
-  export const extractSorts = (state: Configuration.ValueOptions<Configuration.Sort>): Store.SelectableList<Store.Sort> => {
+  export const extractSorts = (state: Configuration.ValueOptions<Configuration.Sort>, defaultValue?: Store.SelectableList<Store.Sort>): Store.SelectableList<Store.Sort> => {
     if (typeof state === 'object' && ('options' in state || 'default' in state)) {
       const selected: Store.Sort = (<{ default: Store.Sort }>state).default || <any>{};
       const items = (<{ options: Store.Sort[] }>state).options || [];
@@ -139,8 +140,10 @@ namespace ConfigurationAdapter {
         .findIndex((sort) => sort.field === selected.field && !sort.descending === !selected.descending);
 
       return { items, selected: (selectedIndex === -1 ? 0 : selectedIndex) };
-    } else {
+    } else if (state) {
       return { selected: 0, items: [<Store.Sort>state] };
+    } else {
+      return defaultValue;
     }
   };
 

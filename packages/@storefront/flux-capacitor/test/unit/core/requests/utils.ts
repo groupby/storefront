@@ -7,9 +7,9 @@ import PersonalizationAdapter from '../../../../src/core/adapters/personalizatio
 import RecommendationsAdapter from '../../../../src/core/adapters/recommendations';
 import RequestAdapter from '../../../../src/core/adapters/request';
 import SearchAdapter, { MAX_RECORDS } from '../../../../src/core/adapters/search';
-import { PAST_PURCHASE_SORTS } from '../../../../src/core/reducers/data/past-purchases';
 import RequestHelpers from '../../../../src/core/requests/utils';
 import Selectors from '../../../../src/core/selectors';
+import { PAST_PURCHASE_SORTS } from '../../../../src/core/utils';
 import * as utils from '../../../../src/core/utils';
 import suite from '../../_suite';
 

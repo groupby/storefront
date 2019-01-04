@@ -10,6 +10,12 @@ export const Routes = {
   PAST_PURCHASE: 'pastpurchase',
 };
 
+export namespace PAST_PURCHASE_SORTS {
+  export const DEFAULT = 'Default';
+  export const MOST_PURCHASED = 'Most Purchased';
+  export const MOST_RECENT = 'Most Recent';
+}
+
 export namespace StoreSections {
   export const SEARCH = 'search';
 
