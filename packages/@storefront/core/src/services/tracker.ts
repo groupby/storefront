@@ -4,7 +4,18 @@ import { core, BaseService } from '../core/service';
 import { GbTracker } from '../core/utils';
 import StoreFront from '../storefront';
 
-export const GBI_EVENT: GbTracker.Metadata = { key: 'gbi', value: 'true' };
+const GBI = 'gbi';
+const GBI_EXPERIENCE ='gbi_experience';
+export const GBI_METADATA: GbTracker.Metadata[] = [
+  {
+    key: GBI,
+    value: 'true'
+  },
+  {
+    key: GBI_EXPERIENCE,
+    value: 'storefront'
+  }
+];
 export const TRACKER_EVENT = 'tracker:send_event';
 export const DEFAULT_ORIGINS = {
   dym: false,
@@ -66,14 +77,14 @@ class TrackerService extends BaseService<TrackerService.Options> {
   attachGbiEventMetadata = <S extends GbTracker.BaseEvent>(override: S): S => {
     const { metadata = [] } = override;
 
-    if (metadata.some((item) => item.key === 'gbi')) {
+    if (metadata.some((item) => item.key === GBI)) {
       return override;
     } else {
       // tslint:disable comment-format
       // XXX: Below needs to be cast as such in order to get around the restrictions of TypeScript version 3.1.5, not allowing for generic types to be spread.
       // Source: https://stackoverflow.com/a/51193091
       // TODO: These casts can be removed once we update to TypeScript 3.2.
-      return <S>{ ...<GbTracker.BaseEvent>override, metadata: [GBI_EVENT, ...metadata]};
+      return <S>{ ...<GbTracker.BaseEvent>override, metadata: [...GBI_METADATA, ...metadata]};
       // tslint:enable
     };
   }

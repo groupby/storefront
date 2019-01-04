@@ -2,6 +2,7 @@ import { Events } from '@storefront/flux-capacitor';
 import * as sinon from 'sinon';
 import ProductTransformer from '../../../src/core/product-transformer';
 import * as utils from '../../../src/core/utils';
+import { GBI_METADATA } from '../../../src/services/tracker';
 import Service, { DEFAULT_ORIGINS, TRACKER_EVENT } from '../../../src/services/tracker';
 import StoreFront from '../../../src/storefront';
 import suite from './_suite';
@@ -208,18 +209,16 @@ suite('Tracker Service', ({ expect, spy, stub, itShouldExtendBaseService }) => {
   });
 
   describe('attachGbiEventMetadata()', () => {
-    const GBI_EVENT = { key: 'gbi', value: 'true' };
-
     it('should add the GBI_EVENT object to the override event metadata', () => {
       const override: any = { e: 'f', metadata: [{ i: 'j' }] };
 
       const overriddenEvent = service.attachGbiEventMetadata(override);
 
-      expect(overriddenEvent.metadata).to.eql([GBI_EVENT, ...override.metadata]);
+      expect(overriddenEvent.metadata).to.eql([...GBI_METADATA, ...override.metadata]);
     });
 
     it('should not add the GBI_EVENT if it is already present in the event metadata', () => {
-      const override: any = { e: 'f', metadata: [GBI_EVENT, { i: 'j' }] };
+      const override: any = { e: 'f', metadata: [...GBI_METADATA, { i: 'j' }] };
 
       const overriddenEvent = service.attachGbiEventMetadata(override);
 
