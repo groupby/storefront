@@ -15,7 +15,7 @@ namespace RequestAdapter {
 
   // tslint:disable-next-line max-line-length
   export const extractPastPurchaseSort = ({ field, descending }: Store.Sort, skus: Store.PastPurchases.PastPurchaseProduct[]): Sort =>
-    PAST_PURCHASE_SORTS.ALL.includes(field)
+    Object.keys(PAST_PURCHASE_SORTS).map((k) => PAST_PURCHASE_SORTS[k]).includes(field)
       ? { type: 'ByIds', ids: skus.map(({ sku }) => sku) }
       : RequestAdapter.extractSort({ field, descending });
 

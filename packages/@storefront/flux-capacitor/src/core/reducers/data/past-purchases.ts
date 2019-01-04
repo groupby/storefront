@@ -31,11 +31,6 @@ export namespace PAST_PURCHASE_SORTS {
   export const DEFAULT = 'Default';
   export const MOST_PURCHASED = 'Most Purchased';
   export const MOST_RECENT = 'Most Recent';
-  export const ALL = [
-    PAST_PURCHASE_SORTS.DEFAULT,
-    PAST_PURCHASE_SORTS.MOST_PURCHASED,
-    PAST_PURCHASE_SORTS.MOST_RECENT,
-  ];
 }
 
 export const DEFAULTS: State = <any>{

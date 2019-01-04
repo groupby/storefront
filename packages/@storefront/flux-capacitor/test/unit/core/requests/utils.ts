@@ -231,7 +231,7 @@ suite('requests helpers', ({ expect, stub, spy }) => {
       expect(req.sort).to.eql(sanitizedSort);
     });
 
-    PAST_PURCHASE_SORTS.ALL.forEach((field) => {
+    Object.keys(PAST_PURCHASE_SORTS).map((k) => PAST_PURCHASE_SORTS[k]).forEach((field) => {
       it(`should handle the "${field}" sort`, () => {
         pastPurchaseSortSelected.returns({ field });
 
