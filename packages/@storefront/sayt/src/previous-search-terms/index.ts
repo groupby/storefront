@@ -27,6 +27,8 @@ class PreviousSearchTerms {
         this.state.previousSearches.shift();
         this.state.previousSearches = [...this.state.previousSearches, originalQuery];
       }
+    } else {
+      this.state.previousSearches = [...this.state.previousSearches.splice(this.state.previousSearches.indexOf(originalQuery), 1), ...this.state.previousSearches]
     }
   }
 }
