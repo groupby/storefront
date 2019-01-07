@@ -77,16 +77,14 @@ class TrackerService extends BaseService<TrackerService.Options> {
   attachGbiEventMetadata = <S extends GbTracker.BaseEvent>(override: S): S => {
     const { metadata = [] } = override;
 
-    if (metadata.some((item) => item.key === GBI)) {
-      return override;
-    } else {
-      // tslint:disable comment-format
-      // XXX: Below needs to be cast as such in order to get around the restrictions of TypeScript version 3.1.5, not allowing for generic types to be spread.
-      // Source: https://stackoverflow.com/a/51193091
-      // TODO: These casts can be removed once we update to TypeScript 3.2.
-      return <S>{ ...<GbTracker.BaseEvent>override, metadata: [...GBI_METADATA, ...metadata]};
-      // tslint:enable
-    };
+    const filteredMetadata = metadata.filter((item) => item.key !== GBI && item.key !== GBI_EXPERIENCE);
+
+    // tslint:disable comment-format
+    // XXX: Below needs to be cast as such in order to get around the restrictions of TypeScript version 3.1.5, not allowing for generic types to be spread.
+    // Source: https://stackoverflow.com/a/51193091
+    // TODO: These casts can be removed once we update to TypeScript 3.2.
+    return <S>{ ...<GbTracker.BaseEvent>override, metadata: [...GBI_METADATA, ...filteredMetadata] };
+    // tslint:enable
   }
 
   buildEvent = <S, T>(override: Override<S, T>, event: T, value: S | T = event) => {
