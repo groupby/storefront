@@ -299,13 +299,11 @@ suite('URL Service', ({ expect, spy, stub }) => {
           pageSize,
           query,
           refinements,
-          sort
         };
         const store: any = { c: 'd' };
         stub(Adapters.Request, 'clampPageSize').withArgs(page, pageSize).returns(pageSize);
         stub(Adapters.Request, 'extractRefinement').returnsArg(1);
         stub(Adapters.Request, 'extractSkip').withArgs(page).returns(skip);
-        stub(Adapters.Request, 'extractSort').withArgs(sort).returns(sort);
 
         expect(Utils.pastPurchaseStateToRequest(state, store)).to.eql({
           pageSize,
@@ -313,7 +311,6 @@ suite('URL Service', ({ expect, spy, stub }) => {
           collection,
           query,
           refinements,
-          sort,
         });
       });
 
@@ -325,15 +322,12 @@ suite('URL Service', ({ expect, spy, stub }) => {
         stub(Selectors, 'collection').withArgs(store).returns(collection);
         stub(Selectors, 'pastPurchaseQuery').withArgs(store).returns(query);
         stub(Adapters.Request, 'extractSkip').withArgs(1).returns(skip);
-        stub(Selectors, 'pastPurchaseSortSelected').withArgs(store).returns(sort);
-        stub(Adapters.Request, 'extractSort').withArgs(sort).returns(sort);
 
         expect(Utils.pastPurchaseStateToRequest(state, store)).to.eql({
           pageSize,
           skip,
           collection,
           query,
-          sort,
         });
       });
 
@@ -348,6 +342,27 @@ suite('URL Service', ({ expect, spy, stub }) => {
         expect(Utils.pastPurchaseStateToRequest(state, store)).to.eql({
           collection,
           query,
+        });
+      });
+
+      it('should remove the `sort` property from state', () => {
+        const state: any = {
+          collection,
+          page,
+          pageSize,
+          query,
+          skip,
+          sort,
+        };
+        const store: any = {};
+        stub(Adapters.Request, 'clampPageSize').withArgs(page, pageSize).returns(pageSize);
+        stub(Adapters.Request, 'extractSkip').withArgs(page).returns(skip);
+
+        expect(Utils.pastPurchaseStateToRequest(state, store)).to.eql({
+          collection,
+          pageSize,
+          query,
+          skip,
         });
       });
     });
@@ -513,7 +528,7 @@ suite('URL Service', ({ expect, spy, stub }) => {
                     }
                   }
                 },
-                sort: { items: [{ field: 'price' }, { field: 'price', descending: true }], selected: 0 },
+                sort: { items: [{ field: 'price' }, { field: 'price', descending: true }], selected: 1 },
               },
             },
           },
@@ -671,6 +686,75 @@ suite('URL Service', ({ expect, spy, stub }) => {
         const newState = Utils.mergeSearchState(state, request);
 
         expect(newState).to.eql(state);
+      });
+    });
+
+    describe('mergePastPurchaseSortsState()', () => {
+      it('should call `mergeSortsState()` with `Selectors.pastPurchaseSort`', () => {
+        const pastPurchaseSort = { foo: 'bar' };
+        const request = { baz: 'quux' };
+        const mergeSortsStateStub = stub(Utils, 'mergeSortsState');
+        stub(Selectors, 'pastPurchaseSort').returns(pastPurchaseSort);
+
+        Utils.mergePastPurchaseSortsState(<any>{}, <any>request);
+
+        expect(mergeSortsStateStub).to.be.calledWith(pastPurchaseSort, request);
+      });
+    });
+
+    describe('mergeSearchSortsState()', () => {
+      it('should call `mergeSortsState()` with `Selectors.sorts`', () => {
+        const sort = { foo: 'bar' };
+        const request = { baz: 'quux' };
+        const mergeSortsStateStub = stub(Utils, 'mergeSortsState');
+        stub(Selectors, 'sorts').returns(sort);
+
+        Utils.mergeSearchSortsState(<any>{}, <any>request);
+
+        expect(mergeSortsStateStub).to.be.calledWith(sort, request);
+      });
+    });
+
+    describe('mergeSortsState()', () => {
+      it('should spread the `sorts`', () => {
+        const request = { sort: {} };
+        const sorts = {
+          items: [],
+          selected: 0,
+        };
+
+        const result = Utils.mergeSortsState(sorts, <any>request);
+
+        expect(result).to.include(sorts);
+      });
+
+      it('should update the selected sort', () => {
+        const item1 = { field: 'foo', descending: false };
+        const item2 = { field: 'bar', descending: false };
+        const request = { sort: item2 };
+        const sorts = {
+          items: [item1, item2],
+          selected: 0,
+        };
+
+        const result = Utils.mergeSortsState(sorts, <any>request);
+
+        expect(result).to.eql({
+          items: [item1, item2],
+          selected: 1,
+        });
+      });
+
+      it('should not update the selected sort if the index is not found', () => {
+        const request = { sort: { field: 'Missing Field' } };
+        const sorts = {
+          items: [{ field: 'foo' }, { field: 'bar' }],
+          selected: 1,
+        };
+
+        const result = Utils.mergeSortsState(sorts, <any>request);
+
+        expect(result).to.eql(sorts);
       });
     });
   });

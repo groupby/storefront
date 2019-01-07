@@ -2,7 +2,7 @@ import Adapter from '../../../../src/core/adapters/request';
 import { MAX_RECORDS } from '../../../../src/core/adapters/search';
 import suite from '../../_suite';
 
-suite('Request Adapter', ({ expect }) => {
+suite('Request Adapter', ({ expect, stub }) => {
   describe('clampPageSize()', () => {
     it('should return the page size', () => {
       const page = 2;
@@ -45,6 +45,26 @@ suite('Request Adapter', ({ expect }) => {
       const field = 'height';
 
       expect(Adapter.extractSort({ field })).to.eql({ field, order: undefined });
+    });
+  });
+
+  describe('extractPastPurchaseSort()', () => {
+    it('should return a "ByIds"-type sort', () => {
+      const sku1 = 1;
+      const sku2 = 2;
+      const skus: any = [{ sku: sku1 }, { sku: sku2 }];
+      const sort = { field: 'Most Recent' };
+
+      expect(Adapter.extractPastPurchaseSort(sort, skus)).to.eql({ type: 'ByIds', ids: [sku1, sku2] });
+    });
+
+    it('should call `extractSort()`', () => {
+      const extractSortStub = stub(Adapter, 'extractSort');
+      const sort = { field: '__FOO__' };
+
+      Adapter.extractPastPurchaseSort(sort, []);
+
+      expect(extractSortStub).to.be.calledWith({ ...sort, descending: undefined });
     });
   });
 

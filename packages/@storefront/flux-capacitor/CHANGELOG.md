@@ -4,6 +4,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] [patch]
+### Added
+- SF-1237: Exposed past purchase sort options via importable `PAST_PURCHASE_SORTS` object.
+  - `PAST_PURCHASE_SORTS` exposes:
+    - `DEFAULT` - Sorts past purchases based on the past purchase endpoint.
+    - `MOST_PURCHASED` - Sorts past purchases based on the quantity purchased.
+    - `MOST_RECENT` - Sorts past purchases based on the latest purchased timestamp.
+- SF-1237: Added support for configuring past purchase sort options.
+  ```
+  {
+  ...
+    recommendations: {
+      pastPurchases: {
+        sort: {
+          options: [{ field: PAST_PURCHASE_SORTS.MOST_RECENT, descending: true }, { field: PAST_PURHCASE_SORTS. MOST_PURCHASED, descending: true }],
+          default: { field: PAST_PURCHASE_SORTS.MOST_RECENT, descending: true }
+      }
+    }
+  }
+  ...
+  ```
+
+### Fixed
+- SF-1237: Fix issue where past purchase sorts are not correctly applied/transmitted.
+
+
 ## [1.67.3] - 2019-01-04
 ### Fixed
 - SF-1243: `updateQuery` action sets `original` query and clears the rest of query state.

@@ -9,6 +9,7 @@ import RequestAdapter from '../../../../src/core/adapters/request';
 import SearchAdapter, { MAX_RECORDS } from '../../../../src/core/adapters/search';
 import RequestHelpers from '../../../../src/core/requests/utils';
 import Selectors from '../../../../src/core/selectors';
+import { PAST_PURCHASE_SORTS } from '../../../../src/core/utils';
 import * as utils from '../../../../src/core/utils';
 import suite from '../../_suite';
 
@@ -143,7 +144,10 @@ suite('requests helpers', ({ expect, stub, spy }) => {
     const state: any = { a: 1 };
     const sort = { field: 'foo' };
 
+    let pastPurchaseSortSelected;
+
     beforeEach(() => {
+      pastPurchaseSortSelected = stub(Selectors, 'pastPurchaseSortSelected').returns(sort);
       stub(PastPurchaseAdapter, 'biasSkus').returns(biasing);
       stub(RequestHelpers, 'search').returns(searchRequest);
       stub(Selectors, 'pastPurchases').returns(pastPurchases);
@@ -151,7 +155,6 @@ suite('requests helpers', ({ expect, stub, spy }) => {
       stub(Selectors, 'pastPurchaseQuery').returns(query);
       stub(Selectors, 'pastPurchaseSelectedRefinements').returns(refinements);
       stub(Selectors, 'pastPurchasePage').returns(page);
-      stub(Selectors, 'pastPurchaseSortSelected').returns(sort);
     });
 
     it('should spread the search request', () => {
@@ -192,7 +195,6 @@ suite('requests helpers', ({ expect, stub, spy }) => {
         query: 'hmm ok',
         refinements: [{ a: 'b' }],
         skip: 234,
-        sort: { c: 'd' },
         extra: 'extra override',
       };
 
@@ -202,8 +204,29 @@ suite('requests helpers', ({ expect, stub, spy }) => {
       expect(req.query).to.eq(overrideRequest.query);
       expect(req.refinements).to.eq(overrideRequest.refinements);
       expect(req.skip).to.eq(overrideRequest.skip);
-      expect(req.sort).to.eq(overrideRequest.sort);
       expect(req.extra).to.eq(overrideRequest.extra);
+    });
+
+    it('should use the selected sort to generate the sanitized sort', () => {
+      const sanitizedSort = { baz: 'quux' };
+      const overrideRequest: any = {
+        a: 'b',
+      };
+      stub(RequestAdapter, 'extractPastPurchaseSort').withArgs(sort).returns(sanitizedSort);
+
+      const req: any = RequestHelpers.pastPurchaseProducts(state, overrideRequest);
+
+      expect(req.sort).to.eql(sanitizedSort);
+    });
+
+    Object.keys(PAST_PURCHASE_SORTS).map((k) => PAST_PURCHASE_SORTS[k]).forEach((field) => {
+      it(`should handle the "${field}" sort`, () => {
+        pastPurchaseSortSelected.returns({ field });
+
+        const req = RequestHelpers.pastPurchaseProducts(state);
+
+        expect(req.sort).to.eql({ type: 'ByIds', ids: [1, 2, 3] });
+      });
     });
   });
 

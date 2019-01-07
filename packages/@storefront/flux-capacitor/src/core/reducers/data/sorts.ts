@@ -5,7 +5,10 @@ export type Action = Actions.SelectSort;
 export type State = Store.SelectableList<Store.Sort>;
 
 export const DEFAULTS: State = {
-  items: []
+  items: [
+    { field: '_relevance', descending: true }
+  ],
+  selected: 0,
 };
 
 export default function updateSorts(state: State = DEFAULTS, action: Action): State {

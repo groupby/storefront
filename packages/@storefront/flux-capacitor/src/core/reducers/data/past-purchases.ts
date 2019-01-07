@@ -1,6 +1,7 @@
 import Actions from '../../actions';
 import Adapter from '../../adapters/past-purchases';
 import Store from '../../store';
+import { PAST_PURCHASE_SORTS } from '../../utils';
 import * as navigations from './navigations';
 import * as page from './page';
 import * as products from './products';
@@ -27,9 +28,14 @@ export type Action = Actions.ReceivePastPurchaseSkus
   | Actions.ReceivePastPurchaseTemplate;
 export type State = Store.PastPurchase;
 
-export enum SORT_ENUMS {
-  DEFAULT, MOST_PURCHASED, MOST_RECENT
-}
+export const PAST_PURCHASE_SORT = {
+  items: [
+    { field: PAST_PURCHASE_SORTS.DEFAULT, descending: true },
+    { field: PAST_PURCHASE_SORTS.MOST_RECENT, descending: true },
+    { field: PAST_PURCHASE_SORTS.MOST_PURCHASED, descending: true },
+  ],
+  selected: 0,
+};
 
 export const DEFAULTS: State = <any>{
   defaultSkus: [],
@@ -41,24 +47,7 @@ export const DEFAULTS: State = <any>{
     allRecordCount: 0,
   },
   query: '',
-  sort: {
-    items: [{
-      field: 'Default',
-      descending: true,
-      type: SORT_ENUMS.DEFAULT,
-    },
-    {
-      field: 'Most Recent',
-      descending: true,
-      type: SORT_ENUMS.MOST_RECENT,
-    },
-    {
-      field: 'Most Purchased',
-      descending: true,
-      type: SORT_ENUMS.MOST_PURCHASED,
-    }],
-    selected: 0,
-  },
+  sort: PAST_PURCHASE_SORT,
   navigations: {
     byId: {},
     allIds: [],
@@ -97,7 +86,7 @@ export const updatePastPurchaseSkus = (state: State, { payload }: Actions.Receiv
   ({
     ...state,
     defaultSkus: payload,
-    skus: payload,
+    skus: Adapter.sortSkusByField(payload, state.sort.items[state.sort.selected].field),
   });
 
 export const updatePastPurchaseProducts = (state: State, { payload }: Actions.ReceivePastPurchaseProducts) =>
@@ -165,20 +154,9 @@ export const updatePastPurchaseQuery = (state: State, { payload }: Actions.Updat
   });
 
 export const updatePastPurchaseSortSelected = (state: State, { payload }: Actions.SelectPastPurchaseSort) => {
-  let skus = state.defaultSkus;
-
-  switch (state.sort.items[payload].type) {
-    case SORT_ENUMS.MOST_PURCHASED:
-      skus = Adapter.sortSkus(skus, 'quantity');
-      break;
-    case SORT_ENUMS.MOST_RECENT:
-      skus = Adapter.sortSkus(skus, 'lastPurchased');
-      break;
-  }
-
   return {
     ...state,
-    skus,
+    skus: Adapter.sortSkusByField(state.defaultSkus, state.sort.items[payload].field),
     sort: {
       ...state.sort,
       selected: payload,

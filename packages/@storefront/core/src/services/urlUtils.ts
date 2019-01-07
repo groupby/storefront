@@ -118,10 +118,12 @@ namespace UrlUtils {
     const {
       pageSize = Selectors.pastPurchasePageSize(store),
       query = Selectors.pastPurchaseQuery(store),
-      sort = Selectors.pastPurchaseSortSelected(store),
+      // remove `sort` field from parsed URL so that past purchase-specific sort can be applied when SKU data is available.
+      sort,
+      ...rest
     } = state;
 
-    return stateToBaseRequest({ ...state, pageSize, query, sort }, store);
+    return stateToBaseRequest({ ...(<UrlBeautifier.SearchUrlState>rest), pageSize, query }, store);
   };
 
   export const getSortIndex = (stateSort: Store.Sort[], requestSort: Store.Sort) => {
@@ -194,10 +196,7 @@ namespace UrlUtils {
             ...pastPurchaseData,
             page: mergePastPurchasePageState(state, request),
             navigations: mergePastPurchaseNavigationsState(state, request),
-            sort: {
-              ...presentState.pastPurchases.sort,
-              ...Selectors.pastPurchaseSort(state),
-            },
+            sort: mergePastPurchaseSortsState(state, request),
           },
         },
       },
@@ -268,13 +267,22 @@ namespace UrlUtils {
     };
   };
 
-  export const mergeSearchSortsState = (state: Store.State, request: UrlBeautifier.SearchUrlState) => {
-    const currentSortIndex = getSortIndex(Selectors.sorts(state).items, request.sort);
-    return {
-      ...Selectors.sorts(state),
-      selected: currentSortIndex === -1 ? Selectors.sortIndex(state) : currentSortIndex,
-    };
+  export const mergePastPurchaseSortsState = (state: Store.State, request: UrlBeautifier.SearchUrlState) => {
+    return UrlUtils.mergeSortsState(Selectors.pastPurchaseSort(state), request);
   };
+
+  export const mergeSearchSortsState = (state: Store.State, request: UrlBeautifier.SearchUrlState) => {
+    return UrlUtils.mergeSortsState(Selectors.sorts(state), request);
+  };
+
+  export const mergeSortsState = (sorts: Store.SelectableList<Store.Sort>, request: UrlBeautifier.SearchUrlState) => {
+    const currentSortIndex = getSortIndex(sorts.items, request.sort);
+
+    return {
+      ...sorts,
+      selected: currentSortIndex === -1 ? sorts.selected : currentSortIndex,
+    }
+  }
 
   export const mergeSearchNavigationsState = (state: Store.State, request: UrlBeautifier.SearchUrlState) => {
     const navigationsObject = Selectors.navigationsObject(state);

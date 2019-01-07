@@ -121,4 +121,39 @@ suite('PastPurchase Adapter', ({ expect, stub }) => {
       });
     });
   });
+
+  describe('sortSkusByField()', () => {
+    const skus = [{ sku: '0', quantity: 1, lastPurchased: 420 }];
+    let sortSkusStub;
+
+    beforeEach(() => {
+      sortSkusStub = stub(PastPurchaseAdapter, 'sortSkus');
+    });
+
+    it('should sort the SKUs by quantity', () => {
+      PastPurchaseAdapter.sortSkusByField(skus, 'Most Purchased');
+
+      expect(sortSkusStub).to.be.calledWithExactly(skus, 'quantity');
+    });
+
+    it('should sort the SKUs by last purchased', () => {
+      PastPurchaseAdapter.sortSkusByField(skus, 'Most Recent');
+
+      expect(sortSkusStub).to.be.calledWithExactly(skus, 'lastPurchased');
+    });
+
+    it('should return the unsorted SKUs when the type is invalid', () => {
+      const result = PastPurchaseAdapter.sortSkusByField(skus, 'foo');
+
+      expect(sortSkusStub).to.not.be.called;
+      expect(result).to.eq(skus);
+    });
+
+    it('should return the unsorted SKUs when the type is not provided', () => {
+      const result = PastPurchaseAdapter.sortSkusByField(skus);
+
+      expect(sortSkusStub).to.not.be.called;
+      expect(result).to.eq(skus);
+    });
+  });
 });
