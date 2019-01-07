@@ -52,11 +52,6 @@ namespace RequestHelpers {
   };
 
   export const pastPurchaseProducts: BuildFunction<Partial<Request>, Request> = (state, overrideRequest = {}) => {
-    const { sort: overrideSort, ...override } = overrideRequest;
-    const sort = RequestAdapter.extractPastPurchaseSort(
-      <FieldSort>overrideSort || Selectors.pastPurchaseSortSelected(state),
-      Selectors.pastPurchases(state)
-    );
     const request: Partial<Request> = {
       ...RequestHelpers.search(state),
       ...PastPurchaseAdapter.biasSkus(state),
@@ -64,10 +59,13 @@ namespace RequestHelpers {
       query: Selectors.pastPurchaseQuery(state),
       refinements: Selectors.pastPurchaseSelectedRefinements(state),
       skip: Selectors.pastPurchasePageSize(state) * (Selectors.pastPurchasePage(state) - 1),
-      sort,
+      sort: RequestAdapter.extractPastPurchaseSort(
+        Selectors.pastPurchaseSortSelected(state),
+        Selectors.pastPurchases(state)
+      ),
     };
 
-    return <Request>{ ...request, ...override };
+    return <Request>{ ...request, ...overrideRequest };
   };
 
   // tslint:disable-next-line max-line-length

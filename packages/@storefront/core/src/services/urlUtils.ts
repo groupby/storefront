@@ -118,10 +118,12 @@ namespace UrlUtils {
     const {
       pageSize = Selectors.pastPurchasePageSize(store),
       query = Selectors.pastPurchaseQuery(store),
-      sort = Selectors.pastPurchaseSortSelected(store),
+      // remove `sort` field from parsed URL so that past purchase-specific sort can be applied when SKU data is available.
+      sort,
+      ...rest
     } = state;
 
-    return stateToBaseRequest({ ...state, pageSize, query, sort }, store);
+    return stateToBaseRequest({ ...(<UrlBeautifier.SearchUrlState>rest), pageSize, query }, store);
   };
 
   export const getSortIndex = (stateSort: Store.Sort[], requestSort: Store.Sort) => {

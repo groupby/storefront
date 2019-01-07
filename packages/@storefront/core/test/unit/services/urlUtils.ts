@@ -299,13 +299,11 @@ suite('URL Service', ({ expect, spy, stub }) => {
           pageSize,
           query,
           refinements,
-          sort
         };
         const store: any = { c: 'd' };
         stub(Adapters.Request, 'clampPageSize').withArgs(page, pageSize).returns(pageSize);
         stub(Adapters.Request, 'extractRefinement').returnsArg(1);
         stub(Adapters.Request, 'extractSkip').withArgs(page).returns(skip);
-        stub(Adapters.Request, 'extractSort').withArgs(sort).returns(sort);
 
         expect(Utils.pastPurchaseStateToRequest(state, store)).to.eql({
           pageSize,
@@ -313,7 +311,6 @@ suite('URL Service', ({ expect, spy, stub }) => {
           collection,
           query,
           refinements,
-          sort,
         });
       });
 
@@ -325,15 +322,12 @@ suite('URL Service', ({ expect, spy, stub }) => {
         stub(Selectors, 'collection').withArgs(store).returns(collection);
         stub(Selectors, 'pastPurchaseQuery').withArgs(store).returns(query);
         stub(Adapters.Request, 'extractSkip').withArgs(1).returns(skip);
-        stub(Selectors, 'pastPurchaseSortSelected').withArgs(store).returns(sort);
-        stub(Adapters.Request, 'extractSort').withArgs(sort).returns(sort);
 
         expect(Utils.pastPurchaseStateToRequest(state, store)).to.eql({
           pageSize,
           skip,
           collection,
           query,
-          sort,
         });
       });
 
@@ -348,6 +342,27 @@ suite('URL Service', ({ expect, spy, stub }) => {
         expect(Utils.pastPurchaseStateToRequest(state, store)).to.eql({
           collection,
           query,
+        });
+      });
+
+      it('should remove the `sort` property from state', () => {
+        const state: any = {
+          collection,
+          page,
+          pageSize,
+          query,
+          skip,
+          sort,
+        };
+        const store: any = {};
+        stub(Adapters.Request, 'clampPageSize').withArgs(page, pageSize).returns(pageSize);
+        stub(Adapters.Request, 'extractSkip').withArgs(page).returns(skip);
+
+        expect(Utils.pastPurchaseStateToRequest(state, store)).to.eql({
+          collection,
+          pageSize,
+          query,
+          skip,
         });
       });
     });

@@ -207,18 +207,6 @@ suite('requests helpers', ({ expect, stub, spy }) => {
       expect(req.extra).to.eq(overrideRequest.extra);
     });
 
-    it('should use the overrideRequest to generate the sanitized sort', () => {
-      const sanitizedSort = { baz: 'quux' };
-      const overrideRequest: any = {
-        sort: { foo: 'bar' },
-      };
-      stub(RequestAdapter, 'extractPastPurchaseSort').withArgs(overrideRequest.sort).returns(sanitizedSort);
-
-      const req: any = RequestHelpers.pastPurchaseProducts(state, overrideRequest);
-
-      expect(req.sort).to.eql(sanitizedSort);
-    });
-
     it('should use the selected sort to generate the sanitized sort', () => {
       const sanitizedSort = { baz: 'quux' };
       const overrideRequest: any = {
