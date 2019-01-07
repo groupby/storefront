@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Collection | StoreFront</title>
+	<title>Sort | StoreFront</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,16 +56,19 @@
 					<a href="../index.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_storefront_flux_capacitor.html">@storefront/flux-capacitor</a>
+					<a href="../modules/_storefront_core.html">@storefront/core</a>
 				</li>
 				<li>
-					<a href="../modules/_storefront_flux_capacitor.store.html">Store</a>
+					<a href="../modules/_storefront_core.configuration.html">Configuration</a>
 				</li>
 				<li>
-					<a href="_storefront_flux_capacitor.store.collection.html">Collection</a>
+					<a href="../modules/_storefront_core.configuration.configuration.html">Configuration</a>
+				</li>
+				<li>
+					<a href="_storefront_core.configuration.configuration.sort.html">Sort</a>
 				</li>
 			</ul>
-			<h1>Interface Collection</h1>
+			<h1>Interface Sort</h1>
 		</div>
 	</div>
 </header>
@@ -76,7 +79,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">Collection</span>
+						<span class="target">Sort</span>
 					</li>
 				</ul>
 			</section>
@@ -87,8 +90,8 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_storefront_flux_capacitor.store.collection.html#name" class="tsd-kind-icon">name</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_storefront_flux_capacitor.store.collection.html#total" class="tsd-kind-icon">total</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_storefront_core.configuration.configuration.sort.html#descending" class="tsd-kind-icon">descending</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_storefront_core.configuration.configuration.sort.html#field" class="tsd-kind-icon">field</a></li>
 							</ul>
 						</section>
 					</div>
@@ -97,29 +100,29 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="name" class="tsd-anchor"></a>
-					<h3>name</h3>
-					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="descending" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> descending</h3>
+					<div class="tsd-signature tsd-kind-icon">descending<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/groupby/storefront/blob/546b20735/packages/@storefront/flux-capacitor/src/core/store/index.ts#L109">flux-capacitor/src/core/store/index.ts:109</a></li>
+							<li>Defined in /home/circleci/project/node_modules/@storefront/flux-capacitor/dist/core/configuration.d.ts:108</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="field" class="tsd-anchor"></a>
+					<h3>field</h3>
+					<div class="tsd-signature tsd-kind-icon">field<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in /home/circleci/project/node_modules/@storefront/flux-capacitor/dist/core/configuration.d.ts:107</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>byId key</p>
+							<p>field path to sort on</p>
 						</div>
 					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="total" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> total</h3>
-					<div class="tsd-signature tsd-kind-icon">total<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/groupby/storefront/blob/546b20735/packages/@storefront/flux-capacitor/src/core/store/index.ts#L110">flux-capacitor/src/core/store/index.ts:110</a></li>
-						</ul>
-					</aside>
 				</section>
 			</section>
 		</div>
@@ -130,30 +133,71 @@
 						<a href="../index.html"><em>Globals</em></a>
 					</li>
 					<li class="current tsd-kind-external-module">
-						<a href="../modules/_storefront_flux_capacitor.html">@storefront/flux-<wbr>capacitor</a>
+						<a href="../modules/_storefront_core.html">@storefront/core</a>
 						<ul>
+							<li class=" tsd-kind-module tsd-parent-kind-external-module">
+								<a href="../modules/_storefront_core.beautifierfactory.html">Beautifier<wbr>Factory</a>
+							</li>
 							<li class="current tsd-kind-module tsd-parent-kind-external-module">
-								<a href="../modules/_storefront_flux_capacitor.store.html">Store</a>
+								<a href="../modules/_storefront_core.configuration.html">Configuration</a>
 								<ul>
-									<li class=" tsd-kind-module tsd-parent-kind-module">
-										<a href="../modules/_storefront_flux_capacitor.store.autocomplete.html">Autocomplete</a>
+									<li class="current tsd-kind-module tsd-parent-kind-module">
+										<a href="../modules/_storefront_core.configuration.configuration.html">Configuration</a>
+										<ul>
+											<li class=" tsd-kind-module tsd-parent-kind-module">
+												<a href="../modules/_storefront_core.configuration.configuration.autocomplete.html">Autocomplete</a>
+											</li>
+											<li class=" tsd-kind-module tsd-parent-kind-module">
+												<a href="../modules/_storefront_core.configuration.configuration.navigations.html">Navigations</a>
+											</li>
+											<li class=" tsd-kind-module tsd-parent-kind-module">
+												<a href="../modules/_storefront_core.configuration.configuration.personalization.html">Personalization</a>
+											</li>
+											<li class=" tsd-kind-module tsd-parent-kind-module">
+												<a href="../modules/_storefront_core.configuration.configuration.recommendations.html">Recommendations</a>
+											</li>
+										</ul>
 									</li>
-									<li class=" tsd-kind-module tsd-parent-kind-module tsd-has-type-parameter">
-										<a href="../modules/_storefront_flux_capacitor.store.indexed.html">Indexed</a>
-									</li>
 									<li class=" tsd-kind-module tsd-parent-kind-module">
-										<a href="../modules/_storefront_flux_capacitor.store.pastpurchases.html">Past<wbr>Purchases</a>
-									</li>
-									<li class=" tsd-kind-module tsd-parent-kind-module">
-										<a href="../modules/_storefront_flux_capacitor.store.personalization.html">Personalization</a>
-									</li>
-									<li class=" tsd-kind-module tsd-parent-kind-module">
-										<a href="../modules/_storefront_flux_capacitor.store.recommendations.html">Recommendations</a>
-									</li>
-									<li class=" tsd-kind-module tsd-parent-kind-module">
-										<a href="../modules/_storefront_flux_capacitor.store.zone.html">Zone</a>
+										<a href="../modules/_storefront_core.configuration.transformer.html">Transformer</a>
 									</li>
 								</ul>
+							</li>
+							<li class=" tsd-kind-module tsd-parent-kind-external-module">
+								<a href="../modules/_storefront_core.globals.html">Globals</a>
+							</li>
+							<li class=" tsd-kind-module tsd-parent-kind-external-module">
+								<a href="../modules/_storefront_core.phase.html">Phase</a>
+							</li>
+							<li class=" tsd-kind-module tsd-parent-kind-external-module">
+								<a href="../modules/_storefront_core.producttransformer.html">Product<wbr>Transformer</a>
+							</li>
+							<li class=" tsd-kind-module tsd-parent-kind-external-module">
+								<a href="../modules/_storefront_core.props.html">Props</a>
+							</li>
+							<li class=" tsd-kind-module tsd-parent-kind-external-module">
+								<a href="../modules/_storefront_core.provideconsume.html">Provide<wbr>Consume</a>
+							</li>
+							<li class=" tsd-kind-module tsd-parent-kind-external-module">
+								<a href="../modules/_storefront_core.pure.html">Pure</a>
+							</li>
+							<li class=" tsd-kind-module tsd-parent-kind-external-module">
+								<a href="../modules/_storefront_core.selectors.html">Selectors</a>
+							</li>
+							<li class=" tsd-kind-module tsd-parent-kind-external-module">
+								<a href="../modules/_storefront_core.service.html">Service</a>
+							</li>
+							<li class=" tsd-kind-module tsd-parent-kind-external-module">
+								<a href="../modules/_storefront_core.structure.html">Structure</a>
+							</li>
+							<li class=" tsd-kind-module tsd-parent-kind-external-module">
+								<a href="../modules/_storefront_core.tagutils.html">Tag<wbr>Utils</a>
+							</li>
+							<li class=" tsd-kind-module tsd-parent-kind-external-module">
+								<a href="../modules/_storefront_core.urlutils.html">Url<wbr>Utils</a>
+							</li>
+							<li class=" tsd-kind-module tsd-parent-kind-external-module tsd-is-not-exported">
+								<a href="../modules/_storefront_core.utils.html">Utils</a>
 							</li>
 						</ul>
 					</li>
@@ -162,100 +206,64 @@
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_storefront_flux_capacitor.store.baserefinement.html" class="tsd-kind-icon">Base<wbr>Refinement</a>
+						<a href="_storefront_core.configuration.configuration.bridge.html" class="tsd-kind-icon">Bridge</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_storefront_flux_capacitor.store.basezone.html" class="tsd-kind-icon">Base<wbr>Zone</a>
+						<a href="_storefront_core.configuration.configuration.clients.html" class="tsd-kind-icon">Clients</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="_storefront_core.configuration.configuration.collections.html" class="tsd-kind-icon">Collections</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="_storefront_core.configuration.configuration.details.html" class="tsd-kind-icon">Details</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="_storefront_core.configuration.configuration.refinements.html" class="tsd-kind-icon">Refinements</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="_storefront_core.configuration.configuration.search.html" class="tsd-kind-icon">Search</a>
 					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-module">
-						<a href="_storefront_flux_capacitor.store.collection.html" class="tsd-kind-icon">Collection</a>
+						<a href="_storefront_core.configuration.configuration.sort.html" class="tsd-kind-icon">Sort</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_storefront_flux_capacitor.store.collection.html#name" class="tsd-kind-icon">name</a>
+								<a href="_storefront_core.configuration.configuration.sort.html#descending" class="tsd-kind-icon">descending</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_storefront_flux_capacitor.store.collection.html#total" class="tsd-kind-icon">total</a>
+								<a href="_storefront_core.configuration.configuration.sort.html#field" class="tsd-kind-icon">field</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_storefront_flux_capacitor.store.contentzone.html" class="tsd-kind-icon">Content<wbr>Zone</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_storefront_flux_capacitor.store.data.html" class="tsd-kind-icon">Data</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_storefront_flux_capacitor.store.details.html" class="tsd-kind-icon">Details</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_storefront_flux_capacitor.store.geolocation.html" class="tsd-kind-icon">Geolocation</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_storefront_flux_capacitor.store.infinitescroll.html" class="tsd-kind-icon">Infinite<wbr>Scroll</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_storefront_flux_capacitor.store.isfetching.html" class="tsd-kind-icon">Is<wbr>Fetching</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_storefront_flux_capacitor.store.navigation.html" class="tsd-kind-icon">Navigation</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_storefront_flux_capacitor.store.page.html" class="tsd-kind-icon">Page</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_storefront_flux_capacitor.store.pastpurchase.html" class="tsd-kind-icon">Past<wbr>Purchase</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_storefront_flux_capacitor.store.product.html" class="tsd-kind-icon">Product</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_storefront_flux_capacitor.store.productwithmetadata.html" class="tsd-kind-icon">Product<wbr>With<wbr>Metadata</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_storefront_flux_capacitor.store.productszone.html" class="tsd-kind-icon">Products<wbr>Zone</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_storefront_flux_capacitor.store.query.html" class="tsd-kind-icon">Query</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_storefront_flux_capacitor.store.rangerefinement.html" class="tsd-kind-icon">Range<wbr>Refinement</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_storefront_flux_capacitor.store.richcontentzone.html" class="tsd-kind-icon">Rich<wbr>Content<wbr>Zone</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-has-type-parameter">
-						<a href="_storefront_flux_capacitor.store.selectablelist.html" class="tsd-kind-icon">Selectable<wbr>List</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_storefront_flux_capacitor.store.session.html" class="tsd-kind-icon">Session</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_storefront_flux_capacitor.store.sort.html" class="tsd-kind-icon">Sort</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_storefront_flux_capacitor.store.state.html" class="tsd-kind-icon">State</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_storefront_flux_capacitor.store.template.html" class="tsd-kind-icon">Template</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_storefront_flux_capacitor.store.ui.html" class="tsd-kind-icon">UI</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_storefront_flux_capacitor.store.valuerefinement.html" class="tsd-kind-icon">Value<wbr>Refinement</a>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="../modules/_storefront_core.configuration.configuration.html#autocompleteproductsoverrides" class="tsd-kind-icon">Autocomplete<wbr>Products<wbr>Overrides</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-						<a href="../modules/_storefront_flux_capacitor.store.html#availablenavigations" class="tsd-kind-icon">Available<wbr>Navigations</a>
+						<a href="../modules/_storefront_core.configuration.configuration.html#autocompletesuggestionsoverrides" class="tsd-kind-icon">Autocomplete<wbr>Suggestions<wbr>Overrides</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-						<a href="../modules/_storefront_flux_capacitor.store.html#refinement" class="tsd-kind-icon">Refinement</a>
+						<a href="../modules/_storefront_core.configuration.configuration.html#recommendationmode" class="tsd-kind-icon">Recommendation<wbr>Mode</a>
 					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-module">
-						<a href="../modules/_storefront_flux_capacitor.store.html#create" class="tsd-kind-icon">create</a>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="../modules/_storefront_core.configuration.configuration.html#recommendationsidsoverrides" class="tsd-kind-icon">Recommendations<wbr>Ids<wbr>Overrides</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="../modules/_storefront_core.configuration.configuration.html#recommendationsnavigationsoverrides" class="tsd-kind-icon">Recommendations<wbr>Navigations<wbr>Overrides</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="../modules/_storefront_core.configuration.configuration.html#recommendationssuggestionsoverrides" class="tsd-kind-icon">Recommendations<wbr>Suggestions<wbr>Overrides</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="../modules/_storefront_core.configuration.configuration.html#searchoverrides" class="tsd-kind-icon">Search<wbr>Overrides</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter">
+						<a href="../modules/_storefront_core.configuration.configuration.html#valueoptions" class="tsd-kind-icon">Value<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-module">
+						<a href="../modules/_storefront_core.configuration.configuration.html#recommendation_modes" class="tsd-kind-icon">RECOMMENDATION_<wbr>MODES</a>
 					</li>
 				</ul>
 			</nav>
