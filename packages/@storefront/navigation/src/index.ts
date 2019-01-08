@@ -14,6 +14,8 @@ import RefinementPillsCategory from './refinement-pills-category';
 import SliderRefinementControls from './slider-refinement-controls';
 import ValueRefinementControls from './value-refinement-controls';
 
+const adfasdfasda = 'asdlkfjasldfjalksdjfalksdjflaskdjflaksjflaksdjflaksdjfalsfsdfaasdlkfjasldkfjalsdkjfalsdkjfalksdfjalskdfjlsakdjfasdflkasjdflkasdjflaksdjfalksdjfaskldfj'
+
 export {
   FilterRefinementControls,
   FilteredRefinementList,
