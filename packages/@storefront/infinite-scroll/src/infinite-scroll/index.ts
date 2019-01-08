@@ -173,8 +173,7 @@ class InfiniteScroll {
       setScroll: true,
       rememberScrollY: !this.state.loadMore ? PADDING : 0,
       prevExists: items.length > 0 ? items[0].index !== 1 : false,
-      // tslint:disable-next-line max-line-length
-      moreExists:
+       moreExists:
         items.length > 0 ? this.state.recordCount(this.flux.store.getState()) !== items[items.length - 1].index : false,
     });
     this.state.windowScroll
@@ -203,8 +202,7 @@ class InfiniteScroll {
         });
       } else if (products[products.length - 1].index < this.state.items[0].index) {
         const pageSize = this.state.pageSize(this.flux.store.getState());
-        // tslint:disable-next-line max-line-length
-        const rememberScrollY =
+         const rememberScrollY =
           this.calculateOffset(pageSize) +
           (this.state.windowScroll ? Core.utils.WINDOW().pageYOffset : this.state.scroller.root.scrollTop);
         items = [...products.map(this.productTransformer), ...this.state.items];
@@ -244,20 +242,16 @@ class InfiniteScroll {
       this.calculatePageChange();
     }
 
-    // tslint:disable-next-line max-line-length
-    if (!this.state.loadMore && scrollY !== this.state.rememberScrollY) {
+     if (!this.state.loadMore && scrollY !== this.state.rememberScrollY) {
       // if user is scrolling down and hits point past breakpoint, should fetch
-      // tslint:disable-next-line max-line-length
-      if (this.state.lastScroll < scrollY && scrollY > wrapperScrollHeight - wrapperClientHeight - SCROLL_OFFSET) {
-        // tslint:disable-next-line max-line-length
-        if (
+       if (this.state.lastScroll < scrollY && scrollY > wrapperScrollHeight - wrapperClientHeight - SCROLL_OFFSET) {
+         if (
           this.state.recordCount(this.flux.store.getState()) !== this.state.items[this.state.items.length - 1].index
         ) {
           this.fetchMoreItems();
         }
         // if user is scrolling up and hits point past breakpoint, should fetch
-        // tslint:disable-next-line max-line-length
-      } else if (this.state.lastScroll > scrollY && scrollY < SCROLL_OFFSET) {
+       } else if (this.state.lastScroll > scrollY && scrollY < SCROLL_OFFSET) {
         if (this.state.prevExists) {
           this.fetchMoreItems(false);
         }
