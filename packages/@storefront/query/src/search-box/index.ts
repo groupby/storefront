@@ -1,7 +1,5 @@
-import { consume, provide, tag, utils, Events, Selectors, Tag } from '@storefront/core';
+import { consume, provide, tag, Events, KEYS, Selectors, Tag } from '@storefront/core';
 import Query from '../query';
-
-const { KEYS } = utils;
 
 @consume('query')
 @provide('searchBox')

@@ -1,7 +1,5 @@
-import { tag, utils, Tag } from '@storefront/core';
+import { tag, KEYS, Tag } from '@storefront/core';
 import PagedList from '../paged-list';
-
-const { KEYS } = utils;
 
 @tag('gb-filtered-list', require('./index.html'))
 class FilteredList {
