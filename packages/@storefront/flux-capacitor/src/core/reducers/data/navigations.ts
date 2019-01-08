@@ -64,7 +64,8 @@ export const receiveNavigations = (state: State, navigations: Store.Navigation[]
   };
 };
 
- export const selectRefinement = (state: State, { navigationId, index: refinementIndex }: Actions.Payload.Navigation.Refinement) => {
+// tslint:disable-next-line max-line-length
+export const selectRefinement = (state: State, { navigationId, index: refinementIndex }: Actions.Payload.Navigation.Refinement) => {
   if (navigationId && refinementIndex != null) {
     return {
       ...state,
@@ -81,7 +82,8 @@ export const receiveNavigations = (state: State, navigations: Store.Navigation[]
   }
 };
 
- export const deselectRefinement = (state: State, { navigationId, index: refinementIndex }: Actions.Payload.Navigation.Refinement) => {
+// tslint:disable-next-line max-line-length
+export const deselectRefinement = (state: State, { navigationId, index: refinementIndex }: Actions.Payload.Navigation.Refinement) => {
   if (navigationId && refinementIndex != null) {
     return {
       ...state,
@@ -116,7 +118,8 @@ const generateNavigation = (state: State, navigationId: string, refinement: any,
     })
 });
 
- export const addRefinement = (state: State, { navigationId, value, low, high, range }: Actions.Payload.Navigation.AddRefinement) => {
+// tslint:disable-next-line max-line-length
+export const addRefinement = (state: State, { navigationId, value, low, high, range }: Actions.Payload.Navigation.AddRefinement) => {
   const refinement: any = range ? { low, high } : { value };
 
   if (navigationId in state.byId) {
@@ -149,7 +152,8 @@ const generateNavigation = (state: State, navigationId: string, refinement: any,
   }
 };
 
- export const receiveMoreRefinements = (state: State, { navigationId, refinements, selected }: Actions.Payload.Navigation.MoreRefinements) => {
+// tslint:disable-next-line max-line-length
+export const receiveMoreRefinements = (state: State, { navigationId, refinements, selected }: Actions.Payload.Navigation.MoreRefinements) => {
   if (navigationId && refinements) {
     const { show, ...navWithoutShow } = state.byId[navigationId];
     return {
@@ -169,7 +173,8 @@ const generateNavigation = (state: State, navigationId: string, refinement: any,
   }
 };
 
- export const receiveNavigationSort = (state: State, sort: Store.Recommendations.Navigation[]) => ({
+// tslint:disable-next-line max-line-length
+export const receiveNavigationSort = (state: State, sort: Store.Recommendations.Navigation[]) => ({
   ...state,
   sort
 });
