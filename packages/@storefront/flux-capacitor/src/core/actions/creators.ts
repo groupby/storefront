@@ -54,7 +54,6 @@ namespace ActionCreators {
    * @param {Actions.Payload.Fetch.Override} options - An object with a request object for override.
    * @return {Actions.FetchProductsWithoutHistory} - Action with `{ request }`.
    */
-  // tslint:disable-next-line max-line-length
   export function fetchProductsWithoutHistory(options: Actions.Payload.Fetch.Override = {}): Actions.FetchProductsWithoutHistory {
     return createAction(Actions.FETCH_PRODUCTS_WITHOUT_HISTORY, options);
   }
@@ -64,7 +63,6 @@ namespace ActionCreators {
    * @param {Actions.Payload.Fetch.Override} options - An object with a request object for override.
    * @return {Actions.FetchProductsWhenHydrated} - Action with `{ request }`.
    */
-  // tslint:disable-next-line max-line-length
   export function fetchProductsWhenHydrated(options: Actions.Payload.Fetch.Override = {}): Actions.FetchProductsWhenHydrated {
     return createAction(Actions.FETCH_PRODUCTS_WHEN_HYDRATED, ActionCreators.fetchProducts(options));
   }
@@ -99,7 +97,6 @@ namespace ActionCreators {
    * with the query term to fetch autocomplete suggestions against, and a request object for override.
    * @return {Actions.FetchAutocompleteSuggestions} - Action with `{ query, request }`.
    */
-  // tslint:disable-next-line max-line-length
   export function fetchAutocompleteSuggestions(options: Actions.Payload.Fetch.AutocompleteSuggestions): Actions.FetchAutocompleteSuggestions;
   /**
    * Makes a request for autocomplete suggestions.
@@ -123,7 +120,6 @@ namespace ActionCreators {
    * with the query and refinements, and a request object for override.
    * @return {Actions.FetchAutocompleteProducts} - Action with `{ query, refinements, request }`.
    */
-  // tslint:disable-next-line max-line-length
   export function fetchAutocompleteProducts(options: Actions.Payload.Fetch.AutocompleteProducts): Actions.FetchAutocompleteProducts;
   /**
    * Makes a request for autocomplete products.
@@ -133,7 +129,6 @@ namespace ActionCreators {
    * refinements.
    * @return {Actions.FetchAutocompleteProducts} - Action with `{ query, refinements }`.
    */
-  // tslint:disable-next-line max-line-length
   export function fetchAutocompleteProducts(query: string, refinements?: Actions.Payload.Autocomplete.Refinement[]): Actions.FetchAutocompleteProducts;
   // tslint:disable-next-line typedef
   export function fetchAutocompleteProducts(options, refinements = []): Actions.FetchAutocompleteProducts {
@@ -194,7 +189,6 @@ namespace ActionCreators {
    * request object for override.
    * @return {Actions.FetchRecommendationsProducts} - Action with `{ request }`.
    */
-  // tslint:disable-next-line max-line-length
   export function fetchRecommendationsProducts(options: Actions.Payload.Fetch.Override = {}): Actions.FetchRecommendationsProducts {
     return createAction(Actions.FETCH_RECOMMENDATIONS_PRODUCTS, options);
   }
@@ -224,7 +218,6 @@ namespace ActionCreators {
    * @param {Actions.Payload.Fetch.PastPurchases} options - An object with a request object for override.
    * @return {Actions.FetchPastPurchaseProducts} - Action with `{ query, request }`.
    */
-  // tslint:disable-next-line max-line-length
   export function fetchPastPurchaseProducts(options: Actions.Payload.Fetch.PastPurchases = {}): Actions.FetchPastPurchaseProducts {
     return createAction(Actions.FETCH_PAST_PURCHASE_PRODUCTS, options);
   }
@@ -235,7 +228,6 @@ namespace ActionCreators {
    * and a request object for override.
    * @return {Actions.FetchPastPurchaseProducts} - Action with `{ amount, forward, request }`.
    */
-  // tslint:disable-next-line max-line-length
   export function fetchMorePastPurchaseProducts(options: Actions.Payload.Fetch.MorePastPurchases): Actions.FetchMorePastPurchaseProducts;
   /**
    * Makes a request for more past purchase products.
@@ -244,7 +236,6 @@ namespace ActionCreators {
    * and a request object for override.
    * @return {Actions.FetchPastPurchaseProducts} - Action with `{ amount, forward }`.
    */
-   // tslint:disable-next-line max-line-length
   export function fetchMorePastPurchaseProducts(amount: number, forward?: boolean): Actions.FetchMorePastPurchaseProducts;
   // tslint:disable-next-line typedef
   export function fetchMorePastPurchaseProducts(options, forward = true): Actions.FetchMorePastPurchaseProducts {
@@ -259,7 +250,6 @@ namespace ActionCreators {
    * the navigation to fetch more refinements against and a request object for override.
    * @return {Actions.FetchMorePastPurchaseRefinements} - Action with `{ navigationId, request }`.
    */
-  // tslint:disable-next-line max-line-length
   export function fetchMorePastPurchaseRefinements(options: Actions.Payload.Fetch.MorePastPurchaseRefinements): Actions.FetchMorePastPurchaseRefinements;
   /**
    * Makes a request for more past purchase refinements for given navigation.
@@ -356,7 +346,6 @@ namespace ActionCreators {
    * for a range refinement, or left out for a value refinement.
    * @return {Actions.ResetPageAndAddRefinement}            - Actions with relevant data.
    */
-  // tslint:disable-next-line max-line-length
   export function addRefinement(field: string, valueOrLow: any, high: any = null): Actions.ResetPageAndAddRefinement {
     return [
       ActionCreators.resetPage(),
@@ -432,7 +421,6 @@ namespace ActionCreators {
       if (Selectors.config(state).search.useDefaultCollection) {
         actions.push(ActionCreators.selectCollection(Selectors.defaultCollection(state)));
       }
-      // tslint:disable-next-line max-line-length
       actions.push(...ActionCreators.resetRefinements(true), ...ActionCreators.updateQuery(query || Selectors.query(state)));
 
       return actions;
@@ -446,7 +434,6 @@ namespace ActionCreators {
    * @param  {number}             index - The index for the refinement.
    * @return {Actions.ResetRecall}      - Actions with relevant data.
    */
-  // tslint:disable-next-line max-line-length
   export function resetRecall(query: string = null, { field, index }: { field: string, index: number } = <any>{}) {
     return (state: Store.State): Actions.ResetRecall => {
       const resetActions: any[] = ActionCreators.search(query)(state);
@@ -714,7 +701,6 @@ namespace ActionCreators {
    * indicating which indexes of the refinements are set to selected.
    * @return {Actions.ReceiveMoreRefinements}              - Action with navigationId, refinements, and selected.
    */
-  // tslint:disable-next-line max-line-length
   export function receiveMoreRefinements(navigationId: string, refinements: Store.Refinement[], selected: number[]): Actions.ReceiveMoreRefinements {
     return createAction(Actions.RECEIVE_MORE_REFINEMENTS, { navigationId, refinements, selected });
   }
@@ -728,7 +714,6 @@ namespace ActionCreators {
    * indicating which indexes of the refinements are set to selected.
    * @return {Actions.ReceiveMoreRefinements}              - Action with navigationId, refinements, and selected.
    */
-  // tslint:disable-next-line max-line-length
   export function receiveMorePastPurchaseRefinements(navigationId: string, refinements: Store.Refinement[], selected: number[]): Actions.ReceiveMorePastPurchaseRefinements {
     return createAction(Actions.RECEIVE_MORE_PAST_PURCHASE_REFINEMENTS, { navigationId, refinements, selected });
   }
@@ -739,7 +724,6 @@ namespace ActionCreators {
    * to update the state to.
    * @return {Actions.ReceiveAutocompleteSuggestions}               - Action with suggestions.
    */
-  // tslint:disable-next-line max-line-length
   export function receiveAutocompleteSuggestions(suggestions: Actions.Payload.Autocomplete.Suggestions): Actions.ReceiveAutocompleteSuggestions {
     return createAction(Actions.RECEIVE_AUTOCOMPLETE_SUGGESTIONS, suggestions);
   }
@@ -752,7 +736,6 @@ namespace ActionCreators {
    */
   export function receiveMoreProducts(res: Results) {
     return (state: Store.State): Actions.ReceiveMoreProducts => {
-      // tslint:disable-next-line max-line-length
       return handleError(createAction(Actions.RECEIVE_MORE_PRODUCTS, res), () => createAction(Actions.RECEIVE_MORE_PRODUCTS, SearchAdapter.augmentProducts(res)));
     };
   }
@@ -780,7 +763,6 @@ namespace ActionCreators {
    * autocomplete state.
    * @return {Actions.ReceiveAutocompleteProductRecords}          - Action with products.
    */
-  // tslint:disable-next-line max-line-length
   export function receiveAutocompleteProductRecords(products: Store.ProductWithMetadata[]): Actions.ReceiveAutocompleteProductRecords {
     return createAction(Actions.RECEIVE_AUTOCOMPLETE_PRODUCT_RECORDS, products);
   }
@@ -800,7 +782,6 @@ namespace ActionCreators {
    * @param  {Store.ProductWithMetadata[]}             products - The products to add to the recommendations state.
    * @return {Actions.ReceiveRecommendationsProducts}           - Action with products.
    */
-  // tslint:disable-next-line max-line-length
   export function receiveRecommendationsProducts(products: Store.ProductWithMetadata[]): Actions.ReceiveRecommendationsProducts {
     return createAction(Actions.RECEIVE_RECOMMENDATIONS_PRODUCTS, products);
   }
@@ -810,7 +791,6 @@ namespace ActionCreators {
    * @param  {Store.Recommendations.Navigation[]} navigations - The navigations to be sorted and order of sort.
    * @return {Actions.ReceiveNavigationSort}                  - Action with navigations.
    */
-  // tslint:disable-next-line max-line-length
   export function receiveNavigationSort(navigations: Store.Recommendations.Navigation[]): Actions.ReceiveNavigationSort {
     return createAction(Actions.RECEIVE_NAVIGATION_SORT, navigations);
   }
@@ -825,17 +805,14 @@ namespace ActionCreators {
     return createAction(Actions.RECEIVE_DETAILS, details);
   }
 
-  // tslint:disable-next-line max-line-length
   export function receivePastPurchaseSkus(products: Store.PastPurchases.PastPurchaseProduct[]): Actions.ReceivePastPurchaseSkus {
     return createAction(Actions.RECEIVE_PAST_PURCHASE_SKUS, products);
   }
 
-  // tslint:disable-next-line max-line-length
   export function receiveSaytPastPurchases(products: Store.ProductWithMetadata[]): Actions.ReceiveSaytPastPurchases {
     return createAction(Actions.RECEIVE_SAYT_PAST_PURCHASES, products);
   }
 
-  // tslint:disable-next-line max-line-length
   export function receivePastPurchaseProducts(products: Store.ProductWithMetadata[]): Actions.ReceivePastPurchaseProducts {
     return createAction(Actions.RECEIVE_PAST_PURCHASE_PRODUCTS, products);
   }
@@ -846,22 +823,18 @@ namespace ActionCreators {
 
   export function receiveMorePastPurchaseProducts(res: Results) {
     return (state: Store.State): Actions.ReceiveMorePastPurchaseProducts => {
-      // tslint:disable-next-line max-line-length
       return handleError(createAction(Actions.RECEIVE_MORE_PAST_PURCHASE_PRODUCTS, res), () => createAction(Actions.RECEIVE_MORE_PAST_PURCHASE_PRODUCTS, SearchAdapter.augmentProducts(res)));
     };
   }
 
-  // tslint:disable-next-line max-line-length
   export function receivePastPurchaseAllRecordCount(count: number): Actions.ReceivePastPurchaseAllRecordCount {
     return createAction(Actions.RECEIVE_PAST_PURCHASE_ALL_RECORD_COUNT, count);
   }
 
-  // tslint:disable-next-line max-line-length
   export function receivePastPurchaseCurrentRecordCount(count: number): Actions.ReceivePastPurchaseCurrentRecordCount {
     return createAction(Actions.RECEIVE_PAST_PURCHASE_CURRENT_RECORD_COUNT, count);
   }
 
-  // tslint:disable-next-line max-line-length
   export function receivePastPurchaseRefinements(refinements: Store.Navigation[]): Actions.ReceivePastPurchaseRefinements {
     return createAction(Actions.RECEIVE_PAST_PURCHASE_REFINEMENTS, refinements);
   }
@@ -899,7 +872,6 @@ namespace ActionCreators {
    * intended to be selected.
    * @return {Actions.PastPurchaseSelect}              - Actions with relevant data.
    */
-  // tslint:disable-next-line max-line-length
   export function selectPastPurchaseRefinement(navigationId: string, index: number): Actions.PastPurchaseSelect {
     return [
       ActionCreators.resetPastPurchasePage(),
@@ -910,7 +882,6 @@ namespace ActionCreators {
   }
 
   // todo doc
-  // tslint:disable-next-line max-line-length
   export function resetAndSelectPastPurchaseRefinement(navigationId: string, index: number): Actions.PastPurchaseResetAndSelect {
     return <Actions.PastPurchaseResetAndSelect>[
       ...ActionCreators.resetPastPurchaseRefinements(true),
@@ -919,7 +890,6 @@ namespace ActionCreators {
   }
 
   // todo doc
-  // tslint:disable-next-line max-line-length
   export function resetPastPurchaseQueryAndSelectRefinement(navigationId: string, index: number): Actions.PastPurchaseQueryAndSelect {
     return <Actions.PastPurchaseQueryAndSelect>[
       ...ActionCreators.updatePastPurchaseQuery(''),
@@ -935,7 +905,6 @@ namespace ActionCreators {
    * intended to be selected.
    * @return {Actions.ResetPageAndDeselectRefinement}              - Actions with relevant data.
    */
-  // tslint:disable-next-line max-line-length
   export function deselectPastPurchaseRefinement(navigationId: string, index: number): Actions.PastPurchaseDeselect {
     return [
       ActionCreators.resetPastPurchasePage(),
@@ -1014,7 +983,6 @@ namespace ActionCreators {
    * @param  {any={}}                       state   - The state to add in the store.
    * @return {Actions.CreateComponentState}         - Action with tagName, id, and state.
    */
-  // tslint:disable-next-line max-line-length
   export function createComponentState(tagName: string, id: string, state: any = {}): Actions.CreateComponentState {
     return createAction(Actions.CREATE_COMPONENT_STATE, { tagName, id, state });
   }
