@@ -2,18 +2,18 @@ import { BrowserBridge, Record } from 'groupby-api';
 import { Action as ReduxAction, Store as ReduxStore } from 'redux';
 import { Sayt } from 'sayt';
 import Actions from './core/actions';
-import ActionCreators from './core/actions/creators';
 import ConfigurationAdapter from './core/adapters/configuration';
 import Configuration from './core/configuration';
-import Emitter  from './core/emitter';
+import ActionCreators from './core/actions/creators';
 import Events from './core/events';
 import Observer from './core/observer';
 import Selectors from './core/selectors';
+import Emitter  from './core/emitter';
 import Store from './core/store';
 
 declare module 'redux' {
   export interface Dispatch<S> {
-    <A extends ReduxAction>(action: A): A;
+    <A extends ReduxAction>(action: A): A
     <A extends ReduxAction>(action: A[]): A[];
     <A extends ReduxAction>(action: (state: Store.State) => A): A;
     <A extends ReduxAction>(action: (state: Store.State) => A[]): A[];
@@ -30,7 +30,7 @@ class FluxCapacitor extends Emitter {
   /**
    * selector functions for extracting data from the store
    */
-  selectors: typeof Selectors = Selectors;
+  selectors: typeof Selectors = Selectors
   /**
    * instances of all microservice clients
    */
@@ -46,7 +46,6 @@ class FluxCapacitor extends Emitter {
     return this.selectors.config(this.store.getState());
   }
 
-  // tslint:disable-next-line typedef variable-name
   constructor(public __config: Configuration) {
     super();
     delete this.__config;
