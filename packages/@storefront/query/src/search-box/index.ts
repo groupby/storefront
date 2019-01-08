@@ -1,10 +1,7 @@
-import { consume, provide, tag, Events, Selectors, Tag } from '@storefront/core';
+import { consume, provide, tag, utils, Events, Selectors, Tag } from '@storefront/core';
 import Query from '../query';
 
-const KEY_ENTER = 13;
-const KEY_ESCAPE = 27;
-const KEY_UP = 38;
-const KEY_DOWN = 40;
+const { KEYS } = utils;
 
 @consume('query')
 @provide('searchBox')
@@ -17,21 +14,21 @@ class SearchBox {
   };
   state: SearchBox.State = {
     originalQuery: this.select(Selectors.query),
-    onKeyDown: (event) => (event.keyCode === KEY_DOWN || event.keyCode === KEY_UP) && event.preventDefault(),
+    onKeyDown: (event) => (event.key === KEYS.DOWN || event.key === KEYS.UP) && event.preventDefault(),
     onKeyUp: (event) => {
       event.preventUpdate = true;
-      switch (event.keyCode) {
-        case KEY_ENTER:
+      switch (event.key) {
+        case KEYS.ENTER:
           if (this.services.autocomplete.hasActiveSuggestion()) {
             return this.flux.emit('sayt:select_active');
           } else {
             return this.actions.search(event.target.value);
           }
-        case KEY_ESCAPE:
+        case KEYS.ESCAPE:
           return this.flux.emit('sayt:hide');
-        case KEY_UP:
+        case KEYS.UP:
           return this.flux.emit('sayt:activate_previous');
-        case KEY_DOWN:
+        case KEYS.DOWN:
           return this.flux.emit('sayt:activate_next');
         default:
           const query = event.target.value;

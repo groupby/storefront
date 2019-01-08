@@ -29,25 +29,25 @@ suite('SearchBox', ({ expect, spy, stub, itShouldConsumeAlias, itShouldProvideAl
       });
 
       describe('onKeyDown()', () => {
-        it('should call event.preventDefault() if keyCode is up or down', () => {
+        it('should call event.preventDefault() if key is up or down', () => {
           const preventDefault = spy();
 
-          searchBox.state.onKeyDown(<any>{ keyCode: 38, preventDefault });
-          searchBox.state.onKeyDown(<any>{ keyCode: 40, preventDefault });
+          searchBox.state.onKeyDown(<any>{ key: 'ArrowUp', preventDefault });
+          searchBox.state.onKeyDown(<any>{ key: 'ArrowDown', preventDefault });
 
           expect(preventDefault).to.be.calledTwice;
         });
 
-        it('should not call event.preventDefault() if keyCode is any other key', () => {
+        it('should not call event.preventDefault() if key is any other key', () => {
           const preventDefault = () => expect.fail();
 
-          searchBox.state.onKeyDown(<any>{ keyCode: 13, preventDefault });
+          searchBox.state.onKeyDown(<any>{ key: 'Enter', preventDefault });
         });
       });
 
       describe('onKeyUp()', () => {
         it('should set preventUpdate', () => {
-          const event: any = { keyCode: 10, target: {} };
+          const event: any = { key: 'ArrowUp', target: {} };
           const updateAutocompleteQuery = spy();
           searchBox.flux = <any>{ emit: () => null };
           searchBox.actions = <any>{ updateAutocompleteQuery };
@@ -63,7 +63,7 @@ suite('SearchBox', ({ expect, spy, stub, itShouldConsumeAlias, itShouldProvideAl
           searchBox.actions = <any>{ search };
           searchBox.services = <any>{ autocomplete: { hasActiveSuggestion: () => false } };
 
-          searchBox.state.onKeyUp(<any>{ keyCode: 13, target: { value } });
+          searchBox.state.onKeyUp(<any>{ key: 'Enter', target: { value } });
 
           expect(search).to.be.calledWith(value);
         });
@@ -73,7 +73,7 @@ suite('SearchBox', ({ expect, spy, stub, itShouldConsumeAlias, itShouldProvideAl
           searchBox.flux = <any>{ emit };
           searchBox.services = <any>{ autocomplete: { hasActiveSuggestion: () => true } };
 
-          searchBox.state.onKeyUp(<any>{ keyCode: 13 });
+          searchBox.state.onKeyUp(<any>{ key: 'Enter' });
 
           expect(emit).to.be.calledWith('sayt:select_active');
         });
@@ -82,7 +82,7 @@ suite('SearchBox', ({ expect, spy, stub, itShouldConsumeAlias, itShouldProvideAl
           const emit = spy();
           searchBox.flux = <any>{ emit };
 
-          searchBox.state.onKeyUp(<any>{ keyCode: 27 });
+          searchBox.state.onKeyUp(<any>{ key: 'Escape' });
 
           expect(emit).to.be.calledWith('sayt:hide');
         });
@@ -121,7 +121,7 @@ suite('SearchBox', ({ expect, spy, stub, itShouldConsumeAlias, itShouldProvideAl
           const emit = spy();
           searchBox.flux = <any>{ emit };
 
-          searchBox.state.onKeyUp(<any>{ keyCode: 40 });
+          searchBox.state.onKeyUp(<any>{ key: 'ArrowDown' });
 
           expect(emit).to.be.calledWith('sayt:activate_next');
         });
@@ -130,7 +130,7 @@ suite('SearchBox', ({ expect, spy, stub, itShouldConsumeAlias, itShouldProvideAl
           const emit = spy();
           searchBox.flux = <any>{ emit };
 
-          searchBox.state.onKeyUp(<any>{ keyCode: 38 });
+          searchBox.state.onKeyUp(<any>{ key: 'ArrowUp' });
 
           expect(emit).to.be.calledWith('sayt:activate_previous');
         });
