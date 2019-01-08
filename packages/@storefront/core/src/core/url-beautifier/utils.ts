@@ -41,7 +41,6 @@ export function splitExceptEscaped(input: string, separator: string): any[] {
   let buffer = '';
 
   for (let i = 0; i < input.length; i++) {
-    // tslint:disable no-switch-case-fall-through
     switch (input[i]) {
       // if we do not hit a break we will just append the character at index i
       case ESCAPE_CHAR:

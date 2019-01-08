@@ -100,7 +100,6 @@ namespace Payload {
   }
 
   export namespace Navigation {
-    // tslint:disable-next-line no-shadowed-variable
     export interface Id {
       navigationId: string;
     }

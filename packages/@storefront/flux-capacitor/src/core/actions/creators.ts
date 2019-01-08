@@ -33,7 +33,6 @@ namespace ActionCreators {
    * @return {Actions.FetchMoreRefinements} - Action with `{ navigationId }`.
    */
   export function fetchMoreRefinements(navigationId: string): Actions.FetchMoreRefinements;
-  // tslint:disable-next-line typedef
   export function fetchMoreRefinements(options) {
     const opts = typeof options === 'string' ? { navigationId: options } : options;
 
@@ -81,7 +80,6 @@ namespace ActionCreators {
    * @return {Actions.FetchMoreProducts} - Action with `{ amount, forward }`.
    */
   export function fetchMoreProducts(amount: number, forward?: boolean);
-  // tslint:disable-next-line typedef
   export function fetchMoreProducts(options, forward = true) {
     const validator = {
       forward: validators.isNotFetching,
@@ -104,7 +102,6 @@ namespace ActionCreators {
    * @return {Actions.FetchAutocompleteSuggestions} - Action with `{ query }`.
    */
   export function fetchAutocompleteSuggestions(query: string): Actions.FetchAutocompleteSuggestions;
-  // tslint:disable-next-line typedef
   export function fetchAutocompleteSuggestions(options): Actions.FetchAutocompleteSuggestions {
     const validator = {
       query: validators.isString,
@@ -130,7 +127,6 @@ namespace ActionCreators {
    * @return {Actions.FetchAutocompleteProducts} - Action with `{ query, refinements }`.
    */
   export function fetchAutocompleteProducts(query: string, refinements?: Actions.Payload.Autocomplete.Refinement[]): Actions.FetchAutocompleteProducts;
-  // tslint:disable-next-line typedef
   export function fetchAutocompleteProducts(options, refinements = []): Actions.FetchAutocompleteProducts {
     const validator = {
       query: validators.isValidQuery,
@@ -155,7 +151,6 @@ namespace ActionCreators {
    * @return {Actions.FetchCollectionCount} - Action with `{ collection }`.
    */
   export function fetchCollectionCount(collection: string): Actions.FetchCollectionCount;
-  // tslint:disable-next-line typedef
   export function fetchCollectionCount(options): Actions.FetchCollectionCount {
     const opts = typeof options === 'string' ? { collection: options } : options;
 
@@ -176,7 +171,6 @@ namespace ActionCreators {
    * @return {Actions.FetchProductDetails} - Action with `{ id }`.
    */
   export function fetchProductDetails(id: string, redirect?: boolean): Actions.FetchProductDetails;
-  // tslint:disable-next-line typedef
   export function fetchProductDetails(options, redirect = false): Actions.FetchProductDetails {
     const opts = typeof options === 'string' ? { id: options, redirect } : { ...options, redirect };
 
@@ -206,7 +200,6 @@ namespace ActionCreators {
    * @return {Actions.FetchPastPurchases} - Action with `{ query }`.
    */
   export function fetchPastPurchases(query: string): Actions.FetchPastPurchases;
-  // tslint:disable-next-line typedef
   export function fetchPastPurchases(options = {}): Actions.FetchPastPurchases {
     const opts = typeof options === 'string' ? { query: options } : options;
 
@@ -237,7 +230,6 @@ namespace ActionCreators {
    * @return {Actions.FetchPastPurchaseProducts} - Action with `{ amount, forward }`.
    */
   export function fetchMorePastPurchaseProducts(amount: number, forward?: boolean): Actions.FetchMorePastPurchaseProducts;
-  // tslint:disable-next-line typedef
   export function fetchMorePastPurchaseProducts(options, forward = true): Actions.FetchMorePastPurchaseProducts {
     const opts = typeof options === 'number' ? { amount: options, forward } : { forward, ...options };
 
@@ -257,7 +249,6 @@ namespace ActionCreators {
    * @return {Actions.FetchMorePastPurchaseRefinements} - Action with `{ navigationId }`.
    */
   export function fetchMorePastPurchaseRefinements(navigationId: string): Actions.FetchMorePastPurchaseRefinements;
-  // tslint:disable-next-line typedef
   export function fetchMorePastPurchaseRefinements(options) {
     const opts = typeof options === 'string' ? { navigationId: options } : options;
 
@@ -277,7 +268,6 @@ namespace ActionCreators {
    * @return {Actions.FetchPastPurchaseProducts} - Action with `{ query }`.
    */
   export function fetchSaytPastPurchases(query: string): Actions.FetchSaytPastPurchases;
-  // tslint:disable-next-line typedef
   export function fetchSaytPastPurchases(options): Actions.FetchSaytPastPurchases {
     const opts = typeof options === 'string' ? { query: options } : options;
 
