@@ -65,8 +65,7 @@ namespace RequestHelpers {
     return <Request>{ ...request, ...overrideRequest };
   };
 
-  // tslint:disable-next-line max-line-length
-  export const recommendationsSuggestions: BuildFunction<Partial<RecommendationsAdapter.Request & { query: string }>, RecommendationsAdapter.Request> = (state, overrideRequest = {}) => {
+   export const recommendationsSuggestions: BuildFunction<Partial<RecommendationsAdapter.Request & { query: string }>, RecommendationsAdapter.Request> = (state, overrideRequest = {}) => {
     const config = Selectors.config(state);
     const { query = false, ...restOfOverrideRequest } = overrideRequest;
 
@@ -84,13 +83,11 @@ namespace RequestHelpers {
     return { ...request, ...restOfOverrideRequest };
   };
 
-  // tslint:disable-next-line max-line-length
-  export const recommendationsNavigations: BuildFunction<Partial<RecommendationsAdapter.RecommendationsBody>, RecommendationsAdapter.RecommendationsBody> = (state, overrideRequest = {}) => {
+   export const recommendationsNavigations: BuildFunction<Partial<RecommendationsAdapter.RecommendationsBody>, RecommendationsAdapter.RecommendationsBody> = (state, overrideRequest = {}) => {
     const query = Selectors.query(state);
     const iNav = Selectors.config(state).recommendations.iNav;
     const sizeAndWindow = { size: iNav.size, window: iNav.window };
-    // tslint:disable-next-line max-line-length
-    const request = {
+     const request = {
       minSize: iNav.minSize || iNav.size,
       sequence: [
         {
@@ -106,8 +103,7 @@ namespace RequestHelpers {
     return { ...request, ...overrideRequest };
   };
 
-  // tslint:disable-next-line max-line-length
-  export const recommendationsProductIDs: BuildFunction<Partial<RecommendationsAdapter.RecommendationsRequest>, RecommendationsAdapter.RecommendationsRequest> = (state, overrideRequest = {}) => {
+   export const recommendationsProductIDs: BuildFunction<Partial<RecommendationsAdapter.RecommendationsRequest>, RecommendationsAdapter.RecommendationsRequest> = (state, overrideRequest = {}) => {
     const config = Selectors.config(state);
 
     const request = RecommendationsAdapter.addLocationToRequest({
@@ -119,8 +115,7 @@ namespace RequestHelpers {
     return { ...request, ...overrideRequest };
   };
 
-  // tslint:disable-next-line max-line-length
-  export const autocompleteSuggestions: BuildFunction<Partial<QueryTimeAutocompleteConfig>, QueryTimeAutocompleteConfig> = (state, overrideRequest = {}) => {
+   export const autocompleteSuggestions: BuildFunction<Partial<QueryTimeAutocompleteConfig>, QueryTimeAutocompleteConfig> = (state, overrideRequest = {}) => {
     const config = Selectors.config(state);
     const request = {
       language: Autocomplete.extractLanguage(config),
@@ -155,8 +150,7 @@ namespace RequestHelpers {
   export const products: BuildFunction<Partial<Request>, Request> = (state, overrideRequest = {}) =>
     ({ ...RequestHelpers.realTimeBiasing(state, RequestHelpers.search(state)), ...overrideRequest });
 
-  // tslint:disable-next-line max-line-length
-  export const realTimeBiasing = (state: Store.State, request: Request): Request => {
+   export const realTimeBiasing = (state: Store.State, request: Request): Request => {
     const addedBiases = PersonalizationAdapter.convertBiasToSearch(state, request.refinements);
 
     return {
