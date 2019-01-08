@@ -34,8 +34,12 @@ suite('SearchBox', ({ expect, spy, stub, itShouldConsumeAlias, itShouldProvideAl
 
           searchBox.state.onKeyDown(<any>{ key: 'ArrowUp', preventDefault });
           searchBox.state.onKeyDown(<any>{ key: 'ArrowDown', preventDefault });
+          // The following values are included for IE support.
+          // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values
+          searchBox.state.onKeyDown(<any>{ key: 'Up', preventDefault });
+          searchBox.state.onKeyDown(<any>{ key: 'Down', preventDefault });
 
-          expect(preventDefault).to.be.calledTwice;
+          expect(preventDefault).to.be.callCount(4);
         });
 
         it('should not call event.preventDefault() if key is any other key', () => {
@@ -122,8 +126,12 @@ suite('SearchBox', ({ expect, spy, stub, itShouldConsumeAlias, itShouldProvideAl
           searchBox.flux = <any>{ emit };
 
           searchBox.state.onKeyUp(<any>{ key: 'ArrowDown' });
+          // The following value are included for IE support.
+          // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values
+          searchBox.state.onKeyUp(<any>{ key: 'Down' });
 
-          expect(emit).to.be.calledWith('sayt:activate_next');
+          expect(emit.args[0][0]).to.eq('sayt:activate_next');
+          expect(emit.args[1][0]).to.eq('sayt:activate_next');
         });
 
         it('should emit sayt:activate_previous on arrow up pressed', () => {
@@ -131,8 +139,12 @@ suite('SearchBox', ({ expect, spy, stub, itShouldConsumeAlias, itShouldProvideAl
           searchBox.flux = <any>{ emit };
 
           searchBox.state.onKeyUp(<any>{ key: 'ArrowUp' });
+          // The following value are included for IE support.
+          // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values
+          searchBox.state.onKeyUp(<any>{ key: 'Up' });
 
-          expect(emit).to.be.calledWith('sayt:activate_previous');
+          expect(emit.args[0][0]).to.eq('sayt:activate_previous');
+          expect(emit.args[1][0]).to.eq('sayt:activate_previous');
         });
       });
 

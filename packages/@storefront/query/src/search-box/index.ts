@@ -24,8 +24,10 @@ class SearchBox {
           }
         case KEYS.ESCAPE:
           return this.flux.emit('sayt:hide');
+        case KEYS.IE_UP:
         case KEYS.UP:
           return this.flux.emit('sayt:activate_previous');
+        case KEYS.IE_DOWN:
         case KEYS.DOWN:
           return this.flux.emit('sayt:activate_next');
         default:
