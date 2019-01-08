@@ -24,6 +24,14 @@
     "bundle:prod": "cross-env NODE_ENV=production webpack --config webpack.config.js",
     "docs": "typedoc --readme none ."
   },
+  "prettier": {
+    "printWidth": 120,
+    "parser": "typescript",
+    "trailingComma": "es5",
+    "arrowParens": "always",
+    "jsxBracketSameLine": true,
+    "singleQuote": true
+  },
   "devDependencies": {
     "@babel/core": "^7.1.6",
     "@storefront/testing": "^1.2.1",

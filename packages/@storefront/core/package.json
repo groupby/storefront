@@ -47,14 +47,6 @@
   "nodemonConfig": {
     "ext": "ts,json,html,css"
   },
-  "prettier": {
-    "printWidth": 120,
-    "parser": "typescript",
-    "trailingComma": "es5",
-    "arrowParens": "always",
-    "jsxBracketSameLine": true,
-    "singleQuote": true
-  },
   "dependencies": {
     "@storefront/flux-capacitor": "1.67.0",
     "@types/clone": "^0.1.30",
