@@ -1,7 +1,7 @@
-import { tag, Tag } from '@storefront/core';
+import { tag, utils, Tag } from '@storefront/core';
 import PagedList from '../paged-list';
 
-const RETURN_KEY_CODE = 13;
+const { KEYS } = utils;
 
 @tag('gb-filtered-list', require('./index.html'))
 class FilteredList {
@@ -34,7 +34,7 @@ class FilteredList {
   }
 
   onKeyDown(event: KeyboardEvent & Tag.Event) {
-    if (event.keyCode !== RETURN_KEY_CODE) {
+    if (event.key !== KEYS.ENTER) {
       return;
     }
 
