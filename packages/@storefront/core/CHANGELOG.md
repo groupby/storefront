@@ -6,8 +6,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] [patch]
 ### Added
-- SF-1163: Add hardcoded `GBI_EVENT` to the metadata of all tracking events.
-  - `GBI_EVENT` indicates to our tracking service that an event is of gbi origin.
+- SF-1163: Add hard-coded `GBI_METADATA` to the metadata of all tracking events.
+  - `GBI_METADATA` indicates to our tracking service that an event is of gbi origin.
+  - `GBI_METADATA` Objects:
+    ```js
+    [
+      {
+        key: 'gbi',
+        value: 'true'
+      },
+      {
+        key: 'gbi_experience',
+        value: 'storefront'
+      }
+    ];
+    ```
+  - Note: Storefront will automatically add the above metadata objects and replace any existing metadata objects whose keys are 'gbi' or 'gbi_experience'.
 
 ## [1.55.6] - 2019-01-07
 ### Changed
