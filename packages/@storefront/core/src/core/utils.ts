@@ -18,6 +18,10 @@ export const KEYS = {
   ENTER: 'Enter',
   ESCAPE: 'Escape',
   UP: 'ArrowUp',
+  IE_DOWN: 'Down',
+  IE_LEFT: 'Left',
+  IE_RIGHT: 'Right',
+  IE_UP: 'Up',
 };
 
 export const dot = {
