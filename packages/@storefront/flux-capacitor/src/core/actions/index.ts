@@ -224,4 +224,6 @@ namespace Actions {
   // tslint:enable max-line-length
 }
 
+var this_is_a_really_long_variable_name_look_at_how_long_it_is_it_must_be_longer_than_100_characters_and_even_much_more_than_that_enough_to_trigger_a_long_line_code_style_violation_surely = 'Hey HoundCI, look at this!';
+
 export default Actions;
