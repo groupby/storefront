@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] [minor]
 ### Added
-- SF-1073: Created new actions `selectMultipleRefinements` and `selectMultiplePastPurchaseRefinements` actions.
+- SF-1073: Created new `selectMultipleRefinements` and `selectMultiplePastPurchaseRefinements` actions.
   - Users can now select multiple refinements at a given time by passing in a `navigationId` and an array of indices to these new actions.
 
 ## [1.67.4] - 2019-01-07

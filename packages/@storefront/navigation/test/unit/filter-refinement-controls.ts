@@ -32,7 +32,7 @@ suite('FilterRefinementControls', ({ expect, spy, stub }) => {
 
       expect(filterRefinementControls.selectMultipleRefinements).to.eq('selectMultiplePastPurchaseRefinements');
     });
-  })
+  });
 
   describe('fetchMoreRefinements()', () => {
     it('should fetch more refinements if there are more to fetch', () => {
