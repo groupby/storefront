@@ -84,9 +84,7 @@ class FilteredList {
   }
 
   decorateItem(value: string, item: FilteredList.Item, items: FilteredList.Item[]) {
-    if (typeof item === 'string') {
-      return item;
-    } else if (typeof item.value === 'string') {
+    if (typeof item === 'object' && typeof item.value === 'string') {
       return item.value.toLowerCase() === value || items.length === 1
         ? { ...item, matchesTerm: true }
         : item;
