@@ -198,21 +198,21 @@ suite('FilteredList', ({ expect, spy, stub }) => {
     let item3 = { value: 'baz', onClick: noop };
 
     it('should decorate if the item matches the filter term', () => {
-      expect(filteredList.decorateItem('foo', item1, [item1, item2, item3])).to.eql({ ...item1, matchesTerm: true });
+      expect(filteredList.decorateItem('foo', item1, 0, [item1, item2, item3])).to.eql({ ...item1, matchesTerm: true });
     });
 
     it('should decorate if the item is the only refinement', () => {
-      expect(filteredList.decorateItem('foo', item1, [item1])).to.eql({ ...item1, matchesTerm: true });
+      expect(filteredList.decorateItem('foo', item1, 0, [item1])).to.eql({ ...item1, matchesTerm: true });
     });
 
     it('should do nothing if the item does not match the filter term', () => {
-      expect(filteredList.decorateItem('quux', item1, [item1, item2, item3])).to.eq(item1);
+      expect(filteredList.decorateItem('quux', item1, 0, [item1, item2, item3])).to.eq(item1);
     });
 
     it('should do nothing if the item is a string', () => {
       const item = 'foo';
 
-      expect(filteredList.decorateItem('foo', item, [item])).to.eq(item);
+      expect(filteredList.decorateItem('foo', item, 0, [item])).to.eq(item);
     });
   });
 

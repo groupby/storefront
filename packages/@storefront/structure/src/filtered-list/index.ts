@@ -67,7 +67,7 @@ class FilteredList {
 
     const filtered = this.props.items
       .filter((item) => this.filterItem(value, item))
-      .map((item, _, items) => this.decorateItem(value, item, items));
+      .map((item, i, items) => this.decorateItem(value, item, i, items));
 
     if (filtered.length !== 0 || this.state.items.length !== 0) {
       this.state.items = filtered;
@@ -86,7 +86,7 @@ class FilteredList {
     }
   }
 
-  decorateItem(value: string, item: FilteredList.Item, items: FilteredList.Item[]) {
+  decorateItem(value: string, item: FilteredList.Item, index: number, items: FilteredList.Item[]) {
     if (typeof item === 'object' && typeof item.value === 'string') {
       return item.value.toLowerCase() === value || items.length === 1
         ? { ...item, matchesTerm: true }
