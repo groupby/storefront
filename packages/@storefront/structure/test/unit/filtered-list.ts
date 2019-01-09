@@ -193,15 +193,9 @@ suite('FilteredList', ({ expect, spy, stub }) => {
 
   describe('decorateItem()', () => {
     const noop = () => null;
-    let item1;
-    let item2;
-    let item3;
-
-    beforeEach(() => {
-      item1 = { value: 'foo', onClick: noop };
-      item2 = { value: 'bar', onClick: noop };
-      item3 = { value: 'baz', onClick: noop };
-    })
+    let item1 = { value: 'foo', onClick: noop };
+    let item2 = { value: 'bar', onClick: noop };
+    let item3 = { value: 'baz', onClick: noop };
 
     it('should decorate if the item matches the filter term', () => {
       expect(filteredList.decorateItem('foo', item1, [item1, item2, item3])).to.eql({ ...item1, matchesTerm: true });
