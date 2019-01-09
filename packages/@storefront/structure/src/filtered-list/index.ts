@@ -63,8 +63,6 @@ class FilteredList {
   }
 
   updateItems(value: string = this.refs.filter.value) {
-    value = value.trim().toLowerCase();
-
     const filtered = this.props.items
       .filter((item) => this.filterItem(value, item))
       .map((item, i, items) => this.decorateItem(value, item, i, items));
@@ -75,6 +73,8 @@ class FilteredList {
   }
 
   filterItem(value: string, item: FilteredList.Item) {
+    value = value.trim().toLowerCase();
+
     if (!item) {
       return false;
     } else if (typeof item === 'string') {
@@ -87,6 +87,8 @@ class FilteredList {
   }
 
   decorateItem(value: string, item: FilteredList.Item, index: number, items: FilteredList.Item[]) {
+    value = value.trim().toLowerCase();
+
     if (typeof item === 'object' && typeof item.value === 'string') {
       return item.value.toLowerCase() === value || items.length === 1
         ? { ...item, matchesTerm: true }

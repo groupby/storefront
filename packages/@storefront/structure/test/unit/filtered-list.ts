@@ -157,6 +157,14 @@ suite('FilteredList', ({ expect, spy, stub }) => {
   });
 
   describe('filterItem()', () => {
+    it('should trim filter value', () => {
+      expect(filteredList.filterItem(' \t e \n   ', 'def')).to.be.true;
+    });
+
+    it('should filter case-insensitively', () => {
+      expect(filteredList.filterItem('EF', 'def')).to.be.true;
+    });
+
     it('should return true if the item matches the filter string', () => {
       expect(filteredList.filterItem('e', 'def')).to.be.true;
     });
@@ -196,6 +204,14 @@ suite('FilteredList', ({ expect, spy, stub }) => {
     let item1 = { value: 'foo', onClick: noop };
     let item2 = { value: 'bar', onClick: noop };
     let item3 = { value: 'baz', onClick: noop };
+
+    it('should trim filter value', () => {
+      expect(filteredList.decorateItem(' \t foo \n   ', item1, 0, [item1, item2, item3])).to.eql({ ...item1, matchesTerm: true });
+    });
+
+    it('should filter case-insensitively', () => {
+      expect(filteredList.decorateItem('FOO', item1, 0, [item1, item2, item3])).to.eql({ ...item1, matchesTerm: true });
+    });
 
     it('should decorate if the item matches the filter term', () => {
       expect(filteredList.decorateItem('foo', item1, 0, [item1, item2, item3])).to.eql({ ...item1, matchesTerm: true });
@@ -251,29 +267,6 @@ suite('FilteredList', ({ expect, spy, stub }) => {
       filteredList.updateItems();
 
       expect(decorateItemStub).to.be.called;
-    });
-
-
-    it('should trim filter value', () => {
-      const filterValue = ' \t e \n   ';
-      const items = ['abc', 'def', 'ghi', 'eee'];
-      filteredList.refs = <any>{ filter: { value: filterValue } };
-      filteredList.props = { items };
-
-      filteredList.updateItems();
-
-      expect(filterItemStub).to.be.calledWith('e');
-    });
-
-    it('should filter case-insensitively', () => {
-      const filterValue = 'EF';
-      const items = ['abc', 'dEf', 'ghi', 'efe'];
-      filteredList.refs = <any>{ filter: { value: filterValue } };
-      filteredList.props = { items };
-
-      filteredList.updateItems();
-
-      expect(filterItemStub).to.be.calledWith('ef');
     });
 
     it('should use value passed in', () => {
