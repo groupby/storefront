@@ -5,6 +5,38 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.6.4] - 2019-01-09
+
+Package versions:
+
+- `@storefront/breadcrumbs`: 1.33.1
+- `@storefront/collections`: 1.32.1
+- `@storefront/core`: 1.55.6
+- `@storefront/details`: 1.32.1
+- `@storefront/did-you-mean`: 1.32.1
+- `@storefront/flux-capacitor`: 1.67.4
+- `@storefront/infinite-scroll`: 1.6.1
+- `@storefront/navigation`: 1.44.0
+- `@storefront/page-size`: 1.34.1
+- `@storefront/paging`: 1.34.0
+- `@storefront/products`: 1.38.1
+- `@storefront/query`: 1.39.1
+- `@storefront/recommendations`: 1.29.1
+- `@storefront/record-count`: 1.33.1
+- `@storefront/related-queries`: 1.32.1
+- `@storefront/sayt`: 1.40.1
+- `@storefront/sort`: 1.35.1
+- `@storefront/structure`: 1.46.0
+- `@storefront/template`: 1.34.1
+
+### Changed
+#### core
+- Update `@storefront/flux-capacitor` to 1.67.4.
+
+### Fixed
+#### core
+- SF-1237: Fix issue where past purchase sorts are not correctly applied/transmitted.
+
 ## [v1.6.3] - 2019-01-07
 
 Package versions:
