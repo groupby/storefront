@@ -4,25 +4,6 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased] [patch]
-### Added
-- SF-1163: Add hard-coded `GBI_METADATA` to the metadata of all tracking events.
-  - `GBI_METADATA` indicates to our tracking service that an event is of GBI origin.
-  - `GBI_METADATA` Objects:
-    ```js
-    [
-      {
-        key: 'gbi',
-        value: 'true'
-      },
-      {
-        key: 'gbi_experience',
-        value: 'storefront'
-      }
-    ];
-    ```
-  - Note: Storefront will automatically add the above metadata objects and replace any existing metadata objects whose keys are `gbi` or `gbi_experience`.
-
 ## [1.55.6] - 2019-01-07
 ### Changed
 - Update `@storefront/flux-capacitor` to 1.67.4.
