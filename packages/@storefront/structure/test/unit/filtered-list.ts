@@ -86,7 +86,7 @@ suite('FilteredList', ({ expect, spy, stub }) => {
 
   describe('onKeyDown()', () => {
     it('should exit early if the key is not Enter', () => {
-      const keyboardEvent = { keyCode: 1970 };
+      const keyboardEvent: any = { keyCode: 1970 };
       const trim = spy();
       filteredList.refs = <any>{ filter: { value: { trim } } };
 
@@ -97,7 +97,7 @@ suite('FilteredList', ({ expect, spy, stub }) => {
 
     it('should select the matched refinement', () => {
       const refinements: any = [{ value: 'a' , onClick: spy() }, { value: 'b', onClick: spy() }];
-      const keyboardEvent = { keyCode: 13 };
+      const keyboardEvent: any = { keyCode: 13 };
       const input = <any>{ value: 'a' };
       filteredList.props = { items: refinements };
       filteredList.refs = { filter: input };
@@ -111,7 +111,7 @@ suite('FilteredList', ({ expect, spy, stub }) => {
     it('should select the only refinement', () => {
       const selected = { value: 'foo', onClick: spy() };
       const refinements: any = [selected, { value: 'a', onClick: spy() }, { value: 'b', onClick: spy() }];
-      const keyboardEvent = { keyCode: 13 };
+      const keyboardEvent: any = { keyCode: 13 };
       const input: any = { value: 'bar' };
       filteredList.props = { items: refinements };
       filteredList.state = { items: [selected] };
@@ -124,7 +124,7 @@ suite('FilteredList', ({ expect, spy, stub }) => {
 
     it('should do nothing if no refinements are matched', () => {
       const refinements: any = [{ value: 'a' , onClick: spy() }, { value: 'b', onClick: spy() }];
-      const keyboardEvent = { keyCode: 13 };
+      const keyboardEvent: any = { keyCode: 13 };
       const input = <any>{ value: 'c' };
       filteredList.props = { items: refinements };
       filteredList.refs = { filter: input };

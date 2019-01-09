@@ -33,7 +33,7 @@ class FilteredList {
     this.updateItems();
   }
 
-  onKeyDown(event) {
+  onKeyDown(event: KeyboardEvent & Tag.Event) {
     if (event.keyCode !== RETURN_KEY_CODE) {
       return;
     }
@@ -41,10 +41,13 @@ class FilteredList {
     const value = this.refs.filter.value.trim().toLowerCase();
     const foundItem = this.state.items.length === 1
       ? this.state.items[0]
-      : this.props.items.find((item) => item && (<FilteredList.ItemObject>item).value && (<FilteredList.ItemObject>item).value.toLowerCase() === value);
+      : this.props.items.find((el) => {
+        const item: FilteredList.ItemObject = <FilteredList.ItemObject>el;
+        return item && item.value && item.value.toLowerCase() === value;
+      });
 
     if (foundItem && typeof (<FilteredList.ItemObject>foundItem).onClick === 'function') {
-      (<FilteredList.ItemObject>foundItem).onClick(event)
+      (<FilteredList.ItemObject>foundItem).onClick(<any>event)
     }
   }
 
