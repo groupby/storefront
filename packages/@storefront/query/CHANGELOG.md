@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - SF-1241: Update search box component to use table of DOM key strings.
 
 ### Fixed
-- SF-1241: Fix Chrome-specific issue where '&' character cannot be inserted into search box.
+- SF-1241: Fix Chrome-specific issue where `&` character cannot be inserted into search box.
 
 ## [1.39.1] - 2019-01-02
 ### Fixed
