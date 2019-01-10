@@ -39,7 +39,7 @@ suite('SearchBox', ({ expect, spy, stub, itShouldConsumeAlias, itShouldProvideAl
           searchBox.state.onKeyDown(<any>{ key: KEYS.IE_UP, preventDefault });
           searchBox.state.onKeyDown(<any>{ key: KEYS.IE_DOWN, preventDefault });
 
-          expect(preventDefault).to.be.callCount(4);
+          expect(preventDefault).to.have.callCount(4);
         });
 
         it('should not call event.preventDefault() if key is any other key', () => {
