@@ -8,6 +8,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - SF-1241: Expose table of DOM key strings.
   - This table may be used by StoreFront components and/or implementations which must respond to DOM events.
+  - The contents of this table are as follow:
+
+  ```js
+  export const KEYS = {
+    DOWN: 'ArrowDown',
+    ENTER: 'Enter',
+    ESCAPE: 'Escape',
+    UP: 'ArrowUp',
+    IE_DOWN: 'Down',
+    IE_LEFT: 'Left',
+    IE_RIGHT: 'Right',
+    IE_UP: 'Up',
+    IE_ESCAPE: 'Esc',
+  };
+  ```
 
 ## [1.55.7] - 2019-01-10
 ### Added
