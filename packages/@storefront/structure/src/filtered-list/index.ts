@@ -39,15 +39,15 @@ class FilteredList {
     }
 
     const value = this.refs.filter.value.trim().toLowerCase();
-    const foundItem = this.state.items.length === 1
+    const foundItem: FilteredList.ItemObject = <FilteredList.ItemObject>(this.state.items.length === 1
       ? this.state.items[0]
       : this.props.items.find((el) => {
         const item: FilteredList.ItemObject = <FilteredList.ItemObject>el;
         return item && item.value && item.value.toLowerCase() === value;
-      });
+      }));
 
-    if (foundItem && typeof (<FilteredList.ItemObject>foundItem).onClick === 'function') {
-      (<FilteredList.ItemObject>foundItem).onClick(<any>event)
+    if (foundItem && typeof foundItem.onClick === 'function') {
+      foundItem.onClick(<any>event);
     }
   }
 
