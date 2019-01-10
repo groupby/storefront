@@ -87,8 +87,12 @@ suite('SearchBox', ({ expect, spy, stub, itShouldConsumeAlias, itShouldProvideAl
           searchBox.flux = <any>{ emit };
 
           searchBox.state.onKeyUp(<any>{ key: KEYS.ESCAPE });
+          // The following value is included for IE support.
+          // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values
+          searchBox.state.onKeyUp(<any>{ key: KEYS.IE_ESCAPE });
 
-          expect(emit).to.be.calledWith('sayt:hide');
+          expect(emit.args[0][0]).to.eq('sayt:hide');
+          expect(emit.args[1][0]).to.eq('sayt:hide');
         });
 
         it('should call actions.autocomplete()', () => {

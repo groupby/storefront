@@ -22,6 +22,7 @@ class SearchBox {
           } else {
             return this.actions.search(event.target.value);
           }
+        case KEYS.IE_ESCAPE:
         case KEYS.ESCAPE:
           return this.flux.emit('sayt:hide');
         case KEYS.IE_UP:

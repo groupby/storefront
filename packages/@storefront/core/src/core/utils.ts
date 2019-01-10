@@ -22,6 +22,7 @@ export const KEYS = {
   IE_LEFT: 'Left',
   IE_RIGHT: 'Right',
   IE_UP: 'Up',
+  IE_ESCAPE: 'Esc',
 };
 
 export const dot = {
