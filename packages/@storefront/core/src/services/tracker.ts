@@ -4,6 +4,18 @@ import { core, BaseService } from '../core/service';
 import { GbTracker } from '../core/utils';
 import StoreFront from '../storefront';
 
+const GBI = 'gbi';
+const GBI_EXPERIENCE ='gbi_experience';
+export const GBI_METADATA: GbTracker.Metadata[] = [
+  {
+    key: GBI,
+    value: 'true'
+  },
+  {
+    key: GBI_EXPERIENCE,
+    value: 'storefront'
+  }
+];
 export const TRACKER_EVENT = 'tracker:send_event';
 export const DEFAULT_ORIGINS = {
   dym: false,
@@ -62,9 +74,23 @@ class TrackerService extends BaseService<TrackerService.Options> {
     }
   }
 
+  attachGbiEventMetadata = <S extends GbTracker.BaseEvent>(override: S): S => {
+    const { metadata = [] } = override;
+
+    const filteredMetadata = metadata.filter((item) => item.key !== GBI && item.key !== GBI_EXPERIENCE);
+
+    // tslint:disable comment-format
+    // XXX: Below needs to be cast as such in order to get around the restrictions of TypeScript version 3.1.5, not allowing for generic types to be spread.
+    // Source: https://stackoverflow.com/a/51193091
+    // TODO: These casts can be removed once we update to TypeScript 3.2.
+    return <S>{ ...<GbTracker.BaseEvent>override, metadata: [...GBI_METADATA, ...filteredMetadata] };
+    // tslint:enable
+  }
+
   buildEvent = <S, T>(override: Override<S, T>, event: T, value: S | T = event) => {
     const currentEvent = this.addMetadata(event);
-    return override(value, currentEvent);
+
+    return this.attachGbiEventMetadata<T>(override(value, currentEvent));
   }
 
   sendSearchEvent = (id: string, override: Override<string, GbTracker.SearchEvent> = (value, val) => val) => {
@@ -79,27 +105,27 @@ class TrackerService extends BaseService<TrackerService.Options> {
       }
     };
 
-    this.sendEvent('sendAutoSearchEvent', this.buildEvent(override, currentEvent, id));
+    this.sendEvent('sendAutoSearchEvent', this.buildEvent<string, GbTracker.SearchEvent>(override, currentEvent, id));
   }
 
   // tslint:disable-next-line max-line-length
   sendViewCartEvent = (event: GbTracker.CartEvent, override: Override<GbTracker.CartEvent, GbTracker.CartEvent> = (value, val) => val) => {
-    this.sendEvent('sendViewCartEvent', this.buildEvent(override, event));
+    this.sendEvent('sendViewCartEvent', this.buildEvent<GbTracker.CartEvent, GbTracker.CartEvent>(override, event));
   }
 
   // tslint:disable-next-line max-line-length
   sendAddToCartEvent = (event: GbTracker.CartEvent, override: Override<GbTracker.CartEvent, GbTracker.CartEvent> = (value, val) => val) => {
-    this.sendEvent('sendAddToCartEvent', this.buildEvent(override, event));
+    this.sendEvent('sendAddToCartEvent', this.buildEvent<GbTracker.CartEvent, GbTracker.CartEvent>(override, event));
   }
 
   // tslint:disable-next-line max-line-length
   sendRemoveFromCartEvent = (event: GbTracker.CartEvent, override: Override<GbTracker.CartEvent, GbTracker.CartEvent> = (value, val) => val) => {
-    this.sendEvent('sendRemoveFromCartEvent', this.buildEvent(override, event));
+    this.sendEvent('sendRemoveFromCartEvent', this.buildEvent<GbTracker.CartEvent, GbTracker.CartEvent>(override, event));
   }
 
   // tslint:disable-next-line max-line-length
   sendOrderEvent = (event: GbTracker.OrderEvent, override: Override<GbTracker.OrderEvent, GbTracker.OrderEvent> = (value, val) => val) => {
-    this.sendEvent('sendOrderEvent', this.buildEvent(override, event));
+    this.sendEvent('sendOrderEvent', this.buildEvent<GbTracker.OrderEvent, GbTracker.OrderEvent>(override, event));
   }
 
   // tslint:disable-next-line max-line-length
@@ -114,14 +140,14 @@ class TrackerService extends BaseService<TrackerService.Options> {
       }
     };
 
-    this.sendEvent('sendViewProductEvent', this.buildEvent(override, currentEvent, record));
+    this.sendEvent('sendViewProductEvent', this.buildEvent<GbTracker.ViewProductEvent, GbTracker.ViewProductEvent>(override, currentEvent, record));
   }
 
   // tslint:disable-next-line max-line-length
   sendMoreRefinementsEvent = (id: string, override: Override<string, GbTracker.MoreRefinementsEvent> = (value, val) => val) => {
     const currentEvent = { moreRefinements: { id } };
 
-    this.sendEvent('sendMoreRefinementsEvent', this.buildEvent(override, currentEvent, id));
+    this.sendEvent('sendMoreRefinementsEvent', this.buildEvent<string, GbTracker.MoreRefinementsEvent>(override, currentEvent, id));
   }
 
   addMetadata(event: any) {
