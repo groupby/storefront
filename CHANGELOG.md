@@ -5,6 +5,49 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.6.5] - 2019-01-10
+
+Package versions:
+
+- `@storefront/breadcrumbs`: 1.33.1
+- `@storefront/collections`: 1.32.1
+- `@storefront/core`: 1.55.7
+- `@storefront/details`: 1.32.1
+- `@storefront/did-you-mean`: 1.32.1
+- `@storefront/flux-capacitor`: 1.67.4
+- `@storefront/infinite-scroll`: 1.6.1
+- `@storefront/navigation`: 1.44.0
+- `@storefront/page-size`: 1.34.1
+- `@storefront/paging`: 1.34.0
+- `@storefront/products`: 1.38.1
+- `@storefront/query`: 1.39.1
+- `@storefront/recommendations`: 1.29.1
+- `@storefront/record-count`: 1.33.1
+- `@storefront/related-queries`: 1.32.1
+- `@storefront/sayt`: 1.40.1
+- `@storefront/sort`: 1.35.1
+- `@storefront/structure`: 1.46.0
+- `@storefront/template`: 1.34.1
+
+### Added
+#### core
+- SF-1163: Add hard-coded `GBI_METADATA` to the metadata of all tracking events.
+  - `GBI_METADATA` indicates to our tracking service that an event is of GBI origin.
+  - `GBI_METADATA` Objects:
+    ```js
+    [
+      {
+        key: 'gbi',
+        value: 'true'
+      },
+      {
+        key: 'gbi_experience',
+        value: 'storefront'
+      }
+    ];
+    ```
+  - Note: Storefront will automatically add the above metadata objects and replace any existing metadata objects whose keys are `gbi` or `gbi_experience`.
+
 ## [v1.6.4] - 2019-01-09
 
 Package versions:
