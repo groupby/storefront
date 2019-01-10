@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - SF-1133: Add support for selecting last filtered refinement on Enter.
   - In cases where a filter term yields 1x result, hitting the enter key now selects the remaining refinement.
+  - If a given refinement matches the filter term, the `gb-matches-term` class is added to the corresponding DOM node.
+    - This class may be used to emphasize the matched refinement (eg. when focus is applied to the filter field).
 
 ## [1.46.0] - 2019-01-03
 ### Changed
