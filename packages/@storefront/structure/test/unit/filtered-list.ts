@@ -1,7 +1,7 @@
 import FilteredList from '../../src/filtered-list';
 import suite from './_suite';
 
-suite('FilteredList', ({ expect, spy }) => {
+suite('FilteredList', ({ expect, spy, stub }) => {
   let filteredList: FilteredList;
 
   beforeEach(() => (filteredList = new FilteredList()));
@@ -85,30 +85,54 @@ suite('FilteredList', ({ expect, spy }) => {
   });
 
   describe('onKeyDown()', () => {
-    it('should select refinement', () => {
-      const refinements: any = [{ value: 'a' , onClick: spy() }, { value: 'b', onClick: spy() }];
-      const keyboardEvent = { keyCode: 13 }
-      const input = <any>{ value: 'a' };
-      filteredList.props = { items: refinements };
-      filteredList.refs = {filter: input}
+    it('should exit early if the key is not Enter', () => {
+      const keyboardEvent: any = { keyCode: 1970 };
+      const trim = spy();
+      filteredList.refs = <any>{ filter: { value: { trim } } };
 
       filteredList.onKeyDown(keyboardEvent);
 
-      expect(refinements[0].onClick).to.be.called
-      expect(refinements[1].onClick).to.be.not.called
+      expect(trim).to.not.be.called;
     });
 
-    it('should not select refinement', () => {
+    it('should select the matched refinement', () => {
       const refinements: any = [{ value: 'a' , onClick: spy() }, { value: 'b', onClick: spy() }];
-      const keyboardEvent = { keyCode: 15 }
+      const keyboardEvent: any = { keyCode: 13 };
       const input = <any>{ value: 'a' };
       filteredList.props = { items: refinements };
-      filteredList.refs = {filter: input}
+      filteredList.refs = { filter: input };
 
       filteredList.onKeyDown(keyboardEvent);
 
-      expect(refinements[0].onClick).to.be.not.called
-      expect(refinements[1].onClick).to.be.not.called
+      expect(refinements[0].onClick).to.be.called;
+      expect(refinements[1].onClick).to.be.not.called;
+    });
+
+    it('should select the only refinement', () => {
+      const selected = { value: 'foo', onClick: spy() };
+      const refinements: any = [selected, { value: 'a', onClick: spy() }, { value: 'b', onClick: spy() }];
+      const keyboardEvent: any = { keyCode: 13 };
+      const input: any = { value: 'bar' };
+      filteredList.props = { items: refinements };
+      filteredList.state = { items: [selected] };
+      filteredList.refs = { filter: input };
+
+      filteredList.onKeyDown(keyboardEvent);
+
+      expect(selected.onClick).to.be.called;
+    });
+
+    it('should do nothing if no refinements are matched', () => {
+      const refinements: any = [{ value: 'a' , onClick: spy() }, { value: 'b', onClick: spy() }];
+      const keyboardEvent: any = { keyCode: 13 };
+      const input = <any>{ value: 'c' };
+      filteredList.props = { items: refinements };
+      filteredList.refs = { filter: input };
+
+      filteredList.onKeyDown(keyboardEvent);
+
+      expect(refinements[0].onClick).to.be.not.called;
+      expect(refinements[1].onClick).to.be.not.called;
     });
   });
 
@@ -132,60 +156,118 @@ suite('FilteredList', ({ expect, spy }) => {
     });
   });
 
-  describe('updateItems()', () => {
-    it('should filter items', () => {
-      const filterValue = 'e';
-      const items = ['abc', 'def', 'ghi', 'eee'];
-      filteredList.refs = <any>{ filter: { value: filterValue } };
-      filteredList.props = { items };
-
-      filteredList.updateItems();
-
-      expect(filteredList.state.items).to.eql(['def', 'eee']);
-    });
-
-    it('should filter falsey item', () => {
-      const filterValue = 'e';
-      const items = [null, 'abc', 'efg'];
-      filteredList.refs = <any>{ filter: { value: filterValue } };
-      filteredList.props = { items };
-
-      filteredList.updateItems();
-
-      expect(filteredList.state.items).to.eql(['efg']);
-    });
-
-    it('should filter out invalid items', () => {
-      const filterValue = 'e';
-      const items = <any>[null, { i: 'e' }, { value: 'efg' }, { value: true }];
-      filteredList.refs = <any>{ filter: { value: filterValue } };
-      filteredList.props = { items };
-
-      filteredList.updateItems();
-
-      expect(filteredList.state.items).to.eql([{ value: 'efg' }]);
-    });
-
+  describe('filterItem()', () => {
     it('should trim filter value', () => {
-      const filterValue = ' \t e \n   ';
-      const items = ['abc', 'def', 'ghi', 'eee'];
-      filteredList.refs = <any>{ filter: { value: filterValue } };
-      filteredList.props = { items };
-
-      filteredList.updateItems();
-
-      expect(filteredList.state.items).to.eql(['def', 'eee']);
+      expect(filteredList.filterItem(' \t e \n   ', 'def')).to.be.true;
     });
 
     it('should filter case-insensitively', () => {
-      const filterValue = 'EF';
-      const items = ['abc', 'dEf', 'ghi', 'efe'];
+      expect(filteredList.filterItem('EF', 'def')).to.be.true;
+    });
+
+    it('should return true if the item matches the filter string', () => {
+      expect(filteredList.filterItem('e', 'def')).to.be.true;
+    });
+
+    it('should return false if the item does not match the filter string', () => {
+      expect(filteredList.filterItem('z', 'def')).to.be.false;
+    });
+
+    it('should return true if the item matches the filter object', () => {
+      expect(filteredList.filterItem('e', <any>{ value: 'def' })).to.be.true;
+    });
+
+    it('should return false if the item does not match the filter object', () => {
+      expect(filteredList.filterItem('z', <any>{ value: 'def' })).to.be.false;
+    });
+
+    [
+      false,
+      0,
+      '',
+      null,
+      undefined,
+      NaN,
+    ].forEach((item) => {
+      it(`should return false if the item is: ${item}`, () => {
+        expect(filteredList.filterItem('foo', <any>item)).to.be.false;
+      });
+    });
+
+    it('should return false if the item is invalid', () => {
+      expect(filteredList.filterItem('foo', <any>{ value: true })).to.be.false;
+    });
+  });
+
+  describe('decorateItem()', () => {
+    const noop = () => null;
+    let item1 = { value: 'foo', onClick: noop };
+    let item2 = { value: 'bar', onClick: noop };
+    let item3 = { value: 'baz', onClick: noop };
+
+    it('should trim filter value', () => {
+      // tslint:disable-next-line max-line-length
+      expect(filteredList.decorateItem(' \t foo \n   ', item1, 0, [item1, item2, item3])).to.eql({ ...item1, matchesTerm: true });
+    });
+
+    it('should filter case-insensitively', () => {
+      expect(filteredList.decorateItem('FOO', item1, 0, [item1, item2, item3])).to.eql({ ...item1, matchesTerm: true });
+    });
+
+    it('should decorate if the item matches the filter term', () => {
+      expect(filteredList.decorateItem('foo', item1, 0, [item1, item2, item3])).to.eql({ ...item1, matchesTerm: true });
+    });
+
+    it('should decorate if the item is the only refinement', () => {
+      expect(filteredList.decorateItem('foo', item1, 0, [item1])).to.eql({ ...item1, matchesTerm: true });
+    });
+
+    it('should do nothing if the item does not match the filter term', () => {
+      expect(filteredList.decorateItem('quux', item1, 0, [item1, item2, item3])).to.eq(item1);
+    });
+
+    it('should do nothing if the item is a string', () => {
+      const item = 'foo';
+
+      expect(filteredList.decorateItem('foo', item, 0, [item])).to.eq(item);
+    });
+  });
+
+  describe('updateItems()', () => {
+    let decorateItemStub;
+    let filterItemStub;
+
+    beforeEach(() => {
+      decorateItemStub = stub(filteredList, 'decorateItem').returns((v, item) => item);
+      filterItemStub = stub(filteredList, 'filterItem').returns((v, item) => item);
+    });
+
+    it('should call filterItem with each item', () => {
+      const filterValue = 'e';
+      const items = ['abc', 'def', 'ghi', 'eee'];
       filteredList.refs = <any>{ filter: { value: filterValue } };
       filteredList.props = { items };
 
       filteredList.updateItems();
 
-      expect(filteredList.state.items).to.eql(['dEf', 'efe']);
+      expect(filterItemStub.args).to.eql([
+        [filterValue, items[0]],
+        [filterValue, items[1]],
+        [filterValue, items[2]],
+        [filterValue, items[3]],
+      ]);
+    });
+
+    it('should call decorateItem', () => {
+      const filterValue = 'e';
+      const items = ['def', 'eee'];
+      filteredList.refs = <any>{ filter: { value: filterValue } };
+      filteredList.props = { items };
+      filterItemStub.restore();
+
+      filteredList.updateItems();
+
+      expect(decorateItemStub).to.be.called;
     });
 
     it('should use value passed in', () => {
@@ -196,7 +278,7 @@ suite('FilteredList', ({ expect, spy }) => {
 
       filteredList.updateItems('e');
 
-      expect(filteredList.state.items).to.eql(['def', 'eee']);
+      expect(filterItemStub).to.be.calledWith('e');
     });
   });
 });

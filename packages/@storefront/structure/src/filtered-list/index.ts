@@ -33,14 +33,21 @@ class FilteredList {
     this.updateItems();
   }
 
-  onKeyDown(event) {
-    const value = this.refs.filter.value.trim().toLowerCase();
-    if (event.keyCode === RETURN_KEY_CODE) {
-      const foundItem = this.props.items.find((item) => item && (<FilteredList.ItemObject>item).value && (<FilteredList.ItemObject>item).value.toLowerCase() === value);
+  onKeyDown(event: KeyboardEvent & Tag.Event) {
+    if (event.keyCode !== RETURN_KEY_CODE) {
+      return;
+    }
 
-      if (foundItem && typeof (<FilteredList.ItemObject>foundItem).onClick === 'function') {
-        (<FilteredList.ItemObject>foundItem).onClick(event)
-      }
+    const value = this.refs.filter.value.trim().toLowerCase();
+    const foundItem: FilteredList.ItemObject = <FilteredList.ItemObject>(this.state.items.length === 1
+      ? this.state.items[0]
+      : this.props.items.find((el) => {
+        const item: FilteredList.ItemObject = <FilteredList.ItemObject>el;
+        return item && item.value && item.value.toLowerCase() === value;
+      }));
+
+    if (foundItem && typeof foundItem.onClick === 'function') {
+      foundItem.onClick(<any>event);
     }
   }
 
@@ -56,21 +63,38 @@ class FilteredList {
   }
 
   updateItems(value: string = this.refs.filter.value) {
-    value = value.trim().toLowerCase();
-    const filtered = this.props.items.filter((item) => {
-      if (!item) {
-        return false;
-      } else if (typeof item === 'string') {
-        return item.toLowerCase().includes(value);
-      } else if (typeof item.value === 'string') {
-        return item.value.toLowerCase().includes(value);
-      } else {
-        return false;
-      }
-    });
+    const filtered = this.props.items
+      .filter((item) => this.filterItem(value, item))
+      .map((item, i, items) => this.decorateItem(value, item, i, items));
 
     if (filtered.length !== 0 || this.state.items.length !== 0) {
       this.state.items = filtered;
+    }
+  }
+
+  filterItem(value: string, item: FilteredList.Item) {
+    value = value.trim().toLowerCase();
+
+    if (!item) {
+      return false;
+    } else if (typeof item === 'string') {
+      return item.toLowerCase().includes(value);
+    } else if (typeof item.value === 'string') {
+      return item.value.toLowerCase().includes(value);
+    } else {
+      return false;
+    }
+  }
+
+  decorateItem(value: string, item: FilteredList.Item, index: number, items: FilteredList.Item[]) {
+    value = value.trim().toLowerCase();
+
+    if (typeof item === 'object' && typeof item.value === 'string') {
+      return item.value.toLowerCase() === value || items.length === 1
+        ? { ...item, matchesTerm: true }
+        : item;
+    } else {
+      return item;
     }
   }
 }
