@@ -5,6 +5,37 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.7.0] - 2019-01-11
+
+Package versions:
+
+- `@storefront/breadcrumbs`: 1.33.1
+- `@storefront/collections`: 1.32.1
+- `@storefront/core`: 1.55.7
+- `@storefront/details`: 1.32.1
+- `@storefront/did-you-mean`: 1.32.1
+- `@storefront/flux-capacitor`: 1.67.4
+- `@storefront/infinite-scroll`: 1.6.1
+- `@storefront/navigation`: 1.44.0
+- `@storefront/page-size`: 1.34.1
+- `@storefront/paging`: 1.34.0
+- `@storefront/products`: 1.38.1
+- `@storefront/query`: 1.39.1
+- `@storefront/recommendations`: 1.29.1
+- `@storefront/record-count`: 1.33.1
+- `@storefront/related-queries`: 1.32.1
+- `@storefront/sayt`: 1.40.1
+- `@storefront/sort`: 1.35.1
+- `@storefront/structure`: 1.47.0
+- `@storefront/template`: 1.34.1
+
+### Added
+#### structure
+- SF-1133: Add support for selecting last filtered refinement on Enter.
+  - In cases where a filter term yields 1x result, hitting the enter key now selects the remaining refinement.
+  - If a given refinement matches the filter term, the `gb-matches-term` class is added to the corresponding DOM node.
+    - This class may be used to emphasize the matched refinement (eg. when focus is applied to the filter field).
+
 ## [v1.6.5] - 2019-01-10
 
 Package versions:
