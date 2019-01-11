@@ -206,6 +206,7 @@ suite('FilteredList', ({ expect, spy, stub }) => {
     let item3 = { value: 'baz', onClick: noop };
 
     it('should trim filter value', () => {
+      // tslint:disable-next-line max-line-length
       expect(filteredList.decorateItem(' \t foo \n   ', item1, 0, [item1, item2, item3])).to.eql({ ...item1, matchesTerm: true });
     });
 
