@@ -4,7 +4,8 @@ import ValueRefinementControls from '../value-refinement-controls';
 
 @tag('gb-filter-refinement-controls', require('./index.html'))
 class FilterRefinementControls extends ValueRefinementControls {
-  props: any = <any> {
+  props: FilterRefinementControls.Props = {
+    navigation: undefined,
     enableSelectAll: false,
   };
 
@@ -32,14 +33,14 @@ class FilterRefinementControls extends ValueRefinementControls {
   }
 
   enableSelectAll = (): boolean => {
-    console.log('ENABLE SELECT ALL IS BEING CALLED!', this.state['or']);
-    return this.props.enableSelectAll && this.state['or'];
+    return this.props.enableSelectAll && this.state.or;
   }
 }
 
-interface FilterRefinementControls extends ValueRefinementControls {}
 namespace FilterRefinementControls {
-  export interface Props extends RefinementControls.Props
+  export interface Props extends RefinementControls.Props {
+    enableSelectAll?: boolean;
+  }
 }
 
 export default FilterRefinementControls;
