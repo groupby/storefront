@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - SF-1073: Added `selectMatchedRefinements` to `gb-filter-refinement-controls`.
   - `selectMatchedRefinements` will create and dispatch a `selectMultipleRefinements` or a `selectMultiplePastPurchaseRefinements` action when a user interacts with the "Select All" button within `gb-filtered-list`.
   - Only "orable" navigations will have the "Select All" button available.
+  - The `enableSelectAll` property within `gb-filter-refinement-controls` is false by default, so the "Select All" button will be disabled.
+  - The `enableSelectAll` property will be configurable in a future release, but at this time will remain disabled.
 
 ## [1.44.0] - 2019-01-03
 ### Changed
