@@ -16,7 +16,7 @@ suite('utils', ({ expect, spy, stub }) => {
   });
 
   it('should expose a table of DOM key strings', () => {
-    expect(Object.keys(utils.KEYS).every(k => typeof utils.KEYS[k] === 'string')).to.be.true;
+    expect(Object.keys(utils.KEYS).every((k) => typeof utils.KEYS[k] === 'string')).to.be.true;
   });
 
   describe('deepAssign()', () => {

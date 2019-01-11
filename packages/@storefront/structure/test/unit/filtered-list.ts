@@ -125,7 +125,7 @@ suite('FilteredList', ({ expect, spy, stub }) => {
 
     it('should do nothing if no refinements are matched', () => {
       const refinements: any = [{ value: 'a' , onClick: spy() }, { value: 'b', onClick: spy() }];
-      const keyboardEvent = { key: KEYS.UP }
+      const keyboardEvent = { key: KEYS.UP };
       const input = <any>{ value: 'a' };
       filteredList.props = { items: refinements };
       filteredList.refs = { filter: input };

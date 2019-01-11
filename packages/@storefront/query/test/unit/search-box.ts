@@ -34,7 +34,7 @@ suite('SearchBox', ({ expect, spy, stub, itShouldConsumeAlias, itShouldProvideAl
 
           searchBox.state.onKeyDown(<any>{ key: KEYS.UP, preventDefault });
           searchBox.state.onKeyDown(<any>{ key: KEYS.DOWN, preventDefault });
-          // The following values are included for IE support.
+          // the following values are included for IE support.
           // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values
           searchBox.state.onKeyDown(<any>{ key: KEYS.IE_UP, preventDefault });
           searchBox.state.onKeyDown(<any>{ key: KEYS.IE_DOWN, preventDefault });
@@ -87,7 +87,7 @@ suite('SearchBox', ({ expect, spy, stub, itShouldConsumeAlias, itShouldProvideAl
           searchBox.flux = <any>{ emit };
 
           searchBox.state.onKeyUp(<any>{ key: KEYS.ESCAPE });
-          // The following value is included for IE support.
+          // the following value is included for IE support.
           // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values
           searchBox.state.onKeyUp(<any>{ key: KEYS.IE_ESCAPE });
 
@@ -130,7 +130,7 @@ suite('SearchBox', ({ expect, spy, stub, itShouldConsumeAlias, itShouldProvideAl
           searchBox.flux = <any>{ emit };
 
           searchBox.state.onKeyUp(<any>{ key: KEYS.DOWN });
-          // The following value are included for IE support.
+          // the following value are included for IE support.
           // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values
           searchBox.state.onKeyUp(<any>{ key: KEYS.IE_DOWN });
 
@@ -143,7 +143,7 @@ suite('SearchBox', ({ expect, spy, stub, itShouldConsumeAlias, itShouldProvideAl
           searchBox.flux = <any>{ emit };
 
           searchBox.state.onKeyUp(<any>{ key: KEYS.UP });
-          // The following value are included for IE support.
+          // the following value are included for IE support.
           // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values
           searchBox.state.onKeyUp(<any>{ key: KEYS.IE_UP });
 

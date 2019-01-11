@@ -12,7 +12,12 @@ class SearchBox {
   };
   state: SearchBox.State = {
     originalQuery: this.select(Selectors.query),
-    onKeyDown: (event) => [KEYS.DOWN, KEYS.IE_DOWN, KEYS.IE_UP, KEYS.UP].indexOf(event.key) !== -1 && event.preventDefault(),
+    onKeyDown: (event) => [
+      KEYS.DOWN,
+      KEYS.IE_DOWN,
+      KEYS.IE_UP,
+      KEYS.UP
+    ].indexOf(event.key) !== -1 && event.preventDefault(),
     onKeyUp: (event) => {
       event.preventUpdate = true;
       switch (event.key) {
