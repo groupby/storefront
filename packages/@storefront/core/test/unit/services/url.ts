@@ -454,8 +454,16 @@ suite('URL Service', ({ expect, spy, stub, itShouldBeCore, itShouldExtendBaseSer
   });
 
   describe('filterState()', () => {
-    it('should filter config from state and remove products when history length is 0', () => {
-      const data = { a: 'b', past: [{ a: 'b' }], present: { products: [1,2,3,4,5] } };
+    it('should filter config from state and remove products, navigations and templates when history length is 0', () => {
+      const data = {
+        a: 'b',
+        past: [{ a: 'b' }],
+        present: {
+          products: [{ c: 'd' }, { e: 'f' }],
+          navigations: { a: 'b', allIds: [1,2,3], byId: { j: 'k' }, sort: { d: 'e' } },
+          template: { y: 'z' },
+        },
+      };
       const config = { history: { length: 0 } };
       const session = { a: 'b', c: 'd' };
       const sessionWithConfig = { ...session, config };
@@ -476,7 +484,7 @@ suite('URL Service', ({ expect, spy, stub, itShouldBeCore, itShouldExtendBaseSer
       expect(stateWithoutConfig).to.eql({
         ...otherData,
         session,
-        data: { ...data, past: [], present: { products: [] } }
+        data: { ...data, past: [], present: { products: [], navigations: { allIds: [], byId: {}, sort: [] }, template: {} } },
       });
     });
 
@@ -498,6 +506,8 @@ suite('URL Service', ({ expect, spy, stub, itShouldBeCore, itShouldExtendBaseSer
           past: [{ a: 'b' }],
           present: {
             products: [{ c: 'd' }],
+            navigations: { a: 'b', allIds: [1,2,3], byId: { j: 'k' }, sort: { d: 'e' } },
+            template: { y: 'z' }
           },
         },
       };

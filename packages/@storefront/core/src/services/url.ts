@@ -107,15 +107,9 @@ class UrlService extends BaseService<UrlService.Options> {
       WINDOW().location.assign(this.opts.redirects[url]);
     } else {
       try {
-
-        const filteredState = this.filterState(this.app.flux.store.getState()); // TEMP
-        console.log('__ `filteredState`', filteredState); // TEMP
-        debugger; // TEMP
-
         const oldUrl = WINDOW().location.href;
         WINDOW().history.pushState(
-          // TEMP: use `filteredState`; defined above.
-          { url, state: filteredState, app: STOREFRONT_APP_ID },
+          { url, state: this.filterState(this.app.flux.store.getState()), app: STOREFRONT_APP_ID },
           '',
           url
         );
@@ -124,7 +118,6 @@ class UrlService extends BaseService<UrlService.Options> {
         this.emitUrlUpdated(oldUrl, newUrl, url);
         this.handleUrl();
       } catch (e) {
-        console.error('__ HIT ERROR', e.message); // TEMP
         this.app.log.warn('unable to push state to browser history', e);
       }
     }
@@ -163,12 +156,10 @@ class UrlService extends BaseService<UrlService.Options> {
   }
 
   filterState(state: Store.State) {
-    console.log('__ FILTERING STATE'); // TEMP
-
     const { session: { config, ...session }, data, ...rootConfig } = state;
 
-    let navigations: any = data.present.products;
-    let products: any = data.present.navigations;
+    let products: any = data.present.products;
+    let navigations: any = data.present.navigations;
     let template: any = data.present.template;
 
     if (this.app.config.history.length === 0) {
@@ -176,8 +167,6 @@ class UrlService extends BaseService<UrlService.Options> {
       navigations = { allIds: [], byId: {}, sort: [] };
       template = {};
     }
-
-    console.log('__', products, navigations, template); // TEMP
 
     return {
       ...rootConfig,
@@ -196,8 +185,6 @@ class UrlService extends BaseService<UrlService.Options> {
   }
 
   rewind = (event: PopStateEvent) => {
-    console.log('__ REWINDING', event); // TEMP
-
     const eventState = event.state;
     if (eventState && event.state.app === STOREFRONT_APP_ID) {
       this.refreshState(eventState.state);
