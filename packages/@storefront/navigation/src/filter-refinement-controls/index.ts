@@ -28,6 +28,7 @@ class FilterRefinementControls extends ValueRefinementControls {
     }
   }
 
+  // tslint:disable-next-line max-line-length
   selectMatchedRefinements = (event: Tag.Event, refinements: RefinementControls.SelectedRefinement[]) => {
     this.actions[this.selectMultipleRefinements](this.props.navigation.field, refinements.map((refinement) => refinement.index));
   }
