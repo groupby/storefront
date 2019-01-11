@@ -27,7 +27,9 @@
     "uploadCoverage": "codecov -p ../../.. -y ../../../codecov.yml",
     "tdd": "nodemon --watch src --watch test --exec npm test",
     "prepush": "npm test",
-    "prepublishOnly": "[ -n \"$CI\" ] || npm run build"
+    "prepublishOnly": "[ -n \"$CI\" ] || npm run build",
+    "lint": "tslint -p tsconfig.json ./src/**/*.ts",
+    "lint:fix": "tslint -p tsconfig.json --fix ./src/**/*.ts"
   },
   "nyc": {
     "extension": [
@@ -44,14 +46,6 @@
   },
   "nodemonConfig": {
     "ext": "ts,json,html,css"
-  },
-  "prettier": {
-    "printWidth": 120,
-    "parser": "typescript",
-    "trailingComma": "es5",
-    "arrowParens": "always",
-    "jsxBracketSameLine": true,
-    "singleQuote": true
   },
   "dependencies": {
     "@storefront/flux-capacitor": "1.67.4",
