@@ -13,6 +13,18 @@ export const WINDOW = () => window;
 
 const ARRAY_TO_DOT_NOTATION_REGEX = /\[(\d+)\]/g;
 
+export const KEYS = {
+  DOWN: 'ArrowDown',
+  ENTER: 'Enter',
+  ESCAPE: 'Escape',
+  UP: 'ArrowUp',
+  IE_DOWN: 'Down',
+  IE_LEFT: 'Left',
+  IE_RIGHT: 'Right',
+  IE_UP: 'Up',
+  IE_ESCAPE: 'Esc',
+};
+
 export const dot = {
   get(obj: any, path: string, defaultValue?: any) {
     path = arrayToDotNotation(path);

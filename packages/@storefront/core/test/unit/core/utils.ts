@@ -15,6 +15,10 @@ suite('utils', ({ expect, spy, stub }) => {
     expect(utils.GbTracker).to.eq(GbTracker);
   });
 
+  it('should expose a table of DOM key strings', () => {
+    expect(Object.keys(utils.KEYS).every((k) => typeof utils.KEYS[k] === 'string')).to.be.true;
+  });
+
   describe('deepAssign()', () => {
     it('should allow functions to override objects', () => {
       const myObj = () => null;

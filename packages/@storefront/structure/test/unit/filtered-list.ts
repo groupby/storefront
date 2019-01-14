@@ -1,3 +1,4 @@
+import { KEYS } from '@storefront/core';
 import FilteredList from '../../src/filtered-list';
 import suite from './_suite';
 
@@ -86,7 +87,7 @@ suite('FilteredList', ({ expect, spy, stub }) => {
 
   describe('onKeyDown()', () => {
     it('should exit early if the key is not Enter', () => {
-      const keyboardEvent: any = { keyCode: 1970 };
+      const keyboardEvent: any = { key: KEYS.ESCAPE };
       const trim = spy();
       filteredList.refs = <any>{ filter: { value: { trim } } };
 
@@ -97,7 +98,7 @@ suite('FilteredList', ({ expect, spy, stub }) => {
 
     it('should select the matched refinement', () => {
       const refinements: any = [{ value: 'a' , onClick: spy() }, { value: 'b', onClick: spy() }];
-      const keyboardEvent: any = { keyCode: 13 };
+      const keyboardEvent: any = { key: KEYS.ENTER };
       const input = <any>{ value: 'a' };
       filteredList.props = { items: refinements };
       filteredList.refs = { filter: input };
@@ -111,7 +112,7 @@ suite('FilteredList', ({ expect, spy, stub }) => {
     it('should select the only refinement', () => {
       const selected = { value: 'foo', onClick: spy() };
       const refinements: any = [selected, { value: 'a', onClick: spy() }, { value: 'b', onClick: spy() }];
-      const keyboardEvent: any = { keyCode: 13 };
+      const keyboardEvent: any = { key: KEYS.ENTER };
       const input: any = { value: 'bar' };
       filteredList.props = { items: refinements };
       filteredList.state = { items: [selected] };
@@ -124,8 +125,8 @@ suite('FilteredList', ({ expect, spy, stub }) => {
 
     it('should do nothing if no refinements are matched', () => {
       const refinements: any = [{ value: 'a' , onClick: spy() }, { value: 'b', onClick: spy() }];
-      const keyboardEvent: any = { keyCode: 13 };
-      const input = <any>{ value: 'c' };
+      const keyboardEvent: any = { key: KEYS.UP };
+      const input = <any>{ value: 'a' };
       filteredList.props = { items: refinements };
       filteredList.refs = { filter: input };
 

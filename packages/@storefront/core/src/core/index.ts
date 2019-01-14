@@ -6,7 +6,8 @@ import System from './system';
 import Tag from './tag';
 import UrlBeautifier from './url-beautifier';
 import * as utils from './utils';
+import { KEYS } from './utils';
 
 export * from './tag/decorators';
 export * from './types';
-export { Configuration, CoreSelectors, ProductTransformer, Service, System, Tag, UrlBeautifier, utils };
+export { Configuration, CoreSelectors, KEYS, ProductTransformer, Service, System, Tag, UrlBeautifier, utils };

@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] [patch]
+### Changed
+- SF-1241: Update search box component to use table of DOM key strings.
+
+### Fixed
+- SF-1241: Fix Chrome-specific issue where `&` character cannot be inserted into search box.
+
 ## [1.39.1] - 2019-01-02
 ### Fixed
 - Update repository, issues, and homepage fields in `package.json` file.

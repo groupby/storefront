@@ -1,4 +1,4 @@
-import { Events, Selectors } from '@storefront/core';
+import { Events, KEYS, Selectors } from '@storefront/core';
 import * as sinon from 'sinon';
 import SearchBox from '../../src/search-box';
 import suite from './_suite';
@@ -29,25 +29,29 @@ suite('SearchBox', ({ expect, spy, stub, itShouldConsumeAlias, itShouldProvideAl
       });
 
       describe('onKeyDown()', () => {
-        it('should call event.preventDefault() if keyCode is up or down', () => {
+        it('should call event.preventDefault() if key is up or down', () => {
           const preventDefault = spy();
 
-          searchBox.state.onKeyDown(<any>{ keyCode: 38, preventDefault });
-          searchBox.state.onKeyDown(<any>{ keyCode: 40, preventDefault });
+          searchBox.state.onKeyDown(<any>{ key: KEYS.UP, preventDefault });
+          searchBox.state.onKeyDown(<any>{ key: KEYS.DOWN, preventDefault });
+          // the following values are included for IE support.
+          // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values
+          searchBox.state.onKeyDown(<any>{ key: KEYS.IE_UP, preventDefault });
+          searchBox.state.onKeyDown(<any>{ key: KEYS.IE_DOWN, preventDefault });
 
-          expect(preventDefault).to.be.calledTwice;
+          expect(preventDefault).to.have.callCount(4);
         });
 
-        it('should not call event.preventDefault() if keyCode is any other key', () => {
+        it('should not call event.preventDefault() if key is any other key', () => {
           const preventDefault = () => expect.fail();
 
-          searchBox.state.onKeyDown(<any>{ keyCode: 13, preventDefault });
+          searchBox.state.onKeyDown(<any>{ key: KEYS.ENTER, preventDefault });
         });
       });
 
       describe('onKeyUp()', () => {
         it('should set preventUpdate', () => {
-          const event: any = { keyCode: 10, target: {} };
+          const event: any = { key: KEYS.UP, target: {} };
           const updateAutocompleteQuery = spy();
           searchBox.flux = <any>{ emit: () => null };
           searchBox.actions = <any>{ updateAutocompleteQuery };
@@ -63,7 +67,7 @@ suite('SearchBox', ({ expect, spy, stub, itShouldConsumeAlias, itShouldProvideAl
           searchBox.actions = <any>{ search };
           searchBox.services = <any>{ autocomplete: { hasActiveSuggestion: () => false } };
 
-          searchBox.state.onKeyUp(<any>{ keyCode: 13, target: { value } });
+          searchBox.state.onKeyUp(<any>{ key: KEYS.ENTER, target: { value } });
 
           expect(search).to.be.calledWith(value);
         });
@@ -73,7 +77,7 @@ suite('SearchBox', ({ expect, spy, stub, itShouldConsumeAlias, itShouldProvideAl
           searchBox.flux = <any>{ emit };
           searchBox.services = <any>{ autocomplete: { hasActiveSuggestion: () => true } };
 
-          searchBox.state.onKeyUp(<any>{ keyCode: 13 });
+          searchBox.state.onKeyUp(<any>{ key: KEYS.ENTER });
 
           expect(emit).to.be.calledWith('sayt:select_active');
         });
@@ -82,9 +86,13 @@ suite('SearchBox', ({ expect, spy, stub, itShouldConsumeAlias, itShouldProvideAl
           const emit = spy();
           searchBox.flux = <any>{ emit };
 
-          searchBox.state.onKeyUp(<any>{ keyCode: 27 });
+          searchBox.state.onKeyUp(<any>{ key: KEYS.ESCAPE });
+          // the following value is included for IE support.
+          // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values
+          searchBox.state.onKeyUp(<any>{ key: KEYS.IE_ESCAPE });
 
-          expect(emit).to.be.calledWith('sayt:hide');
+          expect(emit.args[0][0]).to.eq('sayt:hide');
+          expect(emit.args[1][0]).to.eq('sayt:hide');
         });
 
         it('should call actions.autocomplete()', () => {
@@ -121,18 +129,26 @@ suite('SearchBox', ({ expect, spy, stub, itShouldConsumeAlias, itShouldProvideAl
           const emit = spy();
           searchBox.flux = <any>{ emit };
 
-          searchBox.state.onKeyUp(<any>{ keyCode: 40 });
+          searchBox.state.onKeyUp(<any>{ key: KEYS.DOWN });
+          // the following value are included for IE support.
+          // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values
+          searchBox.state.onKeyUp(<any>{ key: KEYS.IE_DOWN });
 
-          expect(emit).to.be.calledWith('sayt:activate_next');
+          expect(emit.args[0][0]).to.eq('sayt:activate_next');
+          expect(emit.args[1][0]).to.eq('sayt:activate_next');
         });
 
         it('should emit sayt:activate_previous on arrow up pressed', () => {
           const emit = spy();
           searchBox.flux = <any>{ emit };
 
-          searchBox.state.onKeyUp(<any>{ keyCode: 38 });
+          searchBox.state.onKeyUp(<any>{ key: KEYS.UP });
+          // the following value are included for IE support.
+          // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values
+          searchBox.state.onKeyUp(<any>{ key: KEYS.IE_UP });
 
-          expect(emit).to.be.calledWith('sayt:activate_previous');
+          expect(emit.args[0][0]).to.eq('sayt:activate_previous');
+          expect(emit.args[1][0]).to.eq('sayt:activate_previous');
         });
       });
 
