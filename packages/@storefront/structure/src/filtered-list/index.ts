@@ -7,6 +7,8 @@ class FilteredList {
   props: FilteredList.Props = {
     items: [],
     paginate: true,
+    enableSelectAll: false,
+    selectAllLabel: 'Select All',
   };
   state: FilteredList.State = {
     items: [],
@@ -60,6 +62,12 @@ class FilteredList {
     }
   }
 
+  onSelectAll = (event: Tag.Event) => {
+    if (typeof this.props.onSelectAll === 'function') {
+      this.props.onSelectAll(event, this.state.items.slice(0));
+    }
+  }
+
   updateItems(value: string = this.refs.filter.value) {
     const filtered = this.props.items
       .filter((item) => this.filterItem(value, item))
@@ -104,7 +112,10 @@ namespace FilteredList {
     itemAlias?: string;
     indexAlias?: string;
     paginate?: boolean;
+    selectAllLabel?: string;
+    enableSelectAll?: boolean;
     onFilterFocus?: (event: FocusEvent) => void;
+    onSelectAll?: (event: Tag.Event, items: Item[]) => void;
   }
 
   export interface State {

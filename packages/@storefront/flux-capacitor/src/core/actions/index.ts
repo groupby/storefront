@@ -45,6 +45,8 @@ namespace Actions {
   export type UpdateDetails = Action<typeof UPDATE_DETAILS, Store.Details>;
   export const SELECT_REFINEMENT = 'SELECT_REFINEMENT';
   export type SelectRefinement = Action<typeof SELECT_REFINEMENT, Payload.Navigation.Refinement>;
+  export const SELECT_MULTIPLE_REFINEMENTS = 'SELECT_MULTIPLE_REFINEMENTS';
+  export type SelectMultipleRefinements = Action<typeof SELECT_MULTIPLE_REFINEMENTS, Payload.Navigation.MultipleRefinements>;
   export const DESELECT_REFINEMENT = 'DESELECT_REFINEMENT';
   export type DeselectRefinement = Action<typeof DESELECT_REFINEMENT, Payload.Navigation.Refinement>;
   export const SELECT_COLLECTION = 'SELECT_COLLECTION';
@@ -77,6 +79,7 @@ namespace Actions {
   export type UpdateSearch = Array<Actions.ResetPage | Actions.UpdateQuery | Actions.ResetRefinements | Actions.SelectRefinement | Actions.AddRefinement>;
   export type ResetPageAndResetRefinements = [Actions.ResetPage, Actions.ResetRefinements];
   export type ResetPageAndSelectRefinement = [Actions.ResetPage, Actions.SelectRefinement];
+  export type ResetPageAndSelectMultipleRefinements = [Actions.ResetPage, Actions.SelectMultipleRefinements];
   export type ResetPageAndDeselectRefinement = [Actions.ResetPage, Actions.DeselectRefinement];
   export type ResetPageAndAddRefinement = [Actions.ResetPage, Actions.AddRefinement];
   export type CheckAndResetRefinements = ResetPageAndResetRefinements | Action<any>[];
@@ -172,6 +175,8 @@ namespace Actions {
   export type ResetPastPurchaseRefinements = Action<typeof RESET_PAST_PURCHASE_REFINEMENTS, boolean | string>;
   export const SELECT_PAST_PURCHASE_REFINEMENT = 'SELECT_PAST_PURCHASE_REFINEMENT';
   export type SelectPastPurchaseRefinement = Action<typeof SELECT_PAST_PURCHASE_REFINEMENT, Payload.Navigation.Refinement>;
+  export const SELECT_MULTIPLE_PAST_PURCHASE_REFINEMENTS = 'SELECT_MULTIPLE_PAST_PURCHASE_REFINEMENTS';
+  export type SelectMultiplePastPurchaseRefinements = Action<typeof SELECT_MULTIPLE_PAST_PURCHASE_REFINEMENTS, Payload.Navigation.MultipleRefinements>;
   export const RESET_AND_SELECT_PAST_PURCHASE_REFINEMENT = 'RESET_AND_SELECT_PAST_PURCHASE_REFINEMENT';
   export type ResetAndSelectPastPurchaseRefinement = Action<typeof RESET_AND_SELECT_PAST_PURCHASE_REFINEMENT, Payload.Navigation.Refinement>;
   export const DESELECT_PAST_PURCHASE_REFINEMENT = 'DESELECT_PAST_PURCHASE_REFINEMENT';
@@ -183,6 +188,7 @@ namespace Actions {
 
   export type PastPurchaseReset = [Actions.ResetPastPurchasePage, Actions.ResetPastPurchaseRefinements];
   export type PastPurchaseSelect = [Actions.ResetPastPurchasePage, Actions.SelectPastPurchaseRefinement];
+  export type PastPurchaseSelectMultiple = [Actions.ResetPastPurchasePage, Actions.SelectMultiplePastPurchaseRefinements];
   export type PastPurchaseDeselect = [Actions.ResetPastPurchasePage, Actions.DeselectPastPurchaseRefinement];
   export type PastPurchaseResetAndSelect = [Actions.ResetPastPurchasePage, Actions.ResetPastPurchaseRefinements, Actions.ResetPastPurchasePage, Actions.SelectPastPurchaseRefinement];
   export type PastPurchaseQueryAndSelect = [Actions.ResetPastPurchasePage, Actions.ResetPastPurchaseRefinements, Actions.UpdatePastPurchaseQuery, Actions.ResetPastPurchasePage, Actions.SelectPastPurchaseRefinement];

@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] [minor]
+### Added
+- SF-1073: Created new `selectMultipleRefinements` and `selectMultiplePastPurchaseRefinements` actions.
+  - Users can now select multiple refinements at a given time by passing in a `navigationId` and an array of indices to these new actions.
+
 ## [1.67.4] - 2019-01-07
 ### Added
 - SF-1237: Exposed past purchase sort options via importable `PAST_PURCHASE_SORTS` object.
@@ -28,7 +33,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - SF-1237: Fix issue where past purchase sorts are not correctly applied/transmitted.
-
 
 ## [1.67.3] - 2019-01-04
 ### Fixed

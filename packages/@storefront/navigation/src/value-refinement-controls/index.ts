@@ -46,7 +46,7 @@ class ValueRefinementControls extends RefinementControls<RefinementControls.Prop
 }
 
 namespace ValueRefinementControls {
-  export interface State {
+  export interface State extends RefinementControls.State {
     more?: boolean;
     moreRefinements(): void;
   }

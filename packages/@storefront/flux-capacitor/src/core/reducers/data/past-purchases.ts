@@ -18,6 +18,7 @@ export type Action = Actions.ReceivePastPurchaseSkus
   | Actions.SelectPastPurchaseSort
   | Actions.ResetPastPurchaseRefinements
   | Actions.SelectPastPurchaseRefinement
+  | Actions.SelectMultiplePastPurchaseRefinements
   | Actions.DeselectPastPurchaseRefinement
   | Actions.ResetPastPurchasePage
   | Actions.UpdatePastPurchasePageSize
@@ -69,6 +70,7 @@ export default function updatePastPurchases(state: State = DEFAULTS, action: Act
     case Actions.SELECT_PAST_PURCHASE_SORT: return updatePastPurchaseSortSelected(state, action);
     case Actions.RECEIVE_PAST_PURCHASE_REFINEMENTS: return applyNavigationReducer(state, action, navigations.receiveNavigations);
     case Actions.SELECT_PAST_PURCHASE_REFINEMENT: return applyNavigationReducer(state, action, navigations.selectRefinement);
+    case Actions.SELECT_MULTIPLE_PAST_PURCHASE_REFINEMENTS: return applyNavigationReducer(state, action, navigations.selectMultipleRefinements);
     case Actions.DESELECT_PAST_PURCHASE_REFINEMENT: return applyNavigationReducer(state, action, navigations.deselectRefinement);
     case Actions.RESET_PAST_PURCHASE_REFINEMENTS: return applyNavigationReducer(state, action, navigations.resetRefinements);
     case Actions.RESET_PAST_PURCHASE_PAGE: return applyPageReducer(state, action, page.resetPage);
