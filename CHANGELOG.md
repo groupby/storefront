@@ -5,6 +5,101 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.8.0] - 2019-01-14
+
+Package versions:
+
+- `@storefront/breadcrumbs`: 1.34.0
+- `@storefront/collections`: 1.33.0
+- `@storefront/core`: 1.56.0
+- `@storefront/details`: 1.33.0
+- `@storefront/did-you-mean`: 1.33.0
+- `@storefront/flux-capacitor`: 1.68.0
+- `@storefront/infinite-scroll`: 1.7.0
+- `@storefront/navigation`: 1.45.0
+- `@storefront/page-size`: 1.35.0
+- `@storefront/paging`: 1.35.0
+- `@storefront/products`: 1.39.0
+- `@storefront/query`: 1.40.0
+- `@storefront/recommendations`: 1.30.0
+- `@storefront/record-count`: 1.34.0
+- `@storefront/related-queries`: 1.33.0
+- `@storefront/sayt`: 1.41.0
+- `@storefront/sort`: 1.36.0
+- `@storefront/structure`: 1.48.0
+- `@storefront/template`: 1.35.0
+
+### Changed
+#### breadcrumbs
+- Update `@storefront/core` to 1.56.0.
+
+#### collections
+- Update `@storefront/core` to 1.56.0.
+
+#### core
+- Update `@storefront/flux-capacitor` to 1.68.0.
+
+#### details
+- Update `@storefront/core` to 1.56.0.
+
+#### did-you-mean
+- Update `@storefront/core` to 1.56.0.
+
+#### infinite-scroll
+- Update `@storefront/core` to 1.56.0.
+
+#### navigation
+- Update `@storefront/core` to 1.56.0.
+
+#### page-size
+- Update `@storefront/core` to 1.56.0.
+
+#### paging
+- Update `@storefront/core` to 1.56.0.
+
+#### products
+- Update `@storefront/core` to 1.56.0.
+
+#### query
+- Update `@storefront/core` to 1.56.0.
+
+#### recommendations
+- Update `@storefront/core` to 1.56.0.
+
+#### record-count
+- Update `@storefront/core` to 1.56.0.
+
+#### related-queries
+- Update `@storefront/core` to 1.56.0.
+
+#### sayt
+- Update `@storefront/core` to 1.56.0.
+
+#### sort
+- Update `@storefront/core` to 1.56.0.
+
+#### structure
+- Update `@storefront/core` to 1.56.0.
+
+#### template
+- Update `@storefront/core` to 1.56.0.
+
+### Added
+#### flux-capacitor
+- SF-1073: Created new `selectMultipleRefinements` and `selectMultiplePastPurchaseRefinements` actions.
+  - Users can now select multiple refinements at a given time by passing in a `navigationId` and an array of indices to these new actions.
+
+#### navigation
+- SF-1073: Added `selectMatchedRefinements` to `gb-filter-refinement-controls`.
+  - `selectMatchedRefinements` will create and dispatch a `selectMultipleRefinements` or a `selectMultiplePastPurchaseRefinements` action when a user interacts with the "Select All" button within `gb-filtered-list`.
+  - Only "orable" navigations will have the "Select All" button available.
+  - The `enableSelectAll` property within `gb-filter-refinement-controls` is false by default, so the "Select All" button will be disabled.
+  - The `enableSelectAll` property will be configurable in a future release, but at this time will remain disabled.
+
+#### structure
+- SF-1073: Update `gb-filtered-list` component to have a "Select All" button.
+  - `gb-filtered-list` now has a "Select All" button that will select all of the available refinements after an initial filter.
+
 ## [v1.7.1] - 2019-01-14
 
 Package versions:

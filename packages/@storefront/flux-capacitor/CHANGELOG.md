@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased] [minor]
+## [1.68.0] - 2019-01-14
 ### Added
 - SF-1073: Created new `selectMultipleRefinements` and `selectMultiplePastPurchaseRefinements` actions.
   - Users can now select multiple refinements at a given time by passing in a `navigationId` and an array of indices to these new actions.

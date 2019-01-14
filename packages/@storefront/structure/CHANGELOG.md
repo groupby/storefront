@@ -4,7 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased] [minor]
+## [1.48.0] - 2019-01-14
+### Changed
+- Update `@storefront/core` to 1.56.0.
+
 ### Added
 - SF-1073: Update `gb-filtered-list` component to have a "Select All" button.
   - `gb-filtered-list` now has a "Select All" button that will select all of the available refinements after an initial filter.
