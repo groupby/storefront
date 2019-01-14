@@ -87,7 +87,7 @@ suite('FilteredList', ({ expect, spy, stub }) => {
 
   describe('onKeyDown()', () => {
     it('should exit early if the key is not Enter', () => {
-      const keyboardEvent: any = { key: 1970 };
+      const keyboardEvent: any = { key: KEYS.ESCAPE };
       const trim = spy();
       filteredList.refs = <any>{ filter: { value: { trim } } };
 
