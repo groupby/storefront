@@ -454,6 +454,7 @@ suite('URL Service', ({ expect, spy, stub, itShouldBeCore, itShouldExtendBaseSer
   });
 
   describe('filterState()', () => {
+    // tslint:disable-next-line max-line-length
     it('should filter config from state and remove products, navigations, templates, and autocomplete data when history length is 0', () => {
       const data = {
         a: 'b',
