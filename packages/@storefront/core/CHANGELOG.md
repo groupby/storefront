@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.56.1] - 2019-01-15
 ### Changed
-- Update `filterState` to remove navigations, template, and a subset of autocomplete data when the history configuration is set to `length: 0`.
+- SF-1082: Update `filterState` to remove navigations, template, and a subset of autocomplete data when the history configuration is set to `length: 0`.
   - Removing application data reduces the chance that a history entry will exceed the maximum size for a given browser.
 
 ## [1.56.0] - 2019-01-14

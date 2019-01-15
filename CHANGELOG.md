@@ -31,7 +31,7 @@ Package versions:
 
 ### Changed
 #### core
-- Update `filterState` to remove navigations, template, and a subset of autocomplete data when the history configuration is set to `length: 0`.
+- SF-1082: Update `filterState` to remove navigations, template, and a subset of autocomplete data when the history configuration is set to `length: 0`.
   - Removing application data reduces the chance that a history entry will exceed the maximum size for a given browser.
 
 ## [v1.8.0] - 2019-01-14
