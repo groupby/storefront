@@ -215,6 +215,10 @@ namespace Configuration {
      */
     hoverAutoFill?: boolean;
     /**
+     * specify optional debounce value in milliseconds
+     */
+    hoverDebounce?: number;
+    /**
      * autocomplete products settings
      */
     products?: Configuration.Autocomplete.Products;
