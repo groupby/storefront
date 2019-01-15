@@ -166,9 +166,11 @@ class UrlService extends BaseService<UrlService.Options> {
 
     if (this.app.config.history.length === 0) {
       autocompleteNavigations = [];
-      autocompleteProducts = products = [];
-      autocompleteTemplate = template = <any>{};
+      autocompleteProducts = [];
+      autocompleteTemplate = <any>{};
       navigations = { allIds: [], byId: {}, sort: [] };
+      products = [];
+      template = <any>{};
     }
 
     return {
