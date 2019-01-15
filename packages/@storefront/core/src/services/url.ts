@@ -157,12 +157,16 @@ class UrlService extends BaseService<UrlService.Options> {
 
   filterState(state: Store.State) {
     const { session: { config, ...session }, data, ...rootConfig } = state;
-    let { navigations, products, template } = data.present;
     let {
-      navigations: autocompleteNavigations,
-      products: autocompleteProducts,
-      template: autocompleteTemplate,
-    } = data.present.autocomplete;
+      navigations,
+      products,
+      template,
+      autocomplete: {
+        navigations: autocompleteNavigations,
+        products: autocompleteProducts,
+        template: autocompleteTemplate,
+      },
+    } = data.present;
 
     if (this.app.config.history.length === 0) {
       autocompleteNavigations = [];
