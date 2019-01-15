@@ -76,13 +76,11 @@ suite('FilteredList', ({ expect, spy, stub, sinon }) => {
   });
 
   describe('onFilterChange()', () => {
-    it('should call updateItems()', () => {
-      const updateItems = (filteredList.updateItems = spy());
+    it('should call set()', () => {
       const set = (filteredList.set = spy());
 
       filteredList.onFilterChange(<any>{});
 
-      expect(updateItems).to.be.calledWith();
       expect(set).to.be.calledWithExactly(true);
     });
   });
