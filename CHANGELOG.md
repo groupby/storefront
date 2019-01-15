@@ -5,6 +5,35 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.8.1] - 2019-01-15
+
+Package versions:
+
+- `@storefront/breadcrumbs`: 1.34.0
+- `@storefront/collections`: 1.33.0
+- `@storefront/core`: 1.56.1
+- `@storefront/details`: 1.33.0
+- `@storefront/did-you-mean`: 1.33.0
+- `@storefront/flux-capacitor`: 1.68.0
+- `@storefront/infinite-scroll`: 1.7.0
+- `@storefront/navigation`: 1.45.0
+- `@storefront/page-size`: 1.35.0
+- `@storefront/paging`: 1.35.0
+- `@storefront/products`: 1.39.0
+- `@storefront/query`: 1.40.0
+- `@storefront/recommendations`: 1.30.0
+- `@storefront/record-count`: 1.34.0
+- `@storefront/related-queries`: 1.33.0
+- `@storefront/sayt`: 1.41.0
+- `@storefront/sort`: 1.36.0
+- `@storefront/structure`: 1.48.0
+- `@storefront/template`: 1.35.0
+
+### Changed
+#### core
+- Update `filterState` to remove navigations, template, and a subset of autocomplete data when the history configuration is set to `length: 0`.
+  - Removing application data reduces the chance that a history entry will exceed the maximum size for a given browser.
+
 ## [v1.8.0] - 2019-01-14
 
 Package versions:
