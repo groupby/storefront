@@ -157,7 +157,25 @@ class UrlService extends BaseService<UrlService.Options> {
 
   filterState(state: Store.State) {
     const { session: { config, ...session }, data, ...rootConfig } = state;
-    const products = this.app.config.history.length === 0 ? [] : data.present.products;
+    let {
+      navigations,
+      products,
+      template,
+      autocomplete: {
+        navigations: autocompleteNavigations,
+        products: autocompleteProducts,
+        template: autocompleteTemplate,
+      },
+    } = data.present;
+
+    if (this.app.config.history.length === 0) {
+      autocompleteNavigations = [];
+      autocompleteProducts = [];
+      autocompleteTemplate = <any>{};
+      navigations = { allIds: [], byId: {}, sort: [] };
+      products = [];
+      template = <any>{};
+    }
 
     return {
       ...rootConfig,
@@ -165,7 +183,18 @@ class UrlService extends BaseService<UrlService.Options> {
       data: {
         ...data,
         past: [],
-        present: { ...data.present, products },
+        present: {
+          ...data.present,
+          products,
+          navigations,
+          template,
+          autocomplete: {
+            ...data.present.autocomplete,
+            navigations: autocompleteNavigations,
+            products: autocompleteProducts,
+            template: autocompleteTemplate,
+          },
+        },
       },
     };
   }

@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] [patch]
+### Changed
+- Update `filterState` to remove navigations, template, and a subset of autocomplete data when the history configuration is set to `length: 0`.
+  - Removing application data reduces the chance that a history entry will exceed the maximum size for a given browser.
+
 ## [1.56.0] - 2019-01-14
 ### Changed
 - Update `@storefront/flux-capacitor` to 1.68.0.
