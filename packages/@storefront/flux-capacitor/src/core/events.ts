@@ -365,10 +365,31 @@ namespace Events {
 
   // url events
   /**
+   * Triggered when the url is updated, the route is search, and a search request should be made.
+   */
+  export const SEARCH_URL_UPDATED = 'search_url:updated';
+  /**
+   * Triggered when the url is updated, the route is details, and a details request should be made.
+   */
+  export const DETAILS_URL_UPDATED = 'details_url:updated';
+  /**
+   * Triggered when the url is updated, the route is past purchases, and a past purchase request should be made.
+   */
+  export const PAST_PURCHASE_URL_UPDATED = 'past_purchase_url:updated';
+  /**
+   * Triggered when the url is updated, the route is custom, and a custom request should be made.
+   */
+  export const CUSTOM_URL_UPDATED = 'custom_url:updated';
+  /**
    * Triggered when the url is updated.
    * Returns the url.
    */
   export const URL_UPDATED = 'url:updated';
+  /**
+   * Triggered when the route is updated.
+   * Returns the route.
+   */
+  export const ROUTE_UPDATED = 'route:updated';
 
   // personalization events
   /**

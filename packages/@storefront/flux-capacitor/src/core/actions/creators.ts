@@ -19,6 +19,15 @@ namespace ActionCreators {
     return createAction(Actions.REFRESH_STATE, state);
   }
 
+  /**
+   * Updates the history state.
+   * @param {Actions.Payload.History.State} urlState - The history state to use.
+   * @return {Actions.UpdateHistory}                 - Action with state.
+   */
+  export function updateHistory(urlState: Actions.Payload.History.State): Actions.UpdateHistory {
+    return createAction(Actions.UPDATE_HISTORY, urlState);
+  }
+
   // fetch action creators
   /**
    * Makes a request for more refinements for given navigation.
@@ -183,7 +192,9 @@ namespace ActionCreators {
   export function fetchProductDetails(id: string, redirect?: boolean): Actions.FetchProductDetails;
   // tslint:disable-next-line typedef
   export function fetchProductDetails(options, redirect = false): Actions.FetchProductDetails {
-    const opts = typeof options === 'string' ? { id: options, redirect } : { ...options, redirect };
+    const opts = typeof options === 'string'
+      ? { id: options, buildAndParse: redirect }
+      : { ...options, buildAndParse: redirect };
 
     return createAction(Actions.FETCH_PRODUCT_DETAILS, opts);
   }

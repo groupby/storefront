@@ -5,6 +5,29 @@ import Search, { MAX_RECORDS } from './adapters/search';
 import Store from './store';
 
 namespace Selectors {
+  /**
+   * Returns the history state.
+   */
+  export const history = (state: Store.State) =>
+    state.data.present.history;
+
+  /**
+   * Returns the url.
+   */
+  export const url = (state: Store.State) =>
+    Selectors.history(state).url;
+
+  /**
+   * Returns the route.
+   */
+  export const route = (state: Store.State) =>
+    Selectors.history(state).route;
+
+  /**
+   * Returns the url request.
+   */
+  export const urlRequest = (state: Store.State) =>
+    Selectors.history(state).request;
 
   /**
    * Returns the applied area.

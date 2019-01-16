@@ -2,9 +2,23 @@ import Configuration from '../configuration';
 import Store from '../store';
 
 namespace Payload {
+  export namespace History {
+    export interface State extends ProtoState {
+      method: Function;
+      request?: any;
+    }
+
+    export interface ProtoState {
+      url?: string;
+      route?: string;
+      shouldFetch?: boolean;
+    }
+  }
+
   export namespace Fetch {
     export interface Override {
       request?: any;
+      buildAndParse?: boolean;
     }
 
     export interface MorePastPurchaseRefinements extends Navigation.Id, Override {}
@@ -13,7 +27,7 @@ namespace Payload {
     export interface AutocompleteSuggestions extends SimpleQuery, Override {}
     export interface AutocompleteProducts extends Autocomplete.Products, Override {}
     export interface CollectionCount extends Collection.Name, Override {}
-    export interface Details extends Id, Override { redirect?: boolean; }
+    export interface Details extends Id, Override {}
     export interface PastPurchases extends Partial<SimpleQuery>, Override {}
     export interface MorePastPurchases extends More, Override {}
   }

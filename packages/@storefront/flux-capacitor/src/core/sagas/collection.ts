@@ -2,10 +2,12 @@ import * as effects from 'redux-saga/effects';
 import FluxCapacitor from '../../flux-capacitor';
 import Actions from '../actions';
 import { collectionRequest } from '../requests';
+import Selectors from '../selectors';
 import RequestsTasks from './requests';
 
 export namespace CollectionTasks {
-  export function* fetchCount(flux: FluxCapacitor, { payload: { collection, request } }: Actions.FetchCollectionCount) {
+  // tslint:disable-next-line max-line-length
+  export function* fetchCount(flux: FluxCapacitor, { payload: { collection, request, buildAndParse } }: Actions.FetchCollectionCount) {
     try {
       const state = yield effects.select();
       const requestBody = collectionRequest.composeRequest(state, { collection, ...request });
@@ -15,6 +17,8 @@ export namespace CollectionTasks {
         collection,
         count: res.totalRecordCount
       }));
+
+      flux.replaceState(Selectors.route(state), buildAndParse);
     } catch (e) {
       yield effects.put(flux.actions.receiveCollectionCount(e));
     }

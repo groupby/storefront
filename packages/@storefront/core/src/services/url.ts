@@ -1,13 +1,9 @@
-import { Actions, Events, Routes, Selectors, Store } from '@storefront/flux-capacitor';
-import * as UrlParse from 'url-parse';
-import CoreSelectors from '../core/selectors';
+import { Store, STOREFRONT_APP_ID } from '@storefront/flux-capacitor';
 import { core, BaseService } from '../core/service';
 import UrlBeautifier from '../core/url-beautifier';
 import { WINDOW } from '../core/utils';
 import StoreFront from '../storefront';
 import Utils from './urlUtils';
-
-export const STOREFRONT_APP_ID = 'GroupBy StoreFront';
 
 @core
 class UrlService extends BaseService<UrlService.Options> {
@@ -22,63 +18,88 @@ class UrlService extends BaseService<UrlService.Options> {
     pastpurchase: Utils.pastPurchaseUrlState,
   };
 
+  history: UrlService.History;
+
   constructor(app: StoreFront, opts: UrlService.Options) {
     super(app, opts);
+
     if (typeof this.opts.beautifier === 'function') {
       this.beautifier = this.opts.beautifier(this.app, this.generateRoutes());
     } else {
       this.beautifier = new UrlBeautifier(this.generateRoutes(), this.opts.beautifier, this.app.config);
     }
-    WINDOW().addEventListener('popstate', this.rewind);
+
+    this.history = {
+      pushState: this.opts.history && typeof this.opts.history.pushState === 'function'
+        ? this.opts.history.pushState
+        : WINDOW().history.pushState.bind(WINDOW().history),
+      replaceState: this.opts.history && typeof this.opts.history.replaceState === 'function'
+        ? this.opts.history.replaceState
+        : WINDOW().history.replaceState.bind(WINDOW().history),
+      initialUrl: this.opts.history && this.opts.history.initialUrl
+        ? this.opts.history.initialUrl
+        : WINDOW().location.href,
+      listener: this.opts.history && typeof this.opts.history.listener === 'function'
+        ? this.opts.history.listener
+        : WINDOW().addEventListener.bind(WINDOW()),
+    };
   }
 
   init() {
-    this.listenForHistoryChange();
-    this.handleUrl();
+    this.app.flux.initHistory({
+      build: this.build,
+      parse: this.parse,
+      initialUrl: this.initialUrl,
+      pushState: this.pushState,
+      replaceState: this.replaceState,
+    });
+
+    this.historyListener(this.rewind);
   }
 
-  handleUrl() {
-    try {
-      this.handleCurrentLocation();
-    } catch (e) {
-      this.app.log.warn('unable to parse state from url', e);
-    }
-  }
-
-  handleCurrentLocation() {
-    const parsed = <any>this.beautifier.parse<UrlBeautifier.SearchUrlState>(WINDOW().location.href);
-    return Promise.resolve(parsed)
-      .then((resp) => {
-        const { route, request: urlState } = resp;
-        this.triggerRequest(route, urlState);
-      })
-      .catch((e) => {
+  parse = (url: string) => {
+    return new Promise<{ route: string, request: any }>((resolve, reject) => {
+      try {
+        const parsed = this.beautifier.parse<UrlBeautifier.SearchUrlState>(url);
+        resolve(parsed);
+      } catch (e) {
         this.app.log.warn('UrlService parse promise failed', e);
-      });
+        reject(e);
+      }
+    });
   }
 
-  triggerRequest(route: string, urlState: UrlBeautifier.SearchUrlState | UrlBeautifier.DetailsUrlState) {
-    let request;
-    let newState;
-    switch (route) {
-      case Routes.SEARCH:
-        request = Utils.searchStateToRequest(<UrlBeautifier.SearchUrlState>urlState, this.app.flux.store.getState());
-        newState = Utils.mergeSearchState(this.app.flux.store.getState(), <UrlBeautifier.SearchUrlState>urlState);
-        this.refreshState(newState);
-        this.app.flux.store.dispatch(this.app.flux.actions.fetchProductsWhenHydrated({ request }));
-        break;
-      case Routes.PAST_PURCHASE:
-        request = Utils.pastPurchaseStateToRequest(<UrlBeautifier.SearchUrlState>urlState, this.app.flux.store.getState());
-        newState = Utils.mergePastPurchaseState(this.app.flux.store.getState(), <UrlBeautifier.SearchUrlState>urlState);
-        this.refreshState(newState);
-        this.app.flux.store.dispatch(this.app.flux.actions.fetchPastPurchaseProducts({ request }));
-        break;
-      case Routes.DETAILS:
-        this.app.flux.store.dispatch(
-          this.app.flux.actions.fetchProductDetails({ id: (<UrlBeautifier.DetailsUrlState>urlState).data.id })
-        );
-        break;
+  build = (route: string, state: Store.State) => {
+    return this.beautifier.build(route, this.urlState[route](state));
+  }
+
+  get pushState() {
+    if (typeof this.opts.urlHandler === 'function') {
+      return (data, title, url) => this.opts.urlHandler(url);
+    } else {
+      return (data, title, url) => {
+        const redirectFnResult = typeof this.opts.redirects === 'function'
+          ? this.opts.redirects(url)
+          : this.opts.redirects[url];
+        if (redirectFnResult) {
+          return WINDOW().location.assign(redirectFnResult);
+        } else {
+          return this.history.pushState(data, title, url);
+        }
+      };
     }
+  }
+
+  get replaceState() {
+    return this.history.replaceState;
+  }
+
+  get initialUrl() {
+    return this.history.initialUrl;
+  }
+
+  historyListener(cb: (e: PopStateEvent) => void) {
+    return this.history.listener('popstate', cb);
   }
 
   generateRoutes() {
@@ -91,127 +112,14 @@ class UrlService extends BaseService<UrlService.Options> {
     );
   }
 
-  listenForHistoryChange = () => {
-    this.app.flux.on(Events.HISTORY_SAVE, this.updateHistory);
-    this.app.flux.on(Events.HISTORY_REPLACE, this.buildUrlAndReplaceHistory);
-  }
-
-  updateHistory = ({ state, route }: { state: Store.State, route: string }) => {
-    const url = this.beautifier.build(route, this.urlState[route](state));
-
-    if (typeof this.opts.urlHandler === 'function') {
-      this.opts.urlHandler(url);
-    } else if (typeof this.opts.redirects === 'function' && this.opts.redirects(url)) {
-      WINDOW().location.assign(this.opts.redirects(url));
-    } else if (this.opts.redirects[url]) {
-      WINDOW().location.assign(this.opts.redirects[url]);
-    } else {
-      try {
-        const oldUrl = WINDOW().location.href;
-        WINDOW().history.pushState(
-          { url, state: this.filterState(this.app.flux.store.getState()), app: STOREFRONT_APP_ID },
-          '',
-          url
-        );
-
-        const newUrl = WINDOW().location.href;
-        this.emitUrlUpdated(oldUrl, newUrl, url);
-        this.handleUrl();
-      } catch (e) {
-        this.app.log.warn('unable to push state to browser history', e);
-      }
-    }
-  }
-
-  buildUrlAndReplaceHistory = ({ state, route }: { state: Store.State, route: string }) => {
-    const url = this.beautifier.build(route, this.urlState[route](state));
-    this.replaceHistory(url);
-  }
-
-  replaceHistory(url: string) {
-    try {
-      const oldUrl = WINDOW().location.href;
-      const state = this.app.flux.store.getState();
-      WINDOW().history.replaceState(
-        {
-          url,
-          state: this.filterState(state),
-          app: STOREFRONT_APP_ID,
-        },
-        WINDOW().document.title,
-        url
-      );
-
-      const newUrl = WINDOW().location.href;
-      this.emitUrlUpdated(oldUrl, newUrl, url);
-    } catch (e) {
-      this.app.log.warn('unable to replace browser history', e);
-    }
-  }
-
-  emitUrlUpdated(oldUrl: string, newUrl: string, payload: string) {
-    if (oldUrl !== newUrl) {
-      this.app.flux.emit(Events.URL_UPDATED, payload);
-    }
-  }
-
-  filterState(state: Store.State) {
-    const { session: { config, ...session }, data, ...rootConfig } = state;
-    let {
-      navigations,
-      products,
-      template,
-      autocomplete: {
-        navigations: autocompleteNavigations,
-        products: autocompleteProducts,
-        template: autocompleteTemplate,
-      },
-    } = data.present;
-
-    if (this.app.config.history.length === 0) {
-      autocompleteNavigations = [];
-      autocompleteProducts = [];
-      autocompleteTemplate = <any>{};
-      navigations = { allIds: [], byId: {}, sort: [] };
-      products = [];
-      template = <any>{};
-    }
-
-    return {
-      ...rootConfig,
-      session,
-      data: {
-        ...data,
-        past: [],
-        present: {
-          ...data.present,
-          products,
-          navigations,
-          template,
-          autocomplete: {
-            ...data.present.autocomplete,
-            navigations: autocompleteNavigations,
-            products: autocompleteProducts,
-            template: autocompleteTemplate,
-          },
-        },
-      },
-    };
-  }
-
   rewind = (event: PopStateEvent) => {
     const eventState = event.state;
     if (eventState && event.state.app === STOREFRONT_APP_ID) {
-      this.refreshState(eventState.state);
+      this.app.flux.refreshState(eventState.state);
       if (this.app.config.history.length === 0) {
         this.app.flux.store.dispatch(this.app.flux.actions.fetchProductsWithoutHistory());
       }
-      this.app.flux.emit(Events.URL_UPDATED, WINDOW().location.href);
     }
-  }
-
-  refreshState(state: any): Promise<any> {
-    return <any>this.app.flux.store.dispatch(this.app.flux.actions.refreshState(state));
   }
 }
 
@@ -221,6 +129,7 @@ namespace UrlService {
     routes?: Routes;
     redirects?: { [target: string]: string } | ((url: string) => any);
     urlHandler?: (url: string) => void;
+    history?: UrlService.History;
   }
 
   export interface Routes {
@@ -237,6 +146,13 @@ namespace UrlService {
     details: UrlStateFunction;
     navigation: UrlStateFunction;
     pastpurchase: UrlStateFunction;
+  }
+
+  export interface History {
+    pushState: (data: any, title: string, url: string) => void;
+    replaceState: (data: any, title: string, url: string) => void;
+    initialUrl: string;
+    listener: (str: 'popstate', cb: (e: PopStateEvent) => void) => void;
   }
 }
 

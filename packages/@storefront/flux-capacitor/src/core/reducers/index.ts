@@ -48,6 +48,10 @@ export const updateState = (state: Store.State, { payload }: Actions.RefreshStat
       past: [],
       present: {
         ...payload.data.present,
+        history: {
+          ...payload.data.present.history,
+          shouldFetch: false,
+        },
         personalization: {
           ...payload.data.present.personalization,
           biasing: state.data.present.personalization.biasing,

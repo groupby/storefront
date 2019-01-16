@@ -5,7 +5,7 @@ import Actions from './core/actions';
 import ActionCreators from './core/actions/creators';
 import ConfigurationAdapter from './core/adapters/configuration';
 import Configuration from './core/configuration';
-import Emitter  from './core/emitter';
+import Emitter from './core/emitter';
 import Events from './core/events';
 import Observer from './core/observer';
 import Selectors from './core/selectors';
@@ -18,6 +18,23 @@ declare module 'redux' {
     <A extends ReduxAction>(action: (state: Store.State) => A): A;
     <A extends ReduxAction>(action: (state: Store.State) => A[]): A[];
   }
+}
+
+export interface ParsedUrl {
+  route: string;
+  request: any;
+}
+export type Parse = (url: string) => Promise<ParsedUrl>;
+export type Build = (type: string, state: Store.State) => string;
+
+export const STOREFRONT_APP_ID = 'GroupBy StoreFront';
+
+export interface History {
+  parse: Parse;
+  build: Build;
+  pushState: (data: any, title: string, url: string) => void;
+  replaceState: (data: any, title: string, url: string) => void;
+  initialUrl: string;
 }
 
 class FluxCapacitor extends Emitter {
@@ -40,6 +57,10 @@ class FluxCapacitor extends Emitter {
    */
   store: ReduxStore<Store.State> = Store.create(this, Observer.listener(this));
   /**
+   * History-related helper methods; injected at service initialization time.
+   */
+  history: History = <any>{};
+  /**
    * storefront config
    */
   get config(): Configuration {
@@ -52,12 +73,57 @@ class FluxCapacitor extends Emitter {
     delete this.__config;
   }
 
-  saveState(route: string) {
-    this.emit(Events.HISTORY_SAVE, { route, state: this.store.getState() });
+  initHistory({ build, parse, initialUrl, pushState, replaceState }: History) {
+    this.history = {
+      build,
+      initialUrl,
+      pushState,
+      replaceState,
+      parse,
+    };
+
+    this.updateHistory({ shouldFetch: true, url: initialUrl, method: () => null });
   }
 
-  replaceState(route: string) {
-    this.emit(Events.HISTORY_REPLACE, { route, state: this.store.getState() });
+  /**
+   * @deprecated
+   */
+  saveState(route: string) {
+    this.pushState({ route });
+  }
+
+  pushState(urlState: Partial<Actions.Payload.History.ProtoState>) {
+    this.updateHistory({ shouldFetch: true, ...urlState, method: this.history.pushState });
+  }
+
+  replaceState(route: string, buildAndParse: boolean = false) {
+    buildAndParse
+      ? this.updateHistory({ shouldFetch: false, route, method: this.history.replaceState })
+      // tslint:disable-next-line max-line-length
+      : this.store.dispatch(this.actions.updateHistory({ shouldFetch: false, route, method: this.history.replaceState }));
+  }
+
+  updateHistory({ method, request, url: urlParam, route, shouldFetch }: Partial<Actions.Payload.History.State>) {
+    const url = urlParam || this.history.build(route, this.store.getState());
+
+    this.history.parse(url)
+      .then((result) => {
+        const { route: parsedRoute, request: parsedRequest } = result;
+        this.store.dispatch(
+          this.actions.updateHistory({
+            url,
+            shouldFetch,
+            method,
+            route: route || parsedRoute,
+            request: request || parsedRequest,
+          })
+        );
+      })
+      .catch((e) => e);
+  }
+
+  refreshState(state: any) {
+    this.store.dispatch(this.actions.refreshState(state));
   }
 
   /* ACTION SUGAR */

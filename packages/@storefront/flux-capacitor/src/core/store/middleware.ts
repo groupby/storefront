@@ -3,13 +3,14 @@ import { applyMiddleware, compose, Middleware as ReduxMiddleware, Store } from '
 import { batchActions, batchMiddleware, batchStoreEnhancer, POP, PUSH } from 'redux-batch-enhancer';
 import { ActionCreators as ReduxActionCreators } from 'redux-undo';
 import * as validatorMiddleware from 'redux-validator';
-import FluxCapacitor from '../../flux-capacitor';
+import FluxCapacitor, { STOREFRONT_APP_ID } from '../../flux-capacitor';
 import Actions from '../actions';
 import ActionCreators from '../actions/creators';
 import ConfigurationAdapter from '../adapters/configuration';
 import PersonalizationAdapter from '../adapters/personalization';
 import Events from '../events';
 import Selectors from '../selectors';
+import { filterState } from '../utils';
 
 export const RECALL_CHANGE_ACTIONS = [
   Actions.RESET_REFINEMENTS,
@@ -71,6 +72,20 @@ export const UNDOABLE_ACTIONS = [
 
 export namespace Middleware {
   export const validator = validatorMiddleware();
+
+  export function updateHistory(flux: FluxCapacitor): ReduxMiddleware {
+    return (store: Store<any>) => (next) => (action) => {
+      if (action.type === Actions.UPDATE_HISTORY) {
+        const state = store.getState();
+        const { payload: { method, url = Selectors.url(state) } } = action;
+        const filteredState = filterState(state, action.payload);
+
+        method({ url, state: filteredState, app: STOREFRONT_APP_ID }, '', url);
+      }
+
+      return next(action);
+    };
+  }
 
   export function idGenerator(key: string, actions: string[]): ReduxMiddleware {
     return (store) => (next) => (action) =>
@@ -177,6 +192,7 @@ export namespace Middleware {
     ];
     const middleware = [
       ...normalizingMiddleware,
+      Middleware.updateHistory(flux),
       Middleware.saveStateAnalyzer(),
       Middleware.injectStateIntoRehydrate,
       Middleware.validator,

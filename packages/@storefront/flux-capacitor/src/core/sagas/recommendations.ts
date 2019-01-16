@@ -128,10 +128,10 @@ export namespace RecommendationsTasks {
           flux.actions.receivePastPurchaseCurrentRecordCount(results.totalRecordCount),
           flux.actions.receivePastPurchaseProducts(SearchAdapter.augmentProducts(results)),
           flux.actions.receivePastPurchaseTemplate(SearchAdapter.extractTemplate(results.template)),
-          flux.actions.receivePastPurchaseRefinements(
-            SearchAdapter.pruneRefinements(SearchAdapter.combineNavigations(results), utils.StoreSections.PAST_PURCHASES, state)),
+          // tslint:disable-next-line max-line-length
+          flux.actions.receivePastPurchaseRefinements(SearchAdapter.pruneRefinements(SearchAdapter.combineNavigations(results), utils.StoreSections.PAST_PURCHASES, state)),
         ]);
-        flux.replaceState(utils.Routes.PAST_PURCHASE);
+        flux.replaceState(utils.Routes.PAST_PURCHASE, action.payload.buildAndParse);
       }
     } catch (e) {
       return effects.put(flux.actions.receivePastPurchaseProducts(e));

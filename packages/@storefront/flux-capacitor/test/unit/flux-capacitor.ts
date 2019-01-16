@@ -99,29 +99,179 @@ suite('FluxCapacitor', ({ expect, spy, stub }) => {
       flux = new FluxCapacitor(<any>{});
     });
 
-    describe('saveState()', () => {
-      it('should emit HISTORY_SAVE event with state and route', () => {
-        const state = { a: 'b' };
-        const emit = flux.emit = spy();
-        const route = 'search';
-        flux.store = <any>{ getState: () => state };
+    describe('history actions', () => {
+      describe('initHistory()', () => {
+        const initialUrl = 'www.google.com';
+        let build;
+        let parse;
+        let push;
+        let replace;
 
-        flux.saveState(route);
+        beforeEach(() => {
+          build = spy();
+          push = spy();
+          replace = spy();
+          parse = spy();
+        });
 
-        expect(emit).to.be.calledWith(Events.HISTORY_SAVE, { state, route });
+        it('should set up the history property', () => {
+          const url = 'www.url.com';
+          flux.updateHistory = stub();
+
+          flux.initHistory({
+            build,
+            initialUrl,
+            parse,
+            pushState: push,
+            replaceState: replace,
+          });
+
+          expect(flux.history).to.eql({
+            build,
+            initialUrl,
+            parse,
+            pushState: push,
+            replaceState: replace,
+          });
+        });
+
+        it('should call updateHistory', () => {
+          const url = 'www.url.com';
+          const updateHistory = flux.updateHistory = spy();
+
+          flux.initHistory({ build, initialUrl, pushState: push, replaceState: replace, parse });
+
+          expect(updateHistory.getCall(0).args[0].shouldFetch).to.be.true;
+          expect(updateHistory.getCall(0).args[0].url).to.eq(initialUrl);
+          expect(updateHistory.getCall(0).args[0].method()).to.eq(null);
+        });
       });
-    });
 
-    describe('replaceState()', () => {
-      it('should emit HISTORY_REPLACE event with state and route', () => {
-        const state = { a: 'b' };
-        const emit = flux.emit = spy();
-        const route = 'search';
-        flux.store = <any>{ getState: () => state };
+      describe('saveState()', () => {
+        it('should call pushState with route', () => {
+          const route = 'search';
+          const pushState = flux.pushState = spy();
 
-        flux.replaceState(route);
+          flux.saveState(route);
 
-        expect(emit).to.be.calledWith(Events.HISTORY_REPLACE, { state, route });
+          expect(pushState).to.be.calledWith({ route });
+        });
+      });
+
+      describe('pushState()', () => {
+        it('should call updateHistory', () => {
+          const route = 'search';
+          const url = 'www.url.com';
+          const updateHistory = flux.updateHistory = spy();
+
+          flux.pushState({ route, url });
+
+          expect(updateHistory).to.be.calledWith({ shouldFetch: true, url, route, method: flux.history.pushState });
+        });
+
+        it('should allow shouldFetch to be overriden', () => {
+          const route = 'search';
+          const url = 'www.url.com';
+          const shouldFetch = false;
+          const updateHistory = flux.updateHistory = spy();
+
+          flux.pushState({ shouldFetch, route, url });
+
+          expect(updateHistory).to.be.calledWith({ shouldFetch, url, route, method: flux.history.pushState });
+        });
+      });
+
+      describe('replaceState()', () => {
+        it('should dispatch updateHistory directly when buildAndParse is not passed in', () => {
+          const route = 'details';
+          const FETCH = 'fetch';
+          const updateHistory = stub()
+            .withArgs({ shouldFetch: false, route, method: flux.history.replaceState })
+            .returns(FETCH);
+          const dispatch = spy();
+          flux.actions = <any>{ updateHistory };
+          flux.store = <any>{ dispatch };
+
+          flux.replaceState(route);
+
+          expect(dispatch).to.be.calledWith(FETCH);
+        });
+
+        it('should dispatch updateHistory directly when buildAndParse is false', () => {
+          const route = 'details';
+          const FETCH = 'fetch';
+          const updateHistory = stub()
+            .withArgs({ shouldFetch: false, route, method: flux.history.replaceState })
+            .returns(FETCH);
+          const dispatch = spy();
+          flux.actions = <any>{ updateHistory };
+          flux.store = <any>{ dispatch };
+
+          flux.replaceState(route, false);
+
+          expect(dispatch).to.be.calledWith(FETCH);
+        });
+
+        it('should call updateHistory when buildAndParse is true', () => {
+          const route = 'details';
+          const updateHistory = flux.updateHistory = spy();
+
+          flux.replaceState(route, true);
+
+          expect(updateHistory).to.be.calledWith({ shouldFetch: false, route, method: flux.history.replaceState });
+        });
+      });
+
+      describe('updateHistory()', () => {
+        it('should parse the url and dispatch updateHistory', (done) => {
+          const url = 'www.url.com';
+          const shouldFetch = true;
+          const method = () => null;
+          const FETCH = 'fetch';
+          const route = 'search';
+          const request = { a: 'b' };
+          const dispatch = spy(() => {
+            expect(updateHistory).to.be.calledWith({ route, request, url, shouldFetch, method });
+            expect(dispatch).to.be.calledWith(FETCH);
+            done();
+          });
+          const updateHistory = spy(() => FETCH);
+          flux.history.parse = stub().withArgs(url).resolves({ route, request });
+          flux.store = <any>{ dispatch };
+          flux.actions = <any>{ updateHistory };
+
+          flux.updateHistory(<any>{ url, shouldFetch, method });
+        });
+
+        it('should build and parse the url and dispatch updateHistory when no url is passed in', (done) => {
+          const url = 'www.example.com';
+          const shouldFetch = true;
+          const method = () => null;
+          const FETCH = 'fetch';
+          const route = 'search';
+          const request = { a: 'b' };
+          const dispatch = spy(() => {
+            expect(updateHistory).to.be.calledWith({ route, request, url, shouldFetch, method });
+            expect(dispatch).to.be.calledWith(FETCH);
+            done();
+          });
+          const updateHistory = spy(() => FETCH);
+          const build = stub().withArgs(route, store).returns(url);
+          flux.history.build = build;
+          flux.history.parse = stub().withArgs(url).resolves({ route, request });
+          flux.store = <any>{ dispatch, getState: () => store };
+          flux.actions = <any>{ updateHistory };
+
+          flux.updateHistory(<any>{ shouldFetch, method });
+        });
+      });
+
+      describe('refreshState()', () => {
+        it('should dispatch refreshState', () => {
+          const state = { a: 'b' };
+
+          expectDispatch(() => flux.refreshState(state), 'refreshState', state);
+        });
       });
     });
 
@@ -322,7 +472,7 @@ suite('FluxCapacitor', ({ expect, spy, stub }) => {
       it('should return error callback that does not call error handler if not present', () => {
         const emit = spy(() => null);
         // tslint:disable-next-line variable-name
-        const __config = { network: { } };
+        const __config = { network: {} };
         const bridge = { c: 'd' };
         const err = 'err';
         stub(FluxCapacitor, 'createBridge').returns(bridge).callsArgWith(1, err);

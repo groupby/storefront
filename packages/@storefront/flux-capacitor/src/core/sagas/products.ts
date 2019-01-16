@@ -44,7 +44,7 @@ export namespace ProductsTasks {
         yield effects.put(actions);
 
         if (!ignoreHistory) {
-          flux.replaceState(utils.Routes.SEARCH);
+          flux.replaceState(utils.Routes.SEARCH, action.payload.buildAndParse);
         }
       }
     } catch (e) {

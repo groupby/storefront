@@ -34,7 +34,14 @@ suite('reducers', ({ expect, stub }) => {
       a: 'b',
       data: {
         past: [],
-        present: { personalization: { biasing: 'not' }, autocomplete: {}, details: { data: '3' } },
+        present: {
+          history: {
+            shouldFetch: false
+          },
+          personalization: { biasing: 'not' },
+          autocomplete: {},
+          details: { data: '3' }
+        },
         future: []
       },
       session,

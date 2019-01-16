@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] [major]
+### Changed
+- SF-1185: Make a history store
+  - Details, Search, and Past Purchase services all listen to new `URL_UPDATED` events and trigger requests.
+  - Url service calls `initHistory` on `flux` with browser history functions.
+  - **Breaking:** URL service no longer has many of the responsibilities it had before, and only sets up the history store and listens to `popstate`.
+  - Alternate form of state history can be connected by initializing the history store with custom history `opts`.
+
 ## [1.56.1] - 2019-01-15
 ### Changed
 - SF-1082: Update `filterState` to remove navigations, template, and a subset of autocomplete data when the history configuration is set to `length: 0`.

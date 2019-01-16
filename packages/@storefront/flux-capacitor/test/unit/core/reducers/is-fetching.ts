@@ -49,7 +49,10 @@ suite('isFetching', ({ expect }) => {
     it('should also set isFetching.search to false, when single result redirect is true', () => {
       state.search = true;
 
-      const newState = isFetching(state, { type: Actions.FETCH_PRODUCT_DETAILS, payload: <any>{ redirect: true } });
+      const newState = isFetching(
+        state,
+        { type: Actions.FETCH_PRODUCT_DETAILS, payload: <any>{ buildAndParse: true } }
+      );
 
       expect(newState).to.eql({ ...state, search: false, details: true });
     });

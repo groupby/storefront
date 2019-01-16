@@ -37,6 +37,10 @@ namespace Actions {
 
   export import Payload = Payloads;
 
+  // history actions
+  export const UPDATE_HISTORY = 'UPDATE_HISTORY';
+  export type UpdateHistory = Action<typeof UPDATE_HISTORY, Payload.History.State>;
+
   // tslint:disable max-line-length
   // update actions
   export const UPDATE_AUTOCOMPLETE_QUERY = 'UPDATE_AUTOCOMPLETE_QUERY';

@@ -44,7 +44,7 @@ suite('product details saga', ({ expect, spy, stub }) => {
           refinements: [{ navigationName: 'id', type: 'Value', value: id }]
         }).returns(request);
 
-        const task = ProductDetailsTasks.fetchProductDetails(flux, <any>{ payload: { id } });
+        const task = ProductDetailsTasks.fetchProductDetails(flux, <any>{ payload: { id, buildAndParse: true } });
 
         expect(task.next().value).to.eql(effects.select());
         expect(task.next(state).value).to.eql(effects.call(searchRequest, flux, request));
@@ -54,7 +54,7 @@ suite('product details saga', ({ expect, spy, stub }) => {
         expect(emit).to.be.calledWithExactly(Events.BEACON_VIEW_PRODUCT, record);
         expect(receiveDetails).to.be.calledWith({ data: record.allMeta, template });
         task.next();
-        expect(replaceState).to.be.calledWith(utils.Routes.DETAILS);
+        expect(replaceState).to.be.calledWith(utils.Routes.DETAILS, true);
       });
 
       it('should handle product not found', () => {
