@@ -31,14 +31,15 @@ suite('utils', ({ expect, spy, stub }) => {
     let clock;
     let fn;
     let win;
+    let setTimeout;
+    let clearTimeout;
 
     beforeEach(() => {
       clock = sinon.useFakeTimers();
+      setTimeout = spy((...args) => clock.setTimeout(...args));
+      clearTimeout = spy((...args) => clock.clearTimeout(...args));
       fn = spy();
-      win = stub(utils, 'WINDOW').returns({
-        setTimeout: clock.setTimeout,
-        clearTimeout: clock.clearTimeout,
-      });
+      win = stub(utils, 'WINDOW').returns({ setTimeout, clearTimeout });
     });
 
     it('should return a function', () => {
@@ -49,16 +50,16 @@ suite('utils', ({ expect, spy, stub }) => {
       utils.debounce(fn, 500)();
       clock.tick(500);
 
-      // TODO: See if the 'fake timers' API allows assertions to be made about the mocked methods themselves.
       expect(fn).to.be.called;
+      expect(setTimeout.args[0][1]).to.eq(500);
     });
 
     it('should debounce by 0ms if no value is provided', () => {
       utils.debounce(fn)();
       clock.tick(0);
 
-      // TODO: See if the 'fake timers' API allows assertions to be made about the mocked methods themselves.
       expect(fn).to.be.called;
+      expect(setTimeout.args[0][1]).to.eq(0);
     });
 
     it('should only invoke once per debounce window', () => {
