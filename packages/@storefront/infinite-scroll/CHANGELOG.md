@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] [patch]
 ### Changed
+- Update `@storefront/structure` to 2.0.0.
 - Update `@storefront/core` to 2.0.0.
 - SF-1185: Make a history store
   - Use flag to indicate to `replaceState` that it should build and parse the url.
