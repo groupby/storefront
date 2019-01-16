@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] [minor]
+### Changed
+- SF-948: Update `autocomplete` to support a debounced variation of `updateProducts()`.
+  - To apply the debounce, update the `autocomplete` configuration as follows:
+
+  ```js
+  ...
+  autocomplete: {
+    ...
+    debounce: 200, // Milliseconds by which the function should be debounced.
+    ...
+  },
+  ...
+  ```
+
 ## [2.0.0] - 2019-01-16
 ### Changed
 - Update `@storefront/core` to 2.0.0.
