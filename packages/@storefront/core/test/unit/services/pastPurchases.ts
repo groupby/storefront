@@ -76,7 +76,11 @@ suite('PastPurchase Service', ({ expect, spy, stub, itShouldExtendBaseService })
       const refreshState = spy();
       const dispatch = spy();
       const fetchPastPurchaseProducts = stub().withArgs({ request }).returns(FETCH);
-      app.flux = <any>{ refreshState, store: { getState: stub().returns(state), dispatch }, actions: { fetchPastPurchaseProducts } };
+      app.flux = <any>{
+        refreshState,
+        store: { getState: stub().returns(state), dispatch },
+        actions: { fetchPastPurchaseProducts }
+      };
       stub(Utils, 'mergePastPurchaseState').withArgs(state, urlState.request).returns(newState);
       stub(Utils, 'pastPurchaseStateToRequest').withArgs(urlState.request, state).returns(request);
 

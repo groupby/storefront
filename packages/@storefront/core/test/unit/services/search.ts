@@ -57,7 +57,11 @@ suite('Search Service', ({ expect, spy, itShouldExtendBaseService, stub }) => {
       const refreshState = spy();
       const dispatch = spy();
       const fetchProductsWhenHydrated = stub().withArgs({ request }).returns(FETCH);
-      app.flux = <any>{ refreshState, store: { getState: stub().returns(state), dispatch }, actions: { fetchProductsWhenHydrated } };
+      app.flux = <any>{
+        refreshState,
+        store: { getState: stub().returns(state), dispatch },
+        actions: { fetchProductsWhenHydrated }
+      };
       stub(Utils, 'mergeSearchState').withArgs(state, urlState.request).returns(newState);
       stub(Utils, 'searchStateToRequest').withArgs(urlState.request, state).returns(request);
 

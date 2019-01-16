@@ -61,32 +61,7 @@ suite('utils', ({ expect, spy, stub }) => {
   });
 
   describe('filterState()', () => {
-    // it('should filter config from state and remove products when history length is 0', () => {
-    //   const data = { a: 'b', past: [{ a: 'b' }], present: { products: [1, 2, 3, 4, 5] } };
-    //   const payload = { e: 'f' };
-    //   const fullPayload = { ...payload, method: () => null };
-    //   const config = { history: { length: 0 } };
-    //   const session = { a: 'b', c: 'd' };
-    //   const sessionWithConfig = { ...session, config };
-    //   const otherData = {
-    //     e: 'f',
-    //     j: { h: 1 },
-    //     o: [2, 3, 4],
-    //     n: { i: 'r', k: {} },
-    //   };
-    //   const state: any = { ...otherData, session: sessionWithConfig, data };
-    //   Object.freeze(state);
-    //   Object.freeze(session);
-    //   Object.freeze(sessionWithConfig);
-    //
-    //   const stateWithoutConfig = utils.filterState(state, fullPayload);
-    //
-    //   expect(stateWithoutConfig).to.eql({
-    //     ...otherData,
-    //     session,
-    //     data: { ...data, past: [], present: { history: { ...payload }, products: [] } }
-    //   });
-    // });
+    // tslint:disable-next-line max-line-length
     it('should filter config from state and remove products, navigations, templates, and autocomplete data when history length is 0', () => {
       const data = {
         a: 'b',
