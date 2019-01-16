@@ -130,7 +130,7 @@ suite('Autocomplete', ({ expect, spy, stub, itShouldProvideAlias }) => {
       const delay = 420;
       const debounce = stub(utils, 'debounce');
       autocomplete.updateProducts = fn;
-      select.withArgs(Selectors.config).returns({ autocomplete: { hoverDebounce: delay } });
+      select.withArgs(Selectors.config).returns({ autocomplete: { debounce: delay } });
 
       autocomplete.init();
 

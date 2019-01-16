@@ -217,7 +217,7 @@ namespace Configuration {
     /**
      * specify optional debounce value in milliseconds
      */
-    hoverDebounce?: number;
+    debounce?: number;
     /**
      * autocomplete products settings
      */
