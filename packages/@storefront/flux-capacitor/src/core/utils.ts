@@ -61,7 +61,25 @@ export function filterState(state: Store.State, actionPayload: Actions.Payload.H
   const { session: { config, ...session }, data, ...rootConfig } = state;
   const { method, ...payload } = actionPayload;
   const history = { ...data.present.history, ...payload };
-  const products = config.history.length === 0 ? [] : data.present.products;
+  let {
+    navigations,
+    products,
+    template,
+    autocomplete: {
+      navigations: autocompleteNavigations,
+      products: autocompleteProducts,
+      template: autocompleteTemplate,
+    },
+  } = data.present;
+
+  if (config.history.length === 0) {
+    autocompleteNavigations = [];
+    autocompleteProducts = [];
+    autocompleteTemplate = <any>{};
+    navigations = { allIds: [], byId: {}, sort: [] };
+    products = [];
+    template = <any>{};
+  }
 
   return {
     ...rootConfig,
@@ -72,7 +90,15 @@ export function filterState(state: Store.State, actionPayload: Actions.Payload.H
       present: {
         ...data.present,
         history,
-        products
+        products,
+        navigations,
+        template,
+        autocomplete: {
+          ...data.present.autocomplete,
+          navigations: autocompleteNavigations,
+          products: autocompleteProducts,
+          template: autocompleteTemplate,
+        },
       },
     },
   };
