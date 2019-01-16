@@ -43,29 +43,49 @@ This module provides the `<gb-query>` component for use with StoreFront.
 storefront.mount('gb-query');
 ```
 
-## Running the tests
+### Building the Package
 
-Tests can be run to generate coverage information.
-Once run, open `coverage/index.html` in your browser to view coverage breakdown.
+This package can be built on their own.
 
 ```sh
-npm start coverage
-# or
-yarn start coverage
+yarn build
 ```
 
-Tests can be run continuously for development
+This package can also be build continuously during development.
 
 ```sh
-npm run tdd
-# or
+yarn dev
+```
+
+### Running Tests
+
+Tests can be run individually within a package.
+
+```sh
+yarn test
+```
+
+Tests can also be run continuously during development.
+
+```sh
 yarn tdd
 ```
 
-Tests can also be run alone
+### Linting
+This packages can be linted.
 
 ```sh
-npm test
-# or
-yarn test
+yarn lint
 ```
+
+This package can also be programmatically linted.
+
+```sh
+yarn lint:fix
+```
+
+## Contributing
+Read our [contributing](../../../CONTRIBUTING.md) documentation to learn about how to contribute to the StoreFront project.
+
+## License
+StoreFront and its related packages are [MIT licensed](../../../LICENSE).
