@@ -51,6 +51,6 @@
   },
   "peerDependencies": {
     "@storefront/core": "~2.0.0",
-    "@storefront/structure": "^1.45.0"
+    "@storefront/structure": "^2.0.0"
   }
 }

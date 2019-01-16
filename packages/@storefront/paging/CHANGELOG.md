@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] [major]
 ### Changed
+- Update `@storefront/structure` to 2.0.0.
 - Update `@storefront/core` to 2.0.0.
 
 ## [1.35.0] - 2019-01-14
