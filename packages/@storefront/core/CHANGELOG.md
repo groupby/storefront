@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] [major]
 ### Changed
+- Update `@storefront/flux-capacitor` to 1.69.0.
 - SF-1185: Make a history store
   - Details, Search, and Past Purchase services all listen to new `URL_UPDATED` events and trigger requests.
   - Url service calls `initHistory` on `flux` with browser history functions.
