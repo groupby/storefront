@@ -1,4 +1,4 @@
-import { provide, tag, Events, Selectors, Store, Tag } from '@storefront/core';
+import { provide, tag, utils, Events, Selectors, Store, Tag } from '@storefront/core';
 import Sayt from '../sayt';
 
 @provide('autocomplete')
@@ -34,6 +34,12 @@ class Autocomplete {
   }
 
   init() {
+    const { hoverDebounce: delay } = this.select(Selectors.config).autocomplete;
+
+    this.updateProducts = typeof delay === 'number' && delay >= 0
+      ? utils.debounce(this.updateProducts, delay, this)
+      : this.updateProducts.bind(this);
+
     this.services.autocomplete.registerAutocomplete(this);
     this.flux.on(Events.AUTOCOMPLETE_SUGGESTIONS_UPDATED, this.updateSuggestions);
     this.subscribe('sayt:activate_next', this.activateNext);

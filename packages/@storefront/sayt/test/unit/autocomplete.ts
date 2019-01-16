@@ -1,4 +1,4 @@
-import { Events, Selectors } from '@storefront/core';
+import { utils, Events, Selectors } from '@storefront/core';
 import * as sinon from 'sinon';
 import Autocomplete from '../../src/autocomplete';
 import suite from './_suite';
@@ -96,12 +96,19 @@ suite('Autocomplete', ({ expect, spy, stub, itShouldProvideAlias }) => {
   });
 
   describe('init()', () => {
-    it('should listen for flux events', () => {
-      const on = spy();
-      autocomplete.flux = <any>{ on };
-      const subscribe = (autocomplete.subscribe = spy());
-      autocomplete.services = <any>{ autocomplete: { registerAutocomplete: () => null } };
+    let subscribe;
+    let on;
+    let registerAutocomplete;
 
+    beforeEach(() => {
+      on = spy();
+      registerAutocomplete = spy();
+      subscribe = autocomplete.subscribe = spy();
+      autocomplete.flux = <any>{ on };
+      autocomplete.services = <any>{ autocomplete: { registerAutocomplete } };
+    });
+
+    it('should listen for flux events', () => {
       autocomplete.init();
 
       expect(on).to.be.calledWith(Events.AUTOCOMPLETE_SUGGESTIONS_UPDATED, autocomplete.updateSuggestions);
@@ -113,14 +120,32 @@ suite('Autocomplete', ({ expect, spy, stub, itShouldProvideAlias }) => {
     });
 
     it('should register with autocomplete service', () => {
-      const registerAutocomplete = spy();
-      autocomplete.services = <any>{ autocomplete: { registerAutocomplete } };
-      autocomplete.flux = <any>{ on: () => null };
-      autocomplete.subscribe = () => null;
-
       autocomplete.init();
 
       expect(registerAutocomplete).to.be.calledWith(autocomplete);
+    });
+
+    it('should debounce the updateProducts method', () => {
+      const fn = () => null;
+      const delay = 420;
+      const debounce = stub(utils, 'debounce');
+      autocomplete.updateProducts = fn;
+      select.withArgs(Selectors.config).returns({ autocomplete: { hoverDebounce: delay } });
+
+      autocomplete.init();
+
+      expect(debounce).to.be.calledWithExactly(fn, 420, autocomplete);
+    });
+
+    it('should bind the context of the updateProducts method', () => {
+        const bind = spy();
+        const debounce = stub(utils, 'debounce');
+        autocomplete.updateProducts = <any>{ bind };
+
+        autocomplete.init();
+
+        expect(debounce).to.not.be.called;
+        expect(bind).to.be.calledWithExactly(autocomplete);
     });
   });
 
