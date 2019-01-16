@@ -1,9 +1,10 @@
 # Contributing to StoreFront
 
-When contributing to StoreFront, make a branch for your change named
-with the ticket number. As part of your change, add an entry to the
-changelog that describes your change. When your pull request is merged
-into `master`, a release is made based on the changelog entry.
+Thank you for your interest in contributing to StoreFront.
+
+The following is a set of guidelines for contributing to StoreFront.
+Make sure to read the [README](README.md) first to get set up with the
+project.
 
 ## Making a change
 
