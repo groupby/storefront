@@ -116,6 +116,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_storefront_core.pastpurchaseservice.html#fetchproducts" class="tsd-kind-icon">fetch<wbr>Products</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="_storefront_core.pastpurchaseservice.html#init" class="tsd-kind-icon">init</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_storefront_core.pastpurchaseservice.html#pushstate" class="tsd-kind-icon">push<wbr>State</a></li>
 							</ul>
 						</section>
 					</div>
@@ -134,7 +135,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_storefront_core.baseservice.html">BaseService</a>.<a href="_storefront_core.baseservice.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/b23eeed63/packages/@storefront/core/src/services/pastPurchases.ts#L5">core/src/services/pastPurchases.ts:5</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/c6e374626/packages/@storefront/core/src/services/pastPurchases.ts#L7">core/src/services/pastPurchases.ts:7</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -160,7 +161,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_storefront_core.baseservice.html">BaseService</a>.<a href="_storefront_core.baseservice.html#app">app</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/groupby/storefront/blob/b23eeed63/packages/@storefront/core/src/core/service/index.ts#L10">core/src/core/service/index.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/groupby/storefront/blob/c6e374626/packages/@storefront/core/src/core/service/index.ts#L10">core/src/core/service/index.ts:10</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -171,7 +172,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_storefront_core.baseservice.html">BaseService</a>.<a href="_storefront_core.baseservice.html#opts">opts</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/groupby/storefront/blob/b23eeed63/packages/@storefront/core/src/core/service/index.ts#L10">core/src/core/service/index.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/groupby/storefront/blob/c6e374626/packages/@storefront/core/src/core/service/index.ts#L10">core/src/core/service/index.ts:10</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -182,15 +183,21 @@
 					<a name="fetchproducts" class="tsd-anchor"></a>
 					<h3>fetch<wbr>Products</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">fetch<wbr>Products<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">fetch<wbr>Products<span class="tsd-signature-symbol">(</span>urlState<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">History</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/b23eeed63/packages/@storefront/core/src/services/pastPurchases.ts#L18">core/src/services/pastPurchases.ts:18</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/c6e374626/packages/@storefront/core/src/services/pastPurchases.ts#L25">core/src/services/pastPurchases.ts:25</a></li>
 								</ul>
 							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>urlState: <span class="tsd-signature-type">History</span></h5>
+								</li>
+							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -206,7 +213,24 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_storefront_core.baseservice.html">BaseService</a>.<a href="_storefront_core.baseservice.html#init">init</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/b23eeed63/packages/@storefront/core/src/services/pastPurchases.ts#L14">core/src/services/pastPurchases.ts:14</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/c6e374626/packages/@storefront/core/src/services/pastPurchases.ts#L17">core/src/services/pastPurchases.ts:17</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="pushstate" class="tsd-anchor"></a>
+					<h3>push<wbr>State</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">push<wbr>State<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/c6e374626/packages/@storefront/core/src/services/pastPurchases.ts#L21">core/src/services/pastPurchases.ts:21</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -294,6 +318,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 								<a href="_storefront_core.pastpurchaseservice.html#init" class="tsd-kind-icon">init</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_storefront_core.pastpurchaseservice.html#pushstate" class="tsd-kind-icon">push<wbr>State</a>
 							</li>
 						</ul>
 					</li>

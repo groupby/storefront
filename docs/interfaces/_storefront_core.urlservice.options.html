@@ -88,6 +88,7 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_storefront_core.urlservice.options.html#beautifier" class="tsd-kind-icon">beautifier</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_storefront_core.urlservice.options.html#history" class="tsd-kind-icon">history</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_storefront_core.urlservice.options.html#redirects" class="tsd-kind-icon">redirects</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_storefront_core.urlservice.options.html#routes" class="tsd-kind-icon">routes</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_storefront_core.urlservice.options.html#urlhandler" class="tsd-kind-icon">url<wbr>Handler</a></li>
@@ -104,7 +105,17 @@
 					<div class="tsd-signature tsd-kind-icon">beautifier<span class="tsd-signature-symbol">:</span> <a href="_storefront_core.urlbeautifier.configuration.html" class="tsd-signature-type">Configuration</a><span class="tsd-signature-symbol"> | </span><a href="_storefront_core.urlbeautifier.factory.html" class="tsd-signature-type">Factory</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/groupby/storefront/blob/b23eeed63/packages/@storefront/core/src/services/url.ts#L220">core/src/services/url.ts:220</a></li>
+							<li>Defined in <a href="https://github.com/groupby/storefront/blob/c6e374626/packages/@storefront/core/src/services/url.ts#L128">core/src/services/url.ts:128</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="history" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> history</h3>
+					<div class="tsd-signature tsd-kind-icon">history<span class="tsd-signature-symbol">:</span> <a href="_storefront_core.urlservice.history.html" class="tsd-signature-type">History</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/groupby/storefront/blob/c6e374626/packages/@storefront/core/src/services/url.ts#L132">core/src/services/url.ts:132</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -114,7 +125,7 @@
 					<div class="tsd-signature tsd-kind-icon">redirects<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/groupby/storefront/blob/b23eeed63/packages/@storefront/core/src/services/url.ts#L222">core/src/services/url.ts:222</a></li>
+							<li>Defined in <a href="https://github.com/groupby/storefront/blob/c6e374626/packages/@storefront/core/src/services/url.ts#L130">core/src/services/url.ts:130</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -124,7 +135,7 @@
 					<div class="tsd-signature tsd-kind-icon">routes<span class="tsd-signature-symbol">:</span> <a href="_storefront_core.urlservice.routes.html" class="tsd-signature-type">Routes</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/groupby/storefront/blob/b23eeed63/packages/@storefront/core/src/services/url.ts#L221">core/src/services/url.ts:221</a></li>
+							<li>Defined in <a href="https://github.com/groupby/storefront/blob/c6e374626/packages/@storefront/core/src/services/url.ts#L129">core/src/services/url.ts:129</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -134,7 +145,7 @@
 					<div class="tsd-signature tsd-kind-icon">url<wbr>Handler<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/groupby/storefront/blob/b23eeed63/packages/@storefront/core/src/services/url.ts#L223">core/src/services/url.ts:223</a></li>
+							<li>Defined in <a href="https://github.com/groupby/storefront/blob/c6e374626/packages/@storefront/core/src/services/url.ts#L131">core/src/services/url.ts:131</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -223,11 +234,17 @@
 					<li class="current tsd-kind-class tsd-parent-kind-external-module">
 						<a href="../classes/_storefront_core.urlservice.html" class="tsd-kind-icon">Url<wbr>Service</a>
 						<ul>
+							<li class=" tsd-kind-interface tsd-parent-kind-class">
+								<a href="_storefront_core.urlservice.history.html" class="tsd-kind-icon">History</a>
+							</li>
 							<li class="current tsd-kind-interface tsd-parent-kind-class">
 								<a href="_storefront_core.urlservice.options.html" class="tsd-kind-icon">Options</a>
 								<ul>
 									<li class=" tsd-kind-property tsd-parent-kind-interface">
 										<a href="_storefront_core.urlservice.options.html#beautifier" class="tsd-kind-icon">beautifier</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-interface">
+										<a href="_storefront_core.urlservice.options.html#history" class="tsd-kind-icon">history</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-interface">
 										<a href="_storefront_core.urlservice.options.html#redirects" class="tsd-kind-icon">redirects</a>
@@ -258,50 +275,41 @@
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="../classes/_storefront_core.urlservice.html#beautifier" class="tsd-kind-icon">beautifier</a>
 							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="../classes/_storefront_core.urlservice.html#history-1" class="tsd-kind-icon">history</a>
+							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 								<a href="../classes/_storefront_core.urlservice.html#opts" class="tsd-kind-icon">opts</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
 								<a href="../classes/_storefront_core.urlservice.html#getbasepath" class="tsd-kind-icon">get<wbr>Base<wbr>Path</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="../classes/_storefront_core.urlservice.html#buildurlandreplacehistory" class="tsd-kind-icon">build<wbr>Url<wbr>And<wbr>Replace<wbr>History</a>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="../classes/_storefront_core.urlservice.html#initialurl" class="tsd-kind-icon">initial<wbr>Url</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="../classes/_storefront_core.urlservice.html#pushstate" class="tsd-kind-icon">push<wbr>State</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="../classes/_storefront_core.urlservice.html#replacestate" class="tsd-kind-icon">replace<wbr>State</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="../classes/_storefront_core.urlservice.html#emiturlupdated" class="tsd-kind-icon">emit<wbr>Url<wbr>Updated</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="../classes/_storefront_core.urlservice.html#filterstate" class="tsd-kind-icon">filter<wbr>State</a>
+								<a href="../classes/_storefront_core.urlservice.html#build" class="tsd-kind-icon">build</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="../classes/_storefront_core.urlservice.html#generateroutes" class="tsd-kind-icon">generate<wbr>Routes</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="../classes/_storefront_core.urlservice.html#handlecurrentlocation" class="tsd-kind-icon">handle<wbr>Current<wbr>Location</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="../classes/_storefront_core.urlservice.html#handleurl" class="tsd-kind-icon">handle<wbr>Url</a>
+								<a href="../classes/_storefront_core.urlservice.html#historylistener" class="tsd-kind-icon">history<wbr>Listener</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 								<a href="../classes/_storefront_core.urlservice.html#init" class="tsd-kind-icon">init</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="../classes/_storefront_core.urlservice.html#listenforhistorychange" class="tsd-kind-icon">listen<wbr>For<wbr>History<wbr>Change</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="../classes/_storefront_core.urlservice.html#refreshstate" class="tsd-kind-icon">refresh<wbr>State</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="../classes/_storefront_core.urlservice.html#replacehistory" class="tsd-kind-icon">replace<wbr>History</a>
+								<a href="../classes/_storefront_core.urlservice.html#parse" class="tsd-kind-icon">parse</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="../classes/_storefront_core.urlservice.html#rewind" class="tsd-kind-icon">rewind</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="../classes/_storefront_core.urlservice.html#triggerrequest" class="tsd-kind-icon">trigger<wbr>Request</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="../classes/_storefront_core.urlservice.html#updatehistory" class="tsd-kind-icon">update<wbr>History</a>
 							</li>
 							<li class=" tsd-kind-object-literal tsd-parent-kind-class">
 								<a href="../classes/_storefront_core.urlservice.html#urlstate" class="tsd-kind-icon">url<wbr>State</a>
