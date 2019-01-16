@@ -27,6 +27,76 @@ suite('utils', ({ expect, spy, stub }) => {
     });
   });
 
+  describe('debounce', () => {
+    let clock;
+    let fn;
+    let win;
+
+    beforeEach(() => {
+      clock = sinon.useFakeTimers();
+      fn = spy();
+      win = stub(utils, 'WINDOW').returns({
+        setTimeout: clock.setTimeout,
+        clearTimeout: clock.clearTimeout,
+      });
+    });
+
+    it('should return a function', () => {
+      expect(utils.debounce(() => null)).to.be.a('function');
+    });
+
+    it('should debounce by the value provided', () => {
+      utils.debounce(fn, 500)();
+      clock.tick(500);
+
+      // TODO: See if the 'fake timers' API allows assertions to be made about the mocked methods themselves.
+      expect(fn).to.be.called;
+    });
+
+    it('should debounce by 0ms if no value is provided', () => {
+      utils.debounce(fn)();
+      clock.tick(0);
+
+      // TODO: See if the 'fake timers' API allows assertions to be made about the mocked methods themselves.
+      expect(fn).to.be.called;
+    });
+
+    it('should only invoke once per debounce window', () => {
+      const debouncedFn = utils.debounce(fn, 500);
+      debouncedFn();
+      debouncedFn();
+      debouncedFn();
+      clock.tick(500);
+
+      expect(fn).to.be.calledOnce;
+    });
+
+    it('should not invoke until the debounce period has elapsed', () => {
+      utils.debounce(fn, 500);
+      clock.tick(499);
+
+      expect(fn).to.not.be.called;
+    });
+
+    it('should invoke using the default context', () => {
+      utils.debounce(fn)();
+      clock.tick(0);
+
+      // `lolex` is being used to mock the browser's `*Timeout` APIs.
+      // by default, `lolex` includes callbacks an undefined context.
+      expect(fn.thisValues[0]).to.eq(undefined);
+    });
+
+    it('should invoke using the provided context', () => {
+      const ctx = { foo: 'bar' };
+
+      utils.debounce(fn, 0, ctx)();
+      clock.tick(0);
+
+      expect(fn.thisValues[0]).to.eq(ctx);
+    });
+  });
+
   describe('dot', () => {
     describe('get()', () => {
       it('should return nested value', () => {
