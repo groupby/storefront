@@ -25,6 +25,11 @@ branch directly on it. If you do not, request access or fork the repo.
    ticket number (e.g. `SF-1156`); if not, name it something
    descriptive.
 3. Make your change. Your change should build correctly and be fully tested.
+   - Use `yarn dev` in each package that is being changed. This command
+     starts a process that builds the package whenever one of its files
+     changes. Note that the process must be restarted if a file in a
+     dependency changes (e.g. a change in flux-capacitor will not cause
+     core to rebuild).
    - Each package has unit tests in the package's `test` directory. Be
      sure to add unit tests for any new code you write and for any
      existing code you change. There are currently no integration tests,
