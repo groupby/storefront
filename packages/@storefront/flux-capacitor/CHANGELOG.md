@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] [minor]
 ### Added
-- SF-1185: Make a URL store
+- SF-1185: Make a history store
   - `initHistory`, `pushState`, `updateHistory`, and `refreshState` methods added on `flux`.
   - `updateHistory` action creator that triggers history `pushState` and `replaceState`, and updates the `history` section in the store.
   - `data.present.history` store section was created:

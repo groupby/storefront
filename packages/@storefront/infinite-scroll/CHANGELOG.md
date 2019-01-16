@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] [patch]
 ### Changed
-- SF-1185: Make a URL store
+- SF-1185: Make a history store
   - Use flag to indicate to `replaceState` that it should build and parse the url.
 
 ## [1.7.0] - 2019-01-14
