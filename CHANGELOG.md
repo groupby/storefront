@@ -5,6 +5,113 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v2.0.0] - 2019-01-16
+
+Package versions:
+
+- `@storefront/breadcrumbs`: 2.0.0
+- `@storefront/collections`: 2.0.0
+- `@storefront/core`: 2.0.0
+- `@storefront/details`: 2.0.0
+- `@storefront/did-you-mean`: 2.0.0
+- `@storefront/flux-capacitor`: 1.69.0
+- `@storefront/infinite-scroll`: 1.7.1
+- `@storefront/navigation`: 2.0.0
+- `@storefront/page-size`: 2.0.0
+- `@storefront/paging`: 2.0.0
+- `@storefront/products`: 2.0.0
+- `@storefront/query`: 2.0.0
+- `@storefront/recommendations`: 2.0.0
+- `@storefront/record-count`: 2.0.0
+- `@storefront/related-queries`: 2.0.0
+- `@storefront/sayt`: 2.0.0
+- `@storefront/sort`: 2.0.0
+- `@storefront/structure`: 2.0.0
+- `@storefront/template`: 2.0.0
+
+### Changed
+#### breadcrumbs
+- Update `@storefront/core` to 2.0.0.
+
+#### collections
+- Update `@storefront/core` to 2.0.0.
+
+#### core
+- Update `@storefront/flux-capacitor` to 1.69.0.
+- SF-1185: Make a history store
+  - Details, Search, and Past Purchase services all listen to new `URL_UPDATED` events and trigger requests.
+  - Url service calls `initHistory` on `flux` with browser history functions.
+  - **Breaking:** URL service no longer has many of the responsibilities it had before, and only sets up the history store and listens to `popstate`.
+  - Alternate form of state history can be connected by initializing the history store with custom history `opts`.
+
+#### details
+- Update `@storefront/core` to 2.0.0.
+
+#### did-you-mean
+- Update `@storefront/core` to 2.0.0.
+
+#### infinite-scroll
+- Update `@storefront/structure` to 2.0.0.
+- Update `@storefront/core` to 2.0.0.
+- SF-1185: Make a history store
+  - Use flag to indicate to `replaceState` that it should build and parse the url.
+
+#### navigation
+- Update `@storefront/structure` to 2.0.0.
+- Update `@storefront/core` to 2.0.0.
+
+#### page-size
+- Update `@storefront/core` to 2.0.0.
+
+#### paging
+- Update `@storefront/structure` to 2.0.0.
+- Update `@storefront/core` to 2.0.0.
+
+#### products
+- Update `@storefront/core` to 2.0.0.
+
+#### query
+- Update `@storefront/core` to 2.0.0.
+
+#### recommendations
+- Update `@storefront/core` to 2.0.0.
+
+#### record-count
+- Update `@storefront/core` to 2.0.0.
+
+#### related-queries
+- Update `@storefront/core` to 2.0.0.
+
+#### sayt
+- Update `@storefront/core` to 2.0.0.
+
+#### sort
+- Update `@storefront/core` to 2.0.0.
+
+#### structure
+- Update `@storefront/core` to 2.0.0.
+
+#### template
+- Update `@storefront/core` to 2.0.0.
+
+### Added
+#### flux-capacitor
+- SF-1185: Make a history store
+  - `initHistory`, `pushState`, `updateHistory`, and `refreshState` methods added on `flux`.
+  - `updateHistory` action creator that triggers history `pushState` and `replaceState`, and updates the `history` section in the store.
+  - `data.present.history` store section was created:
+    - eg,
+      ```js
+        history: {
+          request: {...},
+          route: '...',
+          url: '...',
+          shouldFetch: true,
+        }
+      ```
+    - Associated selectors: `history`, `url`, `route`, `urlRequest`.
+    - Associated events: `URL_UPDATED`, `ROUTE_UPDATED`, `SEARCH_URL_UPDATED`, `DETAILS_URL_UPDATED`, `PAST_PURCHASE_URL_UPDATED`, `CUSTOM_URL_UPDATED`.
+
 ## [v1.8.1] - 2019-01-15
 
 Package versions:
