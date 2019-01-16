@@ -100,19 +100,29 @@ class Autocomplete {
     if (activate) {
       this.state.selected = index;
       if (indexExists) {
-        this.updateProducts(target, updateQuery);
+        const data = this.parseTarget(target);
+        if (updateQuery) this.updateQuery(data.query);
+        this.updateProducts(data);
       }
     }
   }
 
-  updateProducts(
-    { dataset: { query: selectedQuery, refinement, field, pastPurchase } }: HTMLElement,
-    updateQuery: boolean = true
-  ) {
-    const query = selectedQuery == null ? this.select(Selectors.autocompleteQuery) : selectedQuery;
-    if (updateQuery) {
-      this.flux.emit('query:update', query);
-    }
+  parseTarget(
+    { dataset: { query, refinement, field, pastPurchase } }: HTMLElement
+  ): TargetData {
+    return { query, refinement, field, pastPurchase };
+  }
+
+  updateQuery(query: string = this.select(Selectors.autocompleteQuery)) {
+    this.flux.emit('query:update', query);
+  }
+
+  updateProducts({
+    query = this.select(Selectors.autocompleteQuery),
+    refinement,
+    field,
+    pastPurchase
+  }: TargetData) {
     if (pastPurchase !== undefined) {
       this.flux.displaySaytPastPurchases();
     } else {
@@ -127,6 +137,8 @@ class Autocomplete {
     return this.state.selected !== -1;
   }
 }
+
+type TargetData = { query: string, refinement: string, field: string, pastPurchase: string };
 
 interface Autocomplete extends Tag<Autocomplete.Props, Autocomplete.State> {}
 namespace Autocomplete {

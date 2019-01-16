@@ -3,8 +3,10 @@ import * as sinon from 'sinon';
 import Autocomplete from '../../src/autocomplete';
 import suite from './_suite';
 
+const AUTOCOMPLETE_QUERY = 'bar';
 const CATEGORY = 'brand';
 const CATEGORY_VALUES = ['a', 'b', 'c'];
+const CONFIG = { autocomplete: {} };
 const SUGGESTIONS = ['d', 'e', 'f'];
 const NAVIGATIONS = ['g', 'h', 'i'];
 const PRODUCTS = ['j', 'k', 'l', 'm'];
@@ -23,6 +25,8 @@ suite('Autocomplete', ({ expect, spy, stub, itShouldProvideAlias }) => {
     select.withArgs(Selectors.autocompleteCategoryValues).returns(CATEGORY_VALUES);
     select.withArgs(Selectors.autocompleteNavigations).returns(NAVIGATIONS);
     select.withArgs(Selectors.autocompleteProducts).returns(PRODUCTS);
+    select.withArgs(Selectors.autocompleteQuery).returns(AUTOCOMPLETE_QUERY);
+    select.withArgs(Selectors.config).returns(CONFIG);
     autocomplete = new Autocomplete();
   });
   afterEach(() => {
@@ -356,27 +360,54 @@ suite('Autocomplete', ({ expect, spy, stub, itShouldProvideAlias }) => {
       expect(autocomplete.updateProducts).to.not.have.been.called;
     });
 
-    it('should call update products with updateQuery false', () => {
+    it('should call parseTarget', () => {
       const index = 0;
-      const state = (autocomplete.state = <any>{ selected: 4 });
+      const target = { classList: { add: () => null } };
+      const parseTarget = (autocomplete.parseTarget = spy());
+      autocomplete.updateProducts = () => null;
+
+      autocomplete.setActivation(<any>[target], index, true, false);
+
+      expect(parseTarget).to.be.calledWithExactly(target);
+    });
+
+    it('should call updateQuery with the query string', () => {
+      const index = 0;
+      const target = { classList: { add: () => null } };
+      const query = 'foo';
+      const updateQuery = (autocomplete.updateQuery = spy());
+      autocomplete.parseTarget = spy(() => ({ query }));
+      autocomplete.updateProducts = () => null;
+
+      autocomplete.setActivation(<any>[target], index, true, true);
+
+      expect(updateQuery).to.be.calledWithExactly(query);
+    });
+
+    it('should call update products with the target data', () => {
+      const index = 0;
+      const query = 'foo';
+      const refinement = 'bar';
+      const field = 'baz';
+      const pastPurchase = 'quux';
       const updateProducts = (autocomplete.updateProducts = spy());
+      autocomplete.parseTarget = spy(() => ({ query, refinement, field, pastPurchase }));
 
       autocomplete.setActivation(<any>[{ classList: { add: () => null } }], index, true, false);
 
-      expect(updateProducts).to.be.calledWithExactly(sinon.match.any, false);
+      expect(updateProducts).to.be.calledWithExactly({ query,refinement, field, pastPurchase });
     });
 
     it('should add gb-active to classList if activating and update state', () => {
       const add = spy();
-      const target = { classList: { add } };
+      const target = { classList: { add }, dataset: {} };
       const state = (autocomplete.state = <any>{ selected: 4 });
       const updateProducts = (autocomplete.updateProducts = spy());
 
-      autocomplete.setActivation(<any>[{}, target, {}], 1, true);
+      autocomplete.setActivation(<any>[{}, target, {}], 1, true, false);
 
       expect(add).to.be.calledWith('gb-active');
       expect(state.selected).to.eq(1);
-      expect(updateProducts).to.be.calledWith(target);
     });
 
     it('should remove gb-active from classList if deactivating', () => {
@@ -392,67 +423,81 @@ suite('Autocomplete', ({ expect, spy, stub, itShouldProvideAlias }) => {
     });
   });
 
-  describe('updateProducts()', () => {
-    const query = 'salad';
+  describe('parseTarget()', () => {
+    it('should extract and return the relevant data', () => {
+      const query = 'foo';
+      const refinement = 'bar';
+      const field = 'baz';
+      const pastPurchase = 'quux';
+      const target: any = { dataset: { query, refinement, field, pastPurchase } };
 
-    it('should emit query:update event', () => {
+      const result = autocomplete.parseTarget(target);
+
+      expect(result).to.eql({ query, refinement, field, pastPurchase });
+    });
+  });
+
+  describe('updateQuery()', () => {
+    it('should emit query:update event with the string provided', () => {
+      const query = 'foo';
       const emit = spy();
       autocomplete.flux = <any>{ emit, saytProducts: () => null };
 
-      autocomplete.updateProducts(<any>{ dataset: { query } });
+      autocomplete.updateQuery(query);
 
       expect(emit).to.be.calledWithExactly('query:update', query);
     });
 
-    it('should not emit query:update event', () => {
+    it('should emit query:update event with the current autocomplete query', () => {
       const emit = spy();
       autocomplete.flux = <any>{ emit, saytProducts: () => null };
 
-      autocomplete.updateProducts(<any>{ dataset: { query } }, false);
+      autocomplete.updateQuery();
 
-      expect(emit).to.not.be.called;
+      expect(emit).to.be.calledWithExactly('query:update', AUTOCOMPLETE_QUERY);
     });
+  });
 
+  describe('updateProducts()', () => {
     it('should call flux.saytProducts() with only query', () => {
       const saytProducts = spy();
       autocomplete.flux = <any>{ emit: () => null, saytProducts };
 
-      autocomplete.updateProducts(<any>{ dataset: { query } });
+      autocomplete.updateProducts(<any>{ query: 'foo' });
 
-      expect(saytProducts).to.be.calledWithExactly(query, []);
+      expect(saytProducts).to.be.calledWithExactly('foo', []);
     });
 
     it('should call flux.saytProducts() with original query', () => {
       const saytProducts = spy();
-      const state = { a: 'b' };
-      select.returns(query);
       autocomplete.flux = <any>{ emit: () => null, saytProducts };
 
-      autocomplete.updateProducts(<any>{ dataset: {} });
+      autocomplete.updateProducts(<any>{});
 
-      expect(saytProducts).to.be.calledWithExactly(query, []);
-      expect(select).to.be.calledWith(Selectors.autocompleteQuery);
+      expect(saytProducts).to.be.calledWithExactly(AUTOCOMPLETE_QUERY, []);
     });
 
     it('should call flux.saytProducts() with only refinement', () => {
+      const query = 'foo';
       const refinement = 'Nike';
       const field = 'brand';
       const saytProducts = spy();
       autocomplete.flux = <any>{ emit: () => null, saytProducts };
 
-      autocomplete.updateProducts(<any>{ dataset: { query, refinement, field } });
+      autocomplete.updateProducts(<any>{ query, refinement, field });
 
       expect(saytProducts).to.be.calledWithExactly(null, [{ field, value: refinement }]);
     });
 
     it('should call flux.saytProducts() with query and category refinement', () => {
+      const query = 'foo';
       const refinement = 'Nike';
       const category = 'brand';
       const saytProducts = spy();
       autocomplete.state = <any>{ category };
       autocomplete.flux = <any>{ emit: () => null, saytProducts };
 
-      autocomplete.updateProducts(<any>{ dataset: { query, refinement } });
+      autocomplete.updateProducts(<any>{ query, refinement });
 
       expect(saytProducts).to.be.calledWithExactly(query, [{ field: category, value: refinement }]);
     });
@@ -461,7 +506,7 @@ suite('Autocomplete', ({ expect, spy, stub, itShouldProvideAlias }) => {
       const displaySaytPastPurchases = spy();
       autocomplete.flux = <any>{ emit: () => null, displaySaytPastPurchases };
 
-      autocomplete.updateProducts(<any>{ dataset: { pastPurchase: true, query: 'test' } });
+      autocomplete.updateProducts(<any>{ pastPurchase: true, query: 'test' });
 
       expect(displaySaytPastPurchases).to.be.calledWithExactly();
     });
