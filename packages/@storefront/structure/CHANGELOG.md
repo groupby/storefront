@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] [patch]
 ### Removed
-- Remove redundant invocation of `FilteredList#updateItems()`.
+- SF-1255: Remove redundant invocation of `FilteredList#updateItems()`.
 
 ## [2.0.0] - 2019-01-16
 ### Changed
