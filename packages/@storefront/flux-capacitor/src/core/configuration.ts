@@ -217,7 +217,7 @@ namespace Configuration {
     /**
      * specify optional debounce value in milliseconds
      */
-    debounce?: number;
+    debounceThreshold?: number;
     /**
      * autocomplete products settings
      */

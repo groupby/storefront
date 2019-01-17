@@ -34,7 +34,7 @@ class Autocomplete {
   }
 
   init() {
-    const { debounce: delay } = this.select(Selectors.config).autocomplete;
+    const { debounceThreshold: delay } = this.select(Selectors.config).autocomplete;
 
     this.updateProducts = typeof delay === 'number' && delay >= 0
       ? utils.debounce(this.updateProducts, delay, this)
