@@ -138,14 +138,14 @@ suite('Autocomplete', ({ expect, spy, stub, itShouldProvideAlias }) => {
     });
 
     it('should bind the context of the updateProducts method', () => {
-        const bind = spy();
-        const debounce = stub(utils, 'debounce');
-        autocomplete.updateProducts = <any>{ bind };
+      const bind = spy();
+      const debounce = stub(utils, 'debounce');
+      autocomplete.updateProducts = <any>{ bind };
 
-        autocomplete.init();
+      autocomplete.init();
 
-        expect(debounce).to.not.be.called;
-        expect(bind).to.be.calledWithExactly(autocomplete);
+      expect(debounce).to.not.be.called;
+      expect(bind).to.be.calledWithExactly(autocomplete);
     });
   });
 
