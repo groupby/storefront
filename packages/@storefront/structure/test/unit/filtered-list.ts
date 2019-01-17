@@ -76,14 +76,21 @@ suite('FilteredList', ({ expect, spy, stub, sinon }) => {
   });
 
   describe('onFilterChange()', () => {
-    it('should call updateItems()', () => {
-      const updateItems = (filteredList.updateItems = spy());
+    it('should call set()', () => {
       const set = (filteredList.set = spy());
 
       filteredList.onFilterChange(<any>{});
 
-      expect(updateItems).to.be.calledWith();
       expect(set).to.be.calledWithExactly(true);
+    });
+
+    it('should prevent update', () => {
+      const event: any = { preventUpdate: false };
+      filteredList.set = () => null;
+
+      filteredList.onFilterChange(event);
+
+      expect(event.preventUpdate).to.be.true;
     });
   });
 
