@@ -401,7 +401,7 @@ suite('Autocomplete', ({ expect, spy, stub, itShouldProvideAlias }) => {
       const target = { classList: { add: () => null } };
       const query = 'foo';
       const updateQuery = (autocomplete.updateQuery = spy());
-      autocomplete.parseTarget = spy(() => ({ query }));
+      autocomplete.parseTarget = () => (<any>{ query });
       autocomplete.updateProducts = () => null;
 
       autocomplete.setActivation(<any>[target], index, true, true);
