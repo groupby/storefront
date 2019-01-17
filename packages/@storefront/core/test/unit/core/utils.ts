@@ -36,8 +36,8 @@ suite('utils', ({ expect, spy, stub }) => {
 
     beforeEach(() => {
       clock = sinon.useFakeTimers();
-      setTimeout = spy((...args) => clock.setTimeout(...args));
-      clearTimeout = spy((...args) => clock.clearTimeout(...args));
+      setTimeout = spy(clock.setTimeout);
+      clearTimeout = spy(clock.clearTimeout);
       fn = spy();
       win = stub(utils, 'WINDOW').returns({ setTimeout, clearTimeout });
     });
