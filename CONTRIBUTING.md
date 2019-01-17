@@ -3,8 +3,9 @@
 Thank you for your interest in contributing to StoreFront.
 
 The following is a set of guidelines for contributing to StoreFront.
-Make sure to read the [README](README.md) first to get set up with the
-project.
+Make sure to read the [README][] first to get set up with the project.
+
+[README]: README.md
 
 ## Making a change
 
@@ -37,11 +38,10 @@ branch directly on it. If you do not, request access or fork the repo.
    - While developing, you can use the `yarn tdd` command in the package
      being changed to run the tests whenever a file is saved.
 4. Add a changelog entry in each package that was changed. See the
-   [Modifying the changelog](#modifying-the-changelog) section below.
-5. Push your branch up and make a [pull request](https://help.github.com/articles/creating-a-pull-request/)
-   against the `master` branch. Give your pull request a title in this
-   format: `SF-####: Descriptive title`, where `SF-####` is the Jira
-   ticket number.
+   [Modifying the changelog][] section below.
+5. Push your branch up and make a [pull request][] against the `master`
+   branch. Give your pull request a title in this format:
+   `SF-####: Descriptive title`, where `SF-####` is the Jira ticket number.
    - A body is encouraged, but not required. It may be used as the
      message of the final commit. If a body is present, it should
      explain the general approach, clarify any tricky changes, and point
@@ -56,6 +56,9 @@ branch directly on it. If you do not, request access or fork the repo.
    - If further changes are required after the branch is merged in, make
      them on a new branch. Do not reuse the old branch.
 
+[Modifying the changelog]: #modifying-the-changelog
+[pull request]: https://help.github.com/articles/creating-a-pull-request/
+
 A release will be made automatically when the pull request is merged. It
 will take approximately ten to fifteen minutes for the change to be
 released.
@@ -63,14 +66,16 @@ released.
 ## Modifying the changelog
 
 Each package has a `CHANGELOG.md` file that describes the changes made
-to that package. These changelogs follow the [Keep a Changelog](https://keepachangelog.com)
+to that package. These changelogs follow the [Keep a Changelog][]
 format.
+
+[Keep a Changelog]: https://keepachangelog.com
 
 There is also a `CHANGELOG.md` file at the root of the repo; do not edit
 this file. This file is managed automatically and entries will be added
 to it at release time.
 
-Use the [`scripts/add-unreleased-section.sh`](scripts/add-unreleased-section.sh)
+Use the [`scripts/add-unreleased-section.sh`][add-unreleased-section.sh]
 script to add an "Unreleased" section to the specified package. For
 example, to add an "Unreleased" section to the `core` package, run this
 at the root of the repo:
@@ -78,6 +83,8 @@ at the root of the repo:
 ```sh
 ./scripts/add-unreleased-section.sh core
 ```
+
+[add-unreleased-section.sh]: scripts/add-unreleased-section.sh
 
 The script will add a section to the changelog of the specified package
 in the following format:
@@ -103,8 +110,10 @@ in the following format:
 - <Describe security fixes>
 ```
 
-Choose a release type according to [SemVer](https://semver.org/), fill
+Choose a release type according to [SemVer][], fill
 in the appropriate sections, and remove any sections that do not apply.
+
+[SemVer]: https://semver.org/
 
 The release type determines how the version number is bumped when the
 change is released. It corresponds to the argument to `npm version`.
