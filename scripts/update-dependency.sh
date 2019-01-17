@@ -155,6 +155,9 @@ from-git'
 H
 /^## \\[Unreleased/c
 ## [Unreleased] [${release_type}]
+.
+w
+q
 EOF
 fi
 
