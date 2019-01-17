@@ -115,7 +115,7 @@ class Autocomplete {
 
   parseTarget(
     { dataset: { query, refinement, field, pastPurchase } }: HTMLElement
-  ): TargetData {
+  ): Autocomplete.TargetData {
     return { query, refinement, field, pastPurchase };
   }
 
@@ -128,7 +128,7 @@ class Autocomplete {
     refinement,
     field,
     pastPurchase
-  }: TargetData) {
+  }: Autocomplete.TargetData) {
     if (pastPurchase !== undefined) {
       this.flux.displaySaytPastPurchases();
     } else {
@@ -144,8 +144,6 @@ class Autocomplete {
   }
 }
 
-type TargetData = { query: string, refinement: string, field: string, pastPurchase: string };
-
 interface Autocomplete extends Tag<Autocomplete.Props, Autocomplete.State> {}
 namespace Autocomplete {
   export interface Props extends Sayt.Props {}
@@ -159,6 +157,13 @@ namespace Autocomplete {
     products: Store.ProductWithMetadata[];
     onHover(event: MouseEvent): void;
   }
+
+   export interface TargetData {
+     query: string;
+     refinement: string;
+     field: string;
+     pastPurchase: string;
+   }
 }
 
 export default Autocomplete;
