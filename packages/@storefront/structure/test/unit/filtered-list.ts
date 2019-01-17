@@ -83,6 +83,15 @@ suite('FilteredList', ({ expect, spy, stub, sinon }) => {
 
       expect(set).to.be.calledWithExactly(true);
     });
+
+    it('should add preventUpdate', () => {
+      const event: any = { preventUpdate: false };
+      filteredList.set = () => null;
+
+      filteredList.onFilterChange(event);
+
+      expect(event.preventUpdate).to.be.true;
+    });
   });
 
   describe('onKeyDown()', () => {

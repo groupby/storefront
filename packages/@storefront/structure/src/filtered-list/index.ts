@@ -52,6 +52,7 @@ class FilteredList {
   }
 
   onFilterChange(event: Tag.Event) {
+    event.preventUpdate = true;
     this.set(true);
   }
 
