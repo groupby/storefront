@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased] [patch]
 ### Removed
 - SF-1255: Remove redundant invocation of `FilteredList#updateItems()`.
+  - This update reduces the number of times the component template is rendered, which should result in an increase in perceived performance.
 
 ## [2.0.0] - 2019-01-16
 ### Changed
