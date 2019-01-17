@@ -5,6 +5,35 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v2.0.1] - 2019-01-17
+
+Package versions:
+
+- `@storefront/breadcrumbs`: 2.0.0
+- `@storefront/collections`: 2.0.0
+- `@storefront/core`: 2.0.0
+- `@storefront/details`: 2.0.0
+- `@storefront/did-you-mean`: 2.0.0
+- `@storefront/flux-capacitor`: 1.69.0
+- `@storefront/infinite-scroll`: 1.7.1
+- `@storefront/navigation`: 2.0.0
+- `@storefront/page-size`: 2.0.0
+- `@storefront/paging`: 2.0.0
+- `@storefront/products`: 2.0.0
+- `@storefront/query`: 2.0.0
+- `@storefront/recommendations`: 2.0.0
+- `@storefront/record-count`: 2.0.0
+- `@storefront/related-queries`: 2.0.0
+- `@storefront/sayt`: 2.0.0
+- `@storefront/sort`: 2.0.0
+- `@storefront/structure`: 2.0.1
+- `@storefront/template`: 2.0.0
+
+### Removed
+#### structure
+- SF-1255: Remove redundant invocation of `FilteredList#updateItems()`.
+  - This update reduces the number of times the component template is rendered, which should result in an increase in perceived performance.
+
 ## [v2.0.0] - 2019-01-16
 
 Package versions:
