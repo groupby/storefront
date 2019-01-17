@@ -134,7 +134,7 @@ suite('Autocomplete', ({ expect, spy, stub, itShouldProvideAlias }) => {
 
       autocomplete.init();
 
-      expect(debounce).to.be.calledWithExactly(fn, 420, autocomplete);
+      expect(debounce).to.be.calledWithExactly(fn, delay, autocomplete);
     });
 
     it('should bind the context of the updateProducts method', () => {
