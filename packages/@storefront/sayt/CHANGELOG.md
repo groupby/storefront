@@ -19,6 +19,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   ...
   ```
 
+  - If no value is provided, the `updateProducts()` method will not be debounced.
+
 ## [2.0.0] - 2019-01-16
 ### Changed
 - Update `@storefront/core` to 2.0.0.
