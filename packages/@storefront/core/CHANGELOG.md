@@ -13,8 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   ```js
   import { utils } from '@storefront/core';
 
-  const fn = () => 'foo';
+  const fn = (n) => n * n;
   const debouncedFn = utils.debounce(fn, 500);
+
+  debouncedFn(3);
   ```
 
 ## [2.0.0] - 2019-01-16
