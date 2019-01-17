@@ -4,7 +4,7 @@ StoreFront `<gb-page-size>` component
 
 [![npm (scoped with tag)](https://img.shields.io/npm/v/@storefront/page-size.svg?style=flat-square)](https://www.npmjs.com/package/@storefront/page-size)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)](https://choosealicense.com/licenses/mit/)
-[![API Reference](https://img.shields.io/badge/API_reference-latest-blue.svg?style=flat-square)](https://groupby.github.io/storefront-page-size/)
+[![API Reference](https://img.shields.io/badge/API_reference-latest-blue.svg?style=flat-square)](https://groupby.github.io/storefront/modules/_storefront_page_size.html)
 
 ## Getting Started
 

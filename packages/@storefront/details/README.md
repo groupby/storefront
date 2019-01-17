@@ -4,7 +4,7 @@ StoreFront `<gb-details>` component
 
 [![npm (scoped with tag)](https://img.shields.io/npm/v/@storefront/details.svg?style=flat-square)](https://www.npmjs.com/package/@storefront/details)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)](https://choosealicense.com/licenses/mit/)
-[![API Reference](https://img.shields.io/badge/API_reference-latest-blue.svg?style=flat-square)](https://groupby.github.io/storefront-details/)
+[![API Reference](https://img.shields.io/badge/API_reference-latest-blue.svg?style=flat-square)](https://groupby.github.io/storefront/modules/_storefront_details.html)
 
 ## Getting Started
 

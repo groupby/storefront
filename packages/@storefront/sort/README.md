@@ -4,7 +4,7 @@ StoreFront `<gb-sort>` component
 
 [![npm (scoped with tag)](https://img.shields.io/npm/v/@storefront/sort.svg?style=flat-square)](https://www.npmjs.com/package/@storefront/sort)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)](https://choosealicense.com/licenses/mit/)
-[![API Reference](https://img.shields.io/badge/API_reference-latest-blue.svg?style=flat-square)](https://groupby.github.io/storefront-sort/)
+[![API Reference](https://img.shields.io/badge/API_reference-latest-blue.svg?style=flat-square)](https://groupby.github.io/storefront/modules/_storefront_sort.html)
 
 ## Getting Started
 

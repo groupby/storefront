@@ -4,7 +4,7 @@ StoreFront `<gb-infinite-scroll>` component
 
 [![npm (scoped with tag)](https://img.shields.io/npm/v/@storefront/infinite-scroll.svg?style=flat-square)](https://www.npmjs.com/package/@storefront/infinite-scroll)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)](https://choosealicense.com/licenses/mit/)
-[![API Reference](https://img.shields.io/badge/API_reference-latest-blue.svg?style=flat-square)](https://groupby.github.io/storefront-infinite-scroll/)
+[![API Reference](https://img.shields.io/badge/API_reference-latest-blue.svg?style=flat-square)](https://groupby.github.io/storefront/modules/_storefront_infinite_scroll.html)
 
 ## Getting Started
 

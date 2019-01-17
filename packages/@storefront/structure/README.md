@@ -4,7 +4,7 @@ StoreFront structural components, building blocks for high-level components
 
 [![npm (scoped with tag)](https://img.shields.io/npm/v/@storefront/structure.svg?style=flat-square)](https://www.npmjs.com/package/@storefront/structure)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)](https://choosealicense.com/licenses/mit/)
-[![API Reference](https://img.shields.io/badge/API_reference-latest-blue.svg?style=flat-square)](https://groupby.github.io/storefront-structure/)
+[![API Reference](https://img.shields.io/badge/API_reference-latest-blue.svg?style=flat-square)](https://groupby.github.io/storefront/modules/_storefront_structure.html)
 
 ## Getting Started
 

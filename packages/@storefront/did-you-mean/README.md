@@ -4,7 +4,7 @@ StoreFront `<gb-did-you-mean>` component
 
 [![npm (scoped with tag)](https://img.shields.io/npm/v/@storefront/did-you-mean.svg?style=flat-square)](https://www.npmjs.com/package/@storefront/did-you-mean)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)](https://choosealicense.com/licenses/mit/)
-[![API Reference](https://img.shields.io/badge/API_reference-latest-blue.svg?style=flat-square)](https://groupby.github.io/storefront-did-you-mean/)
+[![API Reference](https://img.shields.io/badge/API_reference-latest-blue.svg?style=flat-square)](https://groupby.github.io/storefront/modules/_storefront_did_you_mean.html)
 
 ## Getting Started
 
