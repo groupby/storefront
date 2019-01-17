@@ -43,49 +43,41 @@ This module provides the `<gb-query>` component for use with StoreFront.
 storefront.mount('gb-query');
 ```
 
-### Building the Package
-
-This package can be built on their own.
-
+### Building the package
+To build an individual package, run the following command:
 ```sh
 yarn build
 ```
 
-This package can also be build continuously during development.
-
+To build an individual package in response to changes within the src/ directory, run the following command:
 ```sh
 yarn dev
 ```
 
-### Running Tests
-
-Tests can be run individually within a package.
-
+### Running tests
+To test an individual packages, run the following command:
 ```sh
 yarn test
 ```
 
-Tests can also be run continuously during development.
-
+To test an individual package in response to changes within the src/ directory, run the following command:
 ```sh
 yarn tdd
 ```
 
 ### Linting
-This packages can be linted.
-
+To lint a package, run the following command:
 ```sh
 yarn lint
 ```
 
-This package can also be programmatically linted.
-
+To programmatically fix lint errors within a package, run the following command:
 ```sh
 yarn lint:fix
 ```
 
 ## Contributing
-Read our [contributing](../../../CONTRIBUTING.md) documentation to learn about how to contribute to the StoreFront project.
+Read the [contributing](../../../CONTRIBUTING.md) file to learn about how to contribute to the StoreFront project.
 
 ## License
 StoreFront and its related packages are [MIT licensed](../../../LICENSE).
