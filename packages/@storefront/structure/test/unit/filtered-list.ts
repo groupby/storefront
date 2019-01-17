@@ -84,7 +84,7 @@ suite('FilteredList', ({ expect, spy, stub, sinon }) => {
       expect(set).to.be.calledWithExactly(true);
     });
 
-    it('should add preventUpdate', () => {
+    it('should prevent update', () => {
       const event: any = { preventUpdate: false };
       filteredList.set = () => null;
 
