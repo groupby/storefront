@@ -9,15 +9,15 @@ class NavigationHeader {
   };
 
   init() {
-    this.setIcon(this.toggleIcon());
+    this.setIcon();
   }
 
   onUpdate() {
-    this.setIcon(this.toggleIcon());
+    this.setIcon();
   }
 
-  setIcon(icon: string) {
-    this.state = { icon };
+  setIcon() {
+    this.state = { icon: this.toggleIcon() };
   }
 
   toggleIcon() {
@@ -26,7 +26,7 @@ class NavigationHeader {
   }
 }
 
-interface NavigationHeader extends Tag<NavigationHeader.Props> {}
+interface NavigationHeader extends Tag<NavigationHeader.Props, NavigationHeader.State> {}
 namespace NavigationHeader {
   export interface Props extends Tag.Props {
     icons: NavigationDisplay.Icons;

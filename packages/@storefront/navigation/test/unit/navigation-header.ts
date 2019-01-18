@@ -15,4 +15,54 @@ suite('NavigationHeader', ({ expect, spy, stub, itShouldProvideAlias }) => {
       });
     });
   });
+
+  describe('init()', () => {
+    it('should call setIcon', () => {
+      const setIcon = navigationHeader.setIcon = spy();
+
+      navigationHeader.init();
+
+      expect(setIcon).to.be.called;
+    });
+  });
+
+  describe('onUpdate()', () => {
+    it('should call setIcon', () => {
+      const setIcon = navigationHeader.setIcon = spy();
+
+      navigationHeader.onUpdate();
+
+      expect(setIcon).to.be.called;
+    });
+  });
+
+  describe('setIcon()', () => {
+    it('should set icon in state', () => {
+      const icon = 'icon';
+      const toggleIcon = navigationHeader.toggleIcon = spy(() => icon);
+
+      navigationHeader.setIcon();
+
+      expect(toggleIcon).to.be.called;
+      expect(navigationHeader.state.icon).to.eq(icon);
+    });
+  });
+
+  describe('toggleIcon()', () => {
+    const toggleOpen = 'open';
+    const toggleClosed = 'closed';
+    const icons = { toggleOpen, toggleClosed };
+
+    it('should return the toggleOpen state when isActive is true', () => {
+      navigationHeader.props = <any>{ isActive: true, icons };
+
+      expect(navigationHeader.toggleIcon()).to.eq(toggleOpen);
+    });
+
+    it('should return the toggleClosed state when isActive is false', () => {
+      navigationHeader.props = <any>{ isActive: false, icons };
+
+      expect(navigationHeader.toggleIcon()).to.eq(toggleClosed);
+    });
+  });
 });
