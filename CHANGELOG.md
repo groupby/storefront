@@ -5,6 +5,35 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v2.1.1] - 2019-01-18
+
+Package versions:
+
+- `@storefront/breadcrumbs`: 2.1.0
+- `@storefront/collections`: 2.1.0
+- `@storefront/core`: 2.1.0
+- `@storefront/details`: 2.1.0
+- `@storefront/did-you-mean`: 2.1.0
+- `@storefront/flux-capacitor`: 1.69.0
+- `@storefront/infinite-scroll`: 2.1.0
+- `@storefront/navigation`: 2.1.1
+- `@storefront/page-size`: 2.1.0
+- `@storefront/paging`: 2.1.0
+- `@storefront/products`: 2.1.0
+- `@storefront/query`: 2.1.0
+- `@storefront/recommendations`: 2.1.0
+- `@storefront/record-count`: 2.1.0
+- `@storefront/related-queries`: 2.1.0
+- `@storefront/sayt`: 2.1.0
+- `@storefront/sort`: 2.1.0
+- `@storefront/structure`: 2.1.0
+- `@storefront/template`: 2.1.0
+
+### Changed
+#### navigation
+- SF-1264: Add an `if` to hide the navigation display component when state is inactive.
+  - Modify `gb-navigation-header` to trigger icon image update on prop changes.
+
 ## [v2.1.0] - 2019-01-18
 
 Package versions:
