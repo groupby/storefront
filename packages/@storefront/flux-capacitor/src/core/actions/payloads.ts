@@ -159,7 +159,7 @@ namespace Payload {
   }
 
   export interface Sort {
-    labels: string[];
+    labels?: string[];
     options: { field: string, descending?: boolean }[];
   }
 }
