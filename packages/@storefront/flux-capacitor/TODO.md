@@ -1,0 +1,2 @@
+- Drop support for storing 'labels' in redux store.
+- Use existing support for props to override labels on a component-by-component basis.
