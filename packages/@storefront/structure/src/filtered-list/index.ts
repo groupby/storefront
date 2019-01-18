@@ -1,4 +1,4 @@
-import { tag, KEYS, Tag } from '@storefront/core';
+import { tag, Events, KEYS, Selectors, Tag } from '@storefront/core';
 import PagedList from '../paged-list';
 
 @tag('gb-filtered-list', require('./index.html'))
@@ -26,7 +26,13 @@ class FilteredList {
   }
 
   onBeforeMount() {
-    this.updateItems('');
+    const tagName = Tag.getMeta(this).name;
+    const uiState = this.select(Selectors.uiTagState, tagName, (<any>this.props).uiValue);
+    if (uiState) {
+      this.state = <any>{ ...this.state, tagName, inputValue: uiState.inputValue, items: uiState.items };
+    } else {
+      this.updateItems('');
+    }
   }
 
   onUpdate() {
@@ -75,6 +81,10 @@ class FilteredList {
 
     if (filtered.length !== 0 || this.state.items.length !== 0) {
       this.state.items = filtered;
+      this.actions.createComponentState(Tag.getMeta(this).name, (<any>this.props).uiValue, {
+        inputValue: value,
+        items: filtered,
+      });
     }
   }
 
