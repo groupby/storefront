@@ -110,7 +110,7 @@ To build an individual package, run the following command:
 yarn build
 ```
 
-To build an individual package in response to changes within the src/ directory, run the following command:
+To build an individual package in response to changes within the `src` directory, run the following command:
 ```sh
 yarn dev
 ```
@@ -121,7 +121,7 @@ To test an individual packages, run the following command:
 yarn test
 ```
 
-To test an individual package in response to changes within the src/ directory, run the following command:
+To test an individual package in response to changes within the `src` and `test` directories, run the following command:
 ```sh
 yarn tdd
 ```
