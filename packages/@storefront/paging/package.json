@@ -1,6 +1,6 @@
 {
   "name": "@storefront/paging",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "StoreFront paging component",
   "keywords": [
     "storefront",
@@ -50,7 +50,7 @@
     "ext": "ts,json,html,css"
   },
   "peerDependencies": {
-    "@storefront/core": "~2.0.0",
+    "@storefront/core": "~2.1.0",
     "@storefront/structure": "^2.0.0"
   }
 }
