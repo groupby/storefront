@@ -53,13 +53,13 @@ suite('NavigationHeader', ({ expect, spy, stub, itShouldProvideAlias }) => {
     const toggleClosed = 'closed';
     const icons = { toggleOpen, toggleClosed };
 
-    it('should return the toggleOpen state when isActive is true', () => {
+    it('should return the toggleOpen icon when isActive is true', () => {
       navigationHeader.props = <any>{ isActive: true, icons };
 
       expect(navigationHeader.toggleIcon()).to.eq(toggleOpen);
     });
 
-    it('should return the toggleClosed state when isActive is false', () => {
+    it('should return the toggleClosed icon when isActive is false', () => {
       navigationHeader.props = <any>{ isActive: false, icons };
 
       expect(navigationHeader.toggleIcon()).to.eq(toggleClosed);

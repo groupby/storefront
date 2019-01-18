@@ -17,7 +17,7 @@ class NavigationHeader {
   }
 
   setIcon() {
-    this.state = { icon: this.toggleIcon() };
+    this.state = { ...this.state, icon: this.toggleIcon() };
   }
 
   toggleIcon() {
