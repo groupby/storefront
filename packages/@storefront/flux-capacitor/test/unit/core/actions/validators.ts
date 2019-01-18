@@ -681,5 +681,18 @@ suite('validators', ({ expect, spy, stub }) => {
 
       expect(validators.hasValidOptions.func(payload)).to.be.true;
     });
+
+    [
+      'foo',
+      1,
+      true,
+      {},
+      () => null,
+      undefined,
+    ].forEach((val) => {
+      it(`should be invalid if options is a ${typeof val}`, () => {
+        expect(validators.hasValidOptions.func(<any>{ options: val })).to.be.false;
+      });
+    });
   });
 });
