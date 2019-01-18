@@ -670,4 +670,16 @@ suite('validators', ({ expect, spy, stub }) => {
       expect(validators.hasValidLabels.func(<any>{ labels: [{ foo: 'baz' }, 'bar'] })).to.be.false;
     });
   });
+
+  describe('hasValidOptions', () => {
+    it('should be valid if options is an array of objects with the required fields', () => {
+      const payload: any = { options: [
+        { field: 'foo' },
+        { field: 'bar', descending: false },
+        { field: 'baz', descending: true }
+      ]};
+
+      expect(validators.hasValidOptions.func(payload)).to.be.true;
+    });
+  });
 });

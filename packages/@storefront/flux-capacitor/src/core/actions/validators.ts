@@ -193,3 +193,16 @@ export const hasValidLabels: Validator<Actions.Payload.Sort> = {
   },
   msg: 'if present, labels must be an array of strings',
 };
+
+export const hasValidOptions: Validator<Actions.Payload.Sort> = {
+  func: ({ options }) => {
+    return (
+      Array.isArray(options)
+      && !!options.length
+      && options.every((option) => typeof option.field === 'string'
+        && (!option.descending || typeof option.descending === 'boolean')
+      )
+    );
+  },
+  msg: 'must be an array object that include a key of field that has a string value',
+};
