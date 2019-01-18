@@ -15,6 +15,7 @@ namespace FilteredRefinementList {
     onFilterFocus?: (event: Tag.Event) => void;
     onSelectAll?: (event: Tag.Event, items: RefinementList.Refinement[]) => void;
     enableSelectAll?: boolean;
+    fieldName: string;
   }
 }
 
