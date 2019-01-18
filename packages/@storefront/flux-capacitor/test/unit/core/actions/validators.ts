@@ -654,10 +654,20 @@ suite('validators', ({ expect, spy, stub }) => {
   });
 
   describe('hasValidLabels', () => {
-     const payload: any = { labels: ['a', 'b'] };
+    it('should be valid if labels is an array of strings', () => {
+      expect(validators.hasValidLabels.func(<any>{ labels: ['a', 'b'] })).to.be.true;
+    });
 
-     it('should be valid if labels are an array of strings', () => {
-      expect(validators.hasValidLabels.func(payload)).to.be.true;
-     });
+    it('should be valid if labels is not present', () => {
+      expect(validators.hasValidLabels.func(<any>{})).to.be.true;
+    });
+
+    it('should be invalid if labels is an empty array', () => {
+      expect(validators.hasValidLabels.func(<any>{ labels: [] })).to.be.false;
+    });
+
+    it('should be invalid if labels is an array of anything other than strings', () => {
+      expect(validators.hasValidLabels.func(<any>{ labels: [{ foo: 'baz' }, 'bar'] })).to.be.false;
+    });
   });
 });
