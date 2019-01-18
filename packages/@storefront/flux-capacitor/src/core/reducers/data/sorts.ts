@@ -22,9 +22,10 @@ export default function updateSorts(state: State = DEFAULTS, action: Action): St
 export const updateSelected = (state: State, selected: number) =>
   ({ ...state, selected });
 
-export const applySorts = (state: State, { options }: { options: Store.Sort[] }) => {
+export const applySorts = (state: State, { options, labels }: { options: Store.Sort[], labels?: string[] }) => {
   return {
     ...state,
+    ...(labels ? { labels } : {}),
     items: options,
   };
 };
