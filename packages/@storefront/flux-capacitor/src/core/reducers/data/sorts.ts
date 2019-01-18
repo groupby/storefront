@@ -25,6 +25,6 @@ export const updateSelected = (state: State, selected: number) =>
 export const applySorts = (state: State, { options }: { options: Store.Sort[] }) => {
   return {
     ...state,
-    options,
+    items: options,
   };
 };

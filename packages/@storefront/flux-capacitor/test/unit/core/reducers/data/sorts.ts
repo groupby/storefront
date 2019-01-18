@@ -36,7 +36,7 @@ suite('sorts', ({ expect }) => {
       };
       const newState = {
         ...state,
-        options,
+        items: options,
       };
 
       const reducer = sorts(state, { type: Actions.APPLY_SORTS, payload });
