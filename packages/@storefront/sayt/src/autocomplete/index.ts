@@ -1,4 +1,4 @@
-import { provide, tag, Events, Selectors, Store, Tag } from '@storefront/core';
+import { provide, tag, utils, Events, Selectors, Store, Tag } from '@storefront/core';
 import Sayt from '../sayt';
 
 @provide('autocomplete')
@@ -34,6 +34,12 @@ class Autocomplete {
   }
 
   init() {
+    const { debounceThreshold: delay } = this.select(Selectors.config).autocomplete;
+
+    this.updateProducts = typeof delay === 'number' && delay >= 0
+      ? utils.debounce(this.updateProducts, delay, this)
+      : this.updateProducts.bind(this);
+
     this.services.autocomplete.registerAutocomplete(this);
     this.flux.on(Events.AUTOCOMPLETE_SUGGESTIONS_UPDATED, this.updateSuggestions);
     this.subscribe('sayt:activate_next', this.activateNext);
@@ -100,19 +106,29 @@ class Autocomplete {
     if (activate) {
       this.state.selected = index;
       if (indexExists) {
-        this.updateProducts(target, updateQuery);
+        const data = this.parseTarget(target);
+        if (updateQuery) this.updateQuery(data.query);
+        this.updateProducts(data);
       }
     }
   }
 
-  updateProducts(
-    { dataset: { query: selectedQuery, refinement, field, pastPurchase } }: HTMLElement,
-    updateQuery: boolean = true
-  ) {
-    const query = selectedQuery == null ? this.select(Selectors.autocompleteQuery) : selectedQuery;
-    if (updateQuery) {
-      this.flux.emit('query:update', query);
-    }
+  parseTarget(
+    { dataset: { query, refinement, field, pastPurchase } }: HTMLElement
+  ): Autocomplete.TargetData {
+    return { query, refinement, field, pastPurchase };
+  }
+
+  updateQuery(query: string = this.select(Selectors.autocompleteQuery)) {
+    this.flux.emit('query:update', query);
+  }
+
+  updateProducts({
+    query = this.select(Selectors.autocompleteQuery),
+    refinement,
+    field,
+    pastPurchase
+  }: Autocomplete.TargetData) {
     if (pastPurchase !== undefined) {
       this.flux.displaySaytPastPurchases();
     } else {
@@ -141,6 +157,13 @@ namespace Autocomplete {
     products: Store.ProductWithMetadata[];
     onHover(event: MouseEvent): void;
   }
+
+   export interface TargetData {
+     query: string;
+     refinement: string;
+     field: string;
+     pastPurchase: string;
+   }
 }
 
 export default Autocomplete;

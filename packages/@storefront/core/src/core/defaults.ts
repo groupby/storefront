@@ -46,6 +46,7 @@ const DEFAULTS: Partial<Configuration> = {
     },
     hoverAutoFill: true,
     showCategoryValuesForFirstMatch: false,
+    debounceThreshold: -1,
   },
   recommendations: {
     location: false,

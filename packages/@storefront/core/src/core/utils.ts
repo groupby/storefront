@@ -50,3 +50,19 @@ export const arrayToDotNotation = (input: string): string => {
   }
   return input.replace(ARRAY_TO_DOT_NOTATION_REGEX, '.$1');
 };
+
+export function debounce(fn: (...args: any[]) => void, delay: number = 0, context?: any) {
+  let timeoutId;
+
+  return function(...args: any[]) {
+    let ctx = context || this;
+
+    if (timeoutId) {
+      timeoutId = WINDOW().clearTimeout(timeoutId);
+    }
+
+    timeoutId = WINDOW().setTimeout(function() {
+      fn.apply(ctx, args);
+    }, delay);
+  };
+}

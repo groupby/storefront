@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] [minor]
+### Added
+- SF-948: Expose `debounce` utility function.
+  - `debounce` may be used to decouple function invocation from execution.
+  - `debounce` returns a new function, and may be used as follows:
+
+  ```js
+  import { utils } from '@storefront/core';
+
+  const fn = (n) => n * n;
+  const debouncedFn = utils.debounce(fn, 500);
+
+  debouncedFn(3);
+  ```
+
 ## [2.0.0] - 2019-01-16
 ### Changed
 - Update `@storefront/flux-capacitor` to 1.69.0.
