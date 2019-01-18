@@ -8,6 +8,18 @@ class NavigationHeader {
     icons: {},
   };
 
+  init() {
+    this.setIcon(this.toggleIcon());
+  }
+
+  onUpdate() {
+    this.setIcon(this.toggleIcon());
+  }
+
+  setIcon(icon: string) {
+    this.state = { icon };
+  }
+
   toggleIcon() {
     const { isActive, icons } = this.props;
     return isActive ? icons.toggleOpen : icons.toggleClosed;
@@ -22,6 +34,10 @@ namespace NavigationHeader {
     isActive: boolean;
     collapse: boolean;
     onToggle: () => void;
+  }
+
+  export interface State {
+    icon: string;
   }
 }
 

@@ -93,7 +93,7 @@ class NavigationDisplay {
   onToggle = () =>
     this.actions.createComponentState(Tag.getMeta(this).name, this.props.field.value, {
       isActive: !this.state.isActive,
-    });
+    })
 }
 
 interface NavigationDisplay extends Tag<NavigationDisplay.Props, NavigationDisplay.State> {}
