@@ -25,6 +25,25 @@ suite('sorts', ({ expect }) => {
       expect(reducer).to.eql(newState);
     });
 
+    it('should update options state on APPLY_SORTS', () => {
+      const options = [
+        { field: 'foo' },
+        { field: 'bar', descending: false },
+        { field: 'baz', descending: true },
+      ];
+      const payload = {
+        options,
+      };
+      const newState = {
+        ...state,
+        options,
+      };
+
+      const reducer = sorts(state, { type: Actions.APPLY_SORTS, payload });
+
+      expect(reducer).to.eql(newState);
+    });
+
     it('should return state on default', () => {
       const reducer = sorts(state, <any>{});
 
