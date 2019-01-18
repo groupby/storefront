@@ -758,7 +758,10 @@ suite('ActionCreators', ({ expect, spy, stub }) => {
         };
 
         expectValidators(ActionCreators.applySorts(payload), Actions.APPLY_SORTS, {
-          payload: validators.hasValidLabels,
+          payload: [
+            validators.hasValidLabels,
+            validators.hasValidOptions,
+          ],
         });
       });
     });

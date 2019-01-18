@@ -550,7 +550,10 @@ namespace ActionCreators {
    */
   export function applySorts(payload: Actions.Payload.Sort): Actions.ApplySorts {
     return createAction(Actions.APPLY_SORTS, payload, {
-      payload: validators.hasValidLabels,
+      payload: [
+        validators.hasValidLabels,
+        validators.hasValidOptions,
+      ],
     });
   }
 
