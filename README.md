@@ -5,19 +5,42 @@
 
 StoreFront (SF) is an e-commerce UI component library that is fully integrated with the GroupBy ecosystem/services.
 
+This is the StoreFront monorepo that contains the following npm packages:
+
+- [@storefront/breadcrumbs](https://www.npmjs.com/package/@storefront/breadcrumbs)
+- [@storefront/collections](https://www.npmjs.com/package/@storefront/collections)
+- [@storefront/core](https://www.npmjs.com/package/@storefront/core)
+- [@storefront/details](https://www.npmjs.com/package/@storefront/details)
+- [@storefront/did-you-mean](https://www.npmjs.com/package/@storefront/did-you-mean)
+- [@storefront/flux-capacitor](https://www.npmjs.com/package/@storefront/flux-capacitor)
+- [@storefront/infinite-scroll](https://www.npmjs.com/package/@storefront/infinite-scroll)
+- [@storefront/navigation](https://www.npmjs.com/package/@storefront/navigation)
+- [@storefront/page-size](https://www.npmjs.com/package/@storefront/page-size)
+- [@storefront/paging](https://www.npmjs.com/package/@storefront/paging)
+- [@storefront/products](https://www.npmjs.com/package/@storefront/products)
+- [@storefront/query](https://www.npmjs.com/package/@storefront/query)
+- [@storefront/recommendations](https://www.npmjs.com/package/@storefront/recommendations)
+- [@storefront/record-count](https://www.npmjs.com/package/@storefront/record-count)
+- [@storefront/related-queries](https://www.npmjs.com/package/@storefront/related-queries)
+- [@storefront/sayt](https://www.npmjs.com/package/@storefront/sayt)
+- [@storefront/sort](https://www.npmjs.com/package/@storefront/sort)
+- [@storefront/structure](https://www.npmjs.com/package/@storefront/structure)
+- [@storefront/template](https://www.npmjs.com/package/@storefront/template)
+
 ## Getting Started
 
 ### Prerequisites
  - [yarn](https://yarnpkg.com/en/)
+ - [node](https://nodejs.org/en/)
 
 ## Setup
-Run the `./scripts/setup.sh` script from the root of the project monorepo in order to build all of the StoreFront packages.
+Run the `./scripts/setup.sh` script from the root of the monorepo to build all of the StoreFront packages.
 ```sh
   ./scripts/setup.sh
 ```
 
 ## Commands
-The following commands are in the context of an individual package contained within the StoreFront monorepo. The individual packages can be found within the [packages/@storefront](packages/@storefront) directory.
+The following commands are run in the context of an individual package contained within the StoreFront monorepo. The individual packages can be found within the [`packages/@storefront`](packages/@storefront) directory.
 
 ### Building packages
 To build an individual package, run the following command:
@@ -25,18 +48,18 @@ To build an individual package, run the following command:
 yarn build
 ```
 
-To build an individual package in response to changes within the src/ directory, run the following command:
+To build an individual package in response to changes within the `src` directory, run the following command:
 ```sh
 yarn dev
 ```
 
 ### Running tests
-To test an individual packages, run the following command:
+To test an individual package, run the following command:
 ```sh
 yarn test
 ```
 
-To test an individual package in response to changes within the src/ directory, run the following command:
+To test an individual package in response to changes within the `src` and `test` directories, run the following command:
 ```sh
 yarn tdd
 ```
