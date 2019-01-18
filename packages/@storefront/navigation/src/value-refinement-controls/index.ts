@@ -29,10 +29,6 @@ class ValueRefinementControls extends RefinementControls<RefinementControls.Prop
     return 'valueControls';
   }
 
-  childProps() {
-    return { ...this.state };
-  }
-
   transformNavigation<T extends RefinementControls.SelectedNavigation>(
     navigation: RefinementControls.SelectedNavigation
   ): T {
