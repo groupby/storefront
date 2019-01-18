@@ -652,4 +652,12 @@ suite('validators', ({ expect, spy, stub }) => {
       expect(validators.isNotFetching.func(forward, state)).to.be.true;
     });
   });
+
+  describe('hasValidLabels', () => {
+     const payload: any = { labels: ['a', 'b'] };
+
+     it('should be valid if labels are an array of strings', () => {
+      expect(validators.hasValidLabels.func(payload)).to.be.true;
+     });
+  });
 });

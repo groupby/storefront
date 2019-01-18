@@ -181,3 +181,15 @@ export const isNotFetching: Validator<boolean> = {
     !Selectors.infiniteScroll(state).isFetchingBackward,
   msg: 'is already fetching'
 };
+
+export const hasValidLabels: Validator<Actions.Payload.Sort> = {
+  func: ({ labels }) => {
+    return !labels
+      || (
+        Array.isArray(labels)
+        && labels.length
+        && labels.every((label) => typeof label === 'string')
+      );
+  },
+  msg: 'if present, labels must be an array of strings',
+};

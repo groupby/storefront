@@ -750,6 +750,17 @@ suite('ActionCreators', ({ expect, spy, stub }) => {
 
         expectAction(ActionCreators.applySorts(payload), Actions.APPLY_SORTS, payload);
       });
+
+      it('should apply validators to APPLY_SORTS', () => {
+        const payload = {
+          labels: ['foo'],
+          options: [{ field: '__FOO__' }],
+        };
+
+        expectValidators(ActionCreators.applySorts(payload), Actions.APPLY_SORTS, {
+          payload: validators.hasValidLabels,
+        });
+      });
     });
 
     describe('updatePageSize()', () => {
