@@ -694,5 +694,9 @@ suite('validators', ({ expect, spy, stub }) => {
         expect(validators.hasValidOptions.func(<any>{ options: val })).to.be.false;
       });
     });
+
+    it('should be invalid if options is an empty array', () => {
+      expect(validators.hasValidOptions.func(<any>{ options: [] })).to.be.false;
+    });
   });
 });
