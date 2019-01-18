@@ -544,6 +544,15 @@ namespace ActionCreators {
   }
 
   /**
+   * Updates the sorts using the data provided.
+   * @param  {Actions.Payload.Sort} payload - An object containing the sort labels and options.
+   * @return {Actions.ApplySorts} - Action with payload.
+   */
+  export function applySorts(payload: Actions.Payload.Sort): Actions.ApplySorts {
+    return createAction(Actions.APPLY_SORTS, payload);
+  }
+
+  /**
    * Updates the page size to given size.
    * @param  {number}                 size - The size the page is updated to.
    * Must correspond to a size in the pageSize in the store.

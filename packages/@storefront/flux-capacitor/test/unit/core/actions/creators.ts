@@ -737,6 +737,21 @@ suite('ActionCreators', ({ expect, spy, stub }) => {
       });
     });
 
+    describe('applySorts()', () => {
+      it('should return a APPLY_SORTS action', () => {
+        const payload = {
+          labels: ['foo', 'bar', 'baz'],
+          options: [
+            { field: '__FOO__', descending: true },
+            { field: '__BAR__', descending: true },
+            { field: '__BAZ__' },
+          ],
+        };
+
+        expectAction(ActionCreators.applySorts(payload), Actions.APPLY_SORTS, payload);
+      });
+    });
+
     describe('updatePageSize()', () => {
       const pageSize = 20;
 

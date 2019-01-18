@@ -157,6 +157,11 @@ namespace Payload {
     isFetchingForward?: boolean;
     isFetchingBackward?: boolean;
   }
+
+  export interface Sort {
+    labels: string[];
+    options: { field: string, descending?: boolean }[];
+  }
 }
 
 export default Payload;
