@@ -8,13 +8,25 @@ class NavigationHeader {
     icons: {},
   };
 
+  init() {
+    this.setIcon();
+  }
+
+  onUpdate() {
+    this.setIcon();
+  }
+
+  setIcon() {
+    this.state = { ...this.state, icon: this.toggleIcon() };
+  }
+
   toggleIcon() {
     const { isActive, icons } = this.props;
     return isActive ? icons.toggleOpen : icons.toggleClosed;
   }
 }
 
-interface NavigationHeader extends Tag<NavigationHeader.Props> {}
+interface NavigationHeader extends Tag<NavigationHeader.Props, NavigationHeader.State> {}
 namespace NavigationHeader {
   export interface Props extends Tag.Props {
     icons: NavigationDisplay.Icons;
@@ -22,6 +34,10 @@ namespace NavigationHeader {
     isActive: boolean;
     collapse: boolean;
     onToggle: () => void;
+  }
+
+  export interface State {
+    icon: string;
   }
 }
 

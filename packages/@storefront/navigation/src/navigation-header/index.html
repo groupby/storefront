@@ -1,6 +1,6 @@
 <yield>
   <h4 class="gb-navigation__label">{props.label}</h4>
-  <gb-button if="{props.collapse}" class="gb-navigation__collapse-toggle" on-click="{props.onToggle}">
-    <gb-icon image="{parent.toggleIcon()}"></gb-icon>
+  <gb-button if="{props.collapse}" class="gb-navigation__collapse-toggle" on-click="{props.onToggle}" image="{state.icon}">
+    <gb-icon image="{props.image}"></gb-icon>
   </gb-button>
 </yield>
