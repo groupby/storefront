@@ -1,6 +1,6 @@
 {
   "name": "@storefront/collections",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "StoreFront collections component",
   "keywords": [
     "storefront",
@@ -50,6 +50,6 @@
     "ext": "ts,json,html,css"
   },
   "peerDependencies": {
-    "@storefront/core": "~2.0.0"
+    "@storefront/core": "~2.1.0"
   }
 }
