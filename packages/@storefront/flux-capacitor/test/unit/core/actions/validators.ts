@@ -698,5 +698,21 @@ suite('validators', ({ expect, spy, stub }) => {
     it('should be invalid if options is an empty array', () => {
       expect(validators.hasValidOptions.func(<any>{ options: [] })).to.be.false;
     });
+
+    it('should be invalid if any of the options are missing the `field` key', () => {
+      const payload: any = {
+        options: [{ field: 'foo' }, { field: 'bar' }, { baz: 'quux' }],
+      };
+
+      expect(validators.hasValidOptions.func(<any>payload)).to.be.false;
+    });
+
+    it('should be invalid if any of the options contain a non-boolean value for `descending`', () => {
+      const payload: any = {
+        options: [{ field: 'foo', descending: true }, { field: 'bar', descending: 'baz' }],
+      };
+
+      expect(validators.hasValidOptions.func(<any>payload)).to.be.false;
+    });
   });
 });
