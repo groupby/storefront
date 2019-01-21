@@ -23,7 +23,7 @@ branch directly on it. If you do not, request access or fork the repo.
    either party.
 2. Branch from the tip of `master`. If your change has a Jira issue
    associated with it (most changes should), name the branch after the
-   issue key (e.g. `SF-1156`); if not, name it something descriptive.
+   issue key (e.g. `SF-1156`); if not, use `f/<feature-description>`.
 3. Make your change. Your change should build correctly and be fully tested.
    - Use `yarn dev` in each package that is being changed. This command
      starts a process that builds the package whenever one of its files
