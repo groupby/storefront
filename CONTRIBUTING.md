@@ -37,7 +37,8 @@ branch directly on it. If you do not, request access or fork the repo.
    - While developing, you can use the `yarn tdd` command in the package
      being changed to run the tests whenever a file is saved.
 4. Add a changelog entry in each package that was changed. See the
-   [Modifying the changelog][] section below.
+   [Modifying the changelog][] section below. This entry will trigger the
+   release process, so it is important that this is correct.
 5. Push your branch up and make a [pull request][] against the `master`
    branch. Give your pull request a title in this format:
    `SF-####: Descriptive title`, where `SF-####` is the Jira issue key.
@@ -58,9 +59,9 @@ branch directly on it. If you do not, request access or fork the repo.
 [Modifying the changelog]: #modifying-the-changelog
 [pull request]: https://help.github.com/articles/creating-a-pull-request/
 
-A release will be made automatically when the pull request is merged. It
-will take approximately ten to fifteen minutes for the change to be
-released.
+A release will be made automatically when the pull request with a valid
+"Unreleased" changelog entry is merged. It will take approximately ten to
+fifteen minutes for the change to be released.
 
 ## Modifying the changelog
 
