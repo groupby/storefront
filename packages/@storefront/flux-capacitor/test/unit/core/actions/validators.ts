@@ -718,48 +718,44 @@ suite('validators', ({ expect, spy, stub }) => {
     });
   });
 
-  describe('hasValidDefault', () => {
-    it('should be valid if default is an object with the required fields', () => {
-      const defaults: any = [
-        { field: 'foo', descending: true },
-        { field: 'foo', descending: false },
-        { field: 'foo' },
-      ];
-
-      expect(validators.hasValidDefault.func(<any>{ default: defaults[0] })).to.be.true;
-      expect(validators.hasValidDefault.func(<any>{ default: defaults[1] })).to.be.true;
-      expect(validators.hasValidDefault.func(<any>{ default: defaults[2] })).to.be.true;
+  describe('hasValidSelected', () => {
+    it('should be valid if selected is not present', () => {
+      expect(validators.hasValidSelected.func(<any>{})).to.be.true;
     });
 
-    it('should be valid if default is not present', () => {
-      const payload: any = {
-        foo: 'bar',
-        baz: 'foobar',
-      };
-
-      expect(validators.hasValidDefault.func(<any>payload)).to.be.true;
+    it('should be valid if selected is a number between 0 and options.length - 1', () => {
+      expect(validators.hasValidSelected.func(<any>{
+        options: ['a', 'b', 'c'],
+        selected: 0,
+      })).to.be.true;
     });
 
-    it('should be invalid if default is missing the `field` key', () => {
-      const payload: any = {
-        default: {
-          foo: 'bar',
-        },
-      };
+    it('should be invalid if selected is less than 0', () => {
+      expect(validators.hasValidSelected.func(<any>{
+        options: ['a', 'b', 'c'],
+        selected: -1,
+      })).to.be.false;
+    });
 
-      expect(validators.hasValidDefault.func(<any>payload)).to.be.false;
+    it('should be invalid if selected is greater than options.length - 1', () => {
+      expect(validators.hasValidSelected.func(<any>{
+        options: ['a', 'b', 'c'],
+        selected: 3,
+      })).to.be.false;
     });
 
     [
       'foo',
-      1,
+      true,
       {},
       () => null,
       undefined,
-      null,
     ].forEach((val) => {
-      it(`should be invalid if default.descending is a ${typeof val}`, () => {
-        expect(validators.hasValidDefault.func(<any>{ default: { field: 'bar', descending: val } })).to.be.false;
+      it(`should be invalid if selected is: ${typeof val}`, () => {
+        expect(validators.hasValidSelected.func(<any>{
+          options: ['a', 'b', 'c'],
+          selected: val,
+        })).to.be.false;
       });
     });
   });

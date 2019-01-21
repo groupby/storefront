@@ -207,11 +207,14 @@ export const hasValidOptions: Validator<Actions.Payload.Sort> = {
   msg: 'must be an array object that include a key of field that has a string value',
 };
 
-export const hasValidDefault: Validator<Actions.Payload.Sort> = {
-  func: ({ default: defaultOption }) => {
-    return !defaultOption
-    || (typeof defaultOption.field === 'string'
-      && (typeof defaultOption.descending === 'boolean' || !('descending' in defaultOption)));
+export const hasValidSelected: Validator<Actions.Payload.Sort> = {
+  func: (payload) => {
+    return !('selected' in payload)
+      || (
+        typeof payload.selected === 'number'
+        && payload.selected >= 0
+        && payload.selected <= payload.options.length - 1
+      );
   },
-  msg: 'if present, must be a valid default object',
+  msg: 'if present, must be a number between 0 and `options.length - 1`',
 };
