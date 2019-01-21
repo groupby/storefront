@@ -30,17 +30,23 @@ suite('sorts', ({ expect }) => {
       expect(reducer).to.eql(newState);
     });
 
-    it('should update options state on APPLY_SORTS', () => {
+    it('should update options, labels, selected state on APPLY_SORTS', () => {
       const options = [
         { field: 'foo' },
         { field: 'bar', descending: false },
         { field: 'baz', descending: true },
       ];
+      const newLabels = ['foo', 'bar', 'baz'];
+      const selected = 2;
       const payload = {
         options,
+        selected,
+        labels: newLabels,
       };
       const newState = {
         ...state,
+        selected,
+        labels: newLabels,
         items: options,
       };
 
