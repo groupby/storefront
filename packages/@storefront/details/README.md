@@ -3,17 +3,8 @@
 StoreFront `<gb-details>` component
 
 [![npm (scoped with tag)](https://img.shields.io/npm/v/@storefront/details.svg?style=flat-square)](https://www.npmjs.com/package/@storefront/details)
-[![CircleCI branch](https://img.shields.io/circleci/project/github/groupby/storefront-details/master.svg?style=flat-square)](https://circleci.com/gh/groupby/storefront-details/tree/master)
-[![Codecov branch](https://img.shields.io/codecov/c/github/groupby/storefront-details/master.svg?style=flat-square)](https://codecov.io/gh/groupby/storefront-details)
-[![bitHound](https://img.shields.io/bithound/code/github/groupby/storefront-details.svg?style=flat-square)](https://www.bithound.io/github/groupby/storefront-details)
-[![bitHound](https://img.shields.io/bithound/dependencies/github/groupby/storefront-details.svg?style=flat-square)](https://www.bithound.io/github/groupby/storefront-details)
-
-[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg?style=flat-square)](https://github.com/semantic-release/semantic-release)
-[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?style=flat-square)](http://commitizen.github.io/cz-cli/)
-[![Greenkeeper badge](https://badges.greenkeeper.io/groupby/storefront-details.svg)](https://greenkeeper.io/)
-
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)](https://choosealicense.com/licenses/mit/)
-[![API Reference](https://img.shields.io/badge/API_reference-latest-blue.svg?style=flat-square)](https://groupby.github.io/storefront-details/)
+[![API Reference](https://img.shields.io/badge/API_reference-latest-blue.svg?style=flat-square)](https://groupby.github.io/storefront/modules/_storefront_details.html)
 
 ## Getting Started
 
@@ -52,29 +43,41 @@ This module provides the `<gb-details>` component for use with StoreFront.
 storefront.mount('gb-details');
 ```
 
-## Running the tests
-
-Tests can be run to generate coverage information.
-Once run, open `coverage/index.html` in your browser to view coverage breakdown.
-
+### Building the package
+To build an individual package, run the following command:
 ```sh
-npm start coverage
-# or
-yarn start coverage
+yarn build
 ```
 
-Tests can be run continuously for development
-
+To build an individual package in response to changes within the `src` directory, run the following command:
 ```sh
-npm run tdd
-# or
+yarn dev
+```
+
+### Running tests
+To test an individual packages, run the following command:
+```sh
+yarn test
+```
+
+To test an individual package in response to changes within the `src` and `test` directories, run the following command:
+```sh
 yarn tdd
 ```
 
-Tests can also be run alone
-
+### Linting
+To lint a package, run the following command:
 ```sh
-npm test
-# or
-yarn test
+yarn lint
 ```
+
+To programmatically fix lint errors within a package, run the following command:
+```sh
+yarn lint:fix
+```
+
+## Contributing
+Read the [contributing](../../../CONTRIBUTING.md) file to learn about how to contribute to the StoreFront project.
+
+## License
+StoreFront and its related packages are [MIT licensed](../../../LICENSE).
