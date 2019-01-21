@@ -229,7 +229,10 @@ namespace Observer {
 
           redirect: emit(Events.REDIRECT),
 
-          sorts: emit(Events.SORTS_UPDATED),
+          sorts: Object.assign(emit(Events.SORTS_UPDATED), {
+            items: emit(Events.SORTS_ITEMS_UPDATED),
+            labels: emit(Events.SORTS_LABELS_UPDATED),
+          }),
 
           template: emit(Events.TEMPLATE_UPDATED),
 

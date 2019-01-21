@@ -668,6 +668,18 @@ suite('Observer', ({ expect, spy, stub }) => {
 
           expect(emit).to.be.calledWith(Events.SORTS_UPDATED, testObject);
         });
+
+        it('should emit SORTS_ITEMS_UPDATED', () => {
+          observers.data.present.sorts.items(undefined, testObject);
+
+          expect(emit).to.be.calledWith(Events.SORTS_ITEMS_UPDATED, testObject);
+        });
+
+        it('should emit SORTS_LABELS_UPDATED', () => {
+          observers.data.present.sorts.labels(undefined, testObject);
+
+          expect(emit).to.be.calledWith(Events.SORTS_LABELS_UPDATED, testObject);
+        });
       });
 
       describe('template', () => {

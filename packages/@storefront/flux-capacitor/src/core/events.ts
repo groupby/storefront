@@ -32,6 +32,18 @@ namespace Events {
    */
   export const SORTS_UPDATED = 'sorts_updated'; // mixed
 
+  /**
+   * Triggered when the sort items are updated.
+   * Returns an array of sort items.
+   */
+  export const SORTS_ITEMS_UPDATED = 'sorts_items_updated';
+
+  /**
+   * Triggered when the sort labels are updated.
+   * Returns an array of sort labels
+   */
+  export const SORTS_LABELS_UPDATED = 'sorts_labels_updated';
+
   // product events
   /**
    * Triggered when products are updated.
