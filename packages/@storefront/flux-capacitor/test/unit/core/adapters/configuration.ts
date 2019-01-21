@@ -288,17 +288,12 @@ suite('Configuration Adapter', ({ expect, stub }) => {
     it('should return selected sorts', () => {
       const sort: any = {
         default: false,
-        options: [
-          {
-            field: true,
-            descending: true
-          },
-          {}
-        ]
+        options: [{ field: true, descending: true }, {}],
+        labels: ['foo', 'bar'],
       };
 
       expect(Adapter.extractSorts(sort))
-        .to.eql({ selected: 1, items: sort.options, labels: [] });
+        .to.eql({ selected: 1, items: sort.options, labels: sort.labels });
     });
   });
 
