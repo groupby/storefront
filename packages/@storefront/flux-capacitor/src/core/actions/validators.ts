@@ -200,7 +200,7 @@ export const hasValidOptions: Validator<Actions.Payload.Sort> = {
       Array.isArray(options)
       && !!options.length
       && options.every((option) => typeof option.field === 'string'
-        && (!option.descending || typeof option.descending === 'boolean')
+        && (typeof option.descending === 'boolean' || !('descending' in option))
       )
     );
   },
@@ -211,8 +211,7 @@ export const hasValidDefault: Validator<Actions.Payload.Sort> = {
   func: ({ default: defaultOption }) => {
     return !defaultOption
     || (typeof defaultOption.field === 'string'
-      && (typeof defaultOption.descending === 'boolean'
-      || !('descending' in defaultOption)));
+      && (typeof defaultOption.descending === 'boolean' || !('descending' in defaultOption)));
   },
   msg: 'if present, must be a valid default object',
 };
