@@ -1,2 +1,6 @@
-- Drop support for storing 'labels' in redux store.
-- Use existing support for props to override labels on a component-by-component basis.
+- Add `applyPastPurchaseSorts` action creator and associated validators.
+- Update related interfaces.
+- Update reducer to ingest new data.
+- Update observer to emit new events.
+- ?
+- Profit
