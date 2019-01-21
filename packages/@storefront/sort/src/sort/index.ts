@@ -34,6 +34,13 @@ class Sort {
     this.updateSorts();
   }
 
+  onUpdate() {
+    this.state = {
+      ...this.state,
+      sorts: this.extractSorts(),
+    };
+  }
+
   updateSorts = () => this.set({ sorts: this.extractSorts() });
 
   extractSorts() {

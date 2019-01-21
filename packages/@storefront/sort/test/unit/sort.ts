@@ -76,6 +76,19 @@ suite('Sort', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvideAlias
     });
   });
 
+  describe('onUpdate()', () => {
+    it('should extract and spread sorts into state', () => {
+      const state: any = sort.state = <any>{ a: 'b' };
+      const sorts = { c: 'd' };
+      const extractSorts = (sort.extractSorts = spy(() => sorts));
+
+      sort.onUpdate();
+
+      expect(extractSorts).to.be.called;
+      expect(sort.state).to.eql({ a: 'b', sorts });
+    });
+  });
+
   describe('updateSorts()', () => {
     it('should set sorts', () => {
       const state: any = { a: 'b' };
