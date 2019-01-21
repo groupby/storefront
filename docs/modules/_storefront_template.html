@@ -71,15 +71,8 @@
 					<h1 id="storefront-template">StoreFront template</h1>
 					<p>StoreFront <code>&lt;gb-template&gt;</code> component</p>
 					<p><a href="https://www.npmjs.com/package/@storefront/template"><img src="https://img.shields.io/npm/v/@storefront/template.svg?style=flat-square" alt="npm (scoped with tag)"></a>
-						<a href="https://circleci.com/gh/groupby/storefront-template/tree/master"><img src="https://img.shields.io/circleci/project/github/groupby/storefront-template/master.svg?style=flat-square" alt="CircleCI branch"></a>
-						<a href="https://codecov.io/gh/groupby/storefront-template"><img src="https://img.shields.io/codecov/c/github/groupby/storefront-template/master.svg?style=flat-square" alt="Codecov branch"></a>
-						<a href="https://www.bithound.io/github/groupby/storefront-template"><img src="https://img.shields.io/bithound/code/github/groupby/storefront-template.svg?style=flat-square" alt="bitHound"></a>
-					<a href="https://www.bithound.io/github/groupby/storefront-template"><img src="https://img.shields.io/bithound/dependencies/github/groupby/storefront-template.svg?style=flat-square" alt="bitHound"></a></p>
-					<p><a href="https://github.com/semantic-release/semantic-release"><img src="https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg?style=flat-square" alt="semantic-release"></a>
-						<a href="http://commitizen.github.io/cz-cli/"><img src="https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?style=flat-square" alt="Commitizen friendly"></a>
-					<a href="https://greenkeeper.io/"><img src="https://badges.greenkeeper.io/groupby/storefront-template.svg" alt="Greenkeeper badge"></a></p>
-					<p><a href="https://choosealicense.com/licenses/mit/"><img src="https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square" alt="license"></a>
-					<a href="https://groupby.github.io/storefront-template/"><img src="https://img.shields.io/badge/API_reference-latest-blue.svg?style=flat-square" alt="API Reference"></a></p>
+						<a href="https://choosealicense.com/licenses/mit/"><img src="https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square" alt="license"></a>
+					<a href="https://groupby.github.io/storefront/modules/_storefront_template.html"><img src="https://img.shields.io/badge/API_reference-latest-blue.svg?style=flat-square" alt="API Reference"></a></p>
 					<h2 id="getting-started">Getting Started</h2>
 					<p>This module requires <a href="https://www.npmjs.com/package/@storefront/core"><code>@storefront/core</code></a> for the component to render
 					and receive data from GroupBy microservices.</p>
@@ -102,23 +95,31 @@ yarn <span class="hljs-keyword">add</span> @storefront/<span class="hljs-keyword
 					<pre><code class="lang-js"><span class="hljs-comment">// index.js</span>
 <span class="hljs-selector-tag">storefront</span><span class="hljs-selector-class">.mount</span>(<span class="hljs-string">'gb-template'</span>);
 </code></pre>
-					<h2 id="running-the-tests">Running the tests</h2>
-					<p>Tests can be run to generate coverage information.
-					Once run, open <code>coverage/index.html</code> in your browser to view coverage breakdown.</p>
-					<pre><code class="lang-sh">npm <span class="hljs-literal">start</span> coverage
-<span class="hljs-comment"># or</span>
-yarn <span class="hljs-literal">start</span> coverage
+					<h3 id="building-the-package-building-the-package">Building the package### Building the package</h3>
+					<p>To build an individual package, run the following command:</p>
+					<pre><code class="lang-sh"><span class="hljs-attribute">yarn build</span>
 </code></pre>
-					<p>Tests can be run continuously for development</p>
-					<pre><code class="lang-sh">npm <span class="hljs-keyword">run</span><span class="bash"> tdd
-</span><span class="hljs-comment"># or</span>
-yarn tdd
+					<p>To build an individual package in response to changes within the <code>src</code> directory, run the following command:</p>
+					<pre><code class="lang-sh"><span class="hljs-attribute">yarn dev</span>
 </code></pre>
-					<p>Tests can also be run alone</p>
-					<pre><code class="lang-sh">npm <span class="hljs-built_in">test</span>
-<span class="hljs-comment"># or</span>
-yarn <span class="hljs-built_in">test</span>
+					<h3 id="running-tests">Running tests</h3>
+					<p>To test an individual packages, run the following command:</p>
+					<pre><code class="lang-sh">yarn <span class="hljs-built_in">test</span>
 </code></pre>
+					<p>To test an individual package in response to changes within the <code>src</code> and <code>test</code> directories, run the following command:</p>
+					<pre><code class="lang-sh"><span class="hljs-attribute">yarn tdd</span>
+</code></pre>
+					<h3 id="linting">Linting</h3>
+					<p>To lint a package, run the following command:</p>
+					<pre><code class="lang-sh"><span class="hljs-attribute">yarn lint</span>
+</code></pre>
+					<p>To programmatically fix lint errors within a package, run the following command:</p>
+					<pre><code class="lang-sh">yarn lint:<span class="hljs-built_in">fix</span>
+</code></pre>
+					<h2 id="contributing">Contributing</h2>
+					<p>Read the <a href="../../../CONTRIBUTING.md">contributing</a> file to learn about how to contribute to the StoreFront project.</p>
+					<h2 id="license">License</h2>
+					<p>StoreFront and its related packages are <a href="../../../LICENSE">MIT licensed</a>.</p>
 				</div>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
