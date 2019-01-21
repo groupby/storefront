@@ -750,15 +750,17 @@ suite('validators', ({ expect, spy, stub }) => {
       expect(validators.hasValidDefault.func(<any>payload)).to.be.false;
     });
 
-    it('should be invalid if default contains a non-boolean value for `descending`', () => {
-      const payload: any = {
-        default: {
-          field: 'bar',
-          descending: 'baz',
-        },
-      };
-
-      expect(validators.hasValidDefault.func(<any>payload)).to.be.false;
+    [
+      'foo',
+      1,
+      {},
+      () => null,
+      undefined,
+      null,
+    ].forEach((val) => {
+      it(`should be invalid if default.descending is a ${typeof val}`, () => {
+        expect(validators.hasValidDefault.func(<any>{ default: { field: 'bar', descending: val } })).to.be.false;
+      });
     });
   });
 });

@@ -211,7 +211,8 @@ export const hasValidDefault: Validator<Actions.Payload.Sort> = {
   func: ({ default: defaultOption }) => {
     return !defaultOption
     || (typeof defaultOption.field === 'string'
-      && (!defaultOption.descending || typeof defaultOption.descending === 'boolean'));
+      && (typeof defaultOption.descending === 'boolean'
+      || !('descending' in defaultOption)));
   },
   msg: 'if present, must be a valid default object',
 };
