@@ -206,3 +206,12 @@ export const hasValidOptions: Validator<Actions.Payload.Sort> = {
   },
   msg: 'must be an array object that include a key of field that has a string value',
 };
+
+export const hasValidDefault: Validator<Actions.Payload.Sort> = {
+  func: ({ default: defaultOption }) => {
+    return !defaultOption
+    || (typeof defaultOption.field === 'string'
+      && (!defaultOption.descending || typeof defaultOption.descending === 'boolean'));
+  },
+  msg: 'if present, must be a valid default object',
+};

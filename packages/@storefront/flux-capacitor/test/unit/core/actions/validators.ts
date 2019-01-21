@@ -717,4 +717,48 @@ suite('validators', ({ expect, spy, stub }) => {
       expect(validators.hasValidOptions.func(<any>payload)).to.be.false;
     });
   });
+
+  describe('hasValidDefault', () => {
+    it('should be valid if default is an object with the required fields', () => {
+      const defaults: any = [
+        { field: 'foo', descending: true },
+        { field: 'foo', descending: false },
+        { field: 'foo' },
+      ];
+
+      expect(validators.hasValidDefault.func(<any>{ default: defaults[0] })).to.be.true;
+      expect(validators.hasValidDefault.func(<any>{ default: defaults[1] })).to.be.true;
+      expect(validators.hasValidDefault.func(<any>{ default: defaults[2] })).to.be.true;
+    });
+
+    it('should be valid if default is not present', () => {
+      const payload: any = {
+        foo: 'bar',
+        baz: 'foobar',
+      };
+
+      expect(validators.hasValidDefault.func(<any>payload)).to.be.true;
+    });
+
+    it('should be invalid if default is missing the `field` key', () => {
+      const payload: any = {
+        default: {
+          foo: 'bar',
+        },
+      };
+
+      expect(validators.hasValidDefault.func(<any>payload)).to.be.false;
+    });
+
+    it('should be invalid if default contains a non-boolean value for `descending`', () => {
+      const payload: any = {
+        default: {
+          field: 'bar',
+          descending: 'baz',
+        },
+      };
+
+      expect(validators.hasValidDefault.func(<any>payload)).to.be.false;
+    });
+  });
 });
