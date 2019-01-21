@@ -2,12 +2,13 @@ import Actions from '../../actions';
 import Store from '../../store';
 
 export type Action = Actions.SelectSort | Actions.ApplySorts;
-export type State = Store.SelectableList<Store.Sort>;
+export type State = Store.LabelSelectableList<Store.Sort>;
 
 export const DEFAULTS: State = {
   items: [
     { field: '_relevance', descending: true }
   ],
+  labels: [],
   selected: 0,
 };
 

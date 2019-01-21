@@ -35,6 +35,7 @@ export const PAST_PURCHASE_SORT = {
     { field: PAST_PURCHASE_SORTS.MOST_RECENT, descending: true },
     { field: PAST_PURCHASE_SORTS.MOST_PURCHASED, descending: true },
   ],
+  labels: [],
   selected: 0,
 };
 

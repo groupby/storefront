@@ -54,6 +54,7 @@ suite('Configuration Adapter', ({ expect, stub }) => {
               }
             },
             sorts: {
+              labels: [],
               selected: 0,
               items: [sort]
             },
@@ -74,6 +75,7 @@ suite('Configuration Adapter', ({ expect, stub }) => {
                 }
               },
               sort: {
+                labels: [],
                 selected: 0,
                 items: [pastPurchaseSort],
               },
@@ -153,6 +155,7 @@ suite('Configuration Adapter', ({ expect, stub }) => {
               }
             },
             sorts: {
+              labels: [],
               selected: 0,
               items: sort.options
             },
@@ -173,6 +176,7 @@ suite('Configuration Adapter', ({ expect, stub }) => {
                 }
               },
               sort: {
+                labels: [],
                 selected: 0,
                 items: pastPurchaseSort.options,
               },
@@ -270,7 +274,7 @@ suite('Configuration Adapter', ({ expect, stub }) => {
 
       const sorts = Adapter.extractSorts(sort);
 
-      expect(sorts).to.eql({ selected: 0, items: [sort] });
+      expect(sorts).to.eql({ selected: 0, items: [sort], labels: [] });
     });
 
     it('should default selected to empty object', () => {
@@ -278,7 +282,7 @@ suite('Configuration Adapter', ({ expect, stub }) => {
 
       const sorts = Adapter.extractSorts(sort);
 
-      expect(sorts).to.eql({ selected: 0, items: [] });
+      expect(sorts).to.eql({ selected: 0, items: [], labels: [] });
     });
 
     it('should return selected sorts', () => {
@@ -294,7 +298,7 @@ suite('Configuration Adapter', ({ expect, stub }) => {
       };
 
       expect(Adapter.extractSorts(sort))
-        .to.eql({ selected: 1, items: sort.options });
+        .to.eql({ selected: 1, items: sort.options, labels: [] });
     });
   });
 
