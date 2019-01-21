@@ -232,6 +232,7 @@ namespace Observer {
           sorts: Object.assign(emit(Events.SORTS_UPDATED), {
             items: emit(Events.SORTS_ITEMS_UPDATED),
             labels: emit(Events.SORTS_LABELS_UPDATED),
+            selected: emit(Events.SORTS_SELECTED_UPDATED),
           }),
 
           template: emit(Events.TEMPLATE_UPDATED),

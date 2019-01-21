@@ -40,9 +40,15 @@ namespace Events {
 
   /**
    * Triggered when the sort labels are updated.
-   * Returns an array of sort labels
+   * Returns an array of sort labels.
    */
   export const SORTS_LABELS_UPDATED = 'sorts_labels_updated';
+
+  /**
+   * Triggered when the selected sort is updated.
+   * Returns the index of the selected sort.
+   */
+  export const SORTS_SELECTED_UPDATED = 'sorts_selected_updated';
 
   // product events
   /**
