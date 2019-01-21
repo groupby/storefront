@@ -23,10 +23,12 @@ export default function updateSorts(state: State = DEFAULTS, action: Action): St
 export const updateSelected = (state: State, selected: number) =>
   ({ ...state, selected });
 
-export const applySorts = (state: State, { options, labels }: { options: Store.Sort[], labels?: string[] }) => {
+// tslint:disable-next-line max-line-length
+export const applySorts = (state: State, { options, labels = state.labels, selected = state.selected }: { options: Store.Sort[], labels?: string[], selected?: number }) => {
   return {
     ...state,
-    ...(labels ? { labels } : {}),
+    labels,
+    selected,
     items: options,
   };
 };
