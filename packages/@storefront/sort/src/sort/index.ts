@@ -45,17 +45,24 @@ class Sort {
 
   extractSorts() {
     let sorts;
+    let labels;
     switch (this.props.storeSection) {
       case StoreSections.PAST_PURCHASES:
         sorts = this.select(Selectors.pastPurchaseSort);
+        labels = this.props.pastPurchasesLabels && this.props.pastPurchasesLabels.length
+          ? this.props.pastPurchasesLabels
+          : sorts.labels;
         return sorts.items.map((sort, index) => ({
-          label: this.getLabel(sort, index, this.props.pastPurchasesLabels),
+          label: this.getLabel(sort, index, labels),
           selected: sorts.selected === index,
         }));
       case StoreSections.SEARCH:
         sorts = this.select(Selectors.sorts);
+        labels = this.props.labels && this.props.labels.length
+          ? this.props.labels
+          : sorts.labels;
         return sorts.items.map((sort, index) => ({
-          label: this.getLabel(sort, index, this.props.labels),
+          label: this.getLabel(sort, index, labels),
           selected: sorts.selected === index,
         }));
     }

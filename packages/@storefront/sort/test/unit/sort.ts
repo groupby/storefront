@@ -126,6 +126,29 @@ suite('Sort', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvideAlias
       ]);
     });
 
+    it('should extract and apply labels from the store', () => {
+      const labels = ['foo', 'bar', 'baz'];
+      const sorts = {
+        items: [
+          { field: 'a' },
+          { field: 'b' },
+          { field: 'c' },
+        ],
+        labels,
+      };
+      sort.select = stub().withArgs(Selectors.sorts).returns(sorts);
+      sort.props.labels = [];
+      sort.props.storeSection = StoreSections.SEARCH;
+
+      const options = sort.extractSorts();
+
+      expect(options).to.eql([
+        { label: labels[0], selected: false },
+        { label: labels[1], selected: false },
+        { label: labels[2], selected: false },
+      ]);
+    });
+
     it('should remap sorts for pastPurchases', () => {
       const state = { a: 'b' };
       const getLabel = (sort.getLabel = spy(() => 'x'));
@@ -145,6 +168,29 @@ suite('Sort', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvideAlias
         { label: 'x', selected: false },
         { label: 'x', selected: true },
         { label: 'x', selected: false },
+      ]);
+    });
+
+    it('should extract and apply past purchase labels from the store', () => {
+      const labels = ['foo', 'bar', 'baz'];
+      const sorts = {
+        items: [
+          { field: 'a' },
+          { field: 'b' },
+          { field: 'c' },
+        ],
+        labels,
+      };
+      sort.select = stub().withArgs(Selectors.pastPurchaseSort).returns(sorts);
+      sort.props.labels = [];
+      sort.props.storeSection = StoreSections.PAST_PURCHASES;
+
+      const options = sort.extractSorts();
+
+      expect(options).to.eql([
+        { label: labels[0], selected: false },
+        { label: labels[1], selected: false },
+        { label: labels[2], selected: false },
       ]);
     });
   });
