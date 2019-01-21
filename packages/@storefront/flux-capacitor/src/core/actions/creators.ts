@@ -553,6 +553,7 @@ namespace ActionCreators {
       payload: [
         validators.hasValidLabels,
         validators.hasValidOptions,
+        validators.hasValidSelected,
       ],
     });
   }

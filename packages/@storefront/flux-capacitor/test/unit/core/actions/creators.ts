@@ -761,6 +761,7 @@ suite('ActionCreators', ({ expect, spy, stub }) => {
           payload: [
             validators.hasValidLabels,
             validators.hasValidOptions,
+            validators.hasValidSelected,
           ],
         });
       });
