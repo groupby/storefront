@@ -654,12 +654,12 @@ suite('validators', ({ expect, spy, stub }) => {
   });
 
   describe('hasValidLabels', () => {
-    it('should be valid if labels is an array of strings', () => {
-      expect(validators.hasValidLabels.func(<any>{ labels: ['a', 'b'] })).to.be.true;
-    });
-
     it('should be valid if labels is not present', () => {
       expect(validators.hasValidLabels.func(<any>{})).to.be.true;
+    });
+
+    it('should be valid if labels is an array of strings', () => {
+      expect(validators.hasValidLabels.func(<any>{ labels: ['a', 'b'] })).to.be.true;
     });
 
     it('should be invalid if labels is an empty array', () => {
@@ -751,7 +751,7 @@ suite('validators', ({ expect, spy, stub }) => {
       () => null,
       undefined,
     ].forEach((val) => {
-      it(`should be invalid if selected is: ${typeof val}`, () => {
+      it(`should be invalid if selected is a ${typeof val}`, () => {
         expect(validators.hasValidSelected.func(<any>{
           options: ['a', 'b', 'c'],
           selected: val,
