@@ -84,7 +84,6 @@ suite('Sort', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvideAlias
 
       sort.onUpdate();
 
-      expect(extractSorts).to.be.called;
       expect(sort.state).to.eql({ a: 'b', sorts });
     });
   });
