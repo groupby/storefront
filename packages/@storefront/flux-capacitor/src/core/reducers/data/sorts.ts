@@ -24,7 +24,7 @@ export const updateSelected = (state: State, selected: number) =>
   ({ ...state, selected });
 
 // tslint:disable-next-line max-line-length
-export const applySorts = (state: State, { options, labels = state.labels, selected = state.selected }: { options: Store.Sort[], labels?: string[], selected?: number }) => {
+export const applySorts = (state: State, { options, labels = [], selected = 0 }: { options: Store.Sort[], labels?: string[], selected?: number }) => {
   return {
     ...state,
     labels,
