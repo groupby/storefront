@@ -204,7 +204,7 @@ export const hasValidOptions: Validator<Actions.Payload.Sort> = {
       )
     );
   },
-  msg: 'must be an array object that include a key of field that has a string value',
+  msg: 'must be an array of valid sort options',
 };
 
 export const hasValidSelected: Validator<Actions.Payload.Sort> = {
