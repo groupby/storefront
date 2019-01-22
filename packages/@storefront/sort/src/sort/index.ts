@@ -45,26 +45,39 @@ class Sort {
 
   extractSorts() {
     let sorts;
-    let labels;
+    let labels = this.extractLabels();
+
     switch (this.props.storeSection) {
       case StoreSections.PAST_PURCHASES:
         sorts = this.select(Selectors.pastPurchaseSort);
-        labels = this.props.pastPurchasesLabels && this.props.pastPurchasesLabels.length
-          ? this.props.pastPurchasesLabels
-          : sorts.labels;
-        return sorts.items.map((sort, index) => ({
-          label: this.getLabel(sort, index, labels),
-          selected: sorts.selected === index,
-        }));
+        break;
       case StoreSections.SEARCH:
         sorts = this.select(Selectors.sorts);
-        labels = this.props.labels && this.props.labels.length
-          ? this.props.labels
-          : sorts.labels;
-        return sorts.items.map((sort, index) => ({
-          label: this.getLabel(sort, index, labels),
-          selected: sorts.selected === index,
-        }));
+        break;
+    }
+
+    return sorts.items.map((sort, index) => ({
+      label: this.getLabel(sort, index, labels),
+      selected: sorts.selected === index,
+    }));
+  }
+
+  extractLabels() {
+    const {
+      labels,
+      pastPurchasesLabels,
+    } = this.props;
+
+    switch (this.props.storeSection) {
+      case StoreSections.PAST_PURCHASES:
+        return pastPurchasesLabels && pastPurchasesLabels.length
+          ? pastPurchasesLabels
+          : this.select(Selectors.pastPurchaseSort).labels;
+      case StoreSections.SEARCH:
+        return labels && labels.length
+          ? labels
+          : this.select(Selectors.sort).labels;
+      default: return [];
     }
   }
 
