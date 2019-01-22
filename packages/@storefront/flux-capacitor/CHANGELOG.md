@@ -6,9 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] [minor]
 ### Changed
-- SF-1256: Persist sort and past purchase sort labels in the application store.
-- SF-1256: Update `search` and `pastPurchases` sort configurations to support labels.
-  - To apply sort labels via the `search` sort configuration;
+- SF-1256: Persisted sort and past purchase sort labels in the application store.
+- SF-1256: Updated `search` and `pastPurchases` sort configurations to support labels.
+  - To apply sort labels via the `search` sort configuration:
 
   ```js
   ...
@@ -30,7 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   ...
   ```
 
-  - To apply sort labels via the `pastPurchases` sort configuration;
+  - To apply sort labels via the `pastPurchases` sort configuration:
 
   ```js
   ...
@@ -58,12 +58,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   ```
 
 ### Added
-- SF-1256: Add `applySorts()` and `applyPastPurchaseSorts()` action creators.
-- SF-1256: Add support for the following sort-related events:
+- SF-1256: Added `applySorts()` and `applyPastPurchaseSorts()` action creators.
+- SF-1256: Added support for the following sort-related events:
   - `SORTS_ITEMS_UPDATED` - Emitted when the sort items are updated.
   - `SORTS_LABELS_UPDATED` - Emitted when the sort labels are updated.
   - `SORTS_SELECTED_UPDATED` - Emitted when the selected sort is updated.
-- SF-1256: Add support for the following past purchase sort-related events:
+- SF-1256: Added support for the following past purchase sort-related events:
   - `PAST_PURCHASE_SORT_ITEMS_UPDATED` - Emitted when the past purchase sort items are updated.
   - `PAST_PURCHASE_SORT_LABELS_UPDATED` - Emitted when the past purchase sort labels are updated.
   - `PAST_PURCHASE_SORT_SELECTED_UPDATED` - Emitted when the selected past purchase sort is updated.
