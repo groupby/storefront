@@ -63,7 +63,6 @@ export const DEFAULTS: State = <any>{
 export default function updatePastPurchases(state: State = DEFAULTS, action: Action): State {
   // tslint:disable max-line-length
   switch (action.type) {
-
     case Actions.RECEIVE_PAST_PURCHASE_SKUS: return updatePastPurchaseSkus(state, action);
     case Actions.RECEIVE_PAST_PURCHASE_PRODUCTS: return updatePastPurchaseProducts(state, action);
     case Actions.RECEIVE_MORE_PAST_PURCHASE_PRODUCTS: return updateMorePastPurchaseProducts(state, action);
