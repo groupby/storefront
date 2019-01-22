@@ -692,7 +692,7 @@ suite('validators', ({ expect, spy, stub }) => {
       () => null,
       undefined,
     ].forEach((val) => {
-      it(`should be invalid if options is a ${typeof val}`, () => {
+      it(`should be invalid if options is of type ${typeof val}`, () => {
         expect(validators.hasValidOptions.func(<any>{ options: val })).to.be.false;
       });
     });
@@ -751,7 +751,7 @@ suite('validators', ({ expect, spy, stub }) => {
       () => null,
       undefined,
     ].forEach((val) => {
-      it(`should be invalid if selected is a ${typeof val}`, () => {
+      it(`should be invalid if selected is of type ${typeof val}`, () => {
         expect(validators.hasValidSelected.func(<any>{
           options: ['a', 'b', 'c'],
           selected: val,
