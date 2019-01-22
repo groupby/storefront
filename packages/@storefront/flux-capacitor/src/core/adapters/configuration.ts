@@ -224,7 +224,7 @@ namespace ConfigurationAdapter {
       ? configRefinementsOverrides
       : config.search.overrides
     );
-  }
+  };
 
   export const pastPurchaseAutocompleteOverrides: Override<Request> = (config) =>
     normalizeToFunction(config.recommendations.pastPurchases.overrides.autocomplete);
