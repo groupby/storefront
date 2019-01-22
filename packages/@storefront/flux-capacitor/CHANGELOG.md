@@ -4,6 +4,70 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] [minor]
+### Changed
+- SF-1256: Persist sort and past purchase sort labels in the application store.
+- SF-1256: Update `search` and `pastPurchases` sort configurations to support labels.
+  - To apply sort labels via the `search` sort configuration;
+
+  ```js
+  ...
+  search: {
+    sort: {
+      options: [
+        { field: 'foo', descending: true },
+        { field: 'foo', descending: false },
+        { field: 'bar' },
+      ],
+      labels: [
+        'Foo | Descending',
+        'Foo | Ascending',
+        'Bar',
+      ],
+    },
+    ...
+  },
+  ...
+  ```
+
+  - To apply sort labels via the `pastPurchases` sort configuration;
+
+  ```js
+  ...
+  recommendations: {
+    ...
+    pastPurchases: {
+      ...
+      sort: {
+        options: [
+          { field: 'foo', descending: true },
+          { field: 'foo', descending: false },
+          { field: 'bar' },
+        ],
+        labels: [
+          'Foo | Descending',
+          'Foo | Ascending',
+          'Bar',
+        ],
+      },
+      ...
+    },
+    ...
+  },
+  ...
+  ```
+
+### Added
+- SF-1256: Add `applySorts()` and `applyPastPurchaseSorts()` action creators.
+- SF-1256: Add support for the following sort-related events:
+  - `SORTS_ITEMS_UPDATED` - Emitted when the sort items are updated.
+  - `SORTS_LABELS_UPDATED` - Emitted when the sort labels are updated.
+  - `SORTS_SELECTED_UPDATED` - Emitted when the selected sort is updated.
+- SF-1256: Add support for the following past purchase sort-related events:
+  - `PAST_PURCHASE_SORT_ITEMS_UPDATED` - Emitted when the past purchase sort items are updated.
+  - `PAST_PURCHASE_SORT_LABELS_UPDATED` - Emitted when the past purchase sort labels are updated.
+  - `PAST_PURCHASE_SORT_SELECTED_UPDATED` - Emitted when the selected past purchase sort is updated.
+
 ## [1.69.1] - 2019-01-23
 ### Changed
 - SF-1267: Refinements calls now use the search overrides if a refinements override is not given.
