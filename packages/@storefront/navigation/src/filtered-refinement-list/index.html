@@ -1,3 +1,3 @@
-<gb-filtered-list items="{props.refinements}" item-alias="refinement" placeholder="{props.placeholder}" paginate="{!$filterControls.more}" on-filter-focus="{props.onFilterFocus}" on-select-all="{props.onSelectAll}" enable-select-all="{props.enableSelectAll}">
+<gb-filtered-list ui-value="{props.fieldName}" items="{props.refinements}" item-alias="refinement" placeholder="{props.placeholder}" paginate="{!$filterControls.more}" on-filter-focus="{props.onFilterFocus}" on-select-all="{props.onSelectAll}" enable-select-all="{props.enableSelectAll}">
   <gb-refinement class="{gb-selected: item.selected, gb-matches-term: item.matchesTerm}" _props="{item}"></gb-refinement>
 </gb-filtered-list>

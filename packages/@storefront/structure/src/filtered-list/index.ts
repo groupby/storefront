@@ -1,17 +1,20 @@
-import { tag, KEYS, Tag } from '@storefront/core';
+import { tag, uiState, KEYS, Tag } from '@storefront/core';
 import PagedList from '../paged-list';
 
+@uiState()
 @tag('gb-filtered-list', require('./index.html'))
 class FilteredList {
   refs: { filter: HTMLInputElement };
-  props: FilteredList.Props = {
+  props: FilteredList.Props = <any>{
     items: [],
     paginate: true,
     enableSelectAll: false,
     selectAllLabel: 'Select All',
+    uiValue: 'whatevs',
   };
   state: FilteredList.State = {
     items: [],
+    inputValue: '',
   };
 
   childProps() {
@@ -26,7 +29,10 @@ class FilteredList {
   }
 
   onBeforeMount() {
-    this.updateItems('');
+    // TODO: take out changes to this file/repo & navigations
+    if (!this.state.items.length) {
+      this.updateItems('');
+    }
   }
 
   onUpdate() {
@@ -75,6 +81,7 @@ class FilteredList {
 
     if (filtered.length !== 0 || this.state.items.length !== 0) {
       this.state.items = filtered;
+      this.state.inputValue = value;
     }
   }
 
@@ -120,6 +127,7 @@ namespace FilteredList {
 
   export interface State {
     items: Item[];
+    inputValue: string;
   }
 
   export type Item = string | ItemObject;
