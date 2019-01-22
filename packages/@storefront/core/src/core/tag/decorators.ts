@@ -1,3 +1,4 @@
+import { Selectors } from '@storefront/flux-capacitor';
 import moize from 'moize';
 import StoreFront from '../../storefront';
 import Tag from '../tag';
@@ -9,19 +10,6 @@ export const ORIGIN_KEY = 'origin';
 export const CONFIGURABLE_KEY = 'configurable';
 
 export type TagConstructor = { new (): Tag };
-
-// const tagName = Tag.getMeta(this).name;
-// const uiState = this.select(Selectors.uiTagState, tagName, (<any>this.props).uiValue);
-// if (uiState) {
-//   this.state = <any>{ ...this.state, tagName, inputValue: uiState.inputValue, items: uiState.items };
-// } else {
-//   this.updateItems('');
-// }
-//
-// this.actions.createComponentState(Tag.getMeta(this).name, (<any>this.props).uiValue, {
-//   inputValue: value,
-//   items: filtered,
-// });
 
 export function tag(name: string, template: string, cssVal?: string) {
   return <P extends object>(
@@ -93,4 +81,34 @@ export function origin(name: string) {
 
 export function configurable<P extends object>(target: TagConstructor) {
   utils.setMetadata(target, CONFIGURABLE_KEY, true);
+}
+
+export function uiState<P extends object = any, S extends object = any>(
+  prop: string = 'uiValue',
+  resolver: (props: P, state: S) => any = (_, state) => state
+) {
+  return (target: TagConstructor) => {
+    const onBeforeMount = target.prototype.onBeforeMount;
+    const onBeforeUnmount = target.prototype.onBeforeUnmount;
+
+    target.prototype.onBeforeMount = function(...args: any) {
+      const storedState = this.select(Selectors.uiTagState, Tag.getMeta(this).name, this.props[prop]);
+
+      if (storedState) {
+        this.state = { ...this.state, ...storedState };
+      }
+
+      if (onBeforeMount) {
+        return onBeforeMount.bind(this)(...args);
+      }
+    };
+
+    target.prototype.onBeforeUnmount = function(...args: any) {
+      this.actions.createComponentState(Tag.getMeta(this).name, this.props[prop], resolver(this.props, this.state));
+
+      if (onBeforeUnmount) {
+        return onBeforeUnmount.bind(this)(...args);
+      }
+    };
+  };
 }

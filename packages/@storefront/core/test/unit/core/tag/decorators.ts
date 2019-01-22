@@ -1,3 +1,4 @@
+import { Selectors } from '@storefront/flux-capacitor';
 import * as sinon from 'sinon';
 import Tag from '../../../../src/core/tag';
 import * as decorators from '../../../../src/core/tag/decorators';
@@ -132,6 +133,103 @@ suite('decorators', ({ expect, spy, stub }) => {
       decorators.configurable(tag);
 
       expect(setMetadata).to.be.calledWithExactly(tag, 'configurable', true);
+    });
+  });
+
+  describe('@uiState', () => {
+    const prop = 'ui';
+
+    it('should replace tag state with ui state onBeforeMount', () => {
+      const uiProp = 'uiProp';
+      const storedState = { c: 'd' };
+      const uiTagState = () => null;
+      const name = 'tagName';
+      const select = stub().withArgs(uiTagState, name, uiProp).returns(storedState);
+      const state = { a: 'b' };
+      const tag: any = class {
+        props: any = { [prop]: uiProp };
+        state: any = state;
+        select: any = select;
+      };
+      stub(Tag, 'getMeta').returns({ name });
+      stub(Selectors, 'uiTagState').returns(uiTagState);
+
+      decorators.uiState(prop)(tag);
+      const result = new tag();
+      result.onBeforeMount();
+
+      expect(result.state).to.eql({ ...state, ...storedState });
+    });
+
+    it('should call the original onBeforeMount method', () => {
+      const uiProp = 'uiProp';
+      const storedState = { c: 'd' };
+      const uiTagState = () => null;
+      const name = 'tagName';
+      const select = stub().withArgs(uiTagState, name, uiProp).returns(storedState);
+      const state = { a: 'b' };
+      const tag: any = class {
+        props: any = { [prop]: uiProp };
+        state: any = state;
+        select: any = select;
+        onBeforeMount = () => this.state = state;
+      };
+      stub(Tag, 'getMeta').returns({ name });
+      stub(Selectors, 'uiTagState').returns(uiTagState);
+
+      decorators.uiState(prop)(tag);
+      const result = new tag();
+      result.onBeforeMount();
+
+      expect(result.state).to.eq(state);
+    });
+
+    it('should set up ui state onBeforeUnmount, using resolver', () => {
+      const uiProp = 'uiProp';
+      const props = { [prop]: uiProp };
+      const state = { a: 'b' };
+      const createComponentState = spy();
+      const tag: any = class {
+        props: any = props;
+        state: any = state;
+        actions: any = { createComponentState };
+      };
+      const uiState = { c: 'd' };
+      const resolver = stub().withArgs(props, state).returns(uiState);
+      const name = 'tagName';
+      stub(Tag, 'getMeta').returns({ name });
+
+      decorators.uiState(prop, resolver)(tag);
+      const result = new tag();
+      result.onBeforeUnmount();
+
+      expect(createComponentState).to.be.calledWith(name, uiProp, uiState);
+    });
+
+    it('should use default prop and resolver if none is provided', () => {
+      const uiProp = 'uiProp';
+      const storedState = { c: 'd' };
+      const uiTagState = () => null;
+      const name = 'tagName';
+      const select = stub().withArgs(uiTagState, name, uiProp).returns(storedState);
+      const state = { a: 'b' };
+      const createComponentState = spy();
+      const tag: any = class {
+        props: any = { uiValue: uiProp };
+        state: any = state;
+        select: any = select;
+        actions: any = { createComponentState };
+      };
+      stub(Tag, 'getMeta').returns({ name });
+      stub(Selectors, 'uiTagState').returns(uiTagState);
+
+      decorators.uiState()(tag);
+      const result = new tag();
+
+      result.onBeforeMount();
+      expect(result.state).to.eql({ ...state, ...storedState });
+      result.onBeforeUnmount();
+      expect(createComponentState).to.be.calledWith(name, uiProp, { ...state, ...storedState });
     });
   });
 });
