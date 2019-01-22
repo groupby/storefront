@@ -55,7 +55,7 @@ namespace Store {
     area: string;
     query: Query; // mixed
 
-    sorts: LabelSelectableList<Sort>;
+    sorts: LabeledSelectableList<Sort>;
     products: ProductWithMetadata[]; // post
     productsLoaded: boolean;
     collections: Indexed.Selectable<Collection>; // mixed
@@ -260,7 +260,7 @@ namespace Store {
       count: PastPurchases.PastPurchaseCount;
       navigations: Indexed<Store.Navigation>;
       query: string;
-      sort?: LabelSelectableList<PastPurchases.PastPurchaseSort>;
+      sort?: LabeledSelectableList<PastPurchases.PastPurchaseSort>;
       page: Page;
       template?: Template;
     }
@@ -375,7 +375,7 @@ namespace Store {
     selected?: number;
   }
 
-  export interface LabelSelectableList<T> extends SelectableList<T> {
+  export interface LabeledSelectableList<T> extends SelectableList<T> {
     labels?: string[];
   }
 

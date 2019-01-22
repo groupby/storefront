@@ -2,7 +2,7 @@ import Actions from '../../actions';
 import Store from '../../store';
 
 export type Action = Actions.SelectSort | Actions.ApplySorts;
-export type State = Store.LabelSelectableList<Store.Sort>;
+export type State = Store.LabeledSelectableList<Store.Sort>;
 
 export const DEFAULTS: State = {
   items: [

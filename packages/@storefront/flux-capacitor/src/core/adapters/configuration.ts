@@ -126,15 +126,15 @@ namespace ConfigurationAdapter {
   };
 
   // tslint:disable-next-line max-line-length
-  export const extractSearchSorts = (config: Configuration, defaultValue: Store.LabelSelectableList<Store.Sort>): Store.LabelSelectableList<Store.Sort> =>
+  export const extractSearchSorts = (config: Configuration, defaultValue: Store.LabeledSelectableList<Store.Sort>): Store.LabeledSelectableList<Store.Sort> =>
     ConfigurationAdapter.extractSorts(config.search.sort, defaultValue);
 
   // tslint:disable-next-line max-line-length
-  export const extractPastPurchaseSorts = (config: Configuration, defaultValue: Store.LabelSelectableList<Store.Sort>): Store.LabelSelectableList<Store.Sort> =>
+  export const extractPastPurchaseSorts = (config: Configuration, defaultValue: Store.LabeledSelectableList<Store.Sort>): Store.LabeledSelectableList<Store.Sort> =>
     ConfigurationAdapter.extractSorts(config.recommendations.pastPurchases.sort, defaultValue);
 
   // tslint:disable-next-line max-line-length
-  export const extractSorts = (state: Configuration.LabelValueOptions<Configuration.Sort>, defaultValue?: Store.LabelSelectableList<Store.Sort>): Store.LabelSelectableList<Store.Sort> => {
+  export const extractSorts = (state: Configuration.LabeledValueOptions<Configuration.Sort>, defaultValue?: Store.LabeledSelectableList<Store.Sort>): Store.LabeledSelectableList<Store.Sort> => {
     if (typeof state === 'object' && ('options' in state || 'default' in state)) {
       const selected: Store.Sort = (<{ default: Store.Sort }>state).default || <any>{};
       const items = (<{ options: Store.Sort[] }>state).options || [];

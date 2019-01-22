@@ -143,7 +143,7 @@ namespace Configuration {
     /**
      * sorting of products or sort options and default
      */
-    sort?: Configuration.LabelValueOptions<Configuration.Sort>;
+    sort?: Configuration.LabeledValueOptions<Configuration.Sort>;
     /**
      * redirect to the details page of product if there is only 1 product result for a search
      */
@@ -355,7 +355,7 @@ namespace Configuration {
       /**
        * sorting of products or sort options and default
        */
-      sort?: Configuration.LabelValueOptions<Configuration.Sort>;
+      sort?: Configuration.LabeledValueOptions<Configuration.Sort>;
 
       /**
        * Enable past purchases or not
@@ -481,7 +481,7 @@ namespace Configuration {
 
   export type ValueOptions<T> = T | { options: T[], default: T };
 
-  export type LabelValueOptions<T> = ValueOptions<T> & { labels?: string[] } ;
+  export type LabeledValueOptions<T> = ValueOptions<T> & { labels?: string[] } ;
 
   export type RecommendationMode = keyof typeof RECOMMENDATION_MODES;
 

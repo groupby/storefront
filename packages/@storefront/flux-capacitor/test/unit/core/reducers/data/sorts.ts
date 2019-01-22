@@ -11,7 +11,7 @@ suite('sorts', ({ expect }) => {
     'Low to High',
     'High to Low',
   ];
-  const state: Store.LabelSelectableList<Store.Sort> = {
+  const state: Store.LabeledSelectableList<Store.Sort> = {
     items,
     labels,
     selected: 0,
