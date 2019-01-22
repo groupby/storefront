@@ -697,6 +697,12 @@ suite('Observer', ({ expect, spy, stub }) => {
 
           expect(emit).to.be.calledWith(Events.SORTS_LABELS_UPDATED, testObject);
         });
+
+        it('should emit SORTS_SELECTED_UPDATED', () => {
+          observers.data.present.sorts.selected(undefined, testObject);
+
+          expect(emit).to.be.calledWith(Events.SORTS_SELECTED_UPDATED, testObject);
+        });
       });
 
       describe('template', () => {
