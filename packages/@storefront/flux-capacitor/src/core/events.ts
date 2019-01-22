@@ -258,6 +258,24 @@ namespace Events {
   export const PAST_PURCHASE_SORT_UPDATED = 'past_purchase_sort_updated';
 
   /**
+   * Triggered when the past purchase sort items are updated.
+   * Returns an array of past purchase sort items.
+   */
+  export const PAST_PURCHASE_SORT_ITEMS_UPDATED = 'past_purchase_sort_items_updated';
+
+  /**
+   * Triggered when the past purchase sort labels are updated.
+   * Returns an array of past purchase sort labels.
+   */
+  export const PAST_PURCHASE_SORT_LABELS_UPDATED = 'past_purchase_sort_labels_updated';
+
+  /**
+   * Triggered when the past purchase sort selected is updated.
+   * Returns the index of the selected past purchase sort.
+   */
+  export const PAST_PURCHASE_SORT_SELECTED_UPDATED = 'past_purchase_sort_selected_updated';
+
+  /**
    * Triggered when the past purchase allRecordCount is updated
    * Returns the new record count
    */
