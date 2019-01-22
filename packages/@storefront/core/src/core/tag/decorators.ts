@@ -10,6 +10,19 @@ export const CONFIGURABLE_KEY = 'configurable';
 
 export type TagConstructor = { new (): Tag };
 
+// const tagName = Tag.getMeta(this).name;
+// const uiState = this.select(Selectors.uiTagState, tagName, (<any>this.props).uiValue);
+// if (uiState) {
+//   this.state = <any>{ ...this.state, tagName, inputValue: uiState.inputValue, items: uiState.items };
+// } else {
+//   this.updateItems('');
+// }
+//
+// this.actions.createComponentState(Tag.getMeta(this).name, (<any>this.props).uiValue, {
+//   inputValue: value,
+//   items: filtered,
+// });
+
 export function tag(name: string, template: string, cssVal?: string) {
   return <P extends object>(
     target: TagConstructor = function() {
