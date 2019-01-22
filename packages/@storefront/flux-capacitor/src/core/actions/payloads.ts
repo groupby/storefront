@@ -160,7 +160,7 @@ namespace Payload {
 
   export interface Sort {
     labels?: string[];
-    options: { field: string, descending?: boolean }[];
+    options: Store.Sort[];
     selected?: number;
   }
 }
