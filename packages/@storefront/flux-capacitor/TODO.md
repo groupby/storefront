@@ -1,6 +1,0 @@
-- Add `applyPastPurchaseSorts` action creator and associated validators.
-- Update related interfaces.
-- Update reducer to ingest new data.
-- Update observer to emit new events.
-- ?
-- Profit
