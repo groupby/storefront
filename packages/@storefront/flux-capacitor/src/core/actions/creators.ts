@@ -1068,6 +1068,21 @@ namespace ActionCreators {
     ];
   }
 
+  /**
+   * Updates the past purchase sorts using the data provided.
+   * @param  {Actions.Payload.Sort} payload - An object containing the sort labels and options.
+   * @return {Actions.ApplyPastPurchaseSorts} - Action with payload.
+   */
+  export function applyPastPurchaseSorts(payload: Actions.Payload.Sort): Actions.ApplyPastPurchaseSorts {
+    return createAction(Actions.APPLY_PAST_PURCHASE_SORTS, payload, {
+      payload: [
+        validators.hasValidLabels,
+        validators.hasValidOptions,
+        validators.hasValidSelected,
+      ],
+    });
+  }
+
   // ui action creators
   /**
    * Adds state for a given tag to the store.

@@ -1453,6 +1453,36 @@ suite('ActionCreators', ({ expect, spy, stub }) => {
     });
   });
 
+  describe('applyPastPurchaseSorts()', () => {
+    it('should return a APPLY_PAST_PURCHASE_SORTS action', () => {
+      const payload = {
+        labels: ['foo', 'bar', 'baz'],
+        options: [
+          { field: '__FOO__', descending: true },
+          { field: '__BAR__', descending: true },
+          { field: '__BAZ__' },
+        ],
+      };
+
+      expectAction(ActionCreators.applyPastPurchaseSorts(payload), Actions.APPLY_PAST_PURCHASE_SORTS, payload);
+    });
+
+    it('should apply validators to APPLY_PAST_PURCHASE_SORTS', () => {
+      const payload = {
+        labels: ['foo'],
+        options: [{ field: '__FOO__' }],
+      };
+
+      expectValidators(ActionCreators.applyPastPurchaseSorts(payload), Actions.APPLY_PAST_PURCHASE_SORTS, {
+        payload: [
+          validators.hasValidLabels,
+          validators.hasValidOptions,
+          validators.hasValidSelected,
+        ],
+      });
+    });
+  });
+
   describe('receivePastPurchaseTemplate()', () => {
     it('should return an action', () => {
       const template: any = { a: 'b' };
