@@ -481,7 +481,7 @@ namespace Configuration {
 
   export type ValueOptions<T> = T | { options: T[], default: T };
 
-  export type LabelValueOptions<T> = ValueOptions<T> & { labels: string[] } ;
+  export type LabelValueOptions<T> = ValueOptions<T> & { labels?: string[] } ;
 
   export type RecommendationMode = keyof typeof RECOMMENDATION_MODES;
 

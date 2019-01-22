@@ -376,7 +376,7 @@ namespace Store {
   }
 
   export interface LabelSelectableList<T> extends SelectableList<T> {
-    labels: string[];
+    labels?: string[];
   }
 
   export interface Indexed<T> {
