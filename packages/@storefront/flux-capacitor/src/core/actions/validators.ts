@@ -200,7 +200,7 @@ export const hasValidOptions: Validator<Actions.Payload.Sort> = {
       Array.isArray(options)
       && !!options.length
       && options.every((option) => typeof option.field === 'string'
-        && (typeof option.descending === 'boolean' || !('descending' in option))
+        && (!('descending' in option) || typeof option.descending === 'boolean')
       )
     );
   },
