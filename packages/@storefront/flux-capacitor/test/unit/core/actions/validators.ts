@@ -662,8 +662,8 @@ suite('validators', ({ expect, spy, stub }) => {
       expect(validators.hasValidLabels.func(<any>{ labels: ['a', 'b'] })).to.be.true;
     });
 
-    it('should be invalid if labels is an empty array', () => {
-      expect(validators.hasValidLabels.func(<any>{ labels: [] })).to.be.false;
+    it('should be valid if labels is an empty array', () => {
+      expect(validators.hasValidLabels.func(<any>{ labels: [] })).to.be.true;
     });
 
     it('should be invalid if labels is an array of anything other than strings', () => {

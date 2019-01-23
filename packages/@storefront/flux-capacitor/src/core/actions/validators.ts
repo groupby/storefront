@@ -187,7 +187,6 @@ export const hasValidLabels: Validator<Actions.Payload.Sort> = {
     return !labels
       || (
         Array.isArray(labels)
-        && !!labels.length
         && labels.every((label) => typeof label === 'string')
       );
   },
