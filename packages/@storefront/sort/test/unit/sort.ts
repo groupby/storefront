@@ -112,7 +112,7 @@ suite('Sort', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvideAlias
 
     it('should extract the search labels from the store', () => {
       const labels = ['foo', 'bar', 'baz'];
-      const select = (sort.select = spy(() => ({ labels })));
+      const select = (sort.select = stub().withArgs(Selectors.sorts).returns({ labels }));
       sort.props = <any>{ labels: [], storeSection: StoreSections.SEARCH };
 
       expect(sort.extractLabels()).to.eq(labels);
@@ -127,7 +127,8 @@ suite('Sort', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvideAlias
 
     it('should extract the past purchases labels from the store', () => {
       const pastPurchasesLabels = ['foo', 'bar', 'baz'];
-      const select = (sort.select = spy(() => ({ labels: pastPurchasesLabels })));
+      // tslint:disable-next-line max-line-length
+      const select = (sort.select = stub().withArgs(Selectors.pastPurchaseSort).returns({ labels: pastPurchasesLabels }));
       sort.props = <any>{ pastPurchasesLabels: [], storeSection: StoreSections.PAST_PURCHASES };
 
       expect(sort.extractLabels()).to.eq(pastPurchasesLabels);

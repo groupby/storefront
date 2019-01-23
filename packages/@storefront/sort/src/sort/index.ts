@@ -76,7 +76,7 @@ class Sort {
       case StoreSections.SEARCH:
         return labels && labels.length
           ? labels
-          : this.select(Selectors.sort).labels;
+          : this.select(Selectors.sorts).labels;
       default: return [];
     }
   }
