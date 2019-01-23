@@ -677,6 +677,12 @@ suite('Configuration Adapter', ({ expect, stub }) => {
       expect(Adapter.refinementsOverrides(state)).to.eq(state.refinements.overrides);
     });
 
+    it('should return the search overrides function if a refinements override is an empty object', () => {
+      const state: any = { refinements: { overrides: {} }, search: { overrides: (r) => r } };
+
+      expect(Adapter.refinementsOverrides(state)).to.eq(state.search.overrides);
+    });
+
     it('should return a function that mixes in the overrides with a given object', () => {
       const overrides: any = { a: 'b' };
       const state: any = { refinements: { overrides } };

@@ -217,8 +217,14 @@ namespace ConfigurationAdapter {
   export const detailsOverrides: Override<Request> = (config) =>
     normalizeToFunction(config.details.overrides);
 
-  export const refinementsOverrides: Override<Request> = (config) =>
-    normalizeToFunction(config.refinements.overrides);
+  export const refinementsOverrides: Override<Request> = (config) => {
+    const configRefinementsOverrides = config.refinements.overrides;
+    return normalizeToFunction(
+      typeof configRefinementsOverrides === 'function' || Object.keys(configRefinementsOverrides).length
+      ? configRefinementsOverrides
+      : config.search.overrides
+    );
+  };
 
   export const pastPurchaseAutocompleteOverrides: Override<Request> = (config) =>
     normalizeToFunction(config.recommendations.pastPurchases.overrides.autocomplete);
