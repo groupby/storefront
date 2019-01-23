@@ -6,9 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] [patch]
 ### Changed
-- SF-1256: Sort component will now update whenever it recieves new props.
 - SF-1256: Sort component will now extract label information from the store.
   - The component has been configured to read in sort labels that are available within the store, but will yield to labels provided to the component via props.
+
+### Added
+- SF-1256: Sort component now has an `onUpdate` method.
+  - The `onUpdate` method is uses to spread new `props` back into the component state whenever it re-renders.
 
 ## [2.1.0] - 2019-01-18
 ### Changed
