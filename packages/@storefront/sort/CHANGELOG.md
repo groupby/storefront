@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - SF-1256: Sort component now has an `onUpdate` method.
-  - The `onUpdate` method is uses to spread new `props` back into the component state whenever it re-renders.
+  - The `onUpdate` method is used to spread new `props` back into the component state whenever it re-renders.
 
 ## [2.1.0] - 2019-01-18
 ### Changed
