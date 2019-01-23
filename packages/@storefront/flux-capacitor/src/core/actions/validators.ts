@@ -145,8 +145,14 @@ export const isCollectionDeselected: Validator<string> = {
   msg: 'collection is already selected'
 };
 
-export const isSortDeselected: Validator<number> = {
-  func: (index, state) => Selectors.sortIndex(state) !== index,
+export const isSortValid: Validator<number> = {
+  func: (index, state) => {
+    return (
+      typeof index === 'number'
+      && index >= 0
+      && index <= (Selectors.sorts(state).items.length - 1)
+    );
+  },
   msg: 'sort is already selected'
 };
 

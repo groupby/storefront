@@ -539,7 +539,7 @@ namespace ActionCreators {
    */
   export function selectSort(index: number): Actions.SelectSort {
     return createAction(Actions.SELECT_SORT, index, {
-      payload: validators.isSortDeselected
+      payload: validators.isSortValid,
     });
   }
 

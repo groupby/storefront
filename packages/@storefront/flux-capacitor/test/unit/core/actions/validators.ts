@@ -474,21 +474,27 @@ suite('validators', ({ expect, spy, stub }) => {
     });
   });
 
-  describe('isSortDeselected', () => {
-    const index = 8;
+  describe('isSortValid', () => {
+    const index = 2;
+    const state: any = { a: 'b' };
 
-    it('should be valid if sort is deselected', () => {
-      const state: any = { a: 'b' };
-      const sortIndex = stub(Selectors, 'sortIndex').returns(4);
+    it('should be valid if sort is a valid index number', () => {
+      const sorts = stub(Selectors, 'sorts').returns({ items: [ 'a', 'b', 'c' ] });
 
-      expect(validators.isSortDeselected.func(index, state)).to.be.true;
-      expect(sortIndex).to.be.calledWithExactly(state);
+      expect(validators.isSortValid.func(index, state)).to.be.true;
+      expect(sorts).to.be.calledWithExactly(state);
     });
 
-    it('should be invalid if sort is selected', () => {
-      stub(Selectors, 'sortIndex').returns(index);
-
-      expect(validators.isSortDeselected.func(index)).to.be.false;
+    [
+      'foo',
+      true,
+      {},
+      () => null,
+      undefined,
+    ].forEach((val) => {
+      it(`should be invalid if index is of type ${typeof val}`, () => {
+        expect(validators.isSortValid.func(<any>val, state)).to.be.false;
+      });
     });
   });
 

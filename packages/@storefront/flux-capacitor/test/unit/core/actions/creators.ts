@@ -732,7 +732,7 @@ suite('ActionCreators', ({ expect, spy, stub }) => {
 
       it('should apply validators to SELECT_SORT', () => {
         expectValidators(ActionCreators.selectSort(index), Actions.SELECT_SORT, {
-          payload: validators.isSortDeselected
+          payload: validators.isSortValid
         });
       });
     });
