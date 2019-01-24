@@ -112,7 +112,7 @@ export const isPastPurchasesSortValid: Validator<number> = {
       && index <= (Selectors.pastPurchaseSort(state).items.length - 1)
     );
   },
-  msg: 'past purchases sort index is not a number or is not within the sorts array'
+  msg: 'past purchases sort index is not a number or it is not within the bounds of the past purchases sort array'
 };
 
 export const notOnFirstPastPurchasePage: Validator = {
@@ -159,7 +159,7 @@ export const isSortValid: Validator<number> = {
       && index <= (Selectors.sorts(state).items.length - 1)
     );
   },
-  msg: 'sort index is not a number or is not within the sorts array'
+  msg: 'sort index is not a number or it is not within the bounds of the sorts array'
 };
 
 export const isDifferentPageSize: Validator<number> = {
@@ -228,5 +228,5 @@ export const hasValidSelected: Validator<Actions.Payload.Sort> = {
         && payload.selected <= payload.options.length - 1
       );
   },
-  msg: 'if present, must be a number between 0 and `options.length - 1`',
+  msg: 'if present, must be an index of the options array`',
 };

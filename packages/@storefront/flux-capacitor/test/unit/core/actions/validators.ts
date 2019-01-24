@@ -749,7 +749,7 @@ suite('validators', ({ expect, spy, stub }) => {
       })).to.be.false;
     });
 
-    it('should be invalid if selected is greater than options.length - 1', () => {
+    it('should be invalid if selected is beyond the end of the options array', () => {
       expect(validators.hasValidSelected.func(<any>{
         options: ['a', 'b', 'c'],
         selected: 3,
