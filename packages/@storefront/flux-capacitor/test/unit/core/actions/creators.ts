@@ -1447,7 +1447,7 @@ suite('ActionCreators', ({ expect, spy, stub }) => {
       it('should apply validators to SELECT_PAST_PURCHASE_SORT', () => {
         expectValidators(ActionCreators.selectPastPurchasesSort(index),
           Actions.SELECT_PAST_PURCHASE_SORT, {
-            payload: validators.isPastPurchasesSortDeselected,
+            payload: validators.isPastPurchasesSortValid,
           });
       });
     });

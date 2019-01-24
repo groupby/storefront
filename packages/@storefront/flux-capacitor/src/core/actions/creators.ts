@@ -1063,7 +1063,7 @@ namespace ActionCreators {
     return [
       ActionCreators.resetPastPurchasePage(),
       createAction(Actions.SELECT_PAST_PURCHASE_SORT, index, {
-        payload: validators.isPastPurchasesSortDeselected
+        payload: validators.isPastPurchasesSortValid
       })
     ];
   }

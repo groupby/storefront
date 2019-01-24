@@ -439,21 +439,27 @@ suite('validators', ({ expect, spy, stub }) => {
 
   });
 
-  describe('isPastPurchasesSortDeselected', () => {
+  describe('isPastPurchasesSortValid', () => {
     const state: any = { a: 'b' };
+    const index = 2;
 
-    it('should be not valid if index selected are equal', () => {
-      const pastPurchaseSort =
-        stub(Selectors, 'pastPurchaseSort').returns({ selected: 1 });
+    it('should be valid if index selected is a number', () => {
+      const pastPurchaseSort = stub(Selectors, 'pastPurchaseSort').returns({ items: [ 'a', 'b', 'c' ] });
 
-      expect(validators.isPastPurchasesSortDeselected.func(1, state)).to.be.false;
+      expect(validators.isPastPurchasesSortValid.func(index, state)).to.be.true;
       expect(pastPurchaseSort).to.be.calledWithExactly(state);
     });
 
-    it('should be valid if index selected are not equal', () => {
-      stub(Selectors, 'pastPurchaseSort').returns({ selected: 1 });
-
-      expect(validators.isPastPurchasesSortDeselected.func(2, state)).to.be.true;
+    [
+      'foo',
+      true,
+      {},
+      () => null,
+      undefined,
+    ].forEach((val) => {
+      it(`should be invalid if index is of type ${typeof val}`, () => {
+        expect(validators.isPastPurchasesSortValid.func(<any>val, state)).to.be.false;
+      });
     });
   });
   describe('isCollectionDeselected', () => {

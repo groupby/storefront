@@ -104,9 +104,15 @@ export const isPastPurchaseRefinementSelectedByIndex: Validator<Actions.Payload.
   msg: 'navigation does not exist or refinement is not selected'
 };
 
-export const isPastPurchasesSortDeselected: Validator<number> = {
-  func: (index, state) => Selectors.pastPurchaseSort(state).selected !== index,
-  msg: 'past purchases sort is already selected'
+export const isPastPurchasesSortValid: Validator<number> = {
+  func: (index, state) => {
+    return (
+      typeof index === 'number'
+      && index >= 0
+      && index <= (Selectors.pastPurchaseSort(state).items.length - 1)
+    );
+  },
+  msg: 'past purchases sort index is not a number or is not within the sorts array'
 };
 
 export const notOnFirstPastPurchasePage: Validator = {
@@ -153,7 +159,7 @@ export const isSortValid: Validator<number> = {
       && index <= (Selectors.sorts(state).items.length - 1)
     );
   },
-  msg: 'sort is already selected'
+  msg: 'sort index is not a number or is not within the sorts array'
 };
 
 export const isDifferentPageSize: Validator<number> = {
