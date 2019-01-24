@@ -219,7 +219,11 @@ namespace Observer {
               Events.PAST_PURCHASE_SELECTED_REFINEMENTS_UPDATED,
               emit
             ),
-            sort: emit(Events.PAST_PURCHASE_SORT_UPDATED),
+            sort: Object.assign(emit(Events.PAST_PURCHASE_SORT_UPDATED), {
+              items: emit(Events.PAST_PURCHASE_SORT_ITEMS_UPDATED),
+              labels: emit(Events.PAST_PURCHASE_SORT_LABELS_UPDATED),
+              selected: emit(Events.PAST_PURCHASE_SORT_SELECTED_UPDATED),
+            }),
             template: emit(Events.PAST_PURCHASE_TEMPLATE_UPDATED),
           },
 
@@ -229,7 +233,11 @@ namespace Observer {
 
           redirect: emit(Events.REDIRECT),
 
-          sorts: emit(Events.SORTS_UPDATED),
+          sorts: Object.assign(emit(Events.SORTS_UPDATED), {
+            items: emit(Events.SORTS_ITEMS_UPDATED),
+            labels: emit(Events.SORTS_LABELS_UPDATED),
+            selected: emit(Events.SORTS_SELECTED_UPDATED),
+          }),
 
           template: emit(Events.TEMPLATE_UPDATED),
 

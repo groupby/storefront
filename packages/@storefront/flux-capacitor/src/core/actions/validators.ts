@@ -104,9 +104,15 @@ export const isPastPurchaseRefinementSelectedByIndex: Validator<Actions.Payload.
   msg: 'navigation does not exist or refinement is not selected'
 };
 
-export const isPastPurchasesSortDeselected: Validator<number> = {
-  func: (index, state) => Selectors.pastPurchaseSort(state).selected !== index,
-  msg: 'past purchases sort is already selected'
+export const isPastPurchasesSortValid: Validator<number> = {
+  func: (index, state) => {
+    return (
+      typeof index === 'number'
+      && index >= 0
+      && index <= (Selectors.pastPurchaseSort(state).items.length - 1)
+    );
+  },
+  msg: 'past purchases sort index is not a number or it is not within the bounds of the past purchases sort array'
 };
 
 export const notOnFirstPastPurchasePage: Validator = {
@@ -145,9 +151,15 @@ export const isCollectionDeselected: Validator<string> = {
   msg: 'collection is already selected'
 };
 
-export const isSortDeselected: Validator<number> = {
-  func: (index, state) => Selectors.sortIndex(state) !== index,
-  msg: 'sort is already selected'
+export const isSortValid: Validator<number> = {
+  func: (index, state) => {
+    return (
+      typeof index === 'number'
+      && index >= 0
+      && index <= (Selectors.sorts(state).items.length - 1)
+    );
+  },
+  msg: 'sort index is not a number or it is not within the bounds of the sorts array'
 };
 
 export const isDifferentPageSize: Validator<number> = {
@@ -180,4 +192,41 @@ export const isNotFetching: Validator<boolean> = {
     !Selectors.infiniteScroll(state).isFetchingForward :
     !Selectors.infiniteScroll(state).isFetchingBackward,
   msg: 'is already fetching'
+};
+
+export const hasValidLabels: Validator<Actions.Payload.Sort> = {
+  func: ({ labels }) => {
+    return !labels
+      || (
+        Array.isArray(labels)
+        && labels.every((label) => typeof label === 'string')
+      );
+  },
+  msg: 'if present, labels must be an array of strings',
+};
+
+export const hasValidOptions: Validator<Actions.Payload.Sort> = {
+  func: ({ options }) => {
+    return (
+      Array.isArray(options)
+      && !!options.length
+      && options.every((option) =>
+        typeof option.field === 'string'
+        && (!('descending' in option) || typeof option.descending === 'boolean')
+      )
+    );
+  },
+  msg: 'must be an array of valid sort options',
+};
+
+export const hasValidSelected: Validator<Actions.Payload.Sort> = {
+  func: (payload) => {
+    return !('selected' in payload)
+      || (
+        typeof payload.selected === 'number'
+        && payload.selected >= 0
+        && payload.selected <= payload.options.length - 1
+      );
+  },
+  msg: 'if present, must be an index of the options array`',
 };

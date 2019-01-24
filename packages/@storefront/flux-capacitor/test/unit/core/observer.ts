@@ -651,6 +651,23 @@ suite('Observer', ({ expect, spy, stub }) => {
             expect(emit).to.be.calledWith(Events.PAST_PURCHASE_SORT_UPDATED, testObject);
           });
 
+          it('should emit PAST_PURCHASE_SORT_ITEMS_UPDATED', () => {
+            observers.data.present.pastPurchases.sort.items(undefined, testObject);
+
+            expect(emit).to.be.calledWith(Events.PAST_PURCHASE_SORT_ITEMS_UPDATED, testObject);
+          });
+
+          it('should emit PAST_PURCHASE_SORT_LABELS_UPDATED', () => {
+            observers.data.present.pastPurchases.sort.labels(undefined, testObject);
+
+            expect(emit).to.be.calledWith(Events.PAST_PURCHASE_SORT_LABELS_UPDATED, testObject);
+          });
+
+          it('should emit PAST_PURCHASE_SORT_SELECTED_UPDATED', () => {
+            observers.data.present.pastPurchases.sort.selected(undefined, testObject);
+
+            expect(emit).to.be.calledWith(Events.PAST_PURCHASE_SORT_SELECTED_UPDATED, testObject);
+          });
         });
       });
 
@@ -667,6 +684,24 @@ suite('Observer', ({ expect, spy, stub }) => {
           observers.data.present.sorts(undefined, testObject);
 
           expect(emit).to.be.calledWith(Events.SORTS_UPDATED, testObject);
+        });
+
+        it('should emit SORTS_ITEMS_UPDATED', () => {
+          observers.data.present.sorts.items(undefined, testObject);
+
+          expect(emit).to.be.calledWith(Events.SORTS_ITEMS_UPDATED, testObject);
+        });
+
+        it('should emit SORTS_LABELS_UPDATED', () => {
+          observers.data.present.sorts.labels(undefined, testObject);
+
+          expect(emit).to.be.calledWith(Events.SORTS_LABELS_UPDATED, testObject);
+        });
+
+        it('should emit SORTS_SELECTED_UPDATED', () => {
+          observers.data.present.sorts.selected(undefined, testObject);
+
+          expect(emit).to.be.calledWith(Events.SORTS_SELECTED_UPDATED, testObject);
         });
       });
 

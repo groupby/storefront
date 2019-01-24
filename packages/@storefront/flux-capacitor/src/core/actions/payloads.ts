@@ -157,6 +157,12 @@ namespace Payload {
     isFetchingForward?: boolean;
     isFetchingBackward?: boolean;
   }
+
+  export interface Sort {
+    labels?: string[];
+    options: Store.Sort[];
+    selected?: number;
+  }
 }
 
 export default Payload;

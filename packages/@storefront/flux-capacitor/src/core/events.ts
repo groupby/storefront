@@ -32,6 +32,24 @@ namespace Events {
    */
   export const SORTS_UPDATED = 'sorts_updated'; // mixed
 
+  /**
+   * Triggered when the sort items are updated.
+   * Returns an array of sort items.
+   */
+  export const SORTS_ITEMS_UPDATED = 'sorts_items_updated';
+
+  /**
+   * Triggered when the sort labels are updated.
+   * Returns an array of sort labels.
+   */
+  export const SORTS_LABELS_UPDATED = 'sorts_labels_updated';
+
+  /**
+   * Triggered when the selected sort is updated.
+   * Returns the index of the selected sort.
+   */
+  export const SORTS_SELECTED_UPDATED = 'sorts_selected_updated';
+
   // product events
   /**
    * Triggered when products are updated.
@@ -238,6 +256,24 @@ namespace Events {
    * Returns the new sort object
    */
   export const PAST_PURCHASE_SORT_UPDATED = 'past_purchase_sort_updated';
+
+  /**
+   * Triggered when the past purchase sort items are updated.
+   * Returns an array of past purchase sort items.
+   */
+  export const PAST_PURCHASE_SORT_ITEMS_UPDATED = 'past_purchase_sort_items_updated';
+
+  /**
+   * Triggered when the past purchase sort labels are updated.
+   * Returns an array of past purchase sort labels.
+   */
+  export const PAST_PURCHASE_SORT_LABELS_UPDATED = 'past_purchase_sort_labels_updated';
+
+  /**
+   * Triggered when the past purchase sort selected is updated.
+   * Returns the index of the selected past purchase sort.
+   */
+  export const PAST_PURCHASE_SORT_SELECTED_UPDATED = 'past_purchase_sort_selected_updated';
 
   /**
    * Triggered when the past purchase allRecordCount is updated

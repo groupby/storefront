@@ -439,21 +439,27 @@ suite('validators', ({ expect, spy, stub }) => {
 
   });
 
-  describe('isPastPurchasesSortDeselected', () => {
+  describe('isPastPurchasesSortValid', () => {
     const state: any = { a: 'b' };
+    const index = 2;
 
-    it('should be not valid if index selected are equal', () => {
-      const pastPurchaseSort =
-        stub(Selectors, 'pastPurchaseSort').returns({ selected: 1 });
+    it('should be valid if index selected is a number', () => {
+      const pastPurchaseSort = stub(Selectors, 'pastPurchaseSort').returns({ items: [ 'a', 'b', 'c' ] });
 
-      expect(validators.isPastPurchasesSortDeselected.func(1, state)).to.be.false;
+      expect(validators.isPastPurchasesSortValid.func(index, state)).to.be.true;
       expect(pastPurchaseSort).to.be.calledWithExactly(state);
     });
 
-    it('should be valid if index selected are not equal', () => {
-      stub(Selectors, 'pastPurchaseSort').returns({ selected: 1 });
-
-      expect(validators.isPastPurchasesSortDeselected.func(2, state)).to.be.true;
+    [
+      'foo',
+      true,
+      {},
+      () => null,
+      undefined,
+    ].forEach((val) => {
+      it(`should be invalid if index is of type ${typeof val}`, () => {
+        expect(validators.isPastPurchasesSortValid.func(<any>val, state)).to.be.false;
+      });
     });
   });
   describe('isCollectionDeselected', () => {
@@ -474,21 +480,27 @@ suite('validators', ({ expect, spy, stub }) => {
     });
   });
 
-  describe('isSortDeselected', () => {
-    const index = 8;
+  describe('isSortValid', () => {
+    const index = 2;
+    const state: any = { a: 'b' };
 
-    it('should be valid if sort is deselected', () => {
-      const state: any = { a: 'b' };
-      const sortIndex = stub(Selectors, 'sortIndex').returns(4);
+    it('should be valid if sort is a valid index number', () => {
+      const sorts = stub(Selectors, 'sorts').returns({ items: [ 'a', 'b', 'c' ] });
 
-      expect(validators.isSortDeselected.func(index, state)).to.be.true;
-      expect(sortIndex).to.be.calledWithExactly(state);
+      expect(validators.isSortValid.func(index, state)).to.be.true;
+      expect(sorts).to.be.calledWithExactly(state);
     });
 
-    it('should be invalid if sort is selected', () => {
-      stub(Selectors, 'sortIndex').returns(index);
-
-      expect(validators.isSortDeselected.func(index)).to.be.false;
+    [
+      'foo',
+      true,
+      {},
+      () => null,
+      undefined,
+    ].forEach((val) => {
+      it(`should be invalid if index is of type ${typeof val}`, () => {
+        expect(validators.isSortValid.func(<any>val, state)).to.be.false;
+      });
     });
   });
 
@@ -650,6 +662,113 @@ suite('validators', ({ expect, spy, stub }) => {
       stub(Selectors, 'infiniteScroll').returns({ isFetchingBackward: false });
 
       expect(validators.isNotFetching.func(forward, state)).to.be.true;
+    });
+  });
+
+  describe('hasValidLabels', () => {
+    it('should be valid if labels is not present', () => {
+      expect(validators.hasValidLabels.func(<any>{})).to.be.true;
+    });
+
+    it('should be valid if labels is an array of strings', () => {
+      expect(validators.hasValidLabels.func(<any>{ labels: ['a', 'b'] })).to.be.true;
+    });
+
+    it('should be valid if labels is an empty array', () => {
+      expect(validators.hasValidLabels.func(<any>{ labels: [] })).to.be.true;
+    });
+
+    it('should be invalid if labels is an array of anything other than strings', () => {
+      expect(validators.hasValidLabels.func(<any>{ labels: [{ foo: 'baz' }, 'bar'] })).to.be.false;
+    });
+  });
+
+  describe('hasValidOptions', () => {
+    it('should be valid if options is an array of objects with the required fields', () => {
+      const payload: any = {
+        options: [
+          { field: 'foo' },
+          { field: 'bar', descending: false },
+          { field: 'baz', descending: true },
+        ],
+      };
+
+      expect(validators.hasValidOptions.func(payload)).to.be.true;
+    });
+
+    [
+      'foo',
+      1,
+      true,
+      {},
+      () => null,
+      undefined,
+    ].forEach((val) => {
+      it(`should be invalid if options is of type ${typeof val}`, () => {
+        expect(validators.hasValidOptions.func(<any>{ options: val })).to.be.false;
+      });
+    });
+
+    it('should be invalid if options is an empty array', () => {
+      expect(validators.hasValidOptions.func(<any>{ options: [] })).to.be.false;
+    });
+
+    it('should be invalid if any of the options are missing the `field` key', () => {
+      const payload: any = {
+        options: [{ field: 'foo' }, { field: 'bar' }, { baz: 'quux' }],
+      };
+
+      expect(validators.hasValidOptions.func(<any>payload)).to.be.false;
+    });
+
+    it('should be invalid if any of the options contain a non-boolean value for `descending`', () => {
+      const payload: any = {
+        options: [{ field: 'foo', descending: true }, { field: 'bar', descending: 'baz' }],
+      };
+
+      expect(validators.hasValidOptions.func(<any>payload)).to.be.false;
+    });
+  });
+
+  describe('hasValidSelected', () => {
+    it('should be valid if selected is not present', () => {
+      expect(validators.hasValidSelected.func(<any>{})).to.be.true;
+    });
+
+    it('should be valid if selected is a number between 0 and options.length - 1', () => {
+      expect(validators.hasValidSelected.func(<any>{
+        options: ['a', 'b', 'c'],
+        selected: 0,
+      })).to.be.true;
+    });
+
+    it('should be invalid if selected is less than 0', () => {
+      expect(validators.hasValidSelected.func(<any>{
+        options: ['a', 'b', 'c'],
+        selected: -1,
+      })).to.be.false;
+    });
+
+    it('should be invalid if selected is beyond the end of the options array', () => {
+      expect(validators.hasValidSelected.func(<any>{
+        options: ['a', 'b', 'c'],
+        selected: 3,
+      })).to.be.false;
+    });
+
+    [
+      'foo',
+      true,
+      {},
+      () => null,
+      undefined,
+    ].forEach((val) => {
+      it(`should be invalid if selected is of type ${typeof val}`, () => {
+        expect(validators.hasValidSelected.func(<any>{
+          options: ['a', 'b', 'c'],
+          selected: val,
+        })).to.be.false;
+      });
     });
   });
 });

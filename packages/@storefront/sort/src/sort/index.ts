@@ -34,23 +34,50 @@ class Sort {
     this.updateSorts();
   }
 
+  onUpdate() {
+    this.state = {
+      ...this.state,
+      sorts: this.extractSorts(),
+    };
+  }
+
   updateSorts = () => this.set({ sorts: this.extractSorts() });
 
   extractSorts() {
     let sorts;
+    let labels = this.extractLabels();
+
     switch (this.props.storeSection) {
       case StoreSections.PAST_PURCHASES:
         sorts = this.select(Selectors.pastPurchaseSort);
-        return sorts.items.map((sort, index) => ({
-          label: this.getLabel(sort, index, this.props.pastPurchasesLabels),
-          selected: sorts.selected === index,
-        }));
+        break;
       case StoreSections.SEARCH:
         sorts = this.select(Selectors.sorts);
-        return sorts.items.map((sort, index) => ({
-          label: this.getLabel(sort, index, this.props.labels),
-          selected: sorts.selected === index,
-        }));
+        break;
+    }
+
+    return sorts.items.map((sort, index) => ({
+      label: this.getLabel(sort, index, labels),
+      selected: sorts.selected === index,
+    }));
+  }
+
+  extractLabels() {
+    const {
+      labels,
+      pastPurchasesLabels,
+    } = this.props;
+
+    switch (this.props.storeSection) {
+      case StoreSections.PAST_PURCHASES:
+        return pastPurchasesLabels && pastPurchasesLabels.length
+          ? pastPurchasesLabels
+          : this.select(Selectors.pastPurchaseSort).labels;
+      case StoreSections.SEARCH:
+        return labels && labels.length
+          ? labels
+          : this.select(Selectors.sorts).labels;
+      default: return [];
     }
   }
 

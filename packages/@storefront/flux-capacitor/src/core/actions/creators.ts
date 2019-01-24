@@ -539,7 +539,22 @@ namespace ActionCreators {
    */
   export function selectSort(index: number): Actions.SelectSort {
     return createAction(Actions.SELECT_SORT, index, {
-      payload: validators.isSortDeselected
+      payload: validators.isSortValid,
+    });
+  }
+
+  /**
+   * Updates the sorts using the data provided.
+   * @param  {Actions.Payload.Sort} payload - An object containing the sort labels and options.
+   * @return {Actions.ApplySorts} - Action with payload.
+   */
+  export function applySorts(payload: Actions.Payload.Sort): Actions.ApplySorts {
+    return createAction(Actions.APPLY_SORTS, payload, {
+      payload: [
+        validators.hasValidLabels,
+        validators.hasValidOptions,
+        validators.hasValidSelected,
+      ],
     });
   }
 
@@ -1048,9 +1063,24 @@ namespace ActionCreators {
     return [
       ActionCreators.resetPastPurchasePage(),
       createAction(Actions.SELECT_PAST_PURCHASE_SORT, index, {
-        payload: validators.isPastPurchasesSortDeselected
+        payload: validators.isPastPurchasesSortValid
       })
     ];
+  }
+
+  /**
+   * Updates the past purchase sorts using the data provided.
+   * @param  {Actions.Payload.Sort} payload - An object containing the sort labels and options.
+   * @return {Actions.ApplyPastPurchaseSorts} - Action with payload.
+   */
+  export function applyPastPurchaseSorts(payload: Actions.Payload.Sort): Actions.ApplyPastPurchaseSorts {
+    return createAction(Actions.APPLY_PAST_PURCHASE_SORTS, payload, {
+      payload: [
+        validators.hasValidLabels,
+        validators.hasValidOptions,
+        validators.hasValidSelected,
+      ],
+    });
   }
 
   // ui action creators

@@ -5,6 +5,7 @@ import { PAST_PURCHASE_SORTS } from '../../utils';
 import * as navigations from './navigations';
 import * as page from './page';
 import * as products from './products';
+import * as sorts from './sorts';
 
 export { DEFAULT_PAGE_SIZE } from './page';
 
@@ -16,6 +17,7 @@ export type Action = Actions.ReceivePastPurchaseSkus
   | Actions.ReceivePastPurchaseRefinements
   | Actions.UpdatePastPurchaseQuery
   | Actions.SelectPastPurchaseSort
+  | Actions.ApplyPastPurchaseSorts
   | Actions.ResetPastPurchaseRefinements
   | Actions.SelectPastPurchaseRefinement
   | Actions.SelectMultiplePastPurchaseRefinements
@@ -35,6 +37,7 @@ export const PAST_PURCHASE_SORT = {
     { field: PAST_PURCHASE_SORTS.MOST_RECENT, descending: true },
     { field: PAST_PURCHASE_SORTS.MOST_PURCHASED, descending: true },
   ],
+  labels: [],
   selected: 0,
 };
 
@@ -68,6 +71,7 @@ export default function updatePastPurchases(state: State = DEFAULTS, action: Act
     case Actions.RECEIVE_SAYT_PAST_PURCHASES: return updateSaytPastPurchases(state, action);
     case Actions.UPDATE_PAST_PURCHASE_QUERY: return updatePastPurchaseQuery(state, action);
     case Actions.SELECT_PAST_PURCHASE_SORT: return updatePastPurchaseSortSelected(state, action);
+    case Actions.APPLY_PAST_PURCHASE_SORTS: return applySortsReducer(state, action, sorts.applySorts);
     case Actions.RECEIVE_PAST_PURCHASE_REFINEMENTS: return applyNavigationReducer(state, action, navigations.receiveNavigations);
     case Actions.SELECT_PAST_PURCHASE_REFINEMENT: return applyNavigationReducer(state, action, navigations.selectRefinement);
     case Actions.SELECT_MULTIPLE_PAST_PURCHASE_REFINEMENTS: return applyNavigationReducer(state, action, navigations.selectMultipleRefinements);
@@ -125,6 +129,12 @@ export const updateSaytPastPurchases = (state: State, { payload }: Actions.Recei
   ({
     ...state,
     saytPastPurchases: payload,
+  });
+
+export const applySortsReducer = (state: State, { payload }: Action, reducer: Function) =>
+  ({
+    ...state,
+    sort: reducer(state.sort, payload),
   });
 
 export const applyPageReducer = (state: State, { payload }: Action, reducer: Function) =>

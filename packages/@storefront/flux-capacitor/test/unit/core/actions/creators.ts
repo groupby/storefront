@@ -732,7 +732,37 @@ suite('ActionCreators', ({ expect, spy, stub }) => {
 
       it('should apply validators to SELECT_SORT', () => {
         expectValidators(ActionCreators.selectSort(index), Actions.SELECT_SORT, {
-          payload: validators.isSortDeselected
+          payload: validators.isSortValid
+        });
+      });
+    });
+
+    describe('applySorts()', () => {
+      it('should return a APPLY_SORTS action', () => {
+        const payload = {
+          labels: ['foo', 'bar', 'baz'],
+          options: [
+            { field: '__FOO__', descending: true },
+            { field: '__BAR__', descending: true },
+            { field: '__BAZ__' },
+          ],
+        };
+
+        expectAction(ActionCreators.applySorts(payload), Actions.APPLY_SORTS, payload);
+      });
+
+      it('should apply validators to APPLY_SORTS', () => {
+        const payload = {
+          labels: ['foo'],
+          options: [{ field: '__FOO__' }],
+        };
+
+        expectValidators(ActionCreators.applySorts(payload), Actions.APPLY_SORTS, {
+          payload: [
+            validators.hasValidLabels,
+            validators.hasValidOptions,
+            validators.hasValidSelected,
+          ],
         });
       });
     });
@@ -1417,8 +1447,38 @@ suite('ActionCreators', ({ expect, spy, stub }) => {
       it('should apply validators to SELECT_PAST_PURCHASE_SORT', () => {
         expectValidators(ActionCreators.selectPastPurchasesSort(index),
           Actions.SELECT_PAST_PURCHASE_SORT, {
-            payload: validators.isPastPurchasesSortDeselected,
+            payload: validators.isPastPurchasesSortValid,
           });
+      });
+    });
+  });
+
+  describe('applyPastPurchaseSorts()', () => {
+    it('should return a APPLY_PAST_PURCHASE_SORTS action', () => {
+      const payload = {
+        labels: ['foo', 'bar', 'baz'],
+        options: [
+          { field: '__FOO__', descending: true },
+          { field: '__BAR__', descending: true },
+          { field: '__BAZ__' },
+        ],
+      };
+
+      expectAction(ActionCreators.applyPastPurchaseSorts(payload), Actions.APPLY_PAST_PURCHASE_SORTS, payload);
+    });
+
+    it('should apply validators to APPLY_PAST_PURCHASE_SORTS', () => {
+      const payload = {
+        labels: ['foo'],
+        options: [{ field: '__FOO__' }],
+      };
+
+      expectValidators(ActionCreators.applyPastPurchaseSorts(payload), Actions.APPLY_PAST_PURCHASE_SORTS, {
+        payload: [
+          validators.hasValidLabels,
+          validators.hasValidOptions,
+          validators.hasValidSelected,
+        ],
       });
     });
   });

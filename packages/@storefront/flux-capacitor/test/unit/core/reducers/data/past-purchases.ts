@@ -4,6 +4,7 @@ import * as navigations from '../../../../../src/core/reducers/data/navigations'
 import * as page from '../../../../../src/core/reducers/data/page';
 import pastPurchases, * as past from '../../../../../src/core/reducers/data/past-purchases';
 import * as products from '../../../../../src/core/reducers/data/products';
+import * as sorts from '../../../../../src/core/reducers/data/sorts';
 import suite from '../../../_suite';
 
 suite('recommendations', ({ expect, stub }) => {
@@ -221,6 +222,7 @@ suite('recommendations', ({ expect, stub }) => {
     describe('reducer chain functions', () => {
       let nav: sinon.SinonStub;
       let pageStub: sinon.SinonStub;
+      let sortStub: sinon.SinonStub;
       const returnValue = 'return value';
       const payload: any = 'pay';
 
@@ -237,6 +239,7 @@ suite('recommendations', ({ expect, stub }) => {
       beforeEach(() => {
         nav = stub(past, 'applyNavigationReducer').returns(returnValue);
         pageStub = stub(past, 'applyPageReducer').returns(returnValue);
+        sortStub = stub(past, 'applySortsReducer').returns(returnValue);
       });
 
       it('should call navigations reducer if RECEIVE_PAST_PURCHASE_REFINEMENTS', () => {
@@ -273,6 +276,26 @@ suite('recommendations', ({ expect, stub }) => {
 
       it('should call page reducer if RECEIVE_PAST_PURCHASE_PAGE', () => {
         testReducerChain(Actions.RECEIVE_PAST_PURCHASE_PAGE, page.receivePage, pageStub);
+      });
+
+      it('should call sorts reducer if APPLY_PAST_PURCHASE_SORTS', () => {
+        testReducerChain(Actions.APPLY_PAST_PURCHASE_SORTS, sorts.applySorts, sortStub);
+      });
+    });
+
+    describe('applySortReducer()', () => {
+      it('should call function with sort section of store and payload', () => {
+        const payload = 'load';
+        const returnedSort = { baz: 'quux' };
+        const sort = stub().returns(returnedSort);
+
+        const reducer = past.applySortsReducer(state, <any>{ payload }, sort);
+
+        expect(reducer).to.eql({
+          ...state,
+          sort: returnedSort,
+        });
+        expect(sort).to.be.calledWithExactly(state.sort, payload);
       });
     });
 

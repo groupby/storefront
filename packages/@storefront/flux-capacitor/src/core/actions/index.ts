@@ -57,6 +57,8 @@ namespace Actions {
   export type SelectCollection = Action<typeof SELECT_COLLECTION, string>;
   export const SELECT_SORT = 'UPDATE_SORTS';
   export type SelectSort = Action<typeof SELECT_SORT, number>;
+  export const APPLY_SORTS = 'APPLY_SORTS';
+  export type ApplySorts = Action<typeof APPLY_SORTS, Payload.Sort>;
   export const UPDATE_PAGE_SIZE = 'UPDATE_PAGE_SIZE';
   export type UpdatePageSize = Action<typeof UPDATE_PAGE_SIZE, number>;
   export const UPDATE_CURRENT_PAGE = 'UPDATE_CURRENT_PAGE';
@@ -208,6 +210,8 @@ namespace Actions {
   export type UpdatePastPurchaseQuery = Action<typeof UPDATE_PAST_PURCHASE_QUERY, string>;
   export const SELECT_PAST_PURCHASE_SORT = 'SELECT_PAST_PURCHASE_SORT';
   export type SelectPastPurchaseSort = Action<typeof SELECT_PAST_PURCHASE_SORT, number>;
+  export const APPLY_PAST_PURCHASE_SORTS = 'APPLY_PAST_PURCHASE_SORTS';
+  export type ApplyPastPurchaseSorts = Action<typeof APPLY_PAST_PURCHASE_SORTS, Payload.Sort>;
   export const RECEIVE_NAVIGATION_SORT = 'RECEIVE_NAVIGATION_SORT';
   export const RECEIVE_INFINITE_SCROLL = 'RECEIVE_INFINITE_SCROLL';
   export type ReceiveInfiniteScroll = Action<typeof RECEIVE_INFINITE_SCROLL, Payload.InfiniteScroll>;
