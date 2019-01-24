@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] [minor]
 ### Changed
+- SF-1256: Updated `selectSort` and `selectPastPurchasesSort` action creators:
+  - Payloads that include the `selected` index are now valid.
 - SF-1256: Persisted sort and past purchase sort labels in the application store.
 - SF-1256: Updated `search` and `pastPurchases` sort configurations to support labels.
   - To apply sort labels via the `search` sort configuration:
