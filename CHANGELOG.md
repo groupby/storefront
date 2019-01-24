@@ -5,6 +5,157 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v2.2.0] - 2019-01-24
+
+Package versions:
+
+- `@storefront/breadcrumbs`: 2.2.0
+- `@storefront/collections`: 2.2.0
+- `@storefront/core`: 2.2.0
+- `@storefront/details`: 2.2.0
+- `@storefront/did-you-mean`: 2.2.0
+- `@storefront/flux-capacitor`: 1.70.0
+- `@storefront/infinite-scroll`: 2.2.0
+- `@storefront/navigation`: 2.2.0
+- `@storefront/page-size`: 2.2.0
+- `@storefront/paging`: 2.2.0
+- `@storefront/products`: 2.2.0
+- `@storefront/query`: 2.2.0
+- `@storefront/recommendations`: 2.2.0
+- `@storefront/record-count`: 2.2.0
+- `@storefront/related-queries`: 2.2.0
+- `@storefront/sayt`: 2.2.0
+- `@storefront/sort`: 2.2.0
+- `@storefront/structure`: 2.2.0
+- `@storefront/template`: 2.2.0
+
+### Changed
+#### breadcrumbs
+- Update `@storefront/core` to 2.2.0.
+
+#### collections
+- Update `@storefront/core` to 2.2.0.
+
+#### core
+- Update `@storefront/flux-capacitor` to 1.70.0.
+
+#### details
+- Update `@storefront/core` to 2.2.0.
+
+#### did-you-mean
+- Update `@storefront/core` to 2.2.0.
+
+#### flux-capacitor
+- SF-1256: Updated `selectSort` and `selectPastPurchasesSort` action creators:
+  - Payloads that include the `selected` index are now valid.
+- SF-1256: Persisted sort and past purchase sort labels in the application store.
+- SF-1256: Updated `search` and `pastPurchases` sort configurations to support labels.
+  - To apply sort labels via the `search` sort configuration:
+
+  ```js
+  ...
+  search: {
+    sort: {
+      options: [
+        { field: 'foo', descending: true },
+        { field: 'foo', descending: false },
+        { field: 'bar' },
+      ],
+      labels: [
+        'Foo | Descending',
+        'Foo | Ascending',
+        'Bar',
+      ],
+    },
+    ...
+  },
+  ...
+  ```
+
+  - To apply sort labels via the `pastPurchases` sort configuration:
+
+  ```js
+  ...
+  recommendations: {
+    ...
+    pastPurchases: {
+      ...
+      sort: {
+        options: [
+          { field: 'foo', descending: true },
+          { field: 'foo', descending: false },
+          { field: 'bar' },
+        ],
+        labels: [
+          'Foo | Descending',
+          'Foo | Ascending',
+          'Bar',
+        ],
+      },
+      ...
+    },
+    ...
+  },
+  ...
+  ```
+
+#### infinite-scroll
+- Update `@storefront/core` to 2.2.0.
+
+#### navigation
+- Update `@storefront/core` to 2.2.0.
+
+#### page-size
+- Update `@storefront/core` to 2.2.0.
+
+#### paging
+- Update `@storefront/core` to 2.2.0.
+
+#### products
+- Update `@storefront/core` to 2.2.0.
+
+#### query
+- Update `@storefront/core` to 2.2.0.
+
+#### recommendations
+- Update `@storefront/core` to 2.2.0.
+
+#### record-count
+- Update `@storefront/core` to 2.2.0.
+
+#### related-queries
+- Update `@storefront/core` to 2.2.0.
+
+#### sayt
+- Update `@storefront/core` to 2.2.0.
+
+#### sort
+- Update `@storefront/core` to 2.2.0.
+- SF-1256: Sort component will now extract label information from the store.
+  - The component has been configured to read in sort labels that are available within the store, but will yield to labels provided to the component via props.
+
+#### structure
+- Update `@storefront/core` to 2.2.0.
+
+#### template
+- Update `@storefront/core` to 2.2.0.
+
+### Added
+#### flux-capacitor
+- SF-1256: Added `applySorts()` and `applyPastPurchaseSorts()` action creators.
+- SF-1256: Added support for the following sort-related events:
+  - `SORTS_ITEMS_UPDATED` - Emitted when the sort items are updated.
+  - `SORTS_LABELS_UPDATED` - Emitted when the sort labels are updated.
+  - `SORTS_SELECTED_UPDATED` - Emitted when the selected sort is updated.
+- SF-1256: Added support for the following past purchase sort-related events:
+  - `PAST_PURCHASE_SORT_ITEMS_UPDATED` - Emitted when the past purchase sort items are updated.
+  - `PAST_PURCHASE_SORT_LABELS_UPDATED` - Emitted when the past purchase sort labels are updated.
+  - `PAST_PURCHASE_SORT_SELECTED_UPDATED` - Emitted when the selected past purchase sort is updated.
+
+#### sort
+- SF-1256: Sort component now has an `onUpdate` method.
+  - The `onUpdate` method is used to spread new `props` back into the component state whenever it re-renders.
+
 ## [v2.1.2] - 2019-01-23
 
 Package versions:
