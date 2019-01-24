@@ -77,6 +77,8 @@
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_storefront_flux_capacitor.actioncreators.html#addrefinement" class="tsd-kind-icon">add<wbr>Refinement</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_storefront_flux_capacitor.actioncreators.html#applypastpurchasesorts" class="tsd-kind-icon">apply<wbr>Past<wbr>Purchase<wbr>Sorts</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_storefront_flux_capacitor.actioncreators.html#applysorts" class="tsd-kind-icon">apply<wbr>Sorts</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_storefront_flux_capacitor.actioncreators.html#createcomponentstate" class="tsd-kind-icon">create<wbr>Component<wbr>State</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_storefront_flux_capacitor.actioncreators.html#deselectpastpurchaserefinement" class="tsd-kind-icon">deselect<wbr>Past<wbr>Purchase<wbr>Refinement</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_storefront_flux_capacitor.actioncreators.html#deselectrefinement" class="tsd-kind-icon">deselect<wbr>Refinement</a></li>
@@ -174,7 +176,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L371">flux-capacitor/src/core/actions/creators.ts:371</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L371">flux-capacitor/src/core/actions/creators.ts:371</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -214,6 +216,74 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="applypastpurchasesorts" class="tsd-anchor"></a>
+					<h3>apply<wbr>Past<wbr>Purchase<wbr>Sorts</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">apply<wbr>Past<wbr>Purchase<wbr>Sorts<span class="tsd-signature-symbol">(</span>payload<span class="tsd-signature-symbol">: </span><a href="../interfaces/_storefront_flux_capacitor.payload.sort.html" class="tsd-signature-type">Sort</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_storefront_flux_capacitor.actions.html#applypastpurchasesorts" class="tsd-signature-type">ApplyPastPurchaseSorts</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L1076">flux-capacitor/src/core/actions/creators.ts:1076</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Updates the past purchase sorts using the data provided.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>payload: <a href="../interfaces/_storefront_flux_capacitor.payload.sort.html" class="tsd-signature-type">Sort</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An object containing the sort labels and options.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="_storefront_flux_capacitor.actions.html#applypastpurchasesorts" class="tsd-signature-type">ApplyPastPurchaseSorts</a></h4>
+							<ul>
+								<li>Action with payload.</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="applysorts" class="tsd-anchor"></a>
+					<h3>apply<wbr>Sorts</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">apply<wbr>Sorts<span class="tsd-signature-symbol">(</span>payload<span class="tsd-signature-symbol">: </span><a href="../interfaces/_storefront_flux_capacitor.payload.sort.html" class="tsd-signature-type">Sort</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_storefront_flux_capacitor.actions.html#applysorts" class="tsd-signature-type">ApplySorts</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L551">flux-capacitor/src/core/actions/creators.ts:551</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Updates the sorts using the data provided.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>payload: <a href="../interfaces/_storefront_flux_capacitor.payload.sort.html" class="tsd-signature-type">Sort</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An object containing the sort labels and options.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="_storefront_flux_capacitor.actions.html#applysorts" class="tsd-signature-type">ApplySorts</a></h4>
+							<ul>
+								<li>Action with payload.</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
 					<a name="createcomponentstate" class="tsd-anchor"></a>
 					<h3>create<wbr>Component<wbr>State</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
@@ -223,7 +293,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L1065">flux-capacitor/src/core/actions/creators.ts:1065</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L1095">flux-capacitor/src/core/actions/creators.ts:1095</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -269,7 +339,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L986">flux-capacitor/src/core/actions/creators.ts:986</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L1001">flux-capacitor/src/core/actions/creators.ts:1001</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -311,7 +381,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L515">flux-capacitor/src/core/actions/creators.ts:515</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L515">flux-capacitor/src/core/actions/creators.ts:515</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -354,7 +424,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L136">flux-capacitor/src/core/actions/creators.ts:136</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L136">flux-capacitor/src/core/actions/creators.ts:136</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -380,7 +450,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L146">flux-capacitor/src/core/actions/creators.ts:146</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L146">flux-capacitor/src/core/actions/creators.ts:146</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -423,7 +493,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L112">flux-capacitor/src/core/actions/creators.ts:112</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L112">flux-capacitor/src/core/actions/creators.ts:112</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -449,7 +519,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L118">flux-capacitor/src/core/actions/creators.ts:118</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L118">flux-capacitor/src/core/actions/creators.ts:118</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -484,7 +554,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L165">flux-capacitor/src/core/actions/creators.ts:165</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L165">flux-capacitor/src/core/actions/creators.ts:165</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -510,7 +580,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L171">flux-capacitor/src/core/actions/creators.ts:171</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L171">flux-capacitor/src/core/actions/creators.ts:171</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -545,7 +615,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L250">flux-capacitor/src/core/actions/creators.ts:250</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L250">flux-capacitor/src/core/actions/creators.ts:250</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -571,7 +641,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L259">flux-capacitor/src/core/actions/creators.ts:259</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L259">flux-capacitor/src/core/actions/creators.ts:259</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -613,7 +683,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L274">flux-capacitor/src/core/actions/creators.ts:274</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L274">flux-capacitor/src/core/actions/creators.ts:274</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -639,7 +709,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L280">flux-capacitor/src/core/actions/creators.ts:280</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L280">flux-capacitor/src/core/actions/creators.ts:280</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -674,7 +744,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L87">flux-capacitor/src/core/actions/creators.ts:87</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L87">flux-capacitor/src/core/actions/creators.ts:87</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -700,7 +770,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L94">flux-capacitor/src/core/actions/creators.ts:94</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L94">flux-capacitor/src/core/actions/creators.ts:94</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -741,7 +811,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L38">flux-capacitor/src/core/actions/creators.ts:38</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L38">flux-capacitor/src/core/actions/creators.ts:38</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -767,7 +837,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L44">flux-capacitor/src/core/actions/creators.ts:44</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L44">flux-capacitor/src/core/actions/creators.ts:44</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -801,7 +871,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L239">flux-capacitor/src/core/actions/creators.ts:239</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L239">flux-capacitor/src/core/actions/creators.ts:239</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -836,7 +906,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L219">flux-capacitor/src/core/actions/creators.ts:219</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L219">flux-capacitor/src/core/actions/creators.ts:219</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -862,7 +932,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L225">flux-capacitor/src/core/actions/creators.ts:225</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L225">flux-capacitor/src/core/actions/creators.ts:225</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -897,7 +967,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L185">flux-capacitor/src/core/actions/creators.ts:185</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L185">flux-capacitor/src/core/actions/creators.ts:185</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -923,7 +993,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L192">flux-capacitor/src/core/actions/creators.ts:192</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L192">flux-capacitor/src/core/actions/creators.ts:192</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -963,7 +1033,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L57">flux-capacitor/src/core/actions/creators.ts:57</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L57">flux-capacitor/src/core/actions/creators.ts:57</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -997,7 +1067,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L77">flux-capacitor/src/core/actions/creators.ts:77</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L77">flux-capacitor/src/core/actions/creators.ts:77</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1031,7 +1101,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L67">flux-capacitor/src/core/actions/creators.ts:67</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L67">flux-capacitor/src/core/actions/creators.ts:67</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1065,7 +1135,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L209">flux-capacitor/src/core/actions/creators.ts:209</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L209">flux-capacitor/src/core/actions/creators.ts:209</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1101,7 +1171,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L294">flux-capacitor/src/core/actions/creators.ts:294</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L294">flux-capacitor/src/core/actions/creators.ts:294</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1127,7 +1197,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L300">flux-capacitor/src/core/actions/creators.ts:300</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L300">flux-capacitor/src/core/actions/creators.ts:300</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1161,7 +1231,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L619">flux-capacitor/src/core/actions/creators.ts:619</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L634">flux-capacitor/src/core/actions/creators.ts:634</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1196,7 +1266,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L813">flux-capacitor/src/core/actions/creators.ts:813</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L828">flux-capacitor/src/core/actions/creators.ts:828</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1231,7 +1301,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L794">flux-capacitor/src/core/actions/creators.ts:794</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L809">flux-capacitor/src/core/actions/creators.ts:809</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1265,7 +1335,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L772">flux-capacitor/src/core/actions/creators.ts:772</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L787">flux-capacitor/src/core/actions/creators.ts:787</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1300,7 +1370,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L823">flux-capacitor/src/core/actions/creators.ts:823</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L838">flux-capacitor/src/core/actions/creators.ts:838</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1335,7 +1405,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L682">flux-capacitor/src/core/actions/creators.ts:682</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L697">flux-capacitor/src/core/actions/creators.ts:697</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1370,7 +1440,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L853">flux-capacitor/src/core/actions/creators.ts:853</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L868">flux-capacitor/src/core/actions/creators.ts:868</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1405,7 +1475,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L876">flux-capacitor/src/core/actions/creators.ts:876</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L891">flux-capacitor/src/core/actions/creators.ts:891</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1428,7 +1498,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L761">flux-capacitor/src/core/actions/creators.ts:761</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L776">flux-capacitor/src/core/actions/creators.ts:776</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1476,7 +1546,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L782">flux-capacitor/src/core/actions/creators.ts:782</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L797">flux-capacitor/src/core/actions/creators.ts:797</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1508,7 +1578,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L747">flux-capacitor/src/core/actions/creators.ts:747</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L762">flux-capacitor/src/core/actions/creators.ts:762</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1556,7 +1626,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L843">flux-capacitor/src/core/actions/creators.ts:843</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L858">flux-capacitor/src/core/actions/creators.ts:858</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1590,7 +1660,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L692">flux-capacitor/src/core/actions/creators.ts:692</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L707">flux-capacitor/src/core/actions/creators.ts:707</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1625,7 +1695,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L701">flux-capacitor/src/core/actions/creators.ts:701</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L716">flux-capacitor/src/core/actions/creators.ts:716</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1659,7 +1729,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L884">flux-capacitor/src/core/actions/creators.ts:884</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L899">flux-capacitor/src/core/actions/creators.ts:899</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1682,7 +1752,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L889">flux-capacitor/src/core/actions/creators.ts:889</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L904">flux-capacitor/src/core/actions/creators.ts:904</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1705,7 +1775,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L914">flux-capacitor/src/core/actions/creators.ts:914</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L929">flux-capacitor/src/core/actions/creators.ts:929</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1748,7 +1818,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L868">flux-capacitor/src/core/actions/creators.ts:868</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L883">flux-capacitor/src/core/actions/creators.ts:883</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1771,7 +1841,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L894">flux-capacitor/src/core/actions/creators.ts:894</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L909">flux-capacitor/src/core/actions/creators.ts:909</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1794,7 +1864,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L858">flux-capacitor/src/core/actions/creators.ts:858</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L873">flux-capacitor/src/core/actions/creators.ts:873</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1817,7 +1887,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L872">flux-capacitor/src/core/actions/creators.ts:872</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L887">flux-capacitor/src/core/actions/creators.ts:887</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1840,7 +1910,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L672">flux-capacitor/src/core/actions/creators.ts:672</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L687">flux-capacitor/src/core/actions/creators.ts:687</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1875,7 +1945,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L638">flux-capacitor/src/core/actions/creators.ts:638</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L653">flux-capacitor/src/core/actions/creators.ts:653</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1909,7 +1979,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L629">flux-capacitor/src/core/actions/creators.ts:629</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L644">flux-capacitor/src/core/actions/creators.ts:644</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1943,7 +2013,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L833">flux-capacitor/src/core/actions/creators.ts:833</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L848">flux-capacitor/src/core/actions/creators.ts:848</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1977,7 +2047,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L723">flux-capacitor/src/core/actions/creators.ts:723</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L738">flux-capacitor/src/core/actions/creators.ts:738</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2012,7 +2082,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L733">flux-capacitor/src/core/actions/creators.ts:733</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L748">flux-capacitor/src/core/actions/creators.ts:748</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2047,7 +2117,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L863">flux-capacitor/src/core/actions/creators.ts:863</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L878">flux-capacitor/src/core/actions/creators.ts:878</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2070,7 +2140,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L713">flux-capacitor/src/core/actions/creators.ts:713</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L728">flux-capacitor/src/core/actions/creators.ts:728</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2105,7 +2175,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L18">flux-capacitor/src/core/actions/creators.ts:18</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L18">flux-capacitor/src/core/actions/creators.ts:18</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2139,7 +2209,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L1075">flux-capacitor/src/core/actions/creators.ts:1075</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L1105">flux-capacitor/src/core/actions/creators.ts:1105</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2177,7 +2247,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L961">flux-capacitor/src/core/actions/creators.ts:961</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L976">flux-capacitor/src/core/actions/creators.ts:976</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2203,7 +2273,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L428">flux-capacitor/src/core/actions/creators.ts:428</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L428">flux-capacitor/src/core/actions/creators.ts:428</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2228,7 +2298,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L902">flux-capacitor/src/core/actions/creators.ts:902</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L917">flux-capacitor/src/core/actions/creators.ts:917</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2253,7 +2323,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L970">flux-capacitor/src/core/actions/creators.ts:970</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L985">flux-capacitor/src/core/actions/creators.ts:985</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2279,7 +2349,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L1001">flux-capacitor/src/core/actions/creators.ts:1001</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L1016">flux-capacitor/src/core/actions/creators.ts:1016</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2314,7 +2384,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L356">flux-capacitor/src/core/actions/creators.ts:356</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L356">flux-capacitor/src/core/actions/creators.ts:356</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2339,7 +2409,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L461">flux-capacitor/src/core/actions/creators.ts:461</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L461">flux-capacitor/src/core/actions/creators.ts:461</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2390,7 +2460,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L411">flux-capacitor/src/core/actions/creators.ts:411</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L411">flux-capacitor/src/core/actions/creators.ts:411</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2425,7 +2495,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L440">flux-capacitor/src/core/actions/creators.ts:440</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L440">flux-capacitor/src/core/actions/creators.ts:440</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2460,7 +2530,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L529">flux-capacitor/src/core/actions/creators.ts:529</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L529">flux-capacitor/src/core/actions/creators.ts:529</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2494,7 +2564,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L950">flux-capacitor/src/core/actions/creators.ts:950</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L965">flux-capacitor/src/core/actions/creators.ts:965</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2536,7 +2606,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L498">flux-capacitor/src/core/actions/creators.ts:498</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L498">flux-capacitor/src/core/actions/creators.ts:498</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2578,7 +2648,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L932">flux-capacitor/src/core/actions/creators.ts:932</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L947">flux-capacitor/src/core/actions/creators.ts:947</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2620,7 +2690,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L1047">flux-capacitor/src/core/actions/creators.ts:1047</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L1062">flux-capacitor/src/core/actions/creators.ts:1062</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2643,7 +2713,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L480">flux-capacitor/src/core/actions/creators.ts:480</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L480">flux-capacitor/src/core/actions/creators.ts:480</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2685,7 +2755,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L540">flux-capacitor/src/core/actions/creators.ts:540</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L540">flux-capacitor/src/core/actions/creators.ts:540</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2719,7 +2789,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L1094">flux-capacitor/src/core/actions/creators.ts:1094</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L1124">flux-capacitor/src/core/actions/creators.ts:1124</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2744,7 +2814,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L397">flux-capacitor/src/core/actions/creators.ts:397</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L397">flux-capacitor/src/core/actions/creators.ts:397</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2793,7 +2863,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L588">flux-capacitor/src/core/actions/creators.ts:588</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L603">flux-capacitor/src/core/actions/creators.ts:603</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2828,7 +2898,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L599">flux-capacitor/src/core/actions/creators.ts:599</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L614">flux-capacitor/src/core/actions/creators.ts:614</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2859,7 +2929,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L563">flux-capacitor/src/core/actions/creators.ts:563</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L578">flux-capacitor/src/core/actions/creators.ts:578</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2893,7 +2963,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L578">flux-capacitor/src/core/actions/creators.ts:578</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L593">flux-capacitor/src/core/actions/creators.ts:593</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2928,7 +2998,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L27">flux-capacitor/src/core/actions/creators.ts:27</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L27">flux-capacitor/src/core/actions/creators.ts:27</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2962,7 +3032,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L1085">flux-capacitor/src/core/actions/creators.ts:1085</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L1115">flux-capacitor/src/core/actions/creators.ts:1115</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2996,7 +3066,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L552">flux-capacitor/src/core/actions/creators.ts:552</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L567">flux-capacitor/src/core/actions/creators.ts:567</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -3031,7 +3101,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L1038">flux-capacitor/src/core/actions/creators.ts:1038</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L1053">flux-capacitor/src/core/actions/creators.ts:1053</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -3065,7 +3135,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L1027">flux-capacitor/src/core/actions/creators.ts:1027</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L1042">flux-capacitor/src/core/actions/creators.ts:1042</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -3100,7 +3170,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L1014">flux-capacitor/src/core/actions/creators.ts:1014</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L1029">flux-capacitor/src/core/actions/creators.ts:1029</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3123,7 +3193,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L343">flux-capacitor/src/core/actions/creators.ts:343</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L343">flux-capacitor/src/core/actions/creators.ts:343</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -3157,7 +3227,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L314">flux-capacitor/src/core/actions/creators.ts:314</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L314">flux-capacitor/src/core/actions/creators.ts:314</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -3191,7 +3261,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/31295b160/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L609">flux-capacitor/src/core/actions/creators.ts:609</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/5bcf4ca8f/packages/@storefront/flux-capacitor/src/core/actions/creators.ts#L624">flux-capacitor/src/core/actions/creators.ts:624</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3226,6 +3296,12 @@
 				<ul class="before-current">
 					<li class=" tsd-kind-function tsd-parent-kind-module">
 						<a href="_storefront_flux_capacitor.actioncreators.html#addrefinement" class="tsd-kind-icon">add<wbr>Refinement</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="_storefront_flux_capacitor.actioncreators.html#applypastpurchasesorts" class="tsd-kind-icon">apply<wbr>Past<wbr>Purchase<wbr>Sorts</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="_storefront_flux_capacitor.actioncreators.html#applysorts" class="tsd-kind-icon">apply<wbr>Sorts</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
 						<a href="_storefront_flux_capacitor.actioncreators.html#createcomponentstate" class="tsd-kind-icon">create<wbr>Component<wbr>State</a>
