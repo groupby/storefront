@@ -24,22 +24,31 @@ class FilteredList {
     if (!this.props.paginate) {
       props.pageSize = props.items.length;
     }
+    debugger;
 
     return props;
   }
 
-  onBeforeMount() {
+  onMount() {
     // TODO: take out changes to this file/repo & navigations
     if (!this.state.items.length) {
       this.updateItems('');
+      this.set(true);
     }
   }
 
+  onUpdated() {
+    debugger;
+  }
+
   onUpdate() {
-    this.updateItems();
+    if (this.state.items.length !== 2) {
+      this.updateItems();
+    }
   }
 
   onKeyDown(event: KeyboardEvent & Tag.Event) {
+    event.preventUpdate = true;
     if (event.key !== KEYS.ENTER) {
       return;
     }
@@ -74,10 +83,10 @@ class FilteredList {
     }
   }
 
-  updateItems(value: string = this.refs.filter.value) {
-    const filtered = this.props.items
+  updateItems(value: string = this.refs.filter.value, items: FilteredList.Item[] = this.props.items) {
+    const filtered = items
       .filter((item) => this.filterItem(value, item))
-      .map((item, i, items) => this.decorateItem(value, item, i, items));
+      .map((item, i, allItems) => this.decorateItem(value, item, i, allItems));
 
     if (filtered.length !== 0 || this.state.items.length !== 0) {
       this.state.items = filtered;

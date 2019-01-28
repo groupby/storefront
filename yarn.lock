@@ -159,6 +159,13 @@
     lodash "^4.17.10"
     to-fast-properties "^2.0.0"
 
+"@medv/finder@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@medv/finder/-/finder-1.1.1.tgz#c502c6578825902e5fae59885b60e0403ad8e933"
+  integrity sha512-LzJbdErL+RAj19mU28OClO4lPocuYBcfktcfo/laTWDsYgTv4Hgy4r0GMp52UJTVxgyBAl/Cym6r0yankaE/6A==
+  dependencies:
+    cssesc "^2.0.0"
+
 "@sinonjs/commons@^1.2.0":
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/@sinonjs/commons/-/commons-1.3.0.tgz#50a2754016b6f30a994ceda6d9a0a8c36adda849"
@@ -1635,6 +1642,11 @@ cssesc@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/cssesc/-/cssesc-0.1.0.tgz#c814903e45623371a0477b40109aaafbeeaddbb4"
   integrity sha1-yBSQPkViM3GgR3tAEJqq++6t27Q=
+
+cssesc@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/cssesc/-/cssesc-2.0.0.tgz#3b13bd1bb1cb36e1bcb5a4dcd27f54c5dcb35703"
+  integrity sha512-MsCAG1z9lPdoO/IUMLSBWBSVxVtJ1395VGIQ+Fc2gNdkQ1hNDnQdw3YhA71WJCBW1vdwA0cAnk/DnW6bqoEUYg==
 
 cuid@^1.3.8:
   version "1.3.8"

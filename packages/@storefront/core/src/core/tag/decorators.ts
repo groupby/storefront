@@ -1,3 +1,4 @@
+import finder from '@medv/finder';
 import { Selectors } from '@storefront/flux-capacitor';
 import moize from 'moize';
 import StoreFront from '../../storefront';
@@ -88,23 +89,28 @@ export function uiState<P extends object = any, S extends object = any>(
   resolver: (props: P, state: S) => any = (_, state) => state
 ) {
   return (target: TagConstructor) => {
-    const onBeforeMount = target.prototype.onBeforeMount;
+    const onMount = target.prototype.onMount;
     const onBeforeUnmount = target.prototype.onBeforeUnmount;
 
-    target.prototype.onBeforeMount = function(...args: any) {
-      const storedState = this.select(Selectors.uiTagState, Tag.getMeta(this).name, this.props[prop]);
+    target.prototype.onMount = function(...args: any) {
+      debugger;
+      const t = finder(this.root);
+      const storedState = this.select(Selectors.uiTagState, Tag.getMeta(this).name, t);
 
       if (storedState) {
         this.state = { ...this.state, ...storedState };
+        this.set(true);
       }
 
-      if (onBeforeMount) {
-        return onBeforeMount.bind(this)(...args);
+      if (onMount) {
+        return onMount.bind(this)(...args);
       }
     };
 
     target.prototype.onBeforeUnmount = function(...args: any) {
-      this.actions.createComponentState(Tag.getMeta(this).name, this.props[prop], resolver(this.props, this.state));
+      const t = finder(this.root);
+      debugger;
+      this.actions.createComponentState(Tag.getMeta(this).name, t, resolver(this.props, this.state));
 
       if (onBeforeUnmount) {
         return onBeforeUnmount.bind(this)(...args);
