@@ -2752,10 +2752,10 @@ graceful-fs@^4.1.6:
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.1.11.tgz#0e8bdfe4d1ddb8854d64e04ea7c00e2a026e5658"
   integrity sha1-Dovf5NHduIVNZOBOp8AOKgJuVlg=
 
-groupby-api@2.5.7:
-  version "2.5.7"
-  resolved "https://registry.yarnpkg.com/groupby-api/-/groupby-api-2.5.7.tgz#3693088331f14e96d90e25be0edda7ad62511787"
-  integrity sha512-ZmsqrQt7MOUxaWMAJp+8PoxE/2UQ1CGidOSC600UF8Ls9SqoDMYBUhiy4XF+TLPZDwaFGatHda08pRTcnwy8kQ==
+groupby-api@2.6.0:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/groupby-api/-/groupby-api-2.6.0.tgz#5775a57e0990f54749e0c2a7dc699545d75dfb26"
+  integrity sha512-XKElleVlTXVEWI+KYeGB572imWkT65XWVcOIKQU7ROHFoMSsgt7CzbqaOtflSC1fMtSbP6JaFwOslZzWnAIkjA==
   dependencies:
     "@types/clone" "^0.1.30"
     "@types/deep-equal" "^0.0.30"
