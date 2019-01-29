@@ -5,9 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased] [patch]
-### Fixed
+### Added
 - SF-1248: Added a `shouldUpdate` function to the `refinement-crumbs` component.
   - The addition of this function allows for the component to update as needed and have the latest data from the application store.
+- SF-1248: Added `PAST_PURCHASE_NAVIGATIONS_UPDATED` event listener to `breadcrumbs` component `init()` function.
+  - This event listener was added so `refinement-crumbs` would update as needed in past purchase scenarios. 
 
 ## [2.4.0] - 2019-01-30
 ### Changed
