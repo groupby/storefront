@@ -151,7 +151,7 @@ suite('decorators', ({ expect, spy, stub }) => {
       stub(Selectors, 'uiTagState').returns(uiTagState);
     });
 
-    it('should replace tag state with ui state onBeforeMount', () => {
+    it('should replace tag state with ui state in onBeforeMount', () => {
       const tag: any = class {
         props: any = { [prop]: uiProp };
         state: any = state;
