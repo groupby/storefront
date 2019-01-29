@@ -61,7 +61,8 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvi
       expect(subscribe).to.be.calledWith(Events.NAVIGATIONS_UPDATED, breadcrumbs.updateFields);
     });
 
-    it('should listen for PAST_PURCHASE_SELECTED_REFINEMENTS_UPDATED if the storeSection is pastPurchases', () => {
+    // tslint:disable-next-line max-line-length
+    it('should listen for PAST_PURCHASE_SELECTED_REFINEMENTS_UPDATED and PAST_PURCHASE_NAVIGATIONS_UPDATED if the storeSection is pastPurchases', () => {
       const subscribe = (breadcrumbs.subscribe = spy());
       breadcrumbs.props.storeSection = StoreSections.PAST_PURCHASES;
       breadcrumbs.updateOriginalQuery = () => null;
@@ -69,6 +70,7 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvi
       breadcrumbs.init();
 
       expect(subscribe).to.be.calledWith(Events.PAST_PURCHASE_SELECTED_REFINEMENTS_UPDATED, breadcrumbs.updateFields);
+      expect(subscribe).to.be.calledWith(Events.PAST_PURCHASE_NAVIGATIONS_UPDATED, breadcrumbs.updateFields);
     });
 
     it('should set initial state', () => {

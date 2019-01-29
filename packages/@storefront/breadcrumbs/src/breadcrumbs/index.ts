@@ -33,6 +33,7 @@ class Breadcrumbs {
     switch (this.props.storeSection) {
       case StoreSections.PAST_PURCHASES:
         this.subscribe(Events.PAST_PURCHASE_SELECTED_REFINEMENTS_UPDATED, this.updateFields);
+        this.subscribe(Events.PAST_PURCHASE_NAVIGATIONS_UPDATED, this.updateFields);
         navigationsSelector = () => this.select(Selectors.pastPurchaseNavigations);
         break;
       case StoreSections.SEARCH:
@@ -42,6 +43,7 @@ class Breadcrumbs {
         navigationsSelector = () => this.select(Selectors.navigations);
         break;
     }
+    // tslint:disable-next-line max-line-length
     this.state = { navigationsSelector, fields: this.getFields(navigationsSelector()), originalQuery: this.select(Selectors.query) };
   }
 

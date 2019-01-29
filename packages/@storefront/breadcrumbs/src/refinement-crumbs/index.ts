@@ -20,6 +20,10 @@ class RefinementCrumbs {
     this.updateState();
   }
 
+  shouldUpdate() {
+    return true;
+  }
+
   onUpdate() {
     this.updateState();
   }
