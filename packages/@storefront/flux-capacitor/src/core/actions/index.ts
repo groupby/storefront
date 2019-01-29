@@ -125,6 +125,8 @@ namespace Actions {
   export type FetchSaytPastPurchases = Action<typeof FETCH_SAYT_PAST_PURCHASES, Payload.Fetch.PastPurchases>;
 
   // response actions
+  export const RECEIVE_SITE_PARAMS = 'RECEIVE_SITE_PARAMS';
+  export type ReceiveSiteParams = Action<typeof RECEIVE_SITE_PARAMS, Store.SiteParams[]>;
   export const RECEIVE_MORE_REFINEMENTS = 'RECEIVE_MORE_REFINEMENTS';
   export type ReceiveMoreRefinements = Action<typeof RECEIVE_MORE_REFINEMENTS, Payload.Navigation.MoreRefinements>;
   export const RECEIVE_PRODUCTS = 'RECEIVE_PRODUCTS';

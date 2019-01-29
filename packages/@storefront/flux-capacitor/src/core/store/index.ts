@@ -85,6 +85,7 @@ namespace Store {
 
     fields: string[]; // static
 
+    siteParams: SiteParams[]; // post
     errors: string[]; // post
     warnings: string[]; // post
   }
@@ -421,6 +422,10 @@ namespace Store {
     }
   }
 
+  export interface SiteParams {
+    key: string;
+    value: string;
+  }
 }
 
 export default Store;
