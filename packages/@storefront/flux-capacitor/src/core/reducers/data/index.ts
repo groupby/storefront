@@ -16,6 +16,7 @@ import query from './query';
 import recommendations from './recommendations';
 import recordCount from './record-count';
 import redirect from './redirect';
+import siteParams from './site-params';
 import sorts from './sorts';
 import template from './template';
 
@@ -37,6 +38,7 @@ export default redux.combineReducers({
   pastPurchases,
   recordCount,
   redirect,
+  siteParams,
   sorts,
   template,
 });

@@ -659,6 +659,7 @@ namespace ActionCreators {
 
         return [
           receiveProductsAction,
+          ActionCreators.receiveSiteParams(res.siteParams),
           ActionCreators.receiveQuery(SearchAdapter.extractQuery(res)),
           ActionCreators.receiveProductRecords(SearchAdapter.augmentProducts(res)),
           ActionCreators.receiveNavigations(
@@ -747,6 +748,15 @@ namespace ActionCreators {
    */
   export function receiveRedirect(redirect: string): Actions.ReceiveRedirect {
     return createAction(Actions.RECEIVE_REDIRECT, redirect);
+  }
+
+  /**
+   * The siteParams to receive and update state with.
+   * @param {Store.SiteParams[]}    params - The siteParams from the response.
+   * @return {Actions.ReceiveSiteParams}   - Action with siteParams.
+   */
+  export function receiveSiteParams(params: Store.SiteParams[]): Actions.ReceiveSiteParams {
+    return createAction(Actions.RECEIVE_SITE_PARAMS, params);
   }
 
   /**
