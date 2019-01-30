@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] [minor]
 ### Changed
+- Update `@storefront/core` to 2.4.0.
 - Reverted v2.3.0.
 
 ## [2.3.0] - 2019-01-30 [YANKED]
