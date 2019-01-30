@@ -8,8 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - SF-1248: Added a `shouldUpdate` function to the `refinement-crumbs` component.
   - The addition of this function allows for the component to update as needed and have the latest data from the application store.
+  - Because the `field` prop that is passed to the `refinement-crumbs` component does not change, `shouldUpdate` is required to allow the component to re-render in response to newly applied refinements.
 - SF-1248: Added `PAST_PURCHASE_NAVIGATIONS_UPDATED` event listener to `breadcrumbs` component `init()` function.
-  - This event listener was added so `refinement-crumbs` would update as needed in past purchase scenarios. 
+  - This event listener was added so `refinement-crumbs` would update as needed in `past-purchase` scenarios. 
+  - This additions helps to bring `past-purchase` listeners to parity with the `search` event listeners.
 
 ## [2.4.0] - 2019-01-30
 ### Changed
