@@ -1,6 +1,6 @@
 {
   "name": "@storefront/structure",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "description": "Structural components for creating StoreFront components",
   "keywords": [
     "storefront",
@@ -51,6 +51,6 @@
     "ext": "ts,json,html,css"
   },
   "peerDependencies": {
-    "@storefront/core": "~2.2.0"
+    "@storefront/core": "~2.4.0"
   }
 }
