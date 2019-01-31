@@ -4,6 +4,7 @@ import { provide, tag, Events, Selectors, Store, StoreSections, Tag } from '@sto
 @tag('gb-refinement-crumbs', require('./index.html'))
 class RefinementCrumbs {
   previousField: string;
+  previousSelectedRefinements: number[];
 
   init() {
     switch (this.props.storeSection) {
@@ -21,7 +22,18 @@ class RefinementCrumbs {
   }
 
   shouldUpdate() {
-    return true;
+    const navigation = this.state.navigationSelector(this.props.field);
+    const selectedRefinements = [...navigation.selected];
+    const hasRefinementBeenPreviouslySelected = this.previousSelectedRefinements
+       && selectedRefinements.length === this.previousSelectedRefinements.length
+       && selectedRefinements.every((value) => {
+            return this.previousSelectedRefinements ? this.previousSelectedRefinements.includes(value) : false;
+          });
+
+    if (!hasRefinementBeenPreviouslySelected) {
+      this.previousSelectedRefinements = selectedRefinements;
+      return true;
+    }
   }
 
   onUpdate() {
