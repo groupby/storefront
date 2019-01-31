@@ -138,21 +138,25 @@ suite('decorators', ({ expect, spy, stub }) => {
 
   describe('@uiState', () => {
     const prop = 'ui';
+    const uiProp = 'uiProp';
+    const storedState = { c: 'd' };
+    const uiTagState = () => null;
+    const name = 'tagName';
+    const state = { a: 'b' };
+    let select;
 
-    it('should replace tag state with ui state onBeforeMount', () => {
-      const uiProp = 'uiProp';
-      const storedState = { c: 'd' };
-      const uiTagState = () => null;
-      const name = 'tagName';
-      const select = stub().withArgs(uiTagState, name, uiProp).returns(storedState);
-      const state = { a: 'b' };
+    beforeEach(() => {
+      select = stub().withArgs(uiTagState, name, uiProp).returns(storedState);
+      stub(Tag, 'getMeta').returns({ name });
+      stub(Selectors, 'uiTagState').returns(uiTagState);
+    });
+
+    it('should replace tag state with ui state in onBeforeMount', () => {
       const tag: any = class {
         props: any = { [prop]: uiProp };
         state: any = state;
         select: any = select;
       };
-      stub(Tag, 'getMeta').returns({ name });
-      stub(Selectors, 'uiTagState').returns(uiTagState);
 
       decorators.uiState(prop)(tag);
       const result = new tag();
@@ -162,32 +166,23 @@ suite('decorators', ({ expect, spy, stub }) => {
     });
 
     it('should call the original onBeforeMount method', () => {
-      const uiProp = 'uiProp';
-      const storedState = { c: 'd' };
-      const uiTagState = () => null;
-      const name = 'tagName';
-      const select = stub().withArgs(uiTagState, name, uiProp).returns(storedState);
-      const state = { a: 'b' };
+      const onBeforeMount = spy();
       const tag: any = class {
         props: any = { [prop]: uiProp };
         state: any = state;
         select: any = select;
-        onBeforeMount = () => this.state = state;
+        onBeforeMount: any = onBeforeMount;
       };
-      stub(Tag, 'getMeta').returns({ name });
-      stub(Selectors, 'uiTagState').returns(uiTagState);
 
       decorators.uiState(prop)(tag);
       const result = new tag();
       result.onBeforeMount();
 
-      expect(result.state).to.eq(state);
+      expect(onBeforeMount).to.be.called;
     });
 
     it('should set up ui state onBeforeUnmount, using resolver', () => {
-      const uiProp = 'uiProp';
       const props = { [prop]: uiProp };
-      const state = { a: 'b' };
       const createComponentState = spy();
       const tag: any = class {
         props: any = props;
@@ -196,8 +191,6 @@ suite('decorators', ({ expect, spy, stub }) => {
       };
       const uiState = { c: 'd' };
       const resolver = stub().withArgs(props, state).returns(uiState);
-      const name = 'tagName';
-      stub(Tag, 'getMeta').returns({ name });
 
       decorators.uiState(prop, resolver)(tag);
       const result = new tag();
@@ -207,12 +200,6 @@ suite('decorators', ({ expect, spy, stub }) => {
     });
 
     it('should use default prop and resolver if none is provided', () => {
-      const uiProp = 'uiProp';
-      const storedState = { c: 'd' };
-      const uiTagState = () => null;
-      const name = 'tagName';
-      const select = stub().withArgs(uiTagState, name, uiProp).returns(storedState);
-      const state = { a: 'b' };
       const createComponentState = spy();
       const tag: any = class {
         props: any = { uiValue: uiProp };
@@ -220,8 +207,6 @@ suite('decorators', ({ expect, spy, stub }) => {
         select: any = select;
         actions: any = { createComponentState };
       };
-      stub(Tag, 'getMeta').returns({ name });
-      stub(Selectors, 'uiTagState').returns(uiTagState);
 
       decorators.uiState()(tag);
       const result = new tag();
