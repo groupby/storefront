@@ -52,6 +52,29 @@ suite('RefinementCrumbs', ({ expect, spy, stub, itShouldProvideAlias }) => {
     });
   });
 
+  describe('shouldUpdate()', () => {
+    it('should return true if a refinement has not been previously selected', () => {
+      const field = 'material';
+      const selected = [];
+      const navigationSelector = spy(() => ({ selected }));
+      refinementCrumbs.props = { field };
+      refinementCrumbs.state = { ...refinementCrumbs.state, navigationSelector};
+
+      expect(refinementCrumbs.shouldUpdate()).to.eq(true);
+    });
+
+    it('should return false if a refinement has been previously selected', () => {
+      const field = 'material';
+      const selected = [0];
+      const navigationSelector = spy(() => ({ selected }));
+      refinementCrumbs.props = { field };
+      refinementCrumbs.state = { ...refinementCrumbs.state, navigationSelector };
+      refinementCrumbs.previousSelectedRefinements = [0];
+
+      expect(refinementCrumbs.shouldUpdate()).to.eq(false);
+    });
+  });
+
   describe('onUpdate()', () => {
     it('should call updateState()', () => {
       const updateState = (refinementCrumbs.updateState = spy());

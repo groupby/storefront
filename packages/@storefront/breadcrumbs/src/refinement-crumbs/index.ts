@@ -34,6 +34,8 @@ class RefinementCrumbs {
       this.previousSelectedRefinements = selectedRefinements;
       return true;
     }
+
+    return false;
   }
 
   onUpdate() {
