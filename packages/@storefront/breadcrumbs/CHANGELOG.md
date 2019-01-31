@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] [patch]
+### Changed
+- SF-1248: `refinement-crumbs` now subscribes to the `NAVIGATIONS_UPDATED` event.
+  - This was done to ensure the `refinement-crumbs` component has the latest navigation data.
+- SF-1249: `refinement-crumbs` now subscribes to the `PAST_PURCHASE_NAVIGATIONS_UPDATED` event.
+  - This was done for the same reasons above.
+
 ## [2.5.0] - 2019-02-04
 ### Changed
 - Update `@storefront/core` to 2.5.0.
