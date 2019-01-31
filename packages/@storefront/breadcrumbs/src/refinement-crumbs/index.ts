@@ -10,10 +10,12 @@ class RefinementCrumbs {
       case StoreSections.PAST_PURCHASES:
         this.state.selectedRefinementsUpdated = Events.PAST_PURCHASE_SELECTED_REFINEMENTS_UPDATED;
         this.state.navigationSelector = (field) => this.select(Selectors.pastPurchaseNavigation, field);
+        this.subscribe(Events.PAST_PURCHASE_NAVIGATIONS_UPDATED, this.updateRefinements);
         break;
       case StoreSections.SEARCH:
         this.state.selectedRefinementsUpdated = Events.SELECTED_REFINEMENTS_UPDATED;
         this.state.navigationSelector = (field) => this.select(Selectors.navigation, field);
+        this.subscribe(Events.NAVIGATIONS_UPDATED, this.updateRefinements);
         break;
     }
 

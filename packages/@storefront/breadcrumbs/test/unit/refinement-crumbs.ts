@@ -15,6 +15,7 @@ suite('RefinementCrumbs', ({ expect, spy, stub, itShouldProvideAlias }) => {
     beforeEach(() => {
       refinementCrumbs.props = { field };
       refinementCrumbs.state = <any>{};
+      refinementCrumbs.subscribe = () => null;
     });
 
     it('should call updateState()', () => {
@@ -27,28 +28,56 @@ suite('RefinementCrumbs', ({ expect, spy, stub, itShouldProvideAlias }) => {
       expect(updateState).to.be.called;
     });
 
-    it('should set the navigationSelector and selectedRefinementsUpdated based on SEARCH storeSection', () => {
-      const select = (refinementCrumbs.select = spy());
-      refinementCrumbs.props.storeSection = StoreSections.SEARCH;
-      refinementCrumbs.updateState = () => null;
-      refinementCrumbs.init();
+    describe('SEARCH storeSection', () => {
+      beforeEach(() => {
+        refinementCrumbs.props.storeSection = StoreSections.SEARCH;
+        refinementCrumbs.updateState = () => null;
+      });
 
-      refinementCrumbs.state.navigationSelector(field);
+      it('should set the navigationSelector and selectedRefinementsUpdated based on SEARCH storeSection', () => {
+        const select = (refinementCrumbs.select = spy());
+        refinementCrumbs.init();
 
-      expect(refinementCrumbs.state.selectedRefinementsUpdated).to.eq(Events.SELECTED_REFINEMENTS_UPDATED);
-      expect(select).to.be.calledWithExactly(Selectors.navigation, field);
+        refinementCrumbs.state.navigationSelector(field);
+
+        expect(refinementCrumbs.state.selectedRefinementsUpdated).to.eq(Events.SELECTED_REFINEMENTS_UPDATED);
+        expect(select).to.be.calledWithExactly(Selectors.navigation, field);
+      });
+
+      it('should listen for NAVIGATIONS_UPDATED based on SEARCH storeSection', () => {
+        const subscribe = refinementCrumbs.subscribe = spy();
+
+        refinementCrumbs.init();
+
+        expect(subscribe).to.be.calledWithExactly(Events.NAVIGATIONS_UPDATED, refinementCrumbs.updateRefinements);
+      });
     });
 
-    it('should set the navigationSelector and selectedRefinementsUpdated base on PAST_PURCHASES storeSection', () => {
-      const select = (refinementCrumbs.select = spy());
-      refinementCrumbs.props.storeSection = StoreSections.PAST_PURCHASES;
-      refinementCrumbs.updateState = () => null;
-      refinementCrumbs.init();
+    describe('PAST_PURCHASES storeSection', () => {
+      beforeEach(() => {
+        refinementCrumbs.props.storeSection = StoreSections.PAST_PURCHASES;
+        refinementCrumbs.updateState = () => null;
+      });
 
-      refinementCrumbs.state.navigationSelector(field);
+      it('should set the navigationSelector and selectedRefinementsUpdated base on PAST_PURCHASES storeSection', () => {
+        const select = (refinementCrumbs.select = spy());
+        refinementCrumbs.init();
 
-      expect(refinementCrumbs.state.selectedRefinementsUpdated).to.eq(Events.PAST_PURCHASE_SELECTED_REFINEMENTS_UPDATED);
-      expect(select).to.be.calledWithExactly(Selectors.pastPurchaseNavigation, field);
+        refinementCrumbs.state.navigationSelector(field);
+
+        // tslint:disable-next-line max-line-length
+        expect(refinementCrumbs.state.selectedRefinementsUpdated).to.eq(Events.PAST_PURCHASE_SELECTED_REFINEMENTS_UPDATED);
+        expect(select).to.be.calledWithExactly(Selectors.pastPurchaseNavigation, field);
+      });
+
+      it('should listen for PAST_PURCHASE_NAVIGATIONS_UPDATED based on PAST_PURCHASES storeSection', () => {
+        const subscribe = refinementCrumbs.subscribe = spy();
+
+        refinementCrumbs.init();
+
+        // tslint:disable-next-line max-line-length
+        expect(subscribe).to.be.calledWithExactly(Events.PAST_PURCHASE_NAVIGATIONS_UPDATED, refinementCrumbs.updateRefinements);
+      });
     });
   });
 
