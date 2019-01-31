@@ -1,4 +1,3 @@
-import finder from '@medv/finder';
 import { Selectors } from '@storefront/flux-capacitor';
 import moize from 'moize';
 import StoreFront from '../../storefront';
@@ -91,10 +90,8 @@ export function uiState<P extends object = any, S extends object = any, A extend
   return (target: TagConstructor) => {
     const { onBeforeMount, onBeforeUnmount } = target.prototype;
 
-    target.prototype.onMount = function(...args: any) {
-      debugger;
-      const t = finder(this.root);
-      const storedState = this.select(Selectors.uiTagState, Tag.getMeta(this).name, t);
+    target.prototype.onBeforeMount = function(...args: any) {
+      const storedState = this.select(Selectors.uiTagState, Tag.getMeta(this).name, this.props[prop]);
 
       if (storedState) {
         this.state = { ...this.state, ...storedState };

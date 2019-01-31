@@ -48,7 +48,6 @@
     "ext": "ts,json,html,css"
   },
   "dependencies": {
-    "@medv/finder": "^1.1.1",
     "@storefront/flux-capacitor": "1.69.0",
     "@types/clone": "^0.1.30",
     "@types/deep-assign": "^0.1.0",
