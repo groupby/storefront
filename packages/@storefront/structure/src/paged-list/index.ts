@@ -21,7 +21,6 @@ class PagedList {
   }
 
   onUpdate(prevProps: any) {
-    debugger;
     if (Object.keys(this.props).some((prop) => this.props[prop] !== prevProps[prop])) {
       this.state = {
         ...this.state,
