@@ -196,7 +196,7 @@ suite('URL Service', ({ expect, spy, stub, itShouldBeCore, itShouldExtendBaseSer
 
       service.pushState(null, null, url);
 
-      expect(assign).to.be.calledWith(redirectsResult);
+      expect(assign).to.be.calledWithExactly(redirectsResult);
     });
 
     it('should use the opts redirects if it is an object', () => {
@@ -209,7 +209,7 @@ suite('URL Service', ({ expect, spy, stub, itShouldBeCore, itShouldExtendBaseSer
 
       service.pushState(null, null, url);
 
-      expect(assign).to.be.calledWith(redirectsResult);
+      expect(assign).to.be.calledWithExactly(redirectsResult);
     });
 
     it('should use the history pushState if it exists', () => {
@@ -221,7 +221,7 @@ suite('URL Service', ({ expect, spy, stub, itShouldBeCore, itShouldExtendBaseSer
 
       service.pushState(data, title, url);
 
-      expect(pushState).to.be.calledWith(data, title, url);
+      expect(pushState).to.be.calledWithExactly(data, title, url);
     });
   });
 
