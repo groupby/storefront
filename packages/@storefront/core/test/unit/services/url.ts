@@ -15,6 +15,7 @@ suite('URL Service', ({ expect, spy, stub, itShouldBeCore, itShouldExtendBaseSer
   let urlBeautifier;
   let addEventListener;
   let assign;
+  let replace;
   let win;
   let winPushState;
   let winReplaceState;
@@ -23,11 +24,12 @@ suite('URL Service', ({ expect, spy, stub, itShouldBeCore, itShouldExtendBaseSer
   beforeEach(() => {
     addEventListener = spy();
     assign = spy();
+    replace = spy();
     winPushState = spy();
     winReplaceState = spy();
     win = {
       addEventListener,
-      location: { assign, href },
+      location: { assign, replace, href },
       history: {
         pushState: winPushState,
         replaceState: winReplaceState,
@@ -103,19 +105,20 @@ suite('URL Service', ({ expect, spy, stub, itShouldBeCore, itShouldExtendBaseSer
   describe('init()', () => {
     it('should call initHistory in flux', () => {
       const initHistory = spy();
-      const pushState = spy();
+      const replaceState = () => null;
+      const pushState = () => null;
+      stub(service, 'replaceState').get(() => replaceState);
       stub(service, 'pushState').get(() => pushState);
       service['app'].flux = <any>{ initHistory };
 
       service.init();
 
       const initHistoryArgs = initHistory.getCall(0).args[0];
-      expect(initHistoryArgs.build).to.eq(service.build);
-      expect(initHistoryArgs.parse).to.eq(service.parse);
-      expect(initHistoryArgs.initialUrl).to.eq(service.initialUrl);
-      expect(initHistoryArgs.replaceState).to.eq(service.replaceState);
-      initHistoryArgs.pushState();
-      expect(pushState).to.be.called;
+      expect(initHistoryArgs.build).to.eq(service.build, 'build is not the same');
+      expect(initHistoryArgs.parse).to.eq(service.parse, 'parse is not the same');
+      expect(initHistoryArgs.initialUrl).to.eq(service.initialUrl, 'initialUrl is not the same');
+      expect(initHistoryArgs.replaceState).to.eq(replaceState, 'replaceState is not the same');
+      expect(initHistoryArgs.pushState).to.eq(pushState, 'pushState is not the same');
     });
 
     it('should set up history listener', () => {
@@ -226,16 +229,26 @@ suite('URL Service', ({ expect, spy, stub, itShouldBeCore, itShouldExtendBaseSer
   });
 
   describe('get replaceState()', () => {
+    const data = { a: 'b' };
+    const title = 'this website';
+    const url = 'www.example.com';
+
     it('should use the history replaceState', () => {
       const replaceState = spy();
-      const data = { a: 'b' };
-      const title = 'this website';
-      const url = 'www.example.com';
       service.history = <any>{ replaceState };
 
       service.replaceState(data, title, url);
 
-      expect(replaceState).to.be.calledWith(data, title, url);
+      expect(replaceState).to.be.calledWithExactly(data, title, url);
+    });
+
+    it('should fall back to location.replace', () => {
+      const replaceState = () => { throw new Error('fail'); };
+      service.history = <any>{ replaceState };
+
+      service.replaceState(data, title, url);
+
+      expect(replace).to.be.calledWithExactly(url);
     });
   });
 

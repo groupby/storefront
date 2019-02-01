@@ -91,7 +91,13 @@ class UrlService extends BaseService<UrlService.Options> {
   }
 
   get replaceState() {
-    return this.history.replaceState;
+    return (data, title, url) => {
+      try {
+        return this.history.replaceState(data, title, url);
+      } catch (e) {
+        return WINDOW().location.replace(url);
+      }
+    };
   }
 
   get initialUrl() {
