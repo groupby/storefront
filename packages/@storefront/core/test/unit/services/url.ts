@@ -227,12 +227,15 @@ suite('URL Service', ({ expect, spy, stub, itShouldBeCore, itShouldExtendBaseSer
 
   describe('get replaceState()', () => {
     it('should use the history replaceState', () => {
-      const replaceState = () => null;
+      const replaceState = spy();
+      const data = { a: 'b' };
+      const title = 'this website';
+      const url = 'www.example.com';
       service.history = <any>{ replaceState };
 
-      const result = service.replaceState;
+      service.replaceState(data, title, url);
 
-      expect(result).to.eq(replaceState);
+      expect(replaceState).to.be.calledWith(data, title, url);
     });
   });
 
