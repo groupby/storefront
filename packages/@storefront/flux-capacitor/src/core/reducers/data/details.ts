@@ -16,5 +16,5 @@ export default function updateDetails(state: State = DEFAULTS, action: Action): 
   }
 }
 
-export const update = (state: State, { data, template }: Store.Details) =>
-  ({ ...state, data, template: SearchAdapter.extractTemplate(<any>template) });
+export const update = (state: State, { data, template, siteParams = [] }: Store.Details) =>
+  ({ ...state, data, template: SearchAdapter.extractTemplate(<any>template), siteParams });
