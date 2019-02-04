@@ -15,7 +15,9 @@ class RefinementCrumbs {
       case StoreSections.SEARCH:
         this.state.selectedRefinementsUpdated = Events.SELECTED_REFINEMENTS_UPDATED;
         this.state.navigationSelector = (field) => this.select(Selectors.navigation, field);
-        this.subscribe(Events.NAVIGATIONS_UPDATED, this.updateRefinements);
+        if (!this.props.selectedNavigation) {
+          this.subscribe(Events.NAVIGATIONS_UPDATED, this.updateRefinements);
+        }
         break;
     }
 
@@ -40,7 +42,9 @@ class RefinementCrumbs {
     this.state = { ...this.state, ...this.selectRefinements(this.state.navigationSelector) };
   }
 
-  updateRefinements = () => this.set(this.selectRefinements(this.state.navigationSelector));
+  updateRefinements = () => {
+    return this.set(this.selectRefinements(this.state.navigationSelector));
+  }
 
   selectRefinements(getNavigation: RefinementCrumbs.NavigationSelector) {
     const { field } = this.props;
@@ -72,6 +76,7 @@ interface RefinementCrumbs extends Tag<RefinementCrumbs.Props, RefinementCrumbs.
 namespace RefinementCrumbs {
   export interface Props extends Tag.Props {
     field: string;
+    selectedNavigation?: Store.Navigation;
   }
 
   export type NavigationSelector = (field: string) => Store.Navigation;
