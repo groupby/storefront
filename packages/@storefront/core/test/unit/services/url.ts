@@ -186,7 +186,6 @@ suite('URL Service', ({ expect, spy, stub, itShouldBeCore, itShouldExtendBaseSer
     const title = 'this website';
     const url = 'www.example.com';
 
-
     it('should use the opts urlHandler if it is a function', () => {
       const urlHandler = spy();
       service['opts'] = <any>{ urlHandler };
