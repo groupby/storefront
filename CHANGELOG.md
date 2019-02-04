@@ -5,6 +5,94 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v2.4.0] - 2019-02-04
+
+Package versions:
+
+- `@storefront/breadcrumbs`: 2.5.0
+- `@storefront/collections`: 2.5.0
+- `@storefront/core`: 2.5.0
+- `@storefront/details`: 2.5.0
+- `@storefront/did-you-mean`: 2.5.0
+- `@storefront/flux-capacitor`: 1.71.0
+- `@storefront/infinite-scroll`: 2.5.0
+- `@storefront/navigation`: 2.5.0
+- `@storefront/page-size`: 2.5.0
+- `@storefront/paging`: 2.5.0
+- `@storefront/products`: 2.5.0
+- `@storefront/query`: 2.5.0
+- `@storefront/recommendations`: 2.5.0
+- `@storefront/record-count`: 2.5.0
+- `@storefront/related-queries`: 2.5.0
+- `@storefront/sayt`: 2.5.0
+- `@storefront/sort`: 2.5.0
+- `@storefront/structure`: 2.5.0
+- `@storefront/template`: 2.5.0
+
+### Changed
+#### breadcrumbs
+- Update `@storefront/core` to 2.5.0.
+
+#### collections
+- Update `@storefront/core` to 2.5.0.
+
+#### core
+- Update `@storefront/flux-capacitor` to 1.71.0.
+
+#### details
+- Update `@storefront/core` to 2.5.0.
+
+#### did-you-mean
+- Update `@storefront/core` to 2.5.0.
+
+#### infinite-scroll
+- Update `@storefront/core` to 2.5.0.
+
+#### navigation
+- Update `@storefront/core` to 2.5.0.
+
+#### page-size
+- Update `@storefront/core` to 2.5.0.
+
+#### paging
+- Update `@storefront/core` to 2.5.0.
+
+#### products
+- Update `@storefront/core` to 2.5.0.
+
+#### query
+- Update `@storefront/core` to 2.5.0.
+
+#### recommendations
+- Update `@storefront/core` to 2.5.0.
+
+#### record-count
+- Update `@storefront/core` to 2.5.0.
+
+#### related-queries
+- Update `@storefront/core` to 2.5.0.
+
+#### sayt
+- Update `@storefront/core` to 2.5.0.
+
+#### sort
+- Update `@storefront/core` to 2.5.0.
+
+#### structure
+- Update `@storefront/core` to 2.5.0.
+
+#### template
+- Update `@storefront/core` to 2.5.0.
+
+### Added
+#### flux-capacitor
+- SF-1276: Added support for `siteParams` in search, detail, and pastPurchases.
+  - Add the following store Selectors:
+    - `siteParams` - returns Search siteParams.
+    - `detailsTemplate`, `detailsSiteParams` - returns details template and siteParams, respectively.
+    - `pastPurchaseTemplate`, `pastPurchaseSiteParams` - returns past purchase template and siteParams, respectively.
+
+
 ## [v2.3.0] - 2019-01-30
 
 Package versions:
