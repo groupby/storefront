@@ -28,7 +28,8 @@ export type Action = Actions.ReceivePastPurchaseSkus
   | Actions.ReceivePastPurchasePage
   | Actions.ReceivePastPurchaseAllRecordCount
   | Actions.ReceivePastPurchaseCurrentRecordCount
-  | Actions.ReceivePastPurchaseTemplate;
+  | Actions.ReceivePastPurchaseTemplate
+  | Actions.ReceivePastPurchaseSiteParams;
 export type State = Store.PastPurchase;
 
 export const PAST_PURCHASE_SORT = {
@@ -57,7 +58,8 @@ export const DEFAULTS: State = <any>{
     allIds: [],
   },
   page: page.DEFAULTS,
-  template : {}
+  template: {},
+  siteParams: [],
 };
 
 export default function updatePastPurchases(state: State = DEFAULTS, action: Action): State {
@@ -82,6 +84,7 @@ export default function updatePastPurchases(state: State = DEFAULTS, action: Act
     case Actions.UPDATE_PAST_PURCHASE_PAGE_SIZE: return applyPageReducer(state, action, page.updateSize);
     case Actions.RECEIVE_PAST_PURCHASE_PAGE: return applyPageReducer(state, action, page.receivePage);
     case Actions.RECEIVE_PAST_PURCHASE_TEMPLATE: return updatePastPurchaseTemplate(state, action);
+    case Actions.RECEIVE_PAST_PURCHASE_SITE_PARAMS: return updatePastPurchaseSiteParams(state, action);
     case Actions.RECEIVE_MORE_PAST_PURCHASE_REFINEMENTS: return applyMoreRefinementsReducer(state, action, navigations.receiveMoreRefinements);
     default: return state;
   }
@@ -177,7 +180,7 @@ export const updatePastPurchaseSortSelected = (state: State, { payload }: Action
 };
 
 export const updatePastPurchaseTemplate = (state: State, { payload }: Actions.ReceivePastPurchaseTemplate) =>
-  ({
-    ...state,
-    template: payload
-  });
+  ({ ...state, template: payload });
+
+export const updatePastPurchaseSiteParams = (state: State, { payload }: Actions.ReceivePastPurchaseSiteParams) =>
+  ({ ...state, siteParams: payload });

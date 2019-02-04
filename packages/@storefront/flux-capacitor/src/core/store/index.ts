@@ -264,6 +264,7 @@ namespace Store {
       sort?: LabeledSelectableList<PastPurchases.PastPurchaseSort>;
       page: Page;
       template?: Template;
+      siteParams?: SiteParams[];
     }
 
   export namespace PastPurchases {
