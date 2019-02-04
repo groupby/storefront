@@ -3,10 +3,11 @@ import { configurable, provide, tag, Events, Selectors, Store, StoreSections, Ta
 @configurable
 @provide<Breadcrumbs.Props, Breadcrumbs.State>(
   'breadcrumbs',
-  ({ showLabels, labels }, { fields, originalQuery, correctedQuery }) => ({
+  ({ showLabels, labels }, { fields, selectedNavigations, originalQuery, correctedQuery }) => ({
     showLabels,
     labels,
     fields,
+    selectedNavigations,
     originalQuery,
     correctedQuery,
   })
@@ -39,10 +40,13 @@ class Breadcrumbs {
         this.subscribe(Events.ORIGINAL_QUERY_UPDATED, this.updateOriginalQuery);
         this.subscribe(Events.CORRECTED_QUERY_UPDATED, this.updateCorrectedQuery);
         this.subscribe(Events.NAVIGATIONS_UPDATED, this.updateFields);
+        this.subscribe(Events.NAVIGATIONS_UPDATED, this.updateSelectedNavigations);
         navigationsSelector = () => this.select(Selectors.navigations);
         break;
     }
-    this.state = { navigationsSelector, fields: this.getFields(navigationsSelector()), originalQuery: this.select(Selectors.query) };
+
+    // tslint:disable-next-line max-line-length
+    this.state = { navigationsSelector, fields: this.getFields(navigationsSelector()), originalQuery: this.select(Selectors.query), selectedNavigations: this.getSelectedNavigations(navigationsSelector()) };
   }
 
   onBeforeMount() {
@@ -60,10 +64,19 @@ class Breadcrumbs {
 
   updateFields = () => this.set({ fields: this.getFields(this.state.navigationsSelector()) });
 
+  // todo: Refactor the below in order to define this in the constructor or bind it within init().
+  // tslint:disable-next-line max-line-length
+  updateSelectedNavigations = () => this.set({ selectedNavigations: this.getSelectedNavigations(this.state.navigationsSelector()) });
+
   getFields(navigations: Store.Navigation[]) {
     return navigations
       .filter((navigation) => navigation.selected.length !== 0)
       .map((navigation) => navigation.field);
+  }
+
+  getSelectedNavigations(navigations: Store.Navigation[]) {
+    return navigations
+      .filter((navigation) => navigation.selected.length !== 0);
   }
 }
 
@@ -81,6 +94,7 @@ namespace Breadcrumbs {
   export interface State {
     fields: string[];
     originalQuery: string;
+    selectedNavigations: Store.Navigation[];
     correctedQuery?: string;
     navigationsSelector?: () => Store.Navigation[];
   }
