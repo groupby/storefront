@@ -4,7 +4,7 @@ import Store from '../../store';
 export type Action = Actions.ReceiveSiteParams;
 export type State = Store.SiteParams[];
 
-export const DEFAULT_PARAMS = <any>[];
+export const DEFAULT_PARAMS: any = [];
 
 export default function updateParams(state: State = DEFAULT_PARAMS, action: Action): State {
   switch (action.type) {
