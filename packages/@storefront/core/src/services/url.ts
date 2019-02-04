@@ -1,7 +1,7 @@
 import { Store, STOREFRONT_APP_ID } from '@storefront/flux-capacitor';
 import { core, BaseService } from '../core/service';
 import UrlBeautifier from '../core/url-beautifier';
-import { WINDOW, DOMEXCEPTION_NAMES } from '../core/utils';
+import { DOMEXCEPTION_NAMES, WINDOW } from '../core/utils';
 import StoreFront from '../storefront';
 import Utils from './urlUtils';
 
