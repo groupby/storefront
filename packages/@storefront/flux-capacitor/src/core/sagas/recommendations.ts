@@ -119,7 +119,7 @@ export namespace RecommendationsTasks {
         const results = yield effects.call(RequestsTasks.search, flux, request);
         const pageSize = request.pageSize;
         yield effects.put(<any>[
-          flux.actions.receiveSiteParams(results.siteParams),
+          flux.actions.receivePastPurchaseSiteParams(results.siteParams),
           flux.actions.updatePastPurchasePageSize(pageSize),
           flux.actions.receivePastPurchasePage(
             SearchAdapter.extractRecordCount(results.totalRecordCount),

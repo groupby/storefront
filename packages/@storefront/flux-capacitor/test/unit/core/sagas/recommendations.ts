@@ -284,7 +284,7 @@ suite('recommendations saga', ({ expect, spy, stub }) => {
       it('should generate a request', () => {
         const getState = spy(() => ({ a: 1 }));
         const receivePastPurchaseProducts = spy(() => 1);
-        const receiveSiteParams = spy(() => 2);
+        const receivePastPurchaseSiteParams = spy(() => 2);
         const receivePastPurchasePage = spy(() => 3);
         const receivePastPurchaseCurrentRecordCount = spy(() => 4);
         const updatePastPurchasePageSize = spy(() => 3);
@@ -293,7 +293,7 @@ suite('recommendations saga', ({ expect, spy, stub }) => {
         const saveState = spy();
         const replaceState = spy();
         const actions = {
-          receiveSiteParams,
+          receivePastPurchaseSiteParams,
           receivePastPurchasePage,
           receivePastPurchaseProducts,
           receivePastPurchaseCurrentRecordCount,
@@ -331,7 +331,7 @@ suite('recommendations saga', ({ expect, spy, stub }) => {
         expect(task.next(pastPurchaseSkus).value).to.eql(effects.select());
         expect(task.next(state).value).to.eql(effects.call(searchRequest, flux, request));
         expect(task.next(productData).value).to.eql(effects.put(<any>[
-          receiveSiteParams(),
+          receivePastPurchaseSiteParams(),
           updatePastPurchasePageSize(),
           receivePastPurchasePage(),
           receivePastPurchaseCurrentRecordCount(),

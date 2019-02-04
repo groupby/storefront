@@ -1501,8 +1501,23 @@ suite('ActionCreators', ({ expect, spy, stub }) => {
     it('should return an action', () => {
       const template: any = { a: 'b' };
 
-      expectAction(ActionCreators.receivePastPurchaseTemplate(template),
-      Actions.RECEIVE_PAST_PURCHASE_TEMPLATE, template);
+      expectAction(
+        ActionCreators.receivePastPurchaseTemplate(template),
+        Actions.RECEIVE_PAST_PURCHASE_TEMPLATE,
+        template
+      );
+    });
+  });
+
+  describe('receivePastPurchaseSiteParams()', () => {
+    it('should return an action', () => {
+      const siteParams = [{ key: 'a key', value: 'a value' }];
+
+      expectAction(
+        ActionCreators.receivePastPurchaseSiteParams(siteParams),
+        Actions.RECEIVE_PAST_PURCHASE_SITE_PARAMS,
+        siteParams
+      );
     });
   });
 

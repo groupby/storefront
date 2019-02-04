@@ -898,6 +898,15 @@ namespace ActionCreators {
     return createAction(Actions.RECEIVE_PAST_PURCHASE_TEMPLATE, template);
   }
 
+  /**
+   * Sets the past purchases siteParams in the store.
+   * @param  {Store.SiteParams[]}         siteParams - The siteParams to use.
+   * @return {Actions.ReceiveSiteParams}             - Action with siteParams.
+   */
+  export function receivePastPurchaseSiteParams(siteParams: Store.SiteParams[]): Actions.ReceivePastPurchaseSiteParams {
+    return createAction(Actions.RECEIVE_PAST_PURCHASE_SITE_PARAMS, siteParams);
+  }
+
   export function receiveMorePastPurchaseProducts(res: Results) {
     return (state: Store.State): Actions.ReceiveMorePastPurchaseProducts => {
       // tslint:disable-next-line max-line-length
