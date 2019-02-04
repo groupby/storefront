@@ -1,4 +1,5 @@
 import { STOREFRONT_APP_ID } from '@storefront/flux-capacitor';
+import * as DOMException from 'domexception';
 import * as UrlBeautifier from '../../../src/core/url-beautifier';
 import * as CoreUtils from '../../../src/core/utils';
 import Service from '../../../src/services/url';
@@ -242,13 +243,23 @@ suite('URL Service', ({ expect, spy, stub, itShouldBeCore, itShouldExtendBaseSer
       expect(replaceState).to.be.calledWithExactly(data, title, url);
     });
 
-    it('should fall back to location.replace', () => {
-      const replaceState = () => { throw new Error('fail'); };
+    it('should fall back to location.replace for only SecurityError', () => {
+      const replaceState = () => { throw new DOMException('here be SecurityError', 'SecurityError') };
       service.history = <any>{ replaceState };
 
       service.replaceState(data, title, url);
 
       expect(replace).to.be.calledWithExactly(url);
+    });
+
+    it('should rethrow any exception other than SecurityError', () => {
+      const error = new Error('not a SecurityError');
+      const replaceState = () => { throw error };
+      service.history = <any>{ replaceState };
+
+      const throwReplace = () => service.replaceState(data, title, url);
+
+      expect(throwReplace).to.throw(error);
     });
   });
 
