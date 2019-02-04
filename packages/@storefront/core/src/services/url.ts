@@ -1,7 +1,7 @@
 import { Store, STOREFRONT_APP_ID } from '@storefront/flux-capacitor';
 import { core, BaseService } from '../core/service';
 import UrlBeautifier from '../core/url-beautifier';
-import { WINDOW } from '../core/utils';
+import { WINDOW, DOMEXCEPTION_NAMES } from '../core/utils';
 import StoreFront from '../storefront';
 import Utils from './urlUtils';
 
@@ -87,7 +87,7 @@ class UrlService extends BaseService<UrlService.Options> {
           try {
             return this.history.pushState(data, title, url);
           } catch (e) {
-            if (e.name === 'SecurityError') {
+            if (e.name === DOMEXCEPTION_NAMES.SECURITY_ERROR) {
               // if a SecurityError is thrown, the URL is probably not in the same origin
               // hard-navigate to the URL instead
               return WINDOW().location.assign(url);
@@ -106,7 +106,7 @@ class UrlService extends BaseService<UrlService.Options> {
       try {
         return this.history.replaceState(data, title, url);
       } catch (e) {
-        if (e.name === 'SecurityError') {
+        if (e.name === DOMEXCEPTION_NAMES.SECURITY_ERROR) {
           // if a SecurityError is thrown, the URL is probably not in the same origin
           // hard-navigate to the URL instead
           return WINDOW().location.replace(url);

@@ -229,7 +229,7 @@ suite('URL Service', ({ expect, spy, stub, itShouldBeCore, itShouldExtendBaseSer
     });
 
     it('should fall back to location.assign for only SecurityError', () => {
-      const pushState = () => { throw new DOMException('here be SecurityError', 'SecurityError'); };
+      const pushState = () => { throw new DOMException('here be SecurityError', CoreUtils.DOMEXCEPTION_NAMES.SECURITY_ERROR); };
       service['opts'] = <any>{ redirects: {} };
       service.history = <any>{ pushState };
 
@@ -265,7 +265,7 @@ suite('URL Service', ({ expect, spy, stub, itShouldBeCore, itShouldExtendBaseSer
     });
 
     it('should fall back to location.replace for only SecurityError', () => {
-      const replaceState = () => { throw new DOMException('here be SecurityError', 'SecurityError'); };
+      const replaceState = () => { throw new DOMException('here be SecurityError', CoreUtils.DOMEXCEPTION_NAMES.SECURITY_ERROR); };
       service.history = <any>{ replaceState };
 
       service.replaceState(data, title, url);
