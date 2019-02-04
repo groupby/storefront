@@ -244,7 +244,7 @@ suite('URL Service', ({ expect, spy, stub, itShouldBeCore, itShouldExtendBaseSer
     });
 
     it('should fall back to location.replace for only SecurityError', () => {
-      const replaceState = () => { throw new DOMException('here be SecurityError', 'SecurityError') };
+      const replaceState = () => { throw new DOMException('here be SecurityError', 'SecurityError'); };
       service.history = <any>{ replaceState };
 
       service.replaceState(data, title, url);
@@ -254,7 +254,7 @@ suite('URL Service', ({ expect, spy, stub, itShouldBeCore, itShouldExtendBaseSer
 
     it('should rethrow any exception other than SecurityError', () => {
       const error = new Error('not a SecurityError');
-      const replaceState = () => { throw error };
+      const replaceState = () => { throw error; };
       service.history = <any>{ replaceState };
 
       const throwReplace = () => service.replaceState(data, title, url);

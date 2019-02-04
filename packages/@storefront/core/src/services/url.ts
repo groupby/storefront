@@ -96,11 +96,11 @@ class UrlService extends BaseService<UrlService.Options> {
         return this.history.replaceState(data, title, url);
       } catch (e) {
         if (e.name === 'SecurityError') {
-          // If a SecurityError is thrown, the URL is probably not in the same origin.
-          // Hard-navigate to the URL instead.
+          // if a SecurityError is thrown, the URL is probably not in the same origin
+          // hard-navigate to the URL instead
           return WINDOW().location.replace(url);
         } else {
-          // Rethrow the error for all other cases to prevent infinite loops.
+          // rethrow the error for all other cases to prevent infinite loops
           throw e;
         }
       }
