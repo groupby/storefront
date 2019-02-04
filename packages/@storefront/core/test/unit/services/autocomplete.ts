@@ -1,8 +1,7 @@
-import { Events } from '@storefront/flux-capacitor';
+import { Events, Selectors } from '@storefront/flux-capacitor';
 import * as sinon from 'sinon';
 import * as utils from '../../../src/core/utils';
 import Service from '../../../src/services/autocomplete';
-import * as autocompleteService from '../../../src/services/autocomplete';
 import suite from './_suite';
 
 suite('Autocomplete Service', ({ expect, spy, stub, itShouldBeCore, itShouldExtendBaseService }) => {
@@ -160,9 +159,15 @@ suite('Autocomplete Service', ({ expect, spy, stub, itShouldBeCore, itShouldExte
   });
 
   describe('hasActiveSuggestion()', () => {
-    it('should return true if any autocomplete tag has an active selection', () => {
-      // tslint:disable-next-line max-line-length
-      service.registeredAutocompleteTags = <any>[{ isActive: () => false }, { isActive: () => false }, { isActive: () => true }];
+    it('should return true if any autocomplete tag has an active selection and hoverAutoFill is on', () => {
+      const config = { a: 'b' };
+      const select = stub().withArgs(config).returns({ autocomplete: { hoverAutoFill: true } });
+      stub(Selectors, 'config').returns(config);
+      service.registeredAutocompleteTags = <any>[
+        { isActive: () => false, select },
+        { isActive: () => false, select },
+        { isActive: () => true, select }
+      ];
 
       expect(service.hasActiveSuggestion()).to.be.true;
     });
@@ -170,6 +175,19 @@ suite('Autocomplete Service', ({ expect, spy, stub, itShouldBeCore, itShouldExte
     it('should return false if no autocomplete tag has an active selection', () => {
       // tslint:disable-next-line max-line-length
       service.registeredAutocompleteTags = <any>[{ isActive: () => false }, { isActive: () => false }, { isActive: () => false }];
+
+      expect(service.hasActiveSuggestion()).to.be.false;
+    });
+
+    it('should return false if no autocomplete tags has an active selection, but hoverAutoFill is off', () => {
+      const config = { a: 'b' };
+      const select = stub().withArgs(config).returns({ autocomplete: { hoverAutoFill: false } });
+      stub(Selectors, 'config').returns(config);
+      service.registeredAutocompleteTags = <any>[
+        { isActive: () => false, select },
+        { isActive: () => true, select },
+        { isActive: () => true, select }
+      ];
 
       expect(service.hasActiveSuggestion()).to.be.false;
     });

@@ -53,7 +53,9 @@ class AutocompleteService extends LazyService {
   }
 
   hasActiveSuggestion() {
-    return this.registeredAutocompleteTags.some((tag) => tag.isActive());
+    return this.registeredAutocompleteTags.some(
+      (tag) => tag.isActive() && tag.select(Selectors.config).autocomplete.hoverAutoFill
+    );
   }
 
   updateSearchTerms = (query: string) => this.app.flux.saytSuggestions(query);
