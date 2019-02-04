@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - SF-1276: Added support for `siteParams` in search, detail, and pastPurchases.
+  - Add the following store Selectors:
+    - `siteParams` - returns Search siteParams.
+    - `detailsTemplate`, `detailsSiteParams` - returns details template and siteParams, respectively.
+    - `pastPurchaseTemplate`, `pastPurchaseSiteParams` - returns past purchase template and siteParams, respectively.
+
 
 ## [1.70.0] - 2019-01-24
 ### Changed
