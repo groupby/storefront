@@ -182,7 +182,10 @@ suite('URL Service', ({ expect, spy, stub, itShouldBeCore, itShouldExtendBaseSer
   });
 
   describe('get pushState()', () => {
+    const data = { a: 'b' };
+    const title = 'this website';
     const url = 'www.example.com';
+
 
     it('should use the opts urlHandler if it is a function', () => {
       const urlHandler = spy();
@@ -217,8 +220,6 @@ suite('URL Service', ({ expect, spy, stub, itShouldBeCore, itShouldExtendBaseSer
     });
 
     it('should use the history pushState if it exists', () => {
-      const data = { a: 'b' };
-      const title = 'this website';
       const pushState = spy();
       service['opts'] = <any>{ redirects: {} };
       service.history = <any>{ pushState };
@@ -226,6 +227,27 @@ suite('URL Service', ({ expect, spy, stub, itShouldBeCore, itShouldExtendBaseSer
       service.pushState(data, title, url);
 
       expect(pushState).to.be.calledWithExactly(data, title, url);
+    });
+
+    it('should fall back to location.assign for only SecurityError', () => {
+      const pushState = () => { throw new DOMException('here be SecurityError', 'SecurityError'); };
+      service['opts'] = <any>{ redirects: {} };
+      service.history = <any>{ pushState };
+
+      service.pushState(data, title, url);
+
+      expect(assign).to.be.calledWithExactly(url);
+    });
+
+    it('should rethrow any exception other than SecurityError', () => {
+      const error = new Error('not a SecurityError');
+      const pushState = () => { throw error; };
+      service['opts'] = <any>{ redirects: {} };
+      service.history = <any>{ pushState };
+
+      const throwPush = () => service.pushState(data, title, url);
+
+      expect(throwPush).to.throw(error);
     });
   });
 

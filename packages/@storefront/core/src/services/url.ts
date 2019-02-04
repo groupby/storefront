@@ -84,7 +84,18 @@ class UrlService extends BaseService<UrlService.Options> {
         if (redirectFnResult) {
           return WINDOW().location.assign(redirectFnResult);
         } else {
-          return this.history.pushState(data, title, url);
+          try {
+            return this.history.pushState(data, title, url);
+          } catch (e) {
+            if (e.name === 'SecurityError') {
+              // if a SecurityError is thrown, the URL is probably not in the same origin
+              // hard-navigate to the URL instead
+              return WINDOW().location.assign(url);
+            } else {
+              // rethrow the error for all other cases to prevent infinite loops
+              throw e;
+            }
+          }
         }
       };
     }
