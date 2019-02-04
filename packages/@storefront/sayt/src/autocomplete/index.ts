@@ -6,7 +6,7 @@ import Sayt from '../sayt';
 class Autocomplete {
   state: Autocomplete.State = <any>{
     onHover: (event: MouseEvent) => {
-      const updateQuery = !!this.config.autocomplete.hoverAutoFill;
+      const updateQuery = !!this.select(Selectors.config).autocomplete.hoverAutoFill;
       const targets = this.activationTargets();
       const index = Array.from(targets).findIndex((element) => element === event.target);
       if (index === this.state.selected) {

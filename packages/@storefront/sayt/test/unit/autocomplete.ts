@@ -557,9 +557,11 @@ suite('Autocomplete', ({ expect, spy, stub, itShouldProvideAlias }) => {
 
     it('should call setActivation with updateQuery set to false', () => {
       const setActivation = (autocomplete.setActivation = spy());
+      const config = { a: 'b' };
+      stub(Selectors, 'config').returns(config);
       autocomplete.activationTargets = stub().returns(targets);
       autocomplete.isActive = stub().returns(true);
-      autocomplete.config = <any>{ autocomplete: { hoverAutoFill: false } };
+      autocomplete.select = stub().withArgs(config).returns(<any>{ autocomplete: { hoverAutoFill: false } });
       autocomplete.state.selected = -2;
 
       autocomplete.state.onHover(<any>{});
@@ -570,9 +572,11 @@ suite('Autocomplete', ({ expect, spy, stub, itShouldProvideAlias }) => {
 
     it('should call setActivation with updateQuery set to true', () => {
       const setActivation = (autocomplete.setActivation = spy());
+      const config = { a: 'b' };
+      stub(Selectors, 'config').returns(config);
       autocomplete.activationTargets = stub().returns(targets);
       autocomplete.isActive = stub().returns(true);
-      autocomplete.config = <any>{ autocomplete: { hoverAutoFill: true } };
+      autocomplete.select = stub().withArgs(config).returns(<any>{ autocomplete: { hoverAutoFill: true } });
       autocomplete.state.selected = -2;
 
       autocomplete.state.onHover(<any>{});
