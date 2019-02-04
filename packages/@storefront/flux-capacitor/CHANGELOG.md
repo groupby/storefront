@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] [minor]
+
+### Added
+- SF-1276: Added support for `siteParams` in search, detail, and pastPurchases.
+  - Add the following store Selectors:
+    - `siteParams` - returns Search siteParams.
+    - `detailsTemplate`, `detailsSiteParams` - returns details template and siteParams, respectively.
+    - `pastPurchaseTemplate`, `pastPurchaseSiteParams` - returns past purchase template and siteParams, respectively.
+
+
 ## [1.70.0] - 2019-01-24
 ### Changed
 - SF-1256: Updated `selectSort` and `selectPastPurchasesSort` action creators:

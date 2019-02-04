@@ -168,6 +168,12 @@ namespace Selectors {
   export const template = (state: Store.State) =>
     state.data.present.template;
 
+  /*
+   * Returns siteParams.
+   */
+  export const siteParams = (state: Store.State) =>
+    state.data.present.siteParams;
+
   /**
    * Returns the current products
    */
@@ -226,6 +232,18 @@ namespace Selectors {
    */
   export const details = (state: Store.State) =>
     state.data.present.details;
+
+  /**
+   * Returns details template.
+   */
+  export const detailsTemplate = (state: Store.State) =>
+    state.data.present.details.template;
+
+  /**
+   * Returns details siteParams.
+   */
+  export const detailsSiteParams = (state: Store.State) =>
+    state.data.present.details.siteParams;
 
   /**
    * Returns the current selected refinements.
@@ -574,6 +592,18 @@ namespace Selectors {
 
     return ppSorts.items[ppSorts.selected];
   };
+
+  /**
+   * Returns pastPurchases templates
+   */
+  export const pastPurchaseTemplate = (state: Store.State) =>
+    state.data.present.pastPurchases.template;
+
+  /**
+   * Returns pastPurchases siteParams
+   */
+  export const pastPurchaseSiteParams = (state: Store.State) =>
+    state.data.present.pastPurchases.siteParams;
 
   /**
    * Returns whether or not biasing has been rehydrated from localstorage

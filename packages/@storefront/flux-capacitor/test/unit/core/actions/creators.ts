@@ -856,6 +856,7 @@ suite('ActionCreators', ({ expect, spy, stub }) => {
   describe('response action creators', () => {
     describe('receiveProducts()', () => {
       it('should return a batch action', () => {
+        const receiveSiteParamsAction = { xx: 'yy' };
         const receiveQueryAction = { aa: 'bb' };
         const receiveProductRecordsAction = { cc: 'dd' };
         const receiveNavigationsAction = { ee: 'ff' };
@@ -871,7 +872,8 @@ suite('ActionCreators', ({ expect, spy, stub }) => {
           originalRequest: {
             skip: 10,
             pageSize: 10,
-          }
+          },
+          siteParams: [{ key: 'site', value: 'params' }]
         };
         const query: any = { e: 'f' };
         const state: any = { g: 'h' };
@@ -881,8 +883,10 @@ suite('ActionCreators', ({ expect, spy, stub }) => {
         const template: any = { o: 'p' };
         const recordCount = 24;
         const collection = 'myProducts';
+        const receiveSiteParams = stub(ActionCreators, 'receiveSiteParams').returns(receiveSiteParamsAction);
         // tslint:disable-next-line max-line-length
         const receiveProductRecords = stub(ActionCreators, 'receiveProductRecords').returns(receiveProductRecordsAction);
+        // tslint:disable-next-line max-line-length
         const receiveCollectionCount = stub(ActionCreators, 'receiveCollectionCount').returns(receiveCollectionCountAction);
         const receiveNavigations = stub(ActionCreators, 'receiveNavigations').returns(receiveNavigationsAction);
         const receiveRecordCount = stub(ActionCreators, 'receiveRecordCount').returns(receiveRecordCountAction);
@@ -900,6 +904,7 @@ suite('ActionCreators', ({ expect, spy, stub }) => {
         const batchAction = ActionCreators.receiveProducts(results)(state);
 
         expect(createAction).to.be.calledWith(Actions.RECEIVE_PRODUCTS, results);
+        expect(receiveSiteParams).to.be.calledWith(results.siteParams);
         expect(receiveQuery).to.be.calledWith(query);
         expect(receiveProductRecords).to.be.calledWith(['x', 'x']);
         expect(receiveNavigations).to.be.calledWith(prunedNavigations);
@@ -916,6 +921,7 @@ suite('ActionCreators', ({ expect, spy, stub }) => {
         expect(extractTemplate).to.be.calledWith(results.template);
         expect(batchAction).to.eql([
           ACTION,
+          receiveSiteParamsAction,
           receiveQueryAction,
           receiveProductRecordsAction,
           receiveNavigationsAction,
@@ -1016,6 +1022,14 @@ suite('ActionCreators', ({ expect, spy, stub }) => {
         const redirect = 'page.html';
 
         expectAction(ActionCreators.receiveRedirect(redirect), Actions.RECEIVE_REDIRECT, redirect);
+      });
+    });
+
+    describe('receiveSiteParams()', () => {
+      it('should return an action', () => {
+        const siteParams = [{ key: 'site', value: 'params' }];
+
+        expectAction(ActionCreators.receiveSiteParams(siteParams), Actions.RECEIVE_SITE_PARAMS, siteParams);
       });
     });
 
@@ -1487,8 +1501,23 @@ suite('ActionCreators', ({ expect, spy, stub }) => {
     it('should return an action', () => {
       const template: any = { a: 'b' };
 
-      expectAction(ActionCreators.receivePastPurchaseTemplate(template),
-      Actions.RECEIVE_PAST_PURCHASE_TEMPLATE, template);
+      expectAction(
+        ActionCreators.receivePastPurchaseTemplate(template),
+        Actions.RECEIVE_PAST_PURCHASE_TEMPLATE,
+        template
+      );
+    });
+  });
+
+  describe('receivePastPurchaseSiteParams()', () => {
+    it('should return an action', () => {
+      const siteParams = [{ key: 'a key', value: 'a value' }];
+
+      expectAction(
+        ActionCreators.receivePastPurchaseSiteParams(siteParams),
+        Actions.RECEIVE_PAST_PURCHASE_SITE_PARAMS,
+        siteParams
+      );
     });
   });
 

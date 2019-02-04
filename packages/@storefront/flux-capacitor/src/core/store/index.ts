@@ -85,6 +85,7 @@ namespace Store {
 
     fields: string[]; // static
 
+    siteParams: SiteParams[]; // post
     errors: string[]; // post
     warnings: string[]; // post
   }
@@ -226,6 +227,7 @@ namespace Store {
   export interface Details {
     data?: Product;
     template?: Template;
+    siteParams?: SiteParams[];
   }
 
   export interface Recommendations {
@@ -263,6 +265,7 @@ namespace Store {
       sort?: LabeledSelectableList<PastPurchases.PastPurchaseSort>;
       page: Page;
       template?: Template;
+      siteParams?: SiteParams[];
     }
 
   export namespace PastPurchases {
@@ -421,6 +424,10 @@ namespace Store {
     }
   }
 
+  export interface SiteParams {
+    key: string;
+    value: string;
+  }
 }
 
 export default Store;

@@ -125,6 +125,8 @@ namespace Actions {
   export type FetchSaytPastPurchases = Action<typeof FETCH_SAYT_PAST_PURCHASES, Payload.Fetch.PastPurchases>;
 
   // response actions
+  export const RECEIVE_SITE_PARAMS = 'RECEIVE_SITE_PARAMS';
+  export type ReceiveSiteParams = Action<typeof RECEIVE_SITE_PARAMS, Store.SiteParams[]>;
   export const RECEIVE_MORE_REFINEMENTS = 'RECEIVE_MORE_REFINEMENTS';
   export type ReceiveMoreRefinements = Action<typeof RECEIVE_MORE_REFINEMENTS, Payload.Navigation.MoreRefinements>;
   export const RECEIVE_PRODUCTS = 'RECEIVE_PRODUCTS';
@@ -178,6 +180,8 @@ namespace Actions {
   export const RESET_PAST_PURCHASE_REFINEMENTS = 'RESET_PAST_PURCHASE_REFINEMENTS';
   export type ReceivePastPurchaseTemplate = Action<typeof RECEIVE_PAST_PURCHASE_TEMPLATE, Store.Template>;
   export const RECEIVE_PAST_PURCHASE_TEMPLATE = 'RECEIVE_PAST_PURCHASE_TEMPLATE';
+  export type ReceivePastPurchaseSiteParams = Action<typeof RECEIVE_PAST_PURCHASE_SITE_PARAMS, Store.SiteParams[]>;
+  export const RECEIVE_PAST_PURCHASE_SITE_PARAMS = 'RECEIVE_PAST_PURCHASE_SITE_PARAMS';
   export type ResetPastPurchaseRefinements = Action<typeof RESET_PAST_PURCHASE_REFINEMENTS, boolean | string>;
   export const SELECT_PAST_PURCHASE_REFINEMENT = 'SELECT_PAST_PURCHASE_REFINEMENT';
   export type SelectPastPurchaseRefinement = Action<typeof SELECT_PAST_PURCHASE_REFINEMENT, Payload.Navigation.Refinement>;

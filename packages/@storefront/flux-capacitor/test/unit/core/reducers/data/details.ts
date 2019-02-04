@@ -27,7 +27,8 @@ suite('details', ({ expect }) => {
           name: template.name,
           rule: template.ruleName,
           zones: template.zones
-        }
+        },
+        siteParams: [],
       };
       const reducer = details(state, {
         type: Actions.UPDATE_DETAILS,

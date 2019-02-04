@@ -374,6 +374,14 @@ suite('selectors', ({ expect, stub }) => {
     });
   });
 
+  describe('siteParams()', () => {
+    it('should return siteParams', () => {
+      const siteParams = [{ a: 'b' }];
+
+      expect(Selectors.siteParams(<any>{ data: { present: { siteParams } } })).to.eql(siteParams);
+    });
+  });
+
   describe('products()', () => {
     it('should return all products', () => {
       const products = [{ data: { a: 'b' } }];
@@ -494,6 +502,24 @@ suite('selectors', ({ expect, stub }) => {
       const details = { a: 'b' };
 
       expect(Selectors.details(<any>{ data: { present: { details } } })).to.eq(details);
+    });
+  });
+
+  describe('detailsTemplate()', () => {
+    it('should return details template', () => {
+      const template = { a: 'b' };
+
+      expect(Selectors.detailsTemplate(<any>{ data: { present: { details: { template } } } }))
+        .to.eq(template);
+    });
+  });
+
+  describe('detailsSiteParams()', () => {
+    it('should return details siteParams', () => {
+      const siteParams = { a: 'b' };
+
+      expect(Selectors.detailsSiteParams(<any>{ data: { present: { details: { siteParams } } } }))
+        .to.eq(siteParams);
     });
   });
 
@@ -755,6 +781,8 @@ suite('selectors', ({ expect, stub }) => {
     const products = productData.map((data) => ({ data }));
     const currentRecordCount = 3;
     const allRecordCount = 5;
+    const template = { e: 'f' };
+    const siteParams = [{ key: 'a', value: 'b' }];
     const pastPurchases = {
       skus,
       saytPastPurchases,
@@ -763,7 +791,9 @@ suite('selectors', ({ expect, stub }) => {
       navigations,
       page,
       sort,
-      count: { allRecordCount, currentRecordCount }
+      count: { allRecordCount, currentRecordCount },
+      template,
+      siteParams,
     };
     const state: any = { data: { present: { pastPurchases } } };
 
@@ -988,6 +1018,18 @@ suite('selectors', ({ expect, stub }) => {
     describe('pastPurchaseSortSelected()', () => {
       it('should return selected sort object', () => {
         expect(Selectors.pastPurchaseSortSelected(state)).to.eql('b');
+      });
+    });
+
+    describe('pastPurchaseTemplate()', () => {
+      it('should return past purchase template', () => {
+        expect(Selectors.pastPurchaseTemplate(state)).to.eq(template);
+      });
+    });
+
+    describe('pastPurchaseSiteParams()', () => {
+      it('should return past purchase siteParams', () => {
+        expect(Selectors.pastPurchaseSiteParams(state)).to.eq(siteParams);
       });
     });
   });

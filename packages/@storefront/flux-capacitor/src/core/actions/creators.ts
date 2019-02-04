@@ -12,8 +12,8 @@ import * as validators from './validators';
 namespace ActionCreators {
   /**
    * Updates state with given state.
-   * @param  {any}                  state - The state to use.
-   * @return {Actions.RefreshState}       - Action with state.
+   * @param state - The state to use.
+   * @return - Action with state.
    */
   export function refreshState(state: any): Actions.RefreshState {
     return createAction(Actions.REFRESH_STATE, state);
@@ -21,8 +21,8 @@ namespace ActionCreators {
 
   /**
    * Updates the history state.
-   * @param {Actions.Payload.History.State} urlState - The history state to use.
-   * @return {Actions.UpdateHistory}                 - Action with state.
+   * @param urlState - The history state to use.
+   * @return - Action with state.
    */
   export function updateHistory(urlState: Actions.Payload.History.State): Actions.UpdateHistory {
     return createAction(Actions.UPDATE_HISTORY, urlState);
@@ -31,15 +31,15 @@ namespace ActionCreators {
   // fetch action creators
   /**
    * Makes a request for more refinements for given navigation.
-   * @param  {Actions.Payload.Fetch.MoreRefinements} options - An object with the navigationId for
+   * @param options - An object with the navigationId for
    * the navigation to fetch more refinements against and a request object for override.
-   * @return {Actions.FetchMoreRefinements} - Action with `{ navigationId, request }`.
+   * @return - Action with `{ navigationId, request }`.
    */
   export function fetchMoreRefinements(options: Actions.Payload.Fetch.MoreRefinements): Actions.FetchMoreRefinements;
   /**
    * Makes a request for more refinements for given navigation.
-   * @param  {string} navigationId - The navigationId for the navigation to fetch more refinements against.
-   * @return {Actions.FetchMoreRefinements} - Action with `{ navigationId }`.
+   * @param navigationId - The navigationId for the navigation to fetch more refinements against.
+   * @return - Action with `{ navigationId }`.
    */
   export function fetchMoreRefinements(navigationId: string): Actions.FetchMoreRefinements;
   // tslint:disable-next-line typedef
@@ -51,8 +51,8 @@ namespace ActionCreators {
 
   /**
    * Makes a request for products.
-   * @param {Actions.Payload.Fetch.Override} options - An object with a request object for override.
-   * @return {Actions.FetchProducts} - Action with `{ request }`.
+   * @param options - An object with a request object for override.
+   * @return - Action with `{ request }`.
    */
   export function fetchProducts(options: Actions.Payload.Fetch.Override = {}): Actions.FetchProducts {
     return createAction(Actions.FETCH_PRODUCTS, options);
@@ -60,8 +60,8 @@ namespace ActionCreators {
 
   /**
    * Makes a request for products without history being set afterwards.
-   * @param {Actions.Payload.Fetch.Override} options - An object with a request object for override.
-   * @return {Actions.FetchProductsWithoutHistory} - Action with `{ request }`.
+   * @param options - An object with a request object for override.
+   * @return - Action with `{ request }`.
    */
   // tslint:disable-next-line max-line-length
   export function fetchProductsWithoutHistory(options: Actions.Payload.Fetch.Override = {}): Actions.FetchProductsWithoutHistory {
@@ -70,8 +70,8 @@ namespace ActionCreators {
 
   /**
    * Wrapper for fetchProducts, dispatches it within saga when store is rehydrated
-   * @param {Actions.Payload.Fetch.Override} options - An object with a request object for override.
-   * @return {Actions.FetchProductsWhenHydrated} - Action with `{ request }`.
+   * @param options - An object with a request object for override.
+   * @return - Action with `{ request }`.
    */
   // tslint:disable-next-line max-line-length
   export function fetchProductsWhenHydrated(options: Actions.Payload.Fetch.Override = {}): Actions.FetchProductsWhenHydrated {
@@ -80,16 +80,16 @@ namespace ActionCreators {
 
   /**
    * Makes a request for additional products beyond currently requested products.
-   * @param  {Actions.Payload.Fetch.MoreProducts} options - An object with the
+   * @param options - An object with the
    * amount and forward values, and a request object for override
-   * @return {Actions.FetchMoreProducts} - Action with `{ amount, forward, request }`.
+   * @return - Action with `{ amount, forward, request }`.
    */
   export function fetchMoreProducts(options: Actions.Payload.Fetch.MoreProducts);
   /**
    * Makes a request for additional products beyond currently requested products.
-   * @param  {number} amount - Amount of more products to fetch.
-   * @param  {boolean} forward - `true` to fetch forward
-   * @return {Actions.FetchMoreProducts} - Action with `{ amount, forward }`.
+   * @param amount - Amount of more products to fetch.
+   * @param forward - `true` to fetch forward
+   * @return - Action with `{ amount, forward }`.
    */
   export function fetchMoreProducts(amount: number, forward?: boolean);
   // tslint:disable-next-line typedef
@@ -104,16 +104,16 @@ namespace ActionCreators {
 
   /**
    * Makes a request for autocomplete suggestions.
-   * @param  {Actions.Payload.Fetch.AutocompleteSuggestions} options - An object
+   * @param options - An object
    * with the query term to fetch autocomplete suggestions against, and a request object for override.
-   * @return {Actions.FetchAutocompleteSuggestions} - Action with `{ query, request }`.
+   * @return - Action with `{ query, request }`.
    */
   // tslint:disable-next-line max-line-length
   export function fetchAutocompleteSuggestions(options: Actions.Payload.Fetch.AutocompleteSuggestions): Actions.FetchAutocompleteSuggestions;
   /**
    * Makes a request for autocomplete suggestions.
-   * @param  {string} query - Search term to fetch autocomplete suggestions against.
-   * @return {Actions.FetchAutocompleteSuggestions} - Action with `{ query }`.
+   * @param query - Search term to fetch autocomplete suggestions against.
+   * @return - Action with `{ query }`.
    */
   export function fetchAutocompleteSuggestions(query: string): Actions.FetchAutocompleteSuggestions;
   // tslint:disable-next-line typedef
@@ -128,19 +128,19 @@ namespace ActionCreators {
 
   /**
    * Makes a request for autocomplete products.
-   * @param  {Actions.Payload.Fetch.AutocompleteProducts} options - An object
+   * @param options - An object
    * with the query and refinements, and a request object for override.
-   * @return {Actions.FetchAutocompleteProducts} - Action with `{ query, refinements, request }`.
+   * @return - Action with `{ query, refinements, request }`.
    */
   // tslint:disable-next-line max-line-length
   export function fetchAutocompleteProducts(options: Actions.Payload.Fetch.AutocompleteProducts): Actions.FetchAutocompleteProducts;
   /**
    * Makes a request for autocomplete products.
-   * @param  {string} query - Search term
+   * @param query - Search term
    * to fetch autocomplete products against.
-   * @param  {Actions.Payload.Autocomplete.Refinement[]=[]} refinements - The applied
+   * @param refinements - The applied
    * refinements.
-   * @return {Actions.FetchAutocompleteProducts} - Action with `{ query, refinements }`.
+   * @return - Action with `{ query, refinements }`.
    */
   // tslint:disable-next-line max-line-length
   export function fetchAutocompleteProducts(query: string, refinements?: Actions.Payload.Autocomplete.Refinement[]): Actions.FetchAutocompleteProducts;
@@ -158,15 +158,15 @@ namespace ActionCreators {
 
   /**
    * Makes a request for the collection count for a given collection.
-   * @param  {Actions.Payload.Fetch.CollectionCount} options - An object with the collection name,
+   * @param options - An object with the collection name,
    * and a request object for override.
-   * @return {Actions.FetchCollectionCount} - Action with `{ collection, request }`.
+   * @return - Action with `{ collection, request }`.
    */
   export function fetchCollectionCount(options: Actions.Payload.Fetch.CollectionCount): Actions.FetchCollectionCount;
   /**
    * Makes a request for the collection count for a given collection.
-   * @param  {string} collection - Collection name.
-   * @return {Actions.FetchCollectionCount} - Action with `{ collection }`.
+   * @param collection - Collection name.
+   * @return - Action with `{ collection }`.
    */
   export function fetchCollectionCount(collection: string): Actions.FetchCollectionCount;
   // tslint:disable-next-line typedef
@@ -178,16 +178,16 @@ namespace ActionCreators {
 
   /**
    * Makes a request for the details for a given product.
-   * @param  {Actions.Payload.Fetch.Details} options - An object with the id for a specific product,
+   * @param options - An object with the id for a specific product,
    * and a request object for override.
-   * @return {Actions.FetchProductDetails} - Action with `{ id, request }`.
+   * @return - Action with `{ id, request }`.
    */
   export function fetchProductDetails(options: Actions.Payload.Fetch.Details): Actions.FetchProductDetails;
   /**
    * Makes a request for the details for a given product.
-   * @param  {string} id - The id for a specific product.
-   * @param {boolean} redirect - Indicates whether fetch is a result of a single product redirect.
-   * @return {Actions.FetchProductDetails} - Action with `{ id }`.
+   * @param id - The id for a specific product.
+   * @param redirect - Indicates whether fetch is a result of a single product redirect.
+   * @return - Action with `{ id }`.
    */
   export function fetchProductDetails(id: string, redirect?: boolean): Actions.FetchProductDetails;
   // tslint:disable-next-line typedef
@@ -201,9 +201,9 @@ namespace ActionCreators {
 
   /**
    * Makes a request for recommendations products.
-   * @param {Actions.Fetch.Override} options - An object with a
+   * @param options - An object with a
    * request object for override.
-   * @return {Actions.FetchRecommendationsProducts} - Action with `{ request }`.
+   * @return - Action with `{ request }`.
    */
   // tslint:disable-next-line max-line-length
   export function fetchRecommendationsProducts(options: Actions.Payload.Fetch.Override = {}): Actions.FetchRecommendationsProducts {
@@ -212,15 +212,15 @@ namespace ActionCreators {
 
   /**
    * Makes a request for past purchases.
-   * @param {Actions.Payload.Fetch.PastPurchases} options - An object with a query string,
+   * @param options - An object with a query string,
    * and a request object for override.
-   * @return {Actions.FetchPastPurchases} - Action with `{ query, request }`.
+   * @return - Action with `{ query, request }`.
    */
   export function fetchPastPurchases(options?: Actions.Payload.Fetch.PastPurchases): Actions.FetchPastPurchases;
   /**
    * Makes a request for past purchases.
-   * @param {string} query - A search term
-   * @return {Actions.FetchPastPurchases} - Action with `{ query }`.
+   * @param query - A search term
+   * @return - Action with `{ query }`.
    */
   export function fetchPastPurchases(query: string): Actions.FetchPastPurchases;
   // tslint:disable-next-line typedef
@@ -232,8 +232,8 @@ namespace ActionCreators {
 
   /**
    * Makes a request for past purchase products.
-   * @param {Actions.Payload.Fetch.PastPurchases} options - An object with a request object for override.
-   * @return {Actions.FetchPastPurchaseProducts} - Action with `{ query, request }`.
+   * @param options - An object with a request object for override.
+   * @return - Action with `{ query, request }`.
    */
   // tslint:disable-next-line max-line-length
   export function fetchPastPurchaseProducts(options: Actions.Payload.Fetch.PastPurchases = {}): Actions.FetchPastPurchaseProducts {
@@ -242,18 +242,18 @@ namespace ActionCreators {
 
   /**
    * Makes a request for more past purchase products.
-   * @param {Actions.Payload.Fetch.MorePastPurchases} options - An object with amount number, forward boolean,
+   * @param options - An object with amount number, forward boolean,
    * and a request object for override.
-   * @return {Actions.FetchPastPurchaseProducts} - Action with `{ amount, forward, request }`.
+   * @return - Action with `{ amount, forward, request }`.
    */
   // tslint:disable-next-line max-line-length
   export function fetchMorePastPurchaseProducts(options: Actions.Payload.Fetch.MorePastPurchases): Actions.FetchMorePastPurchaseProducts;
   /**
    * Makes a request for more past purchase products.
-   * @param {number} amount - The amount of additional products to fetch.
-   * @param {boolean} forward - Whether to fetch the next page or previous page.
+   * @param amount - The amount of additional products to fetch.
+   * @param forward - Whether to fetch the next page or previous page.
    * and a request object for override.
-   * @return {Actions.FetchPastPurchaseProducts} - Action with `{ amount, forward }`.
+   * @return - Action with `{ amount, forward }`.
    */
    // tslint:disable-next-line max-line-length
   export function fetchMorePastPurchaseProducts(amount: number, forward?: boolean): Actions.FetchMorePastPurchaseProducts;
@@ -266,16 +266,16 @@ namespace ActionCreators {
 
   /**
    * Makes a request for more past purchase refinements for given navigation.
-   * @param  {Actions.Payload.Fetch.MorePastPurchaseRefinements} options - An object with the navigationId for
+   * @param options - An object with the navigationId for
    * the navigation to fetch more refinements against and a request object for override.
-   * @return {Actions.FetchMorePastPurchaseRefinements} - Action with `{ navigationId, request }`.
+   * @return - Action with `{ navigationId, request }`.
    */
   // tslint:disable-next-line max-line-length
   export function fetchMorePastPurchaseRefinements(options: Actions.Payload.Fetch.MorePastPurchaseRefinements): Actions.FetchMorePastPurchaseRefinements;
   /**
    * Makes a request for more past purchase refinements for given navigation.
-   * @param  {string} navigationId - The navigationId for the navigation to fetch more refinements against.
-   * @return {Actions.FetchMorePastPurchaseRefinements} - Action with `{ navigationId }`.
+   * @param navigationId - The navigationId for the navigation to fetch more refinements against.
+   * @return - Action with `{ navigationId }`.
    */
   export function fetchMorePastPurchaseRefinements(navigationId: string): Actions.FetchMorePastPurchaseRefinements;
   // tslint:disable-next-line typedef
@@ -287,15 +287,15 @@ namespace ActionCreators {
 
   /**
    * Makes a request for sayt past purchases.
-   * @param {Actions.Payload.Fetch.PastPurchases} options - An object with a query string,
+   * @param options - An object with a query string,
    * and a request object for override.
-   * @return {Actions.FetchPastPurchaseProducts} - Action with `{ query, request }`.
+   * @return - Action with `{ query, request }`.
    */
   export function fetchSaytPastPurchases(options: Actions.Payload.Fetch.PastPurchases): Actions.FetchSaytPastPurchases;
   /**
    * Makes a request for sayt past purchases.
-   * @param {string} query - A search term.
-   * @return {Actions.FetchPastPurchaseProducts} - Action with `{ query }`.
+   * @param query - A search term.
+   * @return - Action with `{ query }`.
    */
   export function fetchSaytPastPurchases(query: string): Actions.FetchSaytPastPurchases;
   // tslint:disable-next-line typedef
@@ -308,8 +308,8 @@ namespace ActionCreators {
   // request action creators
   /**
    * Updates the search with given parameters.
-   * @param  {Actions.Payload.Search} newSearch                - Search object for requested search.
-   * @return {Actions.UpdateSearch}                         - Actions with relevant data.
+   * @param newSearch - Search object for requested search.
+   * @return - Actions with relevant data.
    */
   export function updateSearch(newSearch: Actions.Payload.Search) {
     return (state: Store.State): Actions.UpdateSearch => {
@@ -337,8 +337,8 @@ namespace ActionCreators {
 
   /**
    * Updates the search query.
-   * @param  {string}                          query - Search term to use.
-   * @return {Actions.ResetPageAndUpdateQuery}       - Actions with relevant data.
+   * @param query - Search term to use.
+   * @return - Actions with relevant data.
    */
   export function updateQuery(query: string): Actions.ResetPageAndUpdateQuery {
     return [
@@ -351,7 +351,7 @@ namespace ActionCreators {
 
   /**
    * Clears the query.
-   * @return {Actions.ResetPageAndUpdateQuery} - Actions with relevant data.
+   * @return - Actions with relevant data.
    */
   export function resetQuery(): Actions.ResetPageAndUpdateQuery {
     return ActionCreators.updateQuery(null);
@@ -359,13 +359,10 @@ namespace ActionCreators {
 
   /**
    * Adds a given refinement to the search.
-   * @param  {string}                            field      - The field name for
-   * the refinement.
-   * @param  {any}                               valueOrLow - Either the value
-   * for a value refinement, or the low for a range refinement.
-   * @param  {any=null}                          high       - Either the high
-   * for a range refinement, or left out for a value refinement.
-   * @return {Actions.ResetPageAndAddRefinement}            - Actions with relevant data.
+   * @param field - The field name for the refinement.
+   * @param valueOrLow - Either the value for a value refinement, or the low for a range refinement.
+   * @param high - Either the high for a range refinement, or left out for a value refinement.
+   * @return - Actions with relevant data.
    */
   // tslint:disable-next-line max-line-length
   export function addRefinement(field: string, valueOrLow: any, high: any = null): Actions.ResetPageAndAddRefinement {
@@ -387,12 +384,10 @@ namespace ActionCreators {
   /**
    * Removes all refinements for a given navigation field and adds the given
    * refinement to the search.
-   * @param  {string}                   field      - The field name for the navigation.
-   * @param  {any}                      valueOrLow - Either the value for a value
-   * refinement, or the low for a range refinement.
-   * @param  {any=null}                 high       - Either the high for a range
-   * refinement, or left out for a value refinement.
-   * @return {Actions.SwitchRefinement}            - Actions with relevant data.
+   * @param field - The field name for the navigation.
+   * @param valueOrLow - Either the value for a value refinement, or the low for a range refinement.
+   * @param high - Either the high for a range refinement, or left out for a value refinement.
+   * @return - Actions with relevant data.
    */
   export function switchRefinement(field: string, valueOrLow: any, high: any = null): Actions.SwitchRefinement {
     return <any>[
@@ -404,9 +399,9 @@ namespace ActionCreators {
 
   /**
    * Removes the selected refinements from the search.
-   * @param  {boolean|string}                   field - true to reset all refinements,
+   * @param field - true to reset all refinements,
    * or navigationId to reset all refinements on a specific navigation.
-   * @return {Actions.ResetPageAndResetRefinements}   - Actions with relevant data.
+   * @return - Actions with relevant data.
    */
   export function resetRefinements(field: boolean | string): Actions.ResetPageAndResetRefinements {
     return [
@@ -423,7 +418,7 @@ namespace ActionCreators {
 
   /**
    * Sets the current page in the store to page 1, but does not update the search.
-   * @return {Actions.ResetPage} - Action with undefined.
+   * @return - Action with undefined.
    */
   export function resetPage(): Actions.ResetPage {
     return createAction(Actions.RESET_PAGE, undefined, {
@@ -433,9 +428,9 @@ namespace ActionCreators {
 
   /**
    * Performs search with query, removes current refinements.
-   * @param  {string} query - Search term to perform search with. If not supplied,
+   * @param query - Search term to perform search with. If not supplied,
    * search with current query is performed, removing current refinements.
-   * @return {[type]}       - Actions with relevant data.
+   * @return - Actions with relevant data.
    */
   export function search(query?: string) {
     return (state: Store.State): Actions.Search => {
@@ -452,10 +447,10 @@ namespace ActionCreators {
 
   /**
    * Performs a new search with query or selected refinement, and resets recallId.
-   * @param  {string=null}        query - The query to use in the search.
-   * @param  {[type]}             field - The navigation for the refinement to select.
-   * @param  {number}             index - The index for the refinement.
-   * @return {Actions.ResetRecall}      - Actions with relevant data.
+   * @param query - The query to use in the search.
+   * @param field - The navigation for the refinement to select.
+   * @param index - The index for the refinement.
+   * @return - Actions with relevant data.
    */
   // tslint:disable-next-line max-line-length
   export function resetRecall(query: string = null, { field, index }: { field: string, index: number } = <any>{}) {
@@ -471,11 +466,9 @@ namespace ActionCreators {
 
   /**
    * Selects a given refinement based on navigationId and index.
-   * @param  {string}                               navigationId - The navigationId for
-   * the navigation to fetch more refinements against.
-   * @param  {number}                               index        - The index of the refinement
-   * intended to be selected.
-   * @return {Actions.ResetPageAndSelectRefinement}              - Actions with relevant data.
+   * @param navigationId - The navigationId for the navigation to fetch more refinements against.
+   * @param index - The index of the refinement intended to be selected.
+   * @return - Actions with relevant data.
    */
   export function selectRefinement(navigationId: string, index: number): Actions.ResetPageAndSelectRefinement {
     return [
@@ -488,11 +481,9 @@ namespace ActionCreators {
 
   /**
    * Selects the given refinements based on navigationId and indices.
-   * @param  {string}                               navigationId - The navigationId for
-   * the navigation to fetch more refinements against.
-   * @param  {number[]}                             indices      - The indices of the refinements
-   * intended to be selected.
-   * @return {Actions.ResetPageAndSelectMultipleRefinements}     - Actions with relevant data.
+   * @param navigationId - The navigationId for the navigation to fetch more refinements against.
+   * @param indices - The indices of the refinements intended to be selected.
+   * @return - Actions with relevant data.
    */
   // tslint:disable-next-line max-line-length
   export function selectMultipleRefinements(navigationId: string, indices: number[]): Actions.ResetPageAndSelectMultipleRefinements {
@@ -506,11 +497,9 @@ namespace ActionCreators {
 
   /**
    * Removes a given refinement based on navigationId and index.
-   * @param  {string}                                 navigationId - The navigationId for
-   * the navigation to fetch more refinements against.
-   * @param  {number}                                 index        - The index of the refinement
-   * intended to be selected.
-   * @return {Actions.ResetPageAndDeselectRefinement}              - Actions with relevant data.
+   * @param navigationId - The navigationId for the navigation to fetch more refinements against.
+   * @param index - The index of the refinement intended to be selected.
+   * @return - Actions with relevant data.
    */
   export function deselectRefinement(navigationId: string, index: number): Actions.ResetPageAndDeselectRefinement {
     return [
@@ -523,8 +512,8 @@ namespace ActionCreators {
 
   /**
    * Selects a given collection based on id.
-   * @param  {string}                   id - The id of the selected collection.
-   * @return {Actions.SelectCollection}    - Action with id.
+   * @param id - The id of the selected collection.
+   * @return - Action with id.
    */
   export function selectCollection(id: string): Actions.SelectCollection {
     return createAction(Actions.SELECT_COLLECTION, id, {
@@ -534,8 +523,8 @@ namespace ActionCreators {
 
   /**
    * Selects a given sort based on index.
-   * @param  {number}             index - The index of the selected sort.
-   * @return {Actions.SelectSort}       - Action with index.
+   * @param index - The index of the selected sort.
+   * @return - Action with index.
    */
   export function selectSort(index: number): Actions.SelectSort {
     return createAction(Actions.SELECT_SORT, index, {
@@ -545,8 +534,8 @@ namespace ActionCreators {
 
   /**
    * Updates the sorts using the data provided.
-   * @param  {Actions.Payload.Sort} payload - An object containing the sort labels and options.
-   * @return {Actions.ApplySorts} - Action with payload.
+   * @param payload - An object containing the sort labels and options.
+   * @return - Action with payload.
    */
   export function applySorts(payload: Actions.Payload.Sort): Actions.ApplySorts {
     return createAction(Actions.APPLY_SORTS, payload, {
@@ -560,9 +549,8 @@ namespace ActionCreators {
 
   /**
    * Updates the page size to given size.
-   * @param  {number}                 size - The size the page is updated to.
-   * Must correspond to a size in the pageSize in the store.
-   * @return {Actions.UpdatePageSize}      - Action with size.
+   * @param size - The size the page is updated to. Must correspond to a size in the pageSize in the store.
+   * @return - Action with size.
    */
   export function updatePageSize(size: number): Actions.UpdatePageSize {
     return createAction(Actions.UPDATE_PAGE_SIZE, size, {
@@ -572,8 +560,8 @@ namespace ActionCreators {
 
   /**
    * Updates the current page to the given page.
-   * @param  {number}                    page - The page to switch to.
-   * @return {Actions.UpdateCurrentPage}      - Action with page.
+   * @param page - The page to switch to.
+   * @return - Action with page.
    */
   export function updateCurrentPage(page: number): Actions.UpdateCurrentPage {
     return createAction(Actions.UPDATE_CURRENT_PAGE, page, {
@@ -586,9 +574,8 @@ namespace ActionCreators {
 
   /**
    * Updates the details product in the store.
-   * @param  {Store.Details}         details - The product to use as the details
-   * product.
-   * @return {Actions.UpdateDetails}         - Action with details.
+   * @param details - The product to use as the details product.
+   * @return - Action with details.
    */
   export function updateDetails(details: Store.Details): Actions.UpdateDetails {
     return createAction(Actions.UPDATE_DETAILS, details);
@@ -596,9 +583,8 @@ namespace ActionCreators {
 
   /**
    * Updates the autocomplete query with the given term.
-   * @param  {string}                          query - The search term to update
-   * the autocomplete query to and get suggestions based on.
-   * @return {Actions.UpdateAutocompleteQuery}       - Action with query.
+   * @param query - The search term to update the autocomplete query to and get suggestions based on.
+   * @return - Action with query.
    */
   export function updateAutocompleteQuery(query: string): Actions.UpdateAutocompleteQuery {
     return createAction(Actions.UPDATE_AUTOCOMPLETE_QUERY, query, {
@@ -608,8 +594,8 @@ namespace ActionCreators {
 
   /**
    * The biasing object to receive and update biasing with
-   * @param  {Actions.Payload.Personalization.Biasing} payload - Biasing object
-   * @return {Actions.UpdateBiasing}
+   * @param payload - Biasing object
+   * @return - Action with biasing object.
    */
   export function updateBiasing(payload: Actions.Payload.Personalization.Biasing) {
     return (state: Store.State): Actions.UpdateBiasing =>
@@ -627,9 +613,8 @@ namespace ActionCreators {
 
   /**
    * The fetch state of infinite scroll request.
-   * @param  {Actions.Payload.fetchObj} fetchObj - Whether is fetching forward or
-   * backward.
-   * @return {Actions.ReceiveInfiniteScroll}        - Action with fetching state object.
+   * @param fetchObj - Whether is fetching forward or backward.
+   * @return - Action with fetching state object.
    */
   export function infiniteScrollRequestState(fetchObj: Actions.Payload.InfiniteScroll): Actions.ReceiveInfiniteScroll {
     return createAction(Actions.RECEIVE_INFINITE_SCROLL, fetchObj);
@@ -638,8 +623,8 @@ namespace ActionCreators {
   // response action creators
   /**
    * The query object to receive and update state with.
-   * @param  {Actions.Payload.Query} query - Query object.
-   * @return {Actions.ReceiveQuery}        - Action with query object.
+   * @param query - Query object.
+   * @return - Action with query object.
    */
   export function receiveQuery(query: Actions.Payload.Query): Actions.ReceiveQuery {
     return createAction(Actions.RECEIVE_QUERY, query);
@@ -647,8 +632,8 @@ namespace ActionCreators {
 
   /**
    * The response to receive and update state with.
-   * @param  {Results} res - Response object, as returned by the request.
-   * @return {[type]}      - Actions with relevant data.
+   * @param res - Response object, as returned by the request.
+   * @return - Actions with relevant data.
    */
   export function receiveProducts(res: Results) {
     return (state: Store.State): Actions.Action<string, any>[] | Actions.ReceiveProducts => {
@@ -659,6 +644,7 @@ namespace ActionCreators {
 
         return [
           receiveProductsAction,
+          ActionCreators.receiveSiteParams(res.siteParams),
           ActionCreators.receiveQuery(SearchAdapter.extractQuery(res)),
           ActionCreators.receiveProductRecords(SearchAdapter.augmentProducts(res)),
           ActionCreators.receiveNavigations(
@@ -680,9 +666,8 @@ namespace ActionCreators {
 
   /**
    * The products to receive and update the state with.
-   * @param  {Store.ProductWithMetadata[]}               products - Products that will be
-   * received and updated to in the state.
-   * @return {Actions.ReceiveProductRecords}          - Action with products.
+   * @param products - Products that will be received and updated to in the state.
+   * @return - Action with products.
    */
   export function receiveProductRecords(products: Store.ProductWithMetadata[]): Actions.ReceiveProductRecords {
     return createAction(Actions.RECEIVE_PRODUCT_RECORDS, products);
@@ -690,9 +675,8 @@ namespace ActionCreators {
 
   /**
    * The collection count to receive and update the state with.
-   * @param  {Actions.Payload.Collection.Count} count - The count to update the
-   * collection count to.
-   * @return {Actions.ReceiveCollectionCount}         - Action with count.
+   * @param count - The count to update the collection count to.
+   * @return - Action with count.
    */
   export function receiveCollectionCount(count: Actions.Payload.Collection.Count): Actions.ReceiveCollectionCount {
     return createAction(Actions.RECEIVE_COLLECTION_COUNT, count);
@@ -700,9 +684,8 @@ namespace ActionCreators {
 
   /**
    * The navigations to receive and update state with.
-   * @param  {Store.Navigation[]}         navigations - The navigations that
-   * state will update to.
-   * @return {Actions.ReceiveNavigations}             - Action with navigations.
+   * @param navigations - The navigations that state will update to.
+   * @return - Action with navigations.
    */
   export function receiveNavigations(navigations: Store.Navigation[]): Actions.ReceiveNavigations {
     return createAction(Actions.RECEIVE_NAVIGATIONS, navigations);
@@ -710,8 +693,8 @@ namespace ActionCreators {
 
   /**
    * The page to receive and update state with.
-   * @param  {Actions.Payload.Page} page - The page object state will update to.
-   * @return {Actions.ReceivePage}       - Action with page.
+   * @param page - The page object state will update to.
+   * @return - Action with page.
    */
   export function receivePage(recordCount: number, current?: number) {
     return (state: Store.State): Actions.ReceivePage => {
@@ -721,9 +704,8 @@ namespace ActionCreators {
 
   /**
    * The template to receive and update state with.
-   * @param  {Store.Template}          template - The template state will update
-   * to.
-   * @return {Actions.ReceiveTemplate}          - Action with template.
+   * @param template - The template state will update to.
+   * @return - Action with template.
    */
   export function receiveTemplate(template: Store.Template): Actions.ReceiveTemplate {
     return createAction(Actions.RECEIVE_TEMPLATE, template);
@@ -731,9 +713,8 @@ namespace ActionCreators {
 
   /**
    * The record count to receive and update state with.
-   * @param  {number}                     recordCount - The record count state
-   * will update to.
-   * @return {Actions.ReceiveRecordCount}             - Action with recordCount.
+   * @param recordCount - The record count state will update to.
+   * @return - Action with recordCount.
    */
   export function receiveRecordCount(recordCount: number): Actions.ReceiveRecordCount {
     return createAction(Actions.RECEIVE_RECORD_COUNT, recordCount);
@@ -741,22 +722,28 @@ namespace ActionCreators {
 
   /**
    * The redirect to receive and update state with.
-   * @param  {string}                  redirect - The redirect state will update
-   * to.
-   * @return {Actions.ReceiveRedirect}          - Action with redirect.
+   * @param redirect - The redirect state will update to.
+   * @return - Action with redirect.
    */
   export function receiveRedirect(redirect: string): Actions.ReceiveRedirect {
     return createAction(Actions.RECEIVE_REDIRECT, redirect);
   }
 
   /**
+   * The siteParams to receive and update state with.
+   * @param params - The siteParams from the response.
+   * @return - Action with siteParams.
+   */
+  export function receiveSiteParams(params: Store.SiteParams[]): Actions.ReceiveSiteParams {
+    return createAction(Actions.RECEIVE_SITE_PARAMS, params);
+  }
+
+  /**
    * The more refinements to receive and update state with.
-   * @param  {string}                         navigationId - The navigation the
-   * more refinements correspond to.
-   * @param  {Store.Refinement[]}             refinements  - The more refinements.
-   * @param  {number[]}                       selected     - The selected array,
-   * indicating which indexes of the refinements are set to selected.
-   * @return {Actions.ReceiveMoreRefinements}              - Action with navigationId, refinements, and selected.
+   * @param navigationId - The navigation the more refinements correspond to.
+   * @param refinements - The more refinements.
+   * @param selected - The selected array, indicating which indexes of the refinements are set to selected.
+   * @return - Action with navigationId, refinements, and selected.
    */
   // tslint:disable-next-line max-line-length
   export function receiveMoreRefinements(navigationId: string, refinements: Store.Refinement[], selected: number[]): Actions.ReceiveMoreRefinements {
@@ -765,12 +752,10 @@ namespace ActionCreators {
 
   /**
    * The more past purchase refinements to receive and update state with.
-   * @param  {string}                         navigationId - The navigation the
-   * more refinements correspond to.
-   * @param  {Store.Refinement[]}             refinements  - The more refinements.
-   * @param  {number[]}                       selected     - The selected array,
-   * indicating which indexes of the refinements are set to selected.
-   * @return {Actions.ReceiveMoreRefinements}              - Action with navigationId, refinements, and selected.
+   * @param navigationId - The navigation the more refinements correspond to.
+   * @param refinements - The more refinements.
+   * @param selected - The selected array, indicating which indexes of the refinements are set to selected.
+   * @return - Action with navigationId, refinements, and selected.
    */
   // tslint:disable-next-line max-line-length
   export function receiveMorePastPurchaseRefinements(navigationId: string, refinements: Store.Refinement[], selected: number[]): Actions.ReceiveMorePastPurchaseRefinements {
@@ -779,9 +764,8 @@ namespace ActionCreators {
 
   /**
    * The autocomplete suggestions to receive and update state with.
-   * @param  {Actions.Payload.Autocomplete.Suggestions} suggestions - The suggestions
-   * to update the state to.
-   * @return {Actions.ReceiveAutocompleteSuggestions}               - Action with suggestions.
+   * @param suggestions - The suggestions to update the state to.
+   * @return - Action with suggestions.
    */
   // tslint:disable-next-line max-line-length
   export function receiveAutocompleteSuggestions(suggestions: Actions.Payload.Autocomplete.Suggestions): Actions.ReceiveAutocompleteSuggestions {
@@ -791,8 +775,8 @@ namespace ActionCreators {
   /**
    * The more products to receive and update state with. Products will be added on
    * to the products array in the store.
-   * @param  {Store.ProductWithMetadata[]}             products - The products to add to the state.
-   * @return {Actions.ReceiveMoreProducts}          - Action with products.
+   * @param products - The products to add to the state.
+   * @return - Action with products.
    */
   export function receiveMoreProducts(res: Results) {
     return (state: Store.State): Actions.ReceiveMoreProducts => {
@@ -803,8 +787,8 @@ namespace ActionCreators {
 
   /**
    * The autocomplete response to receive and update state with.
-   * @param  {Results}                             res - Response object, as returned in the request.
-   * @return {Actions.ReceiveAutocompleteProducts}     - Action and res.
+   * @param res - Response object, as returned in the request.
+   * @return - Action and res.
    */
   export function receiveAutocompleteProducts(res: Results) {
     return (state: Store.State): Actions.Action<string, any>[] | Actions.ReceiveAutocompleteProducts => {
@@ -820,9 +804,8 @@ namespace ActionCreators {
 
   /**
    * The autocomplete products to receive and update state with.
-   * @param  {Store.ProductWithMetadata[]}                           products - The products to add to the
-   * autocomplete state.
-   * @return {Actions.ReceiveAutocompleteProductRecords}          - Action with products.
+   * @param products - The products to add to the autocomplete state.
+   * @return - Action with products.
    */
   // tslint:disable-next-line max-line-length
   export function receiveAutocompleteProductRecords(products: Store.ProductWithMetadata[]): Actions.ReceiveAutocompleteProductRecords {
@@ -831,9 +814,8 @@ namespace ActionCreators {
 
   /**
    * The autocomplete template to receive and update state with.
-   * @param  {Store.Template}                      template - The template to add to the
-   * autocomplete state.
-   * @return {Actions.ReceiveAutocompleteTemplate}          - Action with template.
+   * @param template - The template to add to the autocomplete state.
+   * @return - Action with template.
    */
   export function receiveAutocompleteTemplate(template: Store.Template): Actions.ReceiveAutocompleteTemplate {
     return createAction(Actions.RECEIVE_AUTOCOMPLETE_TEMPLATE, template);
@@ -841,8 +823,8 @@ namespace ActionCreators {
 
   /**
    * The recommendations products to receive and update state with.
-   * @param  {Store.ProductWithMetadata[]}             products - The products to add to the recommendations state.
-   * @return {Actions.ReceiveRecommendationsProducts}           - Action with products.
+   * @param products - The products to add to the recommendations state.
+   * @return - Action with products.
    */
   // tslint:disable-next-line max-line-length
   export function receiveRecommendationsProducts(products: Store.ProductWithMetadata[]): Actions.ReceiveRecommendationsProducts {
@@ -851,8 +833,8 @@ namespace ActionCreators {
 
   /**
    * The navigation sort to receive and update navigation sort state with.
-   * @param  {Store.Recommendations.Navigation[]} navigations - The navigations to be sorted and order of sort.
-   * @return {Actions.ReceiveNavigationSort}                  - Action with navigations.
+   * @param navigations - The navigations to be sorted and order of sort.
+   * @return - Action with navigations.
    */
   // tslint:disable-next-line max-line-length
   export function receiveNavigationSort(navigations: Store.Recommendations.Navigation[]): Actions.ReceiveNavigationSort {
@@ -861,33 +843,66 @@ namespace ActionCreators {
 
   /**
    * Sets the details product in the store.
-   * @param  {Store.Details}         details - The product to use as the details
-   * product.
-   * @return {Actions.ReceiveDetails}         - Action with details.
+   * @param details - The product to use as the details product.
+   * @return - Action with details.
    */
   export function receiveDetails(details: Store.Details): Actions.ReceiveDetails {
     return createAction(Actions.RECEIVE_DETAILS, details);
   }
 
+  /**
+   * Sets the past purchase skus in the store.
+   * @param products - The product skus to use.
+   * @return - Action with skus.
+   */
   // tslint:disable-next-line max-line-length
   export function receivePastPurchaseSkus(products: Store.PastPurchases.PastPurchaseProduct[]): Actions.ReceivePastPurchaseSkus {
     return createAction(Actions.RECEIVE_PAST_PURCHASE_SKUS, products);
   }
 
+  /**
+   * Sets the past purchase sayt products in the store.
+   * @param products - The products to use.
+   * @return - Action with products.
+   */
   // tslint:disable-next-line max-line-length
   export function receiveSaytPastPurchases(products: Store.ProductWithMetadata[]): Actions.ReceiveSaytPastPurchases {
     return createAction(Actions.RECEIVE_SAYT_PAST_PURCHASES, products);
   }
 
+  /**
+   * Sets the past purchase products in the store.
+   * @param products - The products to use.
+   * @return - Action with products.
+   */
   // tslint:disable-next-line max-line-length
   export function receivePastPurchaseProducts(products: Store.ProductWithMetadata[]): Actions.ReceivePastPurchaseProducts {
     return createAction(Actions.RECEIVE_PAST_PURCHASE_PRODUCTS, products);
   }
 
+  /**
+   * Sets the past purchase template in the store.
+   * @param template - The template to use.
+   * @return - Action with template.
+   */
   export function receivePastPurchaseTemplate(template: Store.Template): Actions.ReceivePastPurchaseTemplate {
     return createAction(Actions.RECEIVE_PAST_PURCHASE_TEMPLATE, template);
   }
 
+  /**
+   * Sets the past purchases siteParams in the store.
+   * @param siteParams - The siteParams to use.
+   * @return - Action with siteParams.
+   */
+  export function receivePastPurchaseSiteParams(siteParams: Store.SiteParams[]): Actions.ReceivePastPurchaseSiteParams {
+    return createAction(Actions.RECEIVE_PAST_PURCHASE_SITE_PARAMS, siteParams);
+  }
+
+  /**
+   * Adds the more past purchase products in the store.
+   * @param res - The response to use.
+   * @return - Actions with payloads.
+   */
   export function receiveMorePastPurchaseProducts(res: Results) {
     return (state: Store.State): Actions.ReceiveMorePastPurchaseProducts => {
       // tslint:disable-next-line max-line-length
@@ -895,16 +910,31 @@ namespace ActionCreators {
     };
   }
 
+  /**
+   * Sets the past purchase all record count in the store.
+   * @param count - The count to use.
+   * @return - Action with count.
+   */
   // tslint:disable-next-line max-line-length
   export function receivePastPurchaseAllRecordCount(count: number): Actions.ReceivePastPurchaseAllRecordCount {
     return createAction(Actions.RECEIVE_PAST_PURCHASE_ALL_RECORD_COUNT, count);
   }
 
+  /**
+   * Sets the past purchase current record count in the store.
+   * @param count - The count to use.
+   * @return - Action with count.
+   */
   // tslint:disable-next-line max-line-length
   export function receivePastPurchaseCurrentRecordCount(count: number): Actions.ReceivePastPurchaseCurrentRecordCount {
     return createAction(Actions.RECEIVE_PAST_PURCHASE_CURRENT_RECORD_COUNT, count);
   }
 
+  /**
+   * Sets the past purchase refinements in the store.
+   * @param refinements - The refinements to use.
+   * @return - Action with refinements.
+   */
   // tslint:disable-next-line max-line-length
   export function receivePastPurchaseRefinements(refinements: Store.Navigation[]): Actions.ReceivePastPurchaseRefinements {
     return createAction(Actions.RECEIVE_PAST_PURCHASE_REFINEMENTS, refinements);
@@ -912,7 +942,7 @@ namespace ActionCreators {
 
   /**
    * In the past purchase section, sets the current page in the store to page 1, but does not update the search.
-   * @return {Actions.ResetPastPurchasePage} - Action with undefined.
+   * @return - Action with undefined.
    */
   export function resetPastPurchasePage(): Actions.ResetPastPurchasePage {
     return createAction(Actions.RESET_PAST_PURCHASE_PAGE, undefined, {
@@ -922,9 +952,9 @@ namespace ActionCreators {
 
   /**
    * The page to receive and update state with.
-   * @param  {Actions.Payload.recordCount} recordCount - The current recordCount.
-   * @param  {Actions.Payload.current} current - The current page.
-   * @return {Actions.ReceivePage}       - Action with page.
+   * @param recordCount - The current recordCount.
+   * @param current - The current page.
+   * @return - Action with page.
    */
   export function receivePastPurchasePage(recordCount: number, current?: number, pageSize?: number) {
     return (state: Store.State): Actions.ReceivePastPurchasePage => {
@@ -937,11 +967,9 @@ namespace ActionCreators {
 
   /**
    * In the past purchase section, selects a given refinement based on navigationId and index.
-   * @param  {string}                               navigationId - The navigationId for
-   * the navigation to fetch more refinements against.
-   * @param  {number}                               index        - The index of the refinement
-   * intended to be selected.
-   * @return {Actions.PastPurchaseSelect}              - Actions with relevant data.
+   * @param navigationId - The navigationId for the navigation to fetch more refinements against.
+   * @param index - The index of the refinement intended to be selected.
+   * @return - Actions with relevant data.
    */
   // tslint:disable-next-line max-line-length
   export function selectPastPurchaseRefinement(navigationId: string, index: number): Actions.PastPurchaseSelect {
@@ -955,11 +983,9 @@ namespace ActionCreators {
 
   /**
    * In the past purchase section, selects the given refinements based on navigationId and indices.
-   * @param  {string}                               navigationId - The navigationId for
-   * the navigation to fetch more refinements against.
-   * @param  {number[]}                             indices      - The indices of the refinements
-   * intended to be selected.
-   * @return {Actions.ResetPageAndSelectMultipleRefinements}     - Actions with relevant data.
+   * @param navigationId - The navigationId for the navigation to fetch more refinements against.
+   * @param indices - The indices of the refinements intended to be selected.
+   * @return - Actions with relevant data.
    */
   // tslint:disable-next-line max-line-length
   export function selectMultiplePastPurchaseRefinements(navigationId: string, indices: number[]): Actions.PastPurchaseSelectMultiple {
@@ -971,7 +997,12 @@ namespace ActionCreators {
     ];
   }
 
-  // todo doc
+  /**
+   * Removes the currently selected past purchase refinements and selects the given one.
+   * @param navigationId - The navigationId for the refinement intending to be selected.
+   * @param index - The index of the refinement to be selected in the store.
+   * @return - Actions with payloads.
+   */
   // tslint:disable-next-line max-line-length
   export function resetAndSelectPastPurchaseRefinement(navigationId: string, index: number): Actions.PastPurchaseResetAndSelect {
     return <Actions.PastPurchaseResetAndSelect>[
@@ -980,7 +1011,12 @@ namespace ActionCreators {
     ];
   }
 
-  // todo doc
+  /**
+   * Removes the current past purchase query and selects the given past purchase refinement.
+   * @param navigationId - The navigationId for the refinement intending to be selected.
+   * @param index - The index of the refinement to be selected in the store.
+   * @return - Actions with payloads.
+   */
   // tslint:disable-next-line max-line-length
   export function resetPastPurchaseQueryAndSelectRefinement(navigationId: string, index: number): Actions.PastPurchaseQueryAndSelect {
     return <Actions.PastPurchaseQueryAndSelect>[
@@ -991,11 +1027,9 @@ namespace ActionCreators {
 
   /**
    * In the past purcahse page, removes a given refinement based on navigationId and index.
-   * @param  {string}                                 navigationId - The navigationId for
-   * the navigation to fetch more refinements against.
-   * @param  {number}                                 index        - The index of the refinement
-   * intended to be selected.
-   * @return {Actions.ResetPageAndDeselectRefinement}              - Actions with relevant data.
+   * @param navigationId - The navigationId for the navigation to fetch more refinements against.
+   * @param index - The index of the refinement intended to be selected.
+   * @return - Actions with relevant data.
    */
   // tslint:disable-next-line max-line-length
   export function deselectPastPurchaseRefinement(navigationId: string, index: number): Actions.PastPurchaseDeselect {
@@ -1009,9 +1043,9 @@ namespace ActionCreators {
 
   /**
    * In the past purchase page, removes the selected refinements from the search.
-   * @param  {boolean|string}                   field - true to reset all refinements,
+   * @param field - true to reset all refinements,
    * or navigationId to reset all refinements on a specific navigation.
-   * @return {Actions.PastPurchaseReset}   - Actions with relevant data.
+   * @return - Actions with relevant data.
    */
   export function resetPastPurchaseRefinements(field?: boolean | string): Actions.PastPurchaseReset {
     return [
@@ -1026,6 +1060,11 @@ namespace ActionCreators {
     ];
   }
 
+  /**
+   * Removes the selected past purchase refinements and updates the past purchase query.
+   * @param query - The query to use.
+   * @return - Actions with payloads.
+   */
   export function updatePastPurchaseQuery(query: string): Actions.PastPurchaseQuery {
     return <Actions.PastPurchaseQuery>[
       ...ActionCreators.resetPastPurchaseRefinements(true),
@@ -1035,9 +1074,8 @@ namespace ActionCreators {
 
   /**
    * Updates the past purchase page size to given size.
-   * @param  {number}                 size - The size the page is updated to.
-   * Must correspond to a size in the pageSize in the store.
-   * @return {Actions.UpdatePastPurchasePageSize}      - Action with size.
+   * @param size - The size the page is updated to. Must correspond to a size in the pageSize in the store.
+   * @return - Action with size.
    */
   export function updatePastPurchasePageSize(size: number): Actions.UpdatePastPurchasePageSize {
     return createAction(Actions.UPDATE_PAST_PURCHASE_PAGE_SIZE, size, {
@@ -1047,8 +1085,8 @@ namespace ActionCreators {
 
   /**
    * Updates the current page to the given page.
-   * @param  {number}                    page - The page to switch to.
-   * @return {Actions.UpdatePastPurchaseCurrentPage}      - Action with page.
+   * @param page - The page to switch to.
+   * @return - Action with page.
    */
   export function updatePastPurchaseCurrentPage(page: number): Actions.UpdatePastPurchaseCurrentPage {
     return createAction(Actions.UPDATE_PAST_PURCHASE_CURRENT_PAGE, page, {
@@ -1059,6 +1097,11 @@ namespace ActionCreators {
     });
   }
 
+  /**
+   * Updates the past purchase sort.
+   * @param index - The index of the sort in the store to use.
+   * @return - Action with index.
+   */
   export function selectPastPurchasesSort(index: number): Actions.PastPurchaseSortActions {
     return [
       ActionCreators.resetPastPurchasePage(),
@@ -1070,8 +1113,8 @@ namespace ActionCreators {
 
   /**
    * Updates the past purchase sorts using the data provided.
-   * @param  {Actions.Payload.Sort} payload - An object containing the sort labels and options.
-   * @return {Actions.ApplyPastPurchaseSorts} - Action with payload.
+   * @param payload - An object containing the sort labels and options.
+   * @return - Action with payload.
    */
   export function applyPastPurchaseSorts(payload: Actions.Payload.Sort): Actions.ApplyPastPurchaseSorts {
     return createAction(Actions.APPLY_PAST_PURCHASE_SORTS, payload, {
@@ -1085,11 +1128,11 @@ namespace ActionCreators {
 
   // ui action creators
   /**
-   * Adds state for a given tag to the store.
-   * @param  {string}                       tagName - The name of the tag.
-   * @param  {string}                       id      - The id of the tag.
-   * @param  {any={}}                       state   - The state to add in the store.
-   * @return {Actions.CreateComponentState}         - Action with tagName, id, and state.
+   * Adds state for a given tag or section to the ui store.
+   * @param tagName - The name of the tag or a unique identifier.
+   * @param id - The id of the component or a unique id to use.
+   * @param state - The state to add in the store.
+   * @return - Action with tagName, id, and state.
    */
   // tslint:disable-next-line max-line-length
   export function createComponentState(tagName: string, id: string, state: any = {}): Actions.CreateComponentState {
@@ -1098,9 +1141,9 @@ namespace ActionCreators {
 
   /**
    * Removes state for a given tag from the store.
-   * @param  {string}                       tagName - The name of the tag.
-   * @param  {string}                       id      - The id of the tag.
-   * @return {Actions.RemoveComponentState}         Action with tagName and id.
+   * @param tagName - The name of the tag or a unique identifier.
+   * @param id - The id of the component or a unique id to use.
+   * @return - Action with tagName and id.
    */
   export function removeComponentState(tagName: string, id: string): Actions.RemoveComponentState {
     return createAction(Actions.REMOVE_COMPONENT_STATE, { tagName, id });
@@ -1109,8 +1152,8 @@ namespace ActionCreators {
   // session action creators
   /**
    * Updates the location in the store to the given location.
-   * @param  {Store.Geolocation}      location - The location to update to.
-   * @return {Actions.UpdateLocation}          - Action with location.
+   * @param location - The location to update to.
+   * @return - Action with location.
    */
   export function updateLocation(location: Store.Geolocation): Actions.UpdateLocation {
     return createAction(Actions.UPDATE_LOCATION, location);
@@ -1119,7 +1162,7 @@ namespace ActionCreators {
   // app action creators
   /**
    * Fires the START_APP action.
-   * @return {Actions.StartApp} - Action with undefined.
+   * @return - Action with undefined.
    */
   export function startApp(): Actions.StartApp {
     return createAction(Actions.START_APP, undefined);

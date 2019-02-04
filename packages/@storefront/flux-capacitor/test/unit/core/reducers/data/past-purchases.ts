@@ -161,10 +161,15 @@ suite('recommendations', ({ expect, stub }) => {
 
       const reducer = pastPurchases(state, { type: Actions.RECEIVE_PAST_PURCHASE_TEMPLATE, payload });
 
-      expect(reducer).to.eql({
-        ...state,
-        template: payload
-      });
+      expect(reducer).to.eql({ ...state, template: payload });
+    });
+
+    it('should overwrite siteParams on RECEIVE_PAST_PURCHASE_SITE_PARAMS', () => {
+      const payload = [{ key: 'ok', value: 'something' }];
+
+      const reducer = pastPurchases(state, { type: Actions.RECEIVE_PAST_PURCHASE_SITE_PARAMS, payload });
+
+      expect(reducer).to.eql({ ...state, siteParams: payload });
     });
 
     it('should handle updating sort on SELECT_PAST_PURCHASE_SORT and call sortSkus if MOST_PURCHASED', () => {

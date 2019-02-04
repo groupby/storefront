@@ -32,6 +32,7 @@ suite('product details saga', ({ expect, spy, stub }) => {
         const receiveDetailsAction: any = { a: 'b' };
         const receiveDetails = spy(() => receiveDetailsAction);
         const template = { c: 'd' };
+        const siteParams = [{ key: 'key', value: 'value' }];
         const emit = spy();
         const replaceState = spy();
         const flux: any = { actions: { receiveDetails }, emit, replaceState };
@@ -48,11 +49,11 @@ suite('product details saga', ({ expect, spy, stub }) => {
 
         expect(task.next().value).to.eql(effects.select());
         expect(task.next(state).value).to.eql(effects.call(searchRequest, flux, request));
-        expect(task.next({ records: [record], template }).value).to.eql(
+        expect(task.next({ records: [record], template, siteParams }).value).to.eql(
           effects.put(receiveDetailsAction)
         );
         expect(emit).to.be.calledWithExactly(Events.BEACON_VIEW_PRODUCT, record);
-        expect(receiveDetails).to.be.calledWith({ data: record.allMeta, template });
+        expect(receiveDetails).to.be.calledWith({ data: record.allMeta, template, siteParams });
         task.next();
         expect(replaceState).to.be.calledWith(utils.Routes.DETAILS, true);
       });

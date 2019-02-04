@@ -21,7 +21,7 @@ export namespace ProductDetailsTasks {
           ...request
         }
       );
-      const { records, template } = yield effects.call(RequestsTasks.search, flux, requestBody);
+      const { records, template, siteParams } = yield effects.call(RequestsTasks.search, flux, requestBody);
 
       if (records.length) {
         let [record] = records;
@@ -29,7 +29,7 @@ export namespace ProductDetailsTasks {
           flux.emit(Events.BEACON_VIEW_PRODUCT, record);
           record = record.allMeta;
         }
-        yield effects.put(flux.actions.receiveDetails({ data: record, template }));
+        yield effects.put(flux.actions.receiveDetails({ data: record, template, siteParams }));
 
         flux.replaceState(utils.Routes.DETAILS, buildAndParse);
       } else {
