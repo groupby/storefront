@@ -22,7 +22,8 @@ class SearchBox {
       event.preventUpdate = true;
       switch (event.key) {
         case KEYS.ENTER:
-          if (this.services.autocomplete.hasActiveSuggestion()) {
+          // tslint:disable-next-line
+          if (this.services.autocomplete.hasActiveSuggestion() && this.select(Selectors.config).autocomplete.hoverAutoFill) {
             return this.flux.emit('sayt:select_active');
           } else {
             return this.actions.search(event.target.value);
@@ -74,7 +75,7 @@ class SearchBox {
   }
 
   updateOriginalQuery = (originalQuery: string) =>
-    (originalQuery || '') !== (this.state.originalQuery || this.refs.searchBox.value) && this.set({ originalQuery });
+    (originalQuery || '') !== (this.state.originalQuery || this.refs.searchBox.value) && this.set({ originalQuery })
 }
 
 interface SearchBox extends Tag<SearchBox.Props, SearchBox.State> {}
