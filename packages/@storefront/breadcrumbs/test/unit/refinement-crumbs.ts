@@ -34,7 +34,7 @@ suite('RefinementCrumbs', ({ expect, spy, stub, itShouldProvideAlias }) => {
         refinementCrumbs.updateState = () => null;
       });
 
-      it('should set the navigationSelector and selectedRefinementsUpdated based on SEARCH storeSection', () => {
+      it('should set the navigationSelector and selectedRefinementsUpdated', () => {
         const select = (refinementCrumbs.select = spy());
         refinementCrumbs.init();
 
@@ -44,7 +44,7 @@ suite('RefinementCrumbs', ({ expect, spy, stub, itShouldProvideAlias }) => {
         expect(select).to.be.calledWithExactly(Selectors.navigation, field);
       });
 
-      it('should listen for NAVIGATIONS_UPDATED based on SEARCH storeSection', () => {
+      it('should listen for NAVIGATIONS_UPDATED', () => {
         const subscribe = refinementCrumbs.subscribe = spy();
 
         refinementCrumbs.init();
@@ -53,7 +53,7 @@ suite('RefinementCrumbs', ({ expect, spy, stub, itShouldProvideAlias }) => {
       });
 
       // tslint:disable-next-line max-line-length
-      it('should not listen for NAVIGATIONS_UPDATED based on SEARCH storeSection if the selectedRefinements prop is available', () => {
+      it('should not listen for NAVIGATIONS_UPDATED if the selectedRefinements prop is available', () => {
         const selectedNavigation: any = {};
         const subscribe = refinementCrumbs.subscribe = spy();
         refinementCrumbs.props = { ...refinementCrumbs.props, field, selectedNavigation };
@@ -70,7 +70,7 @@ suite('RefinementCrumbs', ({ expect, spy, stub, itShouldProvideAlias }) => {
         refinementCrumbs.updateState = () => null;
       });
 
-      it('should set the navigationSelector and selectedRefinementsUpdated base on PAST_PURCHASES storeSection', () => {
+      it('should set the navigationSelector and selectedRefinementsUpdated', () => {
         const select = (refinementCrumbs.select = spy());
         refinementCrumbs.init();
 
@@ -81,7 +81,7 @@ suite('RefinementCrumbs', ({ expect, spy, stub, itShouldProvideAlias }) => {
         expect(select).to.be.calledWithExactly(Selectors.pastPurchaseNavigation, field);
       });
 
-      it('should listen for PAST_PURCHASE_NAVIGATIONS_UPDATED based on PAST_PURCHASES storeSection', () => {
+      it('should listen for PAST_PURCHASE_NAVIGATIONS_UPDATED', () => {
         const subscribe = refinementCrumbs.subscribe = spy();
 
         refinementCrumbs.init();
@@ -91,7 +91,7 @@ suite('RefinementCrumbs', ({ expect, spy, stub, itShouldProvideAlias }) => {
       });
 
       // tslint:disable-next-line max-line-length
-      it('should not listen for PAST_PURCHASE_NAVIGATIONS_UPDATED based on PAST_PURCHASES storeSection if the selectedRefinements prop is available', () => {
+      it('should not listen for PAST_PURCHASE_NAVIGATIONS_UPDATED if the selectedRefinements prop is available', () => {
         const selectedNavigation: any = {};
         const subscribe = refinementCrumbs.subscribe = spy();
         refinementCrumbs.props = { ...refinementCrumbs.props, field, selectedNavigation };
