@@ -47,8 +47,8 @@ class RefinementCrumbs {
   }
 
   selectRefinements(getNavigation: RefinementCrumbs.NavigationSelector) {
-    const { field } = this.props;
-    const navigation = getNavigation(field);
+    const { field } =  this.props.selectedNavigation || this.props;
+    const navigation = this.props.selectedNavigation || getNavigation(field);
 
     if (navigation) {
       const { range, refinements, selected } = navigation;

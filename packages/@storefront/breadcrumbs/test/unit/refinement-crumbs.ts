@@ -193,6 +193,43 @@ suite('RefinementCrumbs', ({ expect, spy, stub, itShouldProvideAlias }) => {
       refinementCrumbs.state = <any>{ navigationSelector: () => {} };
     });
 
+    it('should extract the field and navigation data from `props.selectedNavigation`', () => {
+      const field = 'foo';
+      const range = true;
+      const refinements = [];
+      const selected = [];
+      const selectedNavigation = {
+        field,
+        range,
+        refinements,
+        selected,
+      };
+      refinementCrumbs.props = <any>{ selectedNavigation };
+
+      const selectedRefinements = refinementCrumbs.selectRefinements(() => null);
+
+      expect(selectedRefinements).to.eql(selectedNavigation);
+    });
+
+    it('should extract the field from props and compute the navigation data', () => {
+      const field = 'foo';
+      const range = true;
+      const refinements = [];
+      const selected = [];
+      const navigation = {
+        field,
+        range,
+        refinements,
+        selected,
+      };
+      const navigationSelector = spy(() => null);
+      refinementCrumbs.props = <any>{ field };
+
+      refinementCrumbs.selectRefinements(navigationSelector);
+
+      expect(navigationSelector).to.be.calledWithExactly(field);
+    });
+
     it('should return build navigation state', () => {
       const range = true;
       const selected = [0, 2];
