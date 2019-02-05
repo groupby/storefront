@@ -56,7 +56,7 @@ suite('RefinementCrumbs', ({ expect, spy, stub, itShouldProvideAlias }) => {
       it('should not listen for NAVIGATIONS_UPDATED based on SEARCH storeSection if the selectedRefinements prop is available', () => {
         const selectedNavigation: any = {};
         const subscribe = refinementCrumbs.subscribe = spy();
-        refinementCrumbs.props = { field, selectedNavigation };
+        refinementCrumbs.props = { ...refinementCrumbs.props, field, selectedNavigation };
 
         refinementCrumbs.init();
 
@@ -88,6 +88,17 @@ suite('RefinementCrumbs', ({ expect, spy, stub, itShouldProvideAlias }) => {
 
         // tslint:disable-next-line max-line-length
         expect(subscribe).to.be.calledWithExactly(Events.PAST_PURCHASE_NAVIGATIONS_UPDATED, refinementCrumbs.updateRefinements);
+      });
+
+      // tslint:disable-next-line max-line-length
+      it('should not listen for PAST_PURCHASE_NAVIGATIONS_UPDATED based on PAST_PURCHASES storeSection if the selectedRefinements prop is available', () => {
+        const selectedNavigation: any = {};
+        const subscribe = refinementCrumbs.subscribe = spy();
+        refinementCrumbs.props = { ...refinementCrumbs.props, field, selectedNavigation };
+
+        refinementCrumbs.init();
+
+        expect(subscribe).to.not.be.called;
       });
     });
   });
