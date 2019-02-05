@@ -5,11 +5,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased] [patch]
+### Added
+- SF-1248: Created `updateSelectedNavigations` and `getSelectedNavigations` methods in order to generate the new `selectedNavigations` prop.
+- SF-1248: `refinement-crumbs` receives the new `selectedNavigations` prop and uses that to generate its state.
+
 ### Changed
-- SF-1248: `refinement-crumbs` now subscribes to the `NAVIGATIONS_UPDATED` event.
-  - This was done to ensure the `refinement-crumbs` component has the latest navigation data.
-- SF-1249: `refinement-crumbs` now subscribes to the `PAST_PURCHASE_NAVIGATIONS_UPDATED` event.
-  - This was done for the same reasons above.
+- SF-1248: `refinement-crumbs` now subscribes to the `NAVIGATIONS_UPDATED` event if `selectedNavigations` prop is not available.
+- SF-1248: `refinement-crumbs` now subscribes to the `PAST_PURCHASE_NAVIGATIONS_UPDATED` event if `selectedNavigations` prop is not available.
+
+### Deprecated
+- SF-1248: Marking the following methods and properties from the `breadcrumbs` component for deprecation:
+  -  Methods to be deprecated: 
+    - `updateFields`
+    - `getFields`
+  - Properties to be deprecated: 
+    - `fields`
 
 ## [2.5.0] - 2019-02-04
 ### Changed

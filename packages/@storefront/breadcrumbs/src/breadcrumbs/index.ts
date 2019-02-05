@@ -64,11 +64,17 @@ class Breadcrumbs {
 
   updateCorrectedQuery = (correctedQuery: string) => this.set({ correctedQuery });
 
+  /**
+   * @deprecated
+   */
   updateFields = () => this.set({ fields: this.getFields(this.state.navigationsSelector()) });
 
   // tslint:disable-next-line max-line-length
   updateSelectedNavigations = () => this.set({ selectedNavigations: this.getSelectedNavigations(this.state.navigationsSelector()) });
 
+  /**
+   * @deprecated
+   */
   getFields(navigations: Store.Navigation[]) {
     return navigations
       .filter((navigation) => navigation.selected.length !== 0)
