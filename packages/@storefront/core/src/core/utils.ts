@@ -13,6 +13,10 @@ export const WINDOW = () => window;
 
 const ARRAY_TO_DOT_NOTATION_REGEX = /\[(\d+)\]/g;
 
+export const DOMEXCEPTION_NAMES = {
+  SECURITY_ERROR: 'SecurityError',
+};
+
 export const KEYS = {
   DOWN: 'ArrowDown',
   ENTER: 'Enter',

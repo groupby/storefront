@@ -1,7 +1,7 @@
 import { Store, STOREFRONT_APP_ID } from '@storefront/flux-capacitor';
 import { core, BaseService } from '../core/service';
 import UrlBeautifier from '../core/url-beautifier';
-import { WINDOW } from '../core/utils';
+import { DOMEXCEPTION_NAMES, WINDOW } from '../core/utils';
 import StoreFront from '../storefront';
 import Utils from './urlUtils';
 
@@ -84,14 +84,38 @@ class UrlService extends BaseService<UrlService.Options> {
         if (redirectFnResult) {
           return WINDOW().location.assign(redirectFnResult);
         } else {
-          return this.history.pushState(data, title, url);
+          try {
+            return this.history.pushState(data, title, url);
+          } catch (e) {
+            if (e.name === DOMEXCEPTION_NAMES.SECURITY_ERROR) {
+              // if a SecurityError is thrown, the URL is probably not in the same origin
+              // hard-navigate to the URL instead
+              return WINDOW().location.assign(url);
+            } else {
+              // rethrow the error for all other cases to prevent infinite loops
+              throw e;
+            }
+          }
         }
       };
     }
   }
 
   get replaceState() {
-    return this.history.replaceState;
+    return (data, title, url) => {
+      try {
+        return this.history.replaceState(data, title, url);
+      } catch (e) {
+        if (e.name === DOMEXCEPTION_NAMES.SECURITY_ERROR) {
+          // if a SecurityError is thrown, the URL is probably not in the same origin
+          // hard-navigate to the URL instead
+          return WINDOW().location.replace(url);
+        } else {
+          // rethrow the error for all other cases to prevent infinite loops
+          throw e;
+        }
+      }
+    };
   }
 
   get initialUrl() {

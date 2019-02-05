@@ -1,4 +1,5 @@
 import { STOREFRONT_APP_ID } from '@storefront/flux-capacitor';
+import * as DOMException from 'domexception';
 import * as UrlBeautifier from '../../../src/core/url-beautifier';
 import * as CoreUtils from '../../../src/core/utils';
 import Service from '../../../src/services/url';
@@ -15,6 +16,7 @@ suite('URL Service', ({ expect, spy, stub, itShouldBeCore, itShouldExtendBaseSer
   let urlBeautifier;
   let addEventListener;
   let assign;
+  let replace;
   let win;
   let winPushState;
   let winReplaceState;
@@ -23,11 +25,12 @@ suite('URL Service', ({ expect, spy, stub, itShouldBeCore, itShouldExtendBaseSer
   beforeEach(() => {
     addEventListener = spy();
     assign = spy();
+    replace = spy();
     winPushState = spy();
     winReplaceState = spy();
     win = {
       addEventListener,
-      location: { assign, href },
+      location: { assign, replace, href },
       history: {
         pushState: winPushState,
         replaceState: winReplaceState,
@@ -103,19 +106,20 @@ suite('URL Service', ({ expect, spy, stub, itShouldBeCore, itShouldExtendBaseSer
   describe('init()', () => {
     it('should call initHistory in flux', () => {
       const initHistory = spy();
-      const pushState = spy();
+      const replaceState = () => null;
+      const pushState = () => null;
+      stub(service, 'replaceState').get(() => replaceState);
       stub(service, 'pushState').get(() => pushState);
       service['app'].flux = <any>{ initHistory };
 
       service.init();
 
       const initHistoryArgs = initHistory.getCall(0).args[0];
-      expect(initHistoryArgs.build).to.eq(service.build);
-      expect(initHistoryArgs.parse).to.eq(service.parse);
-      expect(initHistoryArgs.initialUrl).to.eq(service.initialUrl);
-      expect(initHistoryArgs.replaceState).to.eq(service.replaceState);
-      initHistoryArgs.pushState();
-      expect(pushState).to.be.called;
+      expect(initHistoryArgs.build).to.eq(service.build, 'build is not the same');
+      expect(initHistoryArgs.parse).to.eq(service.parse, 'parse is not the same');
+      expect(initHistoryArgs.initialUrl).to.eq(service.initialUrl, 'initialUrl is not the same');
+      expect(initHistoryArgs.replaceState).to.eq(replaceState, 'replaceState is not the same');
+      expect(initHistoryArgs.pushState).to.eq(pushState, 'pushState is not the same');
     });
 
     it('should set up history listener', () => {
@@ -178,6 +182,8 @@ suite('URL Service', ({ expect, spy, stub, itShouldBeCore, itShouldExtendBaseSer
   });
 
   describe('get pushState()', () => {
+    const data = { a: 'b' };
+    const title = 'this website';
     const url = 'www.example.com';
 
     it('should use the opts urlHandler if it is a function', () => {
@@ -196,7 +202,7 @@ suite('URL Service', ({ expect, spy, stub, itShouldBeCore, itShouldExtendBaseSer
 
       service.pushState(null, null, url);
 
-      expect(assign).to.be.calledWith(redirectsResult);
+      expect(assign).to.be.calledWithExactly(redirectsResult);
     });
 
     it('should use the opts redirects if it is an object', () => {
@@ -209,30 +215,76 @@ suite('URL Service', ({ expect, spy, stub, itShouldBeCore, itShouldExtendBaseSer
 
       service.pushState(null, null, url);
 
-      expect(assign).to.be.calledWith(redirectsResult);
+      expect(assign).to.be.calledWithExactly(redirectsResult);
     });
 
     it('should use the history pushState if it exists', () => {
-      const data = { a: 'b' };
-      const title = 'this website';
       const pushState = spy();
       service['opts'] = <any>{ redirects: {} };
       service.history = <any>{ pushState };
 
       service.pushState(data, title, url);
 
-      expect(pushState).to.be.calledWith(data, title, url);
+      expect(pushState).to.be.calledWithExactly(data, title, url);
+    });
+
+    it('should fall back to location.assign for only SecurityError', () => {
+      const pushState = () => {
+        throw new DOMException('here be SecurityError', CoreUtils.DOMEXCEPTION_NAMES.SECURITY_ERROR);
+      };
+      service['opts'] = <any>{ redirects: {} };
+      service.history = <any>{ pushState };
+
+      service.pushState(data, title, url);
+
+      expect(assign).to.be.calledWithExactly(url);
+    });
+
+    it('should rethrow any exception other than SecurityError', () => {
+      const error = new Error('not a SecurityError');
+      const pushState = () => { throw error; };
+      service['opts'] = <any>{ redirects: {} };
+      service.history = <any>{ pushState };
+
+      const throwPush = () => service.pushState(data, title, url);
+
+      expect(throwPush).to.throw(error);
     });
   });
 
   describe('get replaceState()', () => {
+    const data = { a: 'b' };
+    const title = 'this website';
+    const url = 'www.example.com';
+
     it('should use the history replaceState', () => {
-      const replaceState = () => null;
+      const replaceState = spy();
       service.history = <any>{ replaceState };
 
-      const result = service.replaceState;
+      service.replaceState(data, title, url);
 
-      expect(result).to.eq(replaceState);
+      expect(replaceState).to.be.calledWithExactly(data, title, url);
+    });
+
+    it('should fall back to location.replace for only SecurityError', () => {
+      const replaceState = () => {
+        throw new DOMException('here be SecurityError',CoreUtils.DOMEXCEPTION_NAMES.SECURITY_ERROR);
+      };
+      service.history = <any>{ replaceState };
+
+      service.replaceState(data, title, url);
+
+      expect(replace).to.be.calledWithExactly(url);
+    });
+
+    it('should rethrow any exception other than SecurityError', () => {
+      const error = new Error('not a SecurityError');
+      const replaceState = () => { throw error; };
+      service.history = <any>{ replaceState };
+
+      const throwReplace = () => service.replaceState(data, title, url);
+
+      expect(throwReplace).to.throw(error);
     });
   });
 
