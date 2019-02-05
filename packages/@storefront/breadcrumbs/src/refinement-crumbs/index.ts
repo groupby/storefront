@@ -42,9 +42,7 @@ class RefinementCrumbs {
     this.state = { ...this.state, ...this.selectRefinements(this.state.navigationSelector) };
   }
 
-  updateRefinements = () => {
-    return this.set(this.selectRefinements(this.state.navigationSelector));
-  }
+  updateRefinements = () => this.set(this.selectRefinements(this.state.navigationSelector));
 
   selectRefinements(getNavigation: RefinementCrumbs.NavigationSelector) {
     const { field } =  this.props.selectedNavigation || this.props;

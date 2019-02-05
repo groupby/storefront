@@ -64,7 +64,6 @@ class Breadcrumbs {
 
   updateFields = () => this.set({ fields: this.getFields(this.state.navigationsSelector()) });
 
-  // todo: Refactor the below in order to define this in the constructor or bind it within init().
   // tslint:disable-next-line max-line-length
   updateSelectedNavigations = () => this.set({ selectedNavigations: this.getSelectedNavigations(this.state.navigationsSelector()) });
 
