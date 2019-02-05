@@ -1,4 +1,4 @@
-import { Events, Selectors } from '@storefront/flux-capacitor';
+import { Events } from '@storefront/flux-capacitor';
 import * as sinon from 'sinon';
 import * as utils from '../../../src/core/utils';
 import Service from '../../../src/services/autocomplete';
