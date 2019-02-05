@@ -33,6 +33,14 @@ class Navigation {
     }
   }
 
+  onBeforeMount() {
+    console.log('before-mount', this.root);
+  }
+
+  onBeforeUnmount() {
+    console.log('before-unmount', this.root);
+  }
+
   updateFields = (navigations: Store.Indexed<Store.Navigation>) => {
     const { collapse } = this.props;
     let isActive: boolean | number = true;
@@ -52,7 +60,7 @@ class Navigation {
         alwaysShowTotals: this.props.alwaysShowTotals,
       })),
     });
-  };
+  }
 }
 
 interface Navigation extends Tag<Navigation.Props, Navigation.State> {}

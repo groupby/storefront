@@ -227,17 +227,19 @@ namespace UrlUtils {
   };
 
   export const mergeSearchState = (state: Store.State, request: UrlBeautifier.SearchUrlState) => {
+    const { ui, ...rest } = state;
     return {
-      ...state,
+      ...rest,
+      ui: {},
       data: {
-        ...state.data,
+        ...rest.data,
         present: {
-          ...state.data.present,
-          query: mergeSearchQueryState(state, request),
-          page: mergeSearchPageState(state, request),
-          collections: mergeSearchCollectionsState(state, request),
-          sorts: mergeSearchSortsState(state, request),
-          navigations: mergeSearchNavigationsState(state, request),
+          ...rest.data.present,
+          query: mergeSearchQueryState(rest, request),
+          page: mergeSearchPageState(rest, request),
+          collections: mergeSearchCollectionsState(rest, request),
+          sorts: mergeSearchSortsState(rest, request),
+          navigations: mergeSearchNavigationsState(rest, request),
         },
       },
     };
@@ -281,8 +283,8 @@ namespace UrlUtils {
     return {
       ...sorts,
       selected: currentSortIndex === -1 ? sorts.selected : currentSortIndex,
-    }
-  }
+    };
+  };
 
   export const mergeSearchNavigationsState = (state: Store.State, request: UrlBeautifier.SearchUrlState) => {
     const navigationsObject = Selectors.navigationsObject(state);

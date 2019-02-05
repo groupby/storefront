@@ -92,6 +92,8 @@ export function uiState<P extends object = any, S extends object = any, A extend
 
     target.prototype.onBeforeMount = function(...args: any) {
       const storedState = this.select(Selectors.uiTagState, Tag.getMeta(this).name, this.props[prop]);
+      console.log('target BeforeMount', storedState);
+      debugger;
 
       if (storedState) {
         this.state = { ...this.state, ...storedState };
@@ -104,11 +106,18 @@ export function uiState<P extends object = any, S extends object = any, A extend
     };
 
     target.prototype.onBeforeUnmount = function(...args: any) {
-      this.actions.createComponentState(
-        Tag.getMeta(this).name,
-        this.props[prop],
-        resolver(this.props, this.state, Tag.findConsumes(this).map((a) => this[`$${a}`]))
-      );
+      const storedState = this.select(Selectors.uiTagState, Tag.getMeta(this).name, this.props[prop]);
+      const resolvedState = resolver(this.props, this.state, Tag.findConsumes(this).map((a) => this[`$${a}`]));
+
+      console.log('target UnMount', this.state);
+      debugger;
+
+      if (!storedState || Object.keys(storedState).some((key) => storedState[key] !== resolvedState[key])) {
+        this.actions.createComponentState(
+          Tag.getMeta(this).name,
+          this.props[prop],
+          resolvedState);
+      }
 
       if (onBeforeUnmount && typeof onBeforeUnmount === 'function') {
         return onBeforeUnmount.apply(this, args);

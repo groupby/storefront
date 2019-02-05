@@ -27,13 +27,24 @@ class FilteredList {
     return props;
   }
 
-  onUpdate() {
-    if (this.state.items.length !== 2) {
-      this.updateItems();
+  onBeforeMount() {
+    console.log('before-mount', this.root);
+    if (!this.state.items.length) {
+      this.updateItems('');
     }
   }
 
+  onBeforeUnmount() {
+    debugger;
+    console.log('before-unmount', this.root);
+  }
+
+  onUpdate() {
+    this.updateItems();
+  }
+
   onKeyDown(event: KeyboardEvent & Tag.Event) {
+    event.preventUpdate = true;
     if (event.key !== KEYS.ENTER) {
       return;
     }

@@ -276,6 +276,7 @@ namespace Observer {
                 const oldTagState = (oldState[tagName] || {})[id] || {};
                 const newTagState = newState[tagName][id];
                 if (oldTagState !== newTagState) {
+                  console.log('ui updated');
                   emit(`${Events.UI_UPDATED}:${tagName}:${id}`)(oldTagState, newTagState, `${path}.${tagName}.${id}`);
                 }
               });

@@ -11,9 +11,9 @@ export default function updateUi(state: State = {}, { type, payload, meta = <Act
     case Actions.CREATE_COMPONENT_STATE: return createComponentState(state, payload);
     case Actions.REMOVE_COMPONENT_STATE: return removeComponentState(state, payload);
     default:
-      if ('recallId' in meta) {
-        return clearComponentState(state);
-      }
+      // if ('recallId' in meta) {
+      //   return clearComponentState(state);
+      // }
       return state;
   }
 }

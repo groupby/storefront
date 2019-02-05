@@ -58,7 +58,7 @@ export function normalizeToFunction<T>(objOrFn: Partial<T> | GenericTransformer<
 }
 
 export function filterState(state: Store.State, actionPayload: Actions.Payload.History.State) {
-  const { session: { config, ...session }, data, ...rootConfig } = state;
+  const { session: { config, ...session }, data, ui, ...rootConfig } = state;
   const { method, ...payload } = actionPayload;
   const history = { ...data.present.history, ...payload };
   let {
