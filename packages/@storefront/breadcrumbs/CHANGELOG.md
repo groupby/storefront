@@ -10,8 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - SF-1248: `refinement-crumbs` receives the new `selectedNavigations` prop and uses that to generate its state.
 
 ### Changed
-- SF-1248: `refinement-crumbs` now subscribes to the `NAVIGATIONS_UPDATED` event if `selectedNavigations` prop is not available.
-- SF-1248: `refinement-crumbs` now subscribes to the `PAST_PURCHASE_NAVIGATIONS_UPDATED` event if `selectedNavigations` prop is not available.
+- SF-1248: `refinement-crumbs` now assigns `shouldUpdate` to itself as function that returns `true` if `selectedNavigations` prop is not available.
 
 ### Deprecated
 - SF-1248: Marking the following methods and properties from the `breadcrumbs` component for deprecation:
