@@ -136,6 +136,9 @@ const DEFAULTS: Partial<Configuration> = {
         pastpurchase: `/${Routes.PAST_PURCHASE}`,
       },
     },
+    search: {
+      maxPastSearchTerms: 0,
+    },
     tracker: {
       warnings: true,
     },

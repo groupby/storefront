@@ -14,7 +14,10 @@ suite('Search Service', ({ expect, spy, itShouldExtendBaseService, stub }) => {
   beforeEach(() => {
     on = spy();
     app = <any>{ flux: { on, store: { getState: () => state } }, log: { warn: () => null } };
-    service = new Service(app, {});
+    const opts = {
+      maxPastSearchTerms: 3,
+    };
+    service = new Service(app, opts);
   });
 
   describe('constructor()', () => {
@@ -67,13 +70,13 @@ suite('Search Service', ({ expect, spy, itShouldExtendBaseService, stub }) => {
     const term = 'foo';
 
     it('should push the current search term to cookie', () => {
-      const get = stub().withArgs(STORAGE_KEY).returns(JSON.stringify(['c', 'b', 'a']));
+      const get = stub().withArgs(STORAGE_KEY).returns(JSON.stringify(['a']));
       const set = spy();
       app.services = <any>{ cookie: { get, set } };
 
       service.pushSearchTerm(term);
 
-      expect(set).to.be.calledWithExactly(STORAGE_KEY, [term, 'c', 'b', 'a']);
+      expect(set).to.be.calledWithExactly(STORAGE_KEY, [term, 'a']);
     });
 
     it('should default to an empty array if there are no previous terms', () => {
@@ -84,6 +87,16 @@ suite('Search Service', ({ expect, spy, itShouldExtendBaseService, stub }) => {
       service.pushSearchTerm(term);
 
       expect(set).to.be.calledWithExactly(STORAGE_KEY, [term]);
+    });
+
+    it('should limit the past search terms to `maxPastSearchTerms`', () => {
+      const get = stub().withArgs(STORAGE_KEY).returns(JSON.stringify(['c', 'b', 'a']));
+      const set = spy();
+      app.services = <any>{ cookie: { get, set } };
+
+      service.pushSearchTerm(term);
+
+      expect(set).to.be.calledWithExactly(STORAGE_KEY, [term, 'c', 'b']);
     });
   });
 
