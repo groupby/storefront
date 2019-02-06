@@ -26,7 +26,16 @@ class SearchService extends BaseService<SearchService.Options> {
   }
 
   pushSearchTerm(term: string) {
+    const previousTerms = this.getPastSearchTerms();
+
+    previousTerms.unshift(term);
+
+    this.app.services.cookie.set(STORAGE_KEY, previousTerms.slice(0, this.opts.maxPastSearchTerms));
+  }
+
+  getPastSearchTerms() {
     let previousTerms: string[];
+
     try {
       previousTerms = JSON.parse(this.app.services.cookie.get(STORAGE_KEY));
     } catch (e) {
@@ -34,9 +43,7 @@ class SearchService extends BaseService<SearchService.Options> {
       previousTerms = [];
     }
 
-    previousTerms.unshift(term);
-
-    this.app.services.cookie.set(STORAGE_KEY, previousTerms.slice(0, this.opts.maxPastSearchTerms));
+    return previousTerms;
   }
 
   fetchProducts(urlState: Store.History) {
