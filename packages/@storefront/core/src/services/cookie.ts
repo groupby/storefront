@@ -22,7 +22,7 @@ class CookieService extends BaseService<CookieService.Options> {
   }
 
   remove(key: string, options?: CookieAttributes) {
-    return Cookies.set(key, options);
+    return Cookies.remove(key, options);
   }
 }
 
