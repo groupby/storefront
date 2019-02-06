@@ -25,7 +25,13 @@ class SearchService extends BaseService<SearchService.Options> {
   }
 
   pushSearchTerm(term: string) {
-    const previousTerms: string[] = JSON.parse(this.app.services.cookie.get(STORAGE_KEY));
+    let previousTerms: string[];
+    try {
+      previousTerms = JSON.parse(this.app.services.cookie.get(STORAGE_KEY));
+    } catch (e) {
+      this.app.log.warn(`failed to extract previous searches from cookie ${STORAGE_KEY}`, e);
+      previousTerms = [];
+    }
 
     previousTerms.unshift(term);
 
