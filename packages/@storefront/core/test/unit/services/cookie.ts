@@ -57,4 +57,21 @@ suite('Cookie Service', ({ expect, spy, itShouldExtendBaseService, stub }) => {
       expect(set).to.be.calledWithExactly(key, value, options);
     });
   });
+
+  describe('remove()', () => {
+    let remove;
+
+    beforeEach(() => {
+      remove = stub(Cookies, 'remove');
+    });
+
+    it('should pass through to Cookies.remove()', () => {
+      const key = 'foo';
+      const options = { bar: 'baz' };
+
+      service.remove(key, options);
+
+      expect(remove).to.be.calledWithExactly(key, options);
+    });
+  });
 });

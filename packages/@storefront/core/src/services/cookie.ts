@@ -20,6 +20,10 @@ class CookieService extends BaseService<CookieService.Options> {
   set(key: string, value: any, options?: CookieAttributes) {
     return Cookies.set(key, value, options);
   }
+
+  remove(key: string, options?: CookieAttributes) {
+    return Cookies.set(key, options);
+  }
 }
 
 namespace CookieService {
