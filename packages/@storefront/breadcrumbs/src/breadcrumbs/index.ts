@@ -47,8 +47,12 @@ class Breadcrumbs {
         break;
     }
 
-    // tslint:disable-next-line max-line-length
-    this.state = { navigationsSelector, fields: this.getFields(navigationsSelector()), originalQuery: this.select(Selectors.query), selectedNavigations: this.getSelectedNavigations(navigationsSelector()) };
+    this.state = {
+      navigationsSelector,
+      fields: this.getFields(navigationsSelector()),
+      originalQuery: this.select(Selectors.query),
+      selectedNavigations: this.getSelectedNavigations(navigationsSelector())
+    };
   }
 
   onBeforeMount() {

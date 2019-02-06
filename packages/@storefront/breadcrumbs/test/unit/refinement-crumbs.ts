@@ -35,7 +35,7 @@ suite('RefinementCrumbs', ({ expect, spy, stub, itShouldProvideAlias }) => {
       });
 
       it('should set the navigationSelector and selectedRefinementsUpdated', () => {
-        const select = (refinementCrumbs.select = spy());
+        const select = refinementCrumbs.select = spy();
         refinementCrumbs.init();
 
         refinementCrumbs.state.navigationSelector(field);
@@ -71,7 +71,7 @@ suite('RefinementCrumbs', ({ expect, spy, stub, itShouldProvideAlias }) => {
       });
 
       it('should set the navigationSelector and selectedRefinementsUpdated', () => {
-        const select = (refinementCrumbs.select = spy());
+        const select = refinementCrumbs.select = spy();
         refinementCrumbs.init();
 
         refinementCrumbs.state.navigationSelector(field);

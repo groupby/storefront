@@ -178,7 +178,6 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvi
 
   describe('updateSelectedNavigations', () => {
     it('should set selectedNavigations', () => {
-      // tslint:disable-next-line max-line-length
       const selectedNavigations = <any>[{ selected: [0]}];
       const set = (breadcrumbs.set = spy());
       breadcrumbs.state = { fields: [], originalQuery: '', navigationsSelector: () => null, selectedNavigations: [] };
