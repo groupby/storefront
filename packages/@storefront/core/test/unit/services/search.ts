@@ -12,7 +12,7 @@ suite('Search Service', ({ expect, spy, itShouldExtendBaseService, stub }) => {
 
   beforeEach(() => {
     on = spy();
-    app = <any>{ flux: { on } };
+    app = <any>{ flux: { on }, log: { warn: () => null } };
     service = new Service(app, {});
   });
 
@@ -48,15 +48,26 @@ suite('Search Service', ({ expect, spy, itShouldExtendBaseService, stub }) => {
   });
 
   describe('pushSearchTerm()', () => {
+    const term = 'foo';
+
     it('should push the current search term to cookie', () => {
-      const term = 'd';
       const get = stub().withArgs(STORAGE_KEY).returns(JSON.stringify(['c', 'b', 'a']));
       const set = spy();
       app.services = <any>{ cookie: { get, set } };
 
       service.pushSearchTerm(term);
 
-      expect(set).to.be.calledWithExactly(STORAGE_KEY, ['d', 'c', 'b', 'a']);
+      expect(set).to.be.calledWithExactly(STORAGE_KEY, [term, 'c', 'b', 'a']);
+    });
+
+    it('should default to an empty array if there are no previous terms', () => {
+      const get = spy();
+      const set = spy();
+      app.services = <any>{ cookie: { get, set } };
+
+      service.pushSearchTerm(term);
+
+      expect(set).to.be.calledWithExactly(STORAGE_KEY, [term]);
     });
   });
 
