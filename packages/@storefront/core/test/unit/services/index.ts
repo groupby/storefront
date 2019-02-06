@@ -1,6 +1,7 @@
 import Services from '../../../src/services';
 import autocomplete from '../../../src/services/autocomplete';
 import collections from '../../../src/services/collections';
+import cookie from '../../../src/services/cookie';
 import details from '../../../src/services/details';
 import logging from '../../../src/services/logging';
 import pastPurchases from '../../../src/services/pastPurchases';
@@ -18,6 +19,7 @@ suite('Services', ({ expect }) => {
       expect(Services).to.eql({
         autocomplete,
         collections,
+        cookie,
         details,
         logging,
         pastPurchases,
