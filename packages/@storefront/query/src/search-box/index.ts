@@ -23,7 +23,7 @@ class SearchBox {
       switch (event.key) {
         case KEYS.ENTER:
           // tslint:disable-next-line
-          if (this.services.autocomplete.hasActiveSuggestion() && this.select(Selectors.config).autocomplete.hoverAutoFill) {
+          if (this.services.autocomplete.hasActiveSuggestion() && (this.select(Selectors.config).autocomplete.hoverAutoFill || !event.target.value)) {
             return this.flux.emit('sayt:select_active');
           } else {
             return this.actions.search(event.target.value);
