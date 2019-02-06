@@ -4,6 +4,8 @@ import UrlBeautifier from '../core/url-beautifier';
 import StoreFront from '../storefront';
 import Utils from './urlUtils';
 
+export const STORAGE_KEY: string = 'gb-previous-search-terms';
+
 @core
 class SearchService extends BaseService<SearchService.Options> {
   constructor(app: StoreFront, opts: SearchService.Options) {
@@ -20,6 +22,14 @@ class SearchService extends BaseService<SearchService.Options> {
   pushState() {
     this.app.flux.emit('sayt:hide');
     this.app.flux.pushState({ route: Routes.SEARCH });
+  }
+
+  pushSearchTerm(term: string) {
+    const previousTerms: string[] = JSON.parse(this.app.services.cookie.get(STORAGE_KEY));
+
+    previousTerms.unshift(term);
+
+    this.app.services.cookie.set(STORAGE_KEY, previousTerms);
   }
 
   fetchProducts(urlState: Store.History) {
