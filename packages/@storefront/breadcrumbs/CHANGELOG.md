@@ -15,10 +15,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Deprecated
 - SF-1248: Marking the following methods and properties from the `breadcrumbs` component for deprecation:
-  -  Methods to be deprecated: 
+  -  Methods deprecated: 
     - `updateFields`
     - `getFields`
-  - Properties to be deprecated: 
+  - Properties deprecated: 
     - `fields`
 
 ## [2.5.0] - 2019-02-04
