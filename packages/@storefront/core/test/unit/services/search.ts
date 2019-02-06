@@ -70,34 +70,47 @@ suite('Search Service', ({ expect, spy, itShouldExtendBaseService, stub }) => {
     const term = 'foo';
 
     it('should push the current search term to cookie', () => {
-      const get = stub().withArgs(STORAGE_KEY).returns(JSON.stringify(['a']));
       const set = spy();
-      app.services = <any>{ cookie: { get, set } };
+      app.services = <any>{ cookie: { set } };
+      service.getPastSearchTerms = () => ['a'];
 
       service.pushSearchTerm(term);
 
       expect(set).to.be.calledWithExactly(STORAGE_KEY, [term, 'a']);
     });
 
-    it('should default to an empty array if there are no previous terms', () => {
-      const get = spy();
-      const set = spy();
-      app.services = <any>{ cookie: { get, set } };
-
-      service.pushSearchTerm(term);
-
-      expect(set).to.be.calledWithExactly(STORAGE_KEY, [term]);
-    });
-
     it('should limit the past search terms to `maxPastSearchTerms`', () => {
-      const get = stub().withArgs(STORAGE_KEY).returns(JSON.stringify(['c', 'b', 'a']));
       const set = spy();
-      app.services = <any>{ cookie: { get, set } };
+      app.services = <any>{ cookie: { set } };
+      service.getPastSearchTerms = () => ['c', 'b', 'a'];
 
       service.pushSearchTerm(term);
 
       expect(set).to.be.calledWithExactly(STORAGE_KEY, [term, 'c', 'b']);
     });
+  });
+
+  describe('getPastSearchTerms()', () => {
+    it('should return the past search terms', () => {
+      const expectedTerms = ['c', 'b', 'a'];
+      const get = stub().withArgs(STORAGE_KEY).returns(JSON.stringify(expectedTerms));
+      app.services = <any>{ cookie: { get }};
+
+      const terms = service.getPastSearchTerms();
+
+      expect(terms).to.eql(expectedTerms);
+    });
+
+    it('should default to an empty array if there are no previous terms', () => {
+      const get = stub().withArgs(STORAGE_KEY).returns(undefined);
+      app.services = <any>{ cookie: { get } };
+
+      const terms = service.getPastSearchTerms();
+
+      expect(get).to.be.calledWithExactly(STORAGE_KEY);
+      expect(terms).to.eql([]);
+    });
+
   });
 
   describe('fetchProducts()', () => {
