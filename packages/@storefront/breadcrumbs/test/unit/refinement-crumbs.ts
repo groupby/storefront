@@ -20,11 +20,23 @@ suite('RefinementCrumbs', ({ expect, spy, stub, itShouldProvideAlias }) => {
 
     // tslint:disable-next-line max-line-length
     it('should assign shouldUpdate as function that returns true if the selectedNavigations prop is not available', () => {
+      const originalShouldUpdate = refinementCrumbs.shouldUpdate;
       refinementCrumbs.updateState = spy();
 
       refinementCrumbs.init();
 
-      expect(refinementCrumbs.shouldUpdate).to.be.a('function');
+      expect(refinementCrumbs.shouldUpdate).to.not.eq(originalShouldUpdate);
+    });
+
+    // tslint:disable-next-line max-line-length
+    it('shouldUpdate should remain the same as its original assignment if the selectedNavigations prop is available', () => {
+      const originalShouldUpdate = refinementCrumbs.shouldUpdate;
+      refinementCrumbs.updateState = spy();
+      refinementCrumbs.props = { ...refinementCrumbs.props, selectedNavigation: <any>{} };
+
+      refinementCrumbs.init();
+
+      expect(refinementCrumbs.shouldUpdate).to.eq(originalShouldUpdate);
     });
 
     it('should call updateState()', () => {
@@ -70,6 +82,20 @@ suite('RefinementCrumbs', ({ expect, spy, stub, itShouldProvideAlias }) => {
         expect(refinementCrumbs.state.selectedRefinementsUpdated).to.eq(Events.PAST_PURCHASE_SELECTED_REFINEMENTS_UPDATED);
         expect(select).to.be.calledWithExactly(Selectors.pastPurchaseNavigation, field);
       });
+    });
+  });
+
+  describe('shouldUpdate()', () => {
+    it('should return true', () => {
+      refinementCrumbs.state = <any>{ a: 'b' };
+      refinementCrumbs.props = { storeSection: StoreSections.DEFAULT, field: 'foo'};
+      refinementCrumbs.subscribe = () => null;
+      refinementCrumbs.updateState = spy();
+
+      refinementCrumbs.init();
+
+      expect(refinementCrumbs.shouldUpdate(<any>refinementCrumbs.state, refinementCrumbs.props)).to.be.true;
+      expect(refinementCrumbs.shouldUpdate(<any>{}, <any>{})).to.be.true;
     });
   });
 
