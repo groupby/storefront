@@ -39,7 +39,7 @@ suite('Cookie Service', ({ expect, spy, itShouldExtendBaseService, stub }) => {
     it('should pass through to Cookies.set()', () => {
       const key = 'foo';
       const value = { bar: 'baz' };
-      const options = { quux: 'Hello, world!' };
+      const options: any = { quux: 'Hello, world!' };
       const set = stub(Cookies, 'set');
 
       service.set(key, value, options);
@@ -51,7 +51,7 @@ suite('Cookie Service', ({ expect, spy, itShouldExtendBaseService, stub }) => {
   describe('remove()', () => {
     it('should pass through to Cookies.remove()', () => {
       const key = 'foo';
-      const options = { bar: 'baz' };
+      const options: any = { bar: 'baz' };
       const remove = stub(Cookies, 'remove');
 
       service.remove(key, options);
