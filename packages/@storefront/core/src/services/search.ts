@@ -36,7 +36,7 @@ class SearchService extends BaseService<SearchService.Options> {
 
     previousTerms.unshift(term);
 
-    this.app.services.cookie.set(STORAGE_KEY, previousTerms);
+    this.app.services.cookie.set(STORAGE_KEY, previousTerms.slice(0, this.opts.maxPastSearchTerms));
   }
 
   fetchProducts(urlState: Store.History) {
@@ -50,7 +50,9 @@ class SearchService extends BaseService<SearchService.Options> {
 }
 
 namespace SearchService {
-  export interface Options {}
+  export interface Options {
+    maxPastSearchTerms?: number;
+  }
 }
 
 export default SearchService;
