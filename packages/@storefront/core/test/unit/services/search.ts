@@ -1,6 +1,6 @@
 import { Events, Routes } from '@storefront/flux-capacitor';
 import * as sinon from 'sinon';
-import Service from '../../../src/services/search';
+import Service, { STORAGE_KEY } from '../../../src/services/search';
 import Utils from '../../../src/services/urlUtils';
 import StoreFront from '../../../src/storefront';
 import suite from './_suite';
@@ -44,6 +44,19 @@ suite('Search Service', ({ expect, spy, itShouldExtendBaseService, stub }) => {
 
       expect(emit).to.be.calledWithExactly('sayt:hide');
       expect(pushState).to.be.calledWith({ route: Routes.SEARCH });
+    });
+  });
+
+  describe('pushSearchTerm()', () => {
+    it('should push the current search term to cookie', () => {
+      const term = 'd';
+      const get = stub().withArgs(STORAGE_KEY).returns(JSON.stringify(['c', 'b', 'a']));
+      const set = spy();
+      app.services = <any>{ cookie: { get, set } };
+
+      service.pushSearchTerm(term);
+
+      expect(set).to.be.calledWithExactly(STORAGE_KEY, ['d', 'c', 'b', 'a']);
     });
   });
 
