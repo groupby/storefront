@@ -21,6 +21,7 @@ class SearchService extends BaseService<SearchService.Options> {
 
   pushState() {
     this.app.flux.emit('sayt:hide');
+    this.pushSearchTerm(Selectors.query(this.app.flux.store.getState()));
     this.app.flux.pushState({ route: Routes.SEARCH });
   }
 
