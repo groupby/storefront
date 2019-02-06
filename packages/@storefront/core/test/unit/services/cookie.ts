@@ -39,4 +39,22 @@ suite('Cookie Service', ({ expect, spy, itShouldExtendBaseService, stub }) => {
       expect(get).to.be.calledWithExactly(key);
     });
   });
+
+  describe('set()', () => {
+    let set;
+
+    beforeEach(() => {
+      set = stub(Cookies, 'set');
+    });
+
+    it('should pass through to Cookies.set()', () => {
+      const key = 'foo';
+      const value = { bar: 'baz' };
+      const options = { quux: 'Hello, world!' };
+
+      service.set(key, value, options);
+
+      expect(set).to.be.calledWithExactly(key, value, options);
+    });
+  });
 });
