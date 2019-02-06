@@ -25,14 +25,9 @@ suite('Cookie Service', ({ expect, spy, itShouldExtendBaseService, stub }) => {
   });
 
   describe('get()', () => {
-    let get;
-
-    beforeEach(() => {
-      get = stub(Cookies, 'get');
-    });
-
     it('should pass through to Cookies.get()', () => {
       const key = 'foo';
+      const get = stub(Cookies, 'get');
 
       service.get(key);
 
@@ -41,16 +36,11 @@ suite('Cookie Service', ({ expect, spy, itShouldExtendBaseService, stub }) => {
   });
 
   describe('set()', () => {
-    let set;
-
-    beforeEach(() => {
-      set = stub(Cookies, 'set');
-    });
-
     it('should pass through to Cookies.set()', () => {
       const key = 'foo';
       const value = { bar: 'baz' };
       const options = { quux: 'Hello, world!' };
+      const set = stub(Cookies, 'set');
 
       service.set(key, value, options);
 
@@ -59,15 +49,10 @@ suite('Cookie Service', ({ expect, spy, itShouldExtendBaseService, stub }) => {
   });
 
   describe('remove()', () => {
-    let remove;
-
-    beforeEach(() => {
-      remove = stub(Cookies, 'remove');
-    });
-
     it('should pass through to Cookies.remove()', () => {
       const key = 'foo';
       const options = { bar: 'baz' };
+      const remove = stub(Cookies, 'remove');
 
       service.remove(key, options);
 
