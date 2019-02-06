@@ -1,3 +1,4 @@
+import * as Cookies from 'js-cookie';
 import { core, BaseService } from '../core/service';
 import StoreFront from '../storefront';
 
@@ -9,6 +10,10 @@ class CookieService extends BaseService<CookieService.Options> {
 
   init() {
     // no-op
+  }
+
+  get(key?: string) {
+    return Cookies.get(key);
   }
 }
 
