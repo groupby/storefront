@@ -1,4 +1,4 @@
-import { Events, Routes } from '@storefront/flux-capacitor';
+import { Events, Routes, Selectors } from '@storefront/flux-capacitor';
 import * as sinon from 'sinon';
 import Service, { STORAGE_KEY } from '../../../src/services/search';
 import Utils from '../../../src/services/urlUtils';
@@ -6,13 +6,14 @@ import StoreFront from '../../../src/storefront';
 import suite from './_suite';
 
 suite('Search Service', ({ expect, spy, itShouldExtendBaseService, stub }) => {
+  const state = { c: 'd' };
   let app: StoreFront;
   let service: Service;
   let on: sinon.SinonSpy;
 
   beforeEach(() => {
     on = spy();
-    app = <any>{ flux: { on }, log: { warn: () => null } };
+    app = <any>{ flux: { on, store: { getState: () => state } }, log: { warn: () => null } };
     service = new Service(app, {});
   });
 
@@ -38,12 +39,27 @@ suite('Search Service', ({ expect, spy, itShouldExtendBaseService, stub }) => {
     it('should emit sayt:hide and call pushState', () => {
       const pushState = spy();
       const emit = spy();
-      app.flux = <any>{ pushState, emit };
+      stub(Selectors, 'query');
+      app.flux = <any>{ ...app.flux, pushState, emit };
+      service.pushSearchTerm = () => null;
 
       service.pushState();
 
       expect(emit).to.be.calledWithExactly('sayt:hide');
       expect(pushState).to.be.calledWith({ route: Routes.SEARCH });
+    });
+
+    it('should call pushSearchTerm() with the new term', () => {
+      const term = 'foo';
+      const emit = () => null;
+      const pushState = () => null;
+      const pushSearchTerm = service.pushSearchTerm = spy();
+      const query = stub(Selectors, 'query').withArgs(state).returns(term);
+      app.flux = <any>{ ...app.flux, emit, pushState };
+
+      service.pushState();
+
+      expect(pushSearchTerm).to.be.calledWithExactly(term);
     });
   });
 
