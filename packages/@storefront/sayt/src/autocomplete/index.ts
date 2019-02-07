@@ -41,7 +41,7 @@ class Autocomplete {
       pastSearches,
       products,
       selected: -1,
-      isHovered: false
+      isHovered: false,
     };
   }
 
@@ -94,7 +94,7 @@ class Autocomplete {
   }
 
   updatePastSearches = () =>
-    this.set({ pastSearches: this.services.search.getPastSearchTerms() });
+    this.set({ pastSearches: this.services.search.getPastSearchTerms() })
 
   updateSuggestions = ({
     suggestions,
