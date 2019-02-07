@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased] [minor]
+## [2.6.0] - 2019-02-07
 ### Added
 - SF-1248: Created `updateSelectedNavigations` and `getSelectedNavigations` methods in order to generate the new `selectedNavigations` prop.
 - SF-1248: `refinement-crumbs` receives the new `selectedNavigations` prop and uses that to generate its state.
