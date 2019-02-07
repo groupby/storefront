@@ -10,6 +10,12 @@ suite('PastSearchTerms', ({ expect, spy, itShouldProvideAlias }) => {
 
   describe('constructor()', () => {
     describe('props', () => {
+      it('should set initial value', () => {
+        expect(pastSearchTerms.props.label).to.be.a('string');
+        expect(pastSearchTerms.props.onClick).to.be.a('function');
+        expect(pastSearchTerms.props.pastSearches).to.eql([]);
+      });
+
       describe('onClick()', () => {
         it('should call actions.search()', () => {
           const query = 'hats';
