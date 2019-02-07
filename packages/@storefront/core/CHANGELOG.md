@@ -6,30 +6,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] [minor]
 ### Changed
-- SF-1200: Update `SearchService` to record past searches.
+- SF-1200: Updated `SearchService` to record past searches.
   - Past searches are captured as string literals.
   - The following configuration options may be used to customize this behaviour:
-    - maxPastSearchTerms: The maximum number of past searches to capture (default: 0).
-    - storeDuplicateSearchTerms: Whether or not duplicate search terms should be filtered out (default: false).
+    - `maxPastSearchTerms`: The maximum number of past searches to capture (default: `0`).
+    - `storeDuplicateSearchTerms`: Whether or not duplicate search terms should be filtered out (default: `false`).
+  - Sample configuration:
 
-  ```js
-  ...
-  services: {
+    ```js
     ...
-    search: {
-      maxPastSearchTerms: 5, // Store up to 5x terms.
-      storeDuplicateSearchTerms: true, // Store and display duplicate terms.
-    },
+    services: {
+      ...
+      search: {
+        maxPastSearchTerms: 5, // Store up to 5x terms.
+        storeDuplicateSearchTerms: true, // Store and display duplicate terms.
+      },
+      ...
+    }
     ...
-  }
-  ...
-  ```
-  - By default, `maxPastSearchTerms` is 0.
+    ```
 
 ### Added
 - SF-1200: Added `CookieService`.
   - Allows implementations to interact directly with browser cookies.
-  - Exposes `get()`, `set()`, and `remove()` instance methods.
+  - Exposes `get()`, `set()`, and `remove()` methods.
 
 ## [2.5.2] - 2019-02-11
 ### Changed
