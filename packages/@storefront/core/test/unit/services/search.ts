@@ -69,10 +69,14 @@ suite('Search Service', ({ expect, spy, itShouldExtendBaseService, stub }) => {
 
   describe('pushSearchTerm()', () => {
     const term = 'foo';
+    let set;
+
+    beforeEach(() => {
+      set = spy();
+      app.services = <any>{ cookie: { set } };
+    });
 
     it('should push the current search term to cookie', () => {
-      const set = spy();
-      app.services = <any>{ cookie: { set } };
       service.getPastSearchTerms = () => ['a'];
 
       service.pushSearchTerm(term);
@@ -81,8 +85,6 @@ suite('Search Service', ({ expect, spy, itShouldExtendBaseService, stub }) => {
     });
 
     it('should limit the past search terms to `maxPastSearchTerms`', () => {
-      const set = spy();
-      app.services = <any>{ cookie: { set } };
       service.getPastSearchTerms = () => ['c', 'b', 'a'];
 
       service.pushSearchTerm(term);
@@ -91,8 +93,6 @@ suite('Search Service', ({ expect, spy, itShouldExtendBaseService, stub }) => {
     });
 
     it('should deduplicate search terms', () => {
-      const set = spy();
-      app.services = <any>{ cookie: { set } };
       service.getPastSearchTerms = () => ['b', term, 'a'];
 
       service.pushSearchTerm(term);
@@ -101,8 +101,6 @@ suite('Search Service', ({ expect, spy, itShouldExtendBaseService, stub }) => {
     });
 
     it('should not deduplicate search terms if storeDuplicateSearchTerms is true', () => {
-      const set = spy();
-      app.services = <any>{ cookie: { set } };
       service = new Service(app, { maxPastSearchTerms: 10, storeDuplicateSearchTerms: true });
       service.getPastSearchTerms = () => ['b', term, 'a'];
 
