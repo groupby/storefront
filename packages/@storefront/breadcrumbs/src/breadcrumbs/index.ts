@@ -73,8 +73,8 @@ class Breadcrumbs {
    */
   updateFields = () => this.set({ fields: this.getFields(this.state.navigationsSelector()) });
 
-  // tslint:disable-next-line max-line-length
-  updateSelectedNavigations = () => this.set({ selectedNavigations: this.getSelectedNavigations(this.state.navigationsSelector()) });
+  updateSelectedNavigations = () =>
+    this.set({ selectedNavigations: this.getSelectedNavigations(this.state.navigationsSelector()) })
 
   /**
    * @deprecated
