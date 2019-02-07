@@ -13,7 +13,7 @@ suite('Sayt', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvideAlias
   describe('constructor()', () => {
     describe('props', () => {
       it('should set initial value', () => {
-        expect(sayt.props).to.eql({ labels: { trending: 'Trending' } });
+        expect(sayt.props).to.eql({ labels: { trending: 'Trending', pastSearches: 'Past Searches' } });
       });
     });
 

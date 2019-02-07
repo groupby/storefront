@@ -5,7 +5,6 @@ import Sayt from '../sayt';
 @tag('gb-sayt-past-search-terms', require('./index.html'))
 class PastSearchTerms {
   props: PastSearchTerms.Props = {
-    label: 'Past Searches',
     onClick: (query) => () => this.actions.search(query),
     pastSearches: [],
   };

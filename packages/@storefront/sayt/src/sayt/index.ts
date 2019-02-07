@@ -9,6 +9,7 @@ class Sayt {
   props: Sayt.Props = {
     labels: {
       trending: 'Trending',
+      pastSearches: 'Past Searches',
     },
   };
   state: Sayt.State = {
@@ -79,6 +80,7 @@ namespace Sayt {
 
   export interface Labels {
     trending?: string;
+    pastSearches?: string;
   }
 }
 
