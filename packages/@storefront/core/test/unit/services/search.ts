@@ -130,6 +130,15 @@ suite('Search Service', ({ expect, spy, itShouldExtendBaseService, stub }) => {
       expect(get).to.be.calledWithExactly(STORAGE_KEY);
       expect(terms).to.eql([]);
     });
+
+    it('should limit to maxPastSearchTerms', () => {
+      const get = stub().withArgs(STORAGE_KEY).returns(JSON.stringify(['e', 'd', 'c', 'b', 'a']));
+      app.services = <any>{ cookie: { get } };
+
+      const terms = service.getPastSearchTerms();
+
+      expect(terms).to.eql(['e', 'd', 'c']);
+    });
   });
 
   describe('fetchProducts()', () => {
