@@ -26,7 +26,7 @@ class SearchService extends BaseService<SearchService.Options> {
   }
 
   pushSearchTerm(term: string) {
-    const previousTerms = this.getPastSearchTerms();
+    const previousTerms = this.getPastSearchTerms().filter((pastTerm) => pastTerm !== term);
 
     previousTerms.unshift(term);
 
