@@ -94,7 +94,7 @@ class Autocomplete {
   }
 
   updatePastSearches = () =>
-    this.set({ pastSearches: this.services.search.getPastSearchTerms() });
+    this.set({ pastSearches: this.services.search.getPastSearchTerms() })
 
   updateSuggestions = ({
     suggestions,
