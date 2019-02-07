@@ -47,7 +47,7 @@ class SearchService extends BaseService<SearchService.Options> {
       previousTerms = [];
     }
 
-    return previousTerms;
+    return previousTerms.slice(0, this.opts.maxPastSearchTerms);
   }
 
   fetchProducts(urlState: Store.History) {
