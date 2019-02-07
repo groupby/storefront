@@ -18,7 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - `updateFields`
     - `getFields`
   - Properties deprecated: 
-    - `fields`
+    - `field`
 
 ## [2.5.0] - 2019-02-04
 ### Changed
