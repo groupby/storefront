@@ -54,7 +54,7 @@ class Autocomplete {
 
     this.services.autocomplete.registerAutocomplete(this);
     this.flux.on(Events.AUTOCOMPLETE_SUGGESTIONS_UPDATED, this.updateSuggestions);
-    this.flux.on(Events.ORIGINAL_QUERY_UPDATED, this.updatePastSearches);
+    this.flux.on(Events.DONE_SEARCH, this.updatePastSearches);
     this.subscribe('sayt:activate_next', this.activateNext);
     this.subscribe('sayt:activate_previous', this.activatePrevious);
     this.subscribe('sayt:select_active', this.selectActive);
