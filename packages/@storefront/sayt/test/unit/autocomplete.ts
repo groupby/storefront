@@ -10,6 +10,7 @@ const CONFIG = { autocomplete: {} };
 const SUGGESTIONS = ['d', 'e', 'f'];
 const NAVIGATIONS = ['g', 'h', 'i'];
 const PRODUCTS = ['j', 'k', 'l', 'm'];
+const PAST_SEARCHES = ['o', 'p', 'q'];
 
 suite('Autocomplete', ({ expect, spy, stub, itShouldProvideAlias }) => {
   let autocomplete: Autocomplete;
@@ -19,6 +20,11 @@ suite('Autocomplete', ({ expect, spy, stub, itShouldProvideAlias }) => {
   beforeEach(() => {
     Autocomplete.prototype.flux = <any>{};
     select = Autocomplete.prototype.select = stub();
+    Autocomplete.prototype.services = <any>{
+      search: {
+        getPastSearchTerms: () => PAST_SEARCHES,
+      },
+    };
     select.withArgs(Selectors.isFetching, 'search').returns(false);
     select.withArgs(Selectors.autocompleteSuggestions).returns(SUGGESTIONS);
     select.withArgs(Selectors.autocompleteCategoryField).returns(CATEGORY);
@@ -46,6 +52,7 @@ suite('Autocomplete', ({ expect, spy, stub, itShouldProvideAlias }) => {
           categoryValues: CATEGORY_VALUES,
           suggestions: SUGGESTIONS,
           navigations: NAVIGATIONS,
+          pastSearches: PAST_SEARCHES,
           products: PRODUCTS,
           isHovered: false,
         });
