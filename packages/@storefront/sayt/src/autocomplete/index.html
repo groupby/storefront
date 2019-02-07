@@ -2,6 +2,6 @@
   <gb-sayt-past-purchases suggestions="{state.suggestions}"></gb-sayt-past-purchases>
   <gb-sayt-categories category="{state.category}" values="{state.categoryValues}"></gb-sayt-categories>
   <gb-sayt-search-terms labels="{props.labels}" suggestions="{state.suggestions}"></gb-sayt-search-terms>
-  <gb-sayt-past-search-terms past-searches="{state.pastSearches}" if="{state.pastSearches.length}"></gb-sayt-past-search-terms>
+  <gb-sayt-past-search-terms past-searches="{state.pastSearches}" label="{props.labels.pastSearches}" if="{state.pastSearches.length}"></gb-sayt-past-search-terms>
   <gb-sayt-navigations items="{state.navigations}"></gb-sayt-navigations>
 </yield>
