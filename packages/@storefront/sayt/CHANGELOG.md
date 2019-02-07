@@ -9,12 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - SF-1200: Updated `Autocomplete` component to include `PastSearchTerms`.
 
 ### Added
-- SF-1200: Added `PastSearchTerms` component.`
+- SF-1200: Added `PastSearchTerms` component.
   - Component may be used to display the user's past searches.
   - `PastSearchTerms` accepts the following properties:
     - `label`: An optional label which will be displayed above the past search terms.
     - `pastSearches`: The array of past search terms to display.
     - `onClick`: The callback function to invoke when a given past search term is clicked.
+- SF-1200: Added the `pastSearches` key to the `labels` prop in the `Sayt` component
+  - The label given by this key will be passed to `PastSearchTerms` as the `label` prop by default.
 
 ## [2.5.1] - 2019-02-11
 ### Changed
