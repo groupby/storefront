@@ -88,6 +88,16 @@ suite('Search Service', ({ expect, spy, itShouldExtendBaseService, stub }) => {
 
       expect(set).to.be.calledWithExactly(STORAGE_KEY, [term, 'c', 'b']);
     });
+
+    it('should dedupe search terms', () => {
+      const set = spy();
+      app.services = <any>{ cookie: { set } };
+      service.getPastSearchTerms = () => ['b', term, 'a'];
+
+      service.pushSearchTerm(term);
+
+      expect(set).to.be.calledWithExactly(STORAGE_KEY, [term, 'b', 'a']);
+    });
   });
 
   describe('getPastSearchTerms()', () => {
