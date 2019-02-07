@@ -11,4 +11,5 @@ bootstrap(chai, __dirname, [
   '../src/products/index.html',
   '../src/refinements/index.html',
   '../src/search-terms/index.html',
+  '../src/past-search-terms/index.html',
 ]);

@@ -1,0 +1,9 @@
+<gb-list if="{props.pastSearches && props.pastSearches.length}" items="{props.pastSearches}" item-alias="pastSearch" item-props="{{onClick: props.onClick}}">
+  <gb-link class="gb-autocomplete-target" on-click="{props.onClick(item)}" _consumes="pastSearch">
+    <yield>
+      <strong>
+        <gb-raw content="{$pastSearch}"></gb-raw>
+      </strong>
+    </yield>
+  </gb-link>
+</gb-list>
