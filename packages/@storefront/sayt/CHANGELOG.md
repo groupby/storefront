@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] [minor]
+### Changed
+- SF-1200: Updated `Autocomplete` component to include `PastSearchTerms`.
+
+### Added
+- SF-1200: Added `PastSearchTerms` component.`
+  - Component may be used to display the user's past searches.
+  - `PastSearchTerms` accepts the following properties:
+    - `label`: An optional label which will be displayed above the past search terms.
+    - `pastSearches`: The array of past search terms to display.
+    - `onClick`: The callback function to invoke when a given past search term is clicked.
+
 ## [2.5.1] - 2019-02-11
 ### Changed
 - SF-1279: Add `isHovered` boolean state to `gb-sayt-autocomplete` and toggle state property when activation is set.
