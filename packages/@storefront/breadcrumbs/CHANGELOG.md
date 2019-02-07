@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] [minor]
+### Added
+- SF-1248: Created `updateSelectedNavigations` and `getSelectedNavigations` methods in order to generate the new `selectedNavigations` prop.
+- SF-1248: `refinement-crumbs` receives the new `selectedNavigations` prop and uses that to generate its state.
+
+### Changed
+- SF-1248: `refinement-crumbs` now assigns `shouldUpdate` to itself as function that returns `true` if `selectedNavigations` prop is not available.
+
+### Deprecated
+- SF-1248: Marking the following methods and properties from the `breadcrumbs` component for deprecation:
+  -  Methods deprecated: 
+    - `updateFields`
+    - `getFields`
+  - Properties deprecated: 
+    - `field`
+
 ## [2.5.0] - 2019-02-04
 ### Changed
 - Update `@storefront/core` to 2.5.0.

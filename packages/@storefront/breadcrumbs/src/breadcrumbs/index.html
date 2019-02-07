@@ -1,7 +1,7 @@
 <yield>
   <gb-query-crumb _props="{queryProps()}"></gb-query-crumb>
-  <gb-list items="{state.fields}">
-    <gb-refinement-crumbs field="{item}"></gb-refinement-crumbs>
+  <gb-list items="{state.selectedNavigations}">
+    <gb-refinement-crumbs field="{item.field}" selected-navigation="{item}"></gb-refinement-crumbs>
   </gb-list>
   <gb-clear-all-refinements if="{state.fields.length > 0}"></gb-clear-all-refinements>
 </yield>

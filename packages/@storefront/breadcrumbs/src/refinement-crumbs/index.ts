@@ -17,6 +17,12 @@ class RefinementCrumbs {
         break;
     }
 
+    // todo: The below shouldUpdate conditional assignment should be removed
+    // when the `field` prop from breadcrumbs is deprecated due to not being required.
+    if (!this.props.selectedNavigation) {
+      this.shouldUpdate = () => true;
+    }
+
     this.updateState();
   }
 
@@ -41,8 +47,10 @@ class RefinementCrumbs {
   updateRefinements = () => this.set(this.selectRefinements(this.state.navigationSelector));
 
   selectRefinements(getNavigation: RefinementCrumbs.NavigationSelector) {
-    const { field } = this.props;
-    const navigation = getNavigation(field);
+    // todo: When `updateFields()`, `getFields()`, and the `field` prop are deprecated within breadcrumbs,
+    // remove the || and the conditions following as they will not be needed anymore.
+    const { field } =  this.props.selectedNavigation || this.props;
+    const navigation = this.props.selectedNavigation || getNavigation(field);
 
     if (navigation) {
       const { range, refinements, selected } = navigation;
@@ -70,6 +78,7 @@ interface RefinementCrumbs extends Tag<RefinementCrumbs.Props, RefinementCrumbs.
 namespace RefinementCrumbs {
   export interface Props extends Tag.Props {
     field: string;
+    selectedNavigation?: Store.Navigation;
   }
 
   export type NavigationSelector = (field: string) => Store.Navigation;

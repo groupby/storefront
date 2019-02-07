@@ -42,13 +42,16 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvi
 
   describe('init()', () => {
     const fields = ['c', 'd'];
+    const selectedNavigations = [0];
     let getFields;
+    let getSelectedNavigations;
 
     beforeEach(() => {
-      breadcrumbs.state = { fields, originalQuery: '' };
       getFields = stub(breadcrumbs, 'getFields').returns(fields);
+      getSelectedNavigations = stub(breadcrumbs, 'getSelectedNavigations').returns(selectedNavigations);
     });
 
+    // tslint:disable-next-line  max-line-length
     it('should listen for ORIGINAL_QUERY_UPDATED, CORRECTED_QUERY_UPDATED and NAVIGATIONS_UPDATED if the storeSection is search', () => {
       const subscribe = (breadcrumbs.subscribe = spy());
       breadcrumbs.props.storeSection = StoreSections.SEARCH;
@@ -59,15 +62,20 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvi
       expect(subscribe).to.be.calledWith(Events.ORIGINAL_QUERY_UPDATED, breadcrumbs.updateOriginalQuery);
       expect(subscribe).to.be.calledWith(Events.CORRECTED_QUERY_UPDATED, breadcrumbs.updateCorrectedQuery);
       expect(subscribe).to.be.calledWith(Events.NAVIGATIONS_UPDATED, breadcrumbs.updateFields);
+      expect(subscribe).to.be.calledWith(Events.NAVIGATIONS_UPDATED, breadcrumbs.updateSelectedNavigations);
     });
 
-    it('should listen for PAST_PURCHASE_SELECTED_REFINEMENTS_UPDATED if the storeSection is pastPurchases', () => {
+    // tslint:disable-next-line max-line-length
+    it('should listen for PAST_PURCHASE_SELECTED_REFINEMENTS_UPDATED and PAST_PURCHASE_NAVIGATIONS_UPDATED if the storeSection is pastPurchases', () => {
       const subscribe = (breadcrumbs.subscribe = spy());
       breadcrumbs.props.storeSection = StoreSections.PAST_PURCHASES;
       breadcrumbs.updateOriginalQuery = () => null;
 
       breadcrumbs.init();
 
+      // tslint:disable-next-line max-line-length
+      expect(subscribe).to.be.calledWith(Events.PAST_PURCHASE_NAVIGATIONS_UPDATED, breadcrumbs.updateSelectedNavigations);
+      expect(subscribe).to.be.calledWith(Events.PAST_PURCHASE_NAVIGATIONS_UPDATED, breadcrumbs.updateFields);
       expect(subscribe).to.be.calledWith(Events.PAST_PURCHASE_SELECTED_REFINEMENTS_UPDATED, breadcrumbs.updateFields);
     });
 
@@ -78,7 +86,7 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvi
       breadcrumbs.init();
       const navigationsSelector = (breadcrumbs.state.navigationsSelector = spy());
 
-      expect(breadcrumbs.state).to.eql({ fields, originalQuery: QUERY, navigationsSelector });
+      expect(breadcrumbs.state).to.eql({ fields, originalQuery: QUERY, navigationsSelector, selectedNavigations });
     });
 
     it('should set the navigationsSelector function to select navigation if the storeSection is search', () => {
@@ -93,6 +101,7 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvi
       expect(select).to.be.calledWithExactly(Selectors.navigations);
     });
 
+    // tslint:disable-next-line  max-line-length
     it('should set the navigationsSelector function to select pastPurchaseNavigation if the storeSection is pastPurchases', () => {
       breadcrumbs.props.storeSection = StoreSections.PAST_PURCHASES;
       breadcrumbs.subscribe = () => null;
@@ -145,7 +154,7 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvi
     it('should set fields', () => {
       const fields = ['a', 'b'];
       const set = (breadcrumbs.set = spy());
-      breadcrumbs.state = { fields: [], originalQuery: '', navigationsSelector: () => null };
+      breadcrumbs.state = { fields: [], originalQuery: '', navigationsSelector: () => null, selectedNavigations: [] };
       stub(breadcrumbs, 'getFields').returns(fields);
 
       breadcrumbs.updateFields();
@@ -156,7 +165,7 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvi
 
   describe('getFields()', () => {
     it('should get fields', () => {
-      breadcrumbs.state = { fields: [], originalQuery: '' };
+      breadcrumbs.state = { fields: [], originalQuery: '', selectedNavigations: [] };
       const navigations = <any>[{ selected: [1], field: 'c' }, { selected: [2, 3], field: 'd' }, { selected: [] }];
       const select = (breadcrumbs.state.navigationsSelector = spy(() => navigations));
 
@@ -164,6 +173,31 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvi
 
       expect(select).to.be.called;
       expect(navFields).to.be.eql(['c', 'd']);
+    });
+  });
+
+  describe('updateSelectedNavigations', () => {
+    it('should set selectedNavigations', () => {
+      const selectedNavigations = <any>[{ selected: [0]}];
+      const set = (breadcrumbs.set = spy());
+      breadcrumbs.state = { fields: [], originalQuery: '', navigationsSelector: () => null, selectedNavigations: [] };
+      stub(breadcrumbs, 'getSelectedNavigations').returns(selectedNavigations);
+
+      breadcrumbs.updateSelectedNavigations();
+
+      expect(set).to.be.calledWith({ selectedNavigations });
+    });
+  });
+
+  describe('getSelectedNavigations', () => {
+    it('should get selectedNavigations', () => {
+      const navigations = <any>[{ selected: [1], field: 'c' }, { selected: [2, 3], field: 'd' }, { selected: [] }];
+      // tslint:disable-next-line max-line-length
+      breadcrumbs.state = { fields: [], originalQuery: '', navigationsSelector: () => navigations, selectedNavigations: [] };
+
+      const selectedNavigations = breadcrumbs.getSelectedNavigations(breadcrumbs.state.navigationsSelector());
+
+      expect(selectedNavigations).to.eql([{ selected: [1], field: 'c' }, { selected: [2, 3], field: 'd' },]);
     });
   });
 });
