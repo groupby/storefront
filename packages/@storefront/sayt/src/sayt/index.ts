@@ -17,8 +17,8 @@ class Sayt {
     showRecommendations: false,
     showProducts: true,
     highlight: (value, replacement) => {
-      const query = this.select(Selectors.autocompleteQuery) || '';
-      return value.replace(new RegExp(escapeRegexp(query), 'i'), replacement);
+      const query = this.select(Selectors.autocompleteQuery);
+      return query ? value.replace(new RegExp(escapeRegexp(query), 'i'), replacement) : value;
     },
   };
 
