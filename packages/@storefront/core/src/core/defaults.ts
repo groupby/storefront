@@ -138,6 +138,7 @@ const DEFAULTS: Partial<Configuration> = {
     },
     search: {
       maxPastSearchTerms: 0,
+      storeDuplicateSearchTerms: false,
     },
     tracker: {
       warnings: true,

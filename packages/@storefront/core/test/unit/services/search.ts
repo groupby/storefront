@@ -16,6 +16,7 @@ suite('Search Service', ({ expect, spy, itShouldExtendBaseService, stub }) => {
     app = <any>{ flux: { on, store: { getState: () => state } }, log: { warn: () => null } };
     const opts = {
       maxPastSearchTerms: 3,
+      storeDuplicateSearchTerms: false,
     };
     service = new Service(app, opts);
   });
@@ -89,7 +90,7 @@ suite('Search Service', ({ expect, spy, itShouldExtendBaseService, stub }) => {
       expect(set).to.be.calledWithExactly(STORAGE_KEY, [term, 'c', 'b']);
     });
 
-    it('should dedupe search terms', () => {
+    it('should deduplicate search terms', () => {
       const set = spy();
       app.services = <any>{ cookie: { set } };
       service.getPastSearchTerms = () => ['b', term, 'a'];
@@ -97,6 +98,17 @@ suite('Search Service', ({ expect, spy, itShouldExtendBaseService, stub }) => {
       service.pushSearchTerm(term);
 
       expect(set).to.be.calledWithExactly(STORAGE_KEY, [term, 'b', 'a']);
+    });
+
+    it('should not deduplicate search terms if storeDuplicateSearchTerms is true', () => {
+      const set = spy();
+      app.services = <any>{ cookie: { set } };
+      service = new Service(app, { maxPastSearchTerms: 10, storeDuplicateSearchTerms: true });
+      service.getPastSearchTerms = () => ['b', term, 'a'];
+
+      service.pushSearchTerm(term);
+
+      expect(set).to.be.calledWithExactly(STORAGE_KEY, [term, 'b', term, 'a']);
     });
   });
 
@@ -120,7 +132,6 @@ suite('Search Service', ({ expect, spy, itShouldExtendBaseService, stub }) => {
       expect(get).to.be.calledWithExactly(STORAGE_KEY);
       expect(terms).to.eql([]);
     });
-
   });
 
   describe('fetchProducts()', () => {

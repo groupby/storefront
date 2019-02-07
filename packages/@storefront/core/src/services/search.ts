@@ -26,7 +26,11 @@ class SearchService extends BaseService<SearchService.Options> {
   }
 
   pushSearchTerm(term: string) {
-    const previousTerms = this.getPastSearchTerms().filter((pastTerm) => pastTerm !== term);
+    let previousTerms = this.getPastSearchTerms();
+
+    if (!this.opts.storeDuplicateSearchTerms) {
+      previousTerms = previousTerms.filter((pastTerm) => pastTerm !== term);
+    }
 
     previousTerms.unshift(term);
 
@@ -59,6 +63,7 @@ class SearchService extends BaseService<SearchService.Options> {
 namespace SearchService {
   export interface Options {
     maxPastSearchTerms?: number;
+    storeDuplicateSearchTerms?: boolean;
   }
 }
 
