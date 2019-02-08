@@ -20,7 +20,8 @@ class SearchService extends BaseService<SearchService.Options> {
   }
 
   /**
-   * @hidden
+   * Stores the current search term, sends an event to hide sayt, and
+   * pushes a search route to history.
    */
   pushState() {
     this.app.flux.emit('sayt:hide');
@@ -29,7 +30,10 @@ class SearchService extends BaseService<SearchService.Options> {
   }
 
   /**
-   * @hidden
+   * Stores the given search term in a cookie.
+   *
+   * @param term The term to store.
+   * @return The list of search terms stored.
    */
   pushSearchTerm(term: string) {
     let previousTerms = this.getPastSearchTerms();
@@ -56,7 +60,9 @@ class SearchService extends BaseService<SearchService.Options> {
   }
 
   /**
-   * @hidden
+   * Fetches products based on the values in the given state.
+   *
+   * @param urlState The current history state.
    */
   fetchProducts(urlState: Store.History) {
     const state = this.app.flux.store.getState();
