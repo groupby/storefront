@@ -119,7 +119,10 @@ suite('Autocomplete', ({ expect, spy, stub, itShouldProvideAlias }) => {
     it('should listen for flux events', () => {
       autocomplete.init();
 
-      expect(on).to.be.calledWith(Events.AUTOCOMPLETE_SUGGESTIONS_UPDATED, autocomplete.updateSuggestions);
+      expect(on)
+        .to.have.callCount(2)
+        .and.calledWith(Events.AUTOCOMPLETE_SUGGESTIONS_UPDATED, autocomplete.updateSuggestions)
+        .and.calledWith(Events.DONE_SEARCH, autocomplete.updatePastSearches);
       expect(subscribe)
         .to.have.callCount(3)
         .and.calledWith('sayt:activate_next', autocomplete.activateNext)
