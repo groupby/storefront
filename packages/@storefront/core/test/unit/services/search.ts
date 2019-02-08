@@ -108,6 +108,14 @@ suite('Search Service', ({ expect, spy, itShouldExtendBaseService, stub }) => {
 
       expect(set).to.be.calledWithExactly(STORAGE_KEY, [term, 'b', term, 'a']);
     });
+
+    it('should return the return the final searches', () => {
+      service.getPastSearchTerms = () => ['a'];
+
+      const finalSearches = service.pushSearchTerm(term);
+
+      expect(finalSearches).to.eql([term, 'a']);
+    });
   });
 
   describe('getPastSearchTerms()', () => {
