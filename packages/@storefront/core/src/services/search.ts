@@ -19,12 +19,18 @@ class SearchService extends BaseService<SearchService.Options> {
     // no-op
   }
 
+  /**
+   * @hidden
+   */
   pushState() {
     this.app.flux.emit('sayt:hide');
     this.pushSearchTerm(Selectors.query(this.app.flux.store.getState()));
     this.app.flux.pushState({ route: Routes.SEARCH });
   }
 
+  /**
+   * @hidden
+   */
   pushSearchTerm(term: string) {
     let previousTerms = this.getPastSearchTerms();
 
@@ -37,6 +43,9 @@ class SearchService extends BaseService<SearchService.Options> {
     this.app.services.cookie.set(STORAGE_KEY, previousTerms.slice(0, this.opts.maxPastSearchTerms));
   }
 
+  /**
+   * Returns an array of past search terms.
+   */
   getPastSearchTerms() {
     let previousTerms: string[];
 
@@ -50,6 +59,9 @@ class SearchService extends BaseService<SearchService.Options> {
     return previousTerms.slice(0, this.opts.maxPastSearchTerms);
   }
 
+  /**
+   * @hidden
+   */
   fetchProducts(urlState: Store.History) {
     const state = this.app.flux.store.getState();
     const request = Utils.searchStateToRequest(<UrlBeautifier.SearchUrlState>urlState.request, state);
