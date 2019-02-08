@@ -46,17 +46,13 @@ class SearchService extends BaseService<SearchService.Options> {
   /**
    * Returns an array of past search terms.
    */
-  getPastSearchTerms() {
-    let previousTerms: string[];
-
+  getPastSearchTerms(): string[] {
     try {
-      previousTerms = JSON.parse(this.app.services.cookie.get(STORAGE_KEY));
+      return JSON.parse(this.app.services.cookie.get(STORAGE_KEY)).slice(0, this.opts.maxPastSearchTerms);
     } catch (e) {
       this.app.log.warn(`failed to extract previous searches from cookie ${STORAGE_KEY}`, e);
-      previousTerms = [];
+      return [];
     }
-
-    return previousTerms.slice(0, this.opts.maxPastSearchTerms);
   }
 
   /**
