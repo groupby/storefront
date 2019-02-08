@@ -13,11 +13,18 @@ class CookieService extends BaseService<CookieService.Options> {
   }
 
   /**
-   * Get the value of a cookie, or get all cookies.
+   * Get the value of a cookie with the given name.
    *
-   * @param key The name of the cookie to get. If omitted, all cookies will be returned.
-   * @return The value of the cookie given by `key`, or an object with all the cookie values keyed by their names.
+   * @param key The name of the cookie to get.
+   * @return The value of the cookie given by `key`.
    */
+  get(key: string): string | undefined;
+  /**
+   * Get all cookies.
+   *
+   * @return An object with all the cookie values keyed by their names.
+   */
+  get(): {[key: string]: string};
   get(key?: string): string | undefined | {[key: string]: string} {
     return Cookies.get(key);
   }
