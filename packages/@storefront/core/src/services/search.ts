@@ -35,7 +35,7 @@ class SearchService extends BaseService<SearchService.Options> {
    * @param term The term to store.
    * @return The list of search terms stored.
    */
-  pushSearchTerm(term: string) {
+  pushSearchTerm(term: string): string[] {
     let previousTerms = this.getPastSearchTerms();
 
     if (!this.opts.storeDuplicateSearchTerms) {
@@ -43,8 +43,11 @@ class SearchService extends BaseService<SearchService.Options> {
     }
 
     previousTerms.unshift(term);
+    previousTerms.splice(this.opts.maxPastSearchTerms);
 
-    this.app.services.cookie.set(STORAGE_KEY, previousTerms.slice(0, this.opts.maxPastSearchTerms));
+    this.app.services.cookie.set(STORAGE_KEY, previousTerms);
+
+    return previousTerms;
   }
 
   /**
