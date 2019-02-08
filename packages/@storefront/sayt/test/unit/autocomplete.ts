@@ -258,6 +258,20 @@ suite('Autocomplete', ({ expect, spy, stub, itShouldProvideAlias }) => {
     });
   });
 
+  describe('updatePastSearches()', () => {
+    it('should call set() with the past search terms', () => {
+      const pastSearches = ['a', 'b', 'c'];
+      const getPastSearchTerms = spy(() => pastSearches);
+      const set = autocomplete.set = spy();
+      autocomplete.services = <any>{ search: { getPastSearchTerms } };
+
+      autocomplete.updatePastSearches();
+
+      expect(getPastSearchTerms).to.be.called;
+      expect(set).to.be.calledWithExactly({ pastSearches });
+    });
+  });
+
   describe('updateSuggestions()', () => {
     const suggestions = ['1', '2', '3'];
     const navigations = ['4', '5', '6'];
