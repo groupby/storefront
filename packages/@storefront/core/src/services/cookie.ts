@@ -12,14 +12,32 @@ class CookieService extends BaseService<CookieService.Options> {
     // no-op
   }
 
+  /**
+   * Get the value of a cookie, or get all cookies.
+   *
+   * @param key The name of the cookie to get. If omitted, all cookies will be returned.
+   */
   get(key?: string) {
     return Cookies.get(key);
   }
 
+  /**
+   * Set the value of a cookie.
+   *
+   * @param key The name of the cookie to set.
+   * @param value The value of the cookie to set. Objects and arrays will be encoded as JSON before being stored.
+   * @param options The attributes of the cookie.
+   */
   set(key: string, value: any, options?: Cookies.CookieAttributes) {
     return Cookies.set(key, value, options);
   }
 
+  /**
+   * Delete the cookie with the given name.
+   *
+   * @param key The name of the cookie to delete.
+   * @param options The attributes of the cookie.
+   */
   remove(key: string, options?: Cookies.CookieAttributes) {
     return Cookies.remove(key, options);
   }
