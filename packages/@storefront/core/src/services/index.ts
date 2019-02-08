@@ -37,7 +37,7 @@ export interface ServiceConfiguration {
   logging?: Service.Options<logging.Options>;
   /**
    * Configuration for the search service.
-   * The search service listens to store updates and triggers a search request.
+   * The search service listens to store updates and triggers a search request. It also keeps a record of past searches.
    */
   search?: Service.Options<search.Options>;
   /**
