@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - SF-1200: Added `PastSearchTerms` component.
   - Component may be used to display the user's past searches.
-  - `PastSearchTerms` accepts the following properties:
+  - `PastSearchTerms` accepts the following props:
     - `label`: An optional label which will be displayed above the past search terms.
     - `pastSearches`: The array of past search terms to display.
     - `onClick`: The callback function to invoke when a given past search term is clicked.
