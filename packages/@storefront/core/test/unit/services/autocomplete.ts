@@ -1,8 +1,7 @@
-import { Events } from '@storefront/flux-capacitor';
+import { Events, Selectors } from '@storefront/flux-capacitor';
 import * as sinon from 'sinon';
 import * as utils from '../../../src/core/utils';
 import Service from '../../../src/services/autocomplete';
-import * as autocompleteService from '../../../src/services/autocomplete';
 import suite from './_suite';
 
 suite('Autocomplete Service', ({ expect, spy, stub, itShouldBeCore, itShouldExtendBaseService }) => {
@@ -160,16 +159,44 @@ suite('Autocomplete Service', ({ expect, spy, stub, itShouldBeCore, itShouldExte
   });
 
   describe('hasActiveSuggestion()', () => {
-    it('should return true if any autocomplete tag has an active selection', () => {
+    it('should return true if hoverAutoFill is true and any autocomplete tag has an active selection', () => {
+      const state = { a: 'b' };
       // tslint:disable-next-line max-line-length
       service.registeredAutocompleteTags = <any>[{ isActive: () => false }, { isActive: () => false }, { isActive: () => true }];
+      service['app'] = <any>{ flux: { store: { getState: () => state } } };
+      stub(Selectors, 'config').withArgs(state).returns({ autocomplete: { hoverAutoFill: true } });
 
       expect(service.hasActiveSuggestion()).to.be.true;
     });
 
-    it('should return false if no autocomplete tag has an active selection', () => {
+    it('should return false if hoverAutoFill is true and no autocomplete tag has an active selection', () => {
+      const state = { a: 'b' };
       // tslint:disable-next-line max-line-length
       service.registeredAutocompleteTags = <any>[{ isActive: () => false }, { isActive: () => false }, { isActive: () => false }];
+      service['app'] = <any>{ flux: { store: { getState: () => state } } };
+      stub(Selectors, 'config').withArgs(state).returns({ autocomplete: { hoverAutoFill: true } });
+
+      expect(service.hasActiveSuggestion()).to.be.false;
+    });
+
+    // tslint:disable-next-line max-line-length
+    it('should return true if hoverAutoFill is false and any autocomplete tag both has an active selection and is not hovered', () => {
+      const state = { a: 'b' };
+      // tslint:disable-next-line max-line-length
+      service.registeredAutocompleteTags = <any>[{ isActiveAndHovered: () => false }, { isActiveAndHovered: () => true }, { isActiveAndHovered: () => true }];
+      service['app'] = <any>{ flux: { store: { getState: () => state } } };
+      stub(Selectors, 'config').withArgs(state).returns({ autocomplete: { hoverAutoFill: false } });
+
+      expect(service.hasActiveSuggestion()).to.be.true;
+    });
+
+    // tslint:disable-next-line max-line-length
+    it('should return false if hoverAutoFill is false and no autocomplete tag both has an active selection and is not hovered', () => {
+      const state = { a: 'b' };
+      // tslint:disable-next-line max-line-length
+      service.registeredAutocompleteTags = <any>[{ isActiveAndHovered: () => true }, { isActiveAndHovered: () => true }, { isActiveAndHovered: () => true }];
+      service['app'] = <any>{ flux: { store: { getState: () => state } } };
+      stub(Selectors, 'config').withArgs(state).returns({ autocomplete: { hoverAutoFill: false } });
 
       expect(service.hasActiveSuggestion()).to.be.false;
     });

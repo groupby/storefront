@@ -74,7 +74,7 @@ class SearchBox {
   }
 
   updateOriginalQuery = (originalQuery: string) =>
-    (originalQuery || '') !== (this.state.originalQuery || this.refs.searchBox.value) && this.set({ originalQuery });
+    (originalQuery || '') !== (this.state.originalQuery || this.refs.searchBox.value) && this.set({ originalQuery })
 }
 
 interface SearchBox extends Tag<SearchBox.Props, SearchBox.State> {}

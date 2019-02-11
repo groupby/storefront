@@ -47,6 +47,7 @@ suite('Autocomplete', ({ expect, spy, stub, itShouldProvideAlias }) => {
           suggestions: SUGGESTIONS,
           navigations: NAVIGATIONS,
           products: PRODUCTS,
+          isHovered: false,
         });
       });
 
@@ -396,7 +397,7 @@ suite('Autocomplete', ({ expect, spy, stub, itShouldProvideAlias }) => {
       expect(parseTarget).to.be.calledWithExactly(target);
     });
 
-    it('should call updateQuery with the query string', () => {
+    it('should call updateQuery with the query string and set isHovered', () => {
       const index = 0;
       const target = { classList: { add: () => null } };
       const query = 'foo';
@@ -407,9 +408,10 @@ suite('Autocomplete', ({ expect, spy, stub, itShouldProvideAlias }) => {
       autocomplete.setActivation(<any>[target], index, true, true);
 
       expect(updateQuery).to.be.calledWithExactly(query);
+      expect(autocomplete.state.isHovered).to.be.false;
     });
 
-    it('should call update products with the target data', () => {
+    it('should call update products with the target data and set isHovered', () => {
       const index = 0;
       const query = 'foo';
       const refinement = 'bar';
@@ -421,6 +423,7 @@ suite('Autocomplete', ({ expect, spy, stub, itShouldProvideAlias }) => {
       autocomplete.setActivation(<any>[{ classList: { add: () => null } }], index, true, false);
 
       expect(updateProducts).to.be.calledWithExactly({ query,refinement, field, pastPurchase });
+      expect(autocomplete.state.isHovered).to.be.true;
     });
 
     it('should add gb-active to classList if activating and update state', () => {
@@ -551,15 +554,47 @@ suite('Autocomplete', ({ expect, spy, stub, itShouldProvideAlias }) => {
     });
   });
 
+  describe('isActiveAndHovered()', () => {
+    it('should return true if isActive is true and state isHovered is true', () => {
+      autocomplete.state = <any>{ isHovered: true };
+      autocomplete.isActive = () => true;
+
+      expect(autocomplete.isActiveAndHovered()).to.be.true;
+    });
+
+    it('should return false if isActive is true and state isHovered is false', () => {
+      autocomplete.state = <any>{ isHovered: false };
+      autocomplete.isActive = () => true;
+
+      expect(autocomplete.isActiveAndHovered()).to.be.false;
+    });
+
+    it('should return false if isActive is false and state isHovered is true', () => {
+      autocomplete.state = <any>{ isHovered: true };
+      autocomplete.isActive = () => false;
+
+      expect(autocomplete.isActiveAndHovered()).to.be.false;
+    });
+
+    it('should return false if both isActive and state isHovered are false', () => {
+      autocomplete.state = <any>{ isHovered: false };
+      autocomplete.isActive = () => false;
+
+      expect(autocomplete.isActiveAndHovered()).to.be.false;
+    });
+  });
+
   describe('state.onHover', () => {
     const targets = [1, 2, 3];
     const matchAny = sinon.match.any;
 
     it('should call setActivation with updateQuery set to false', () => {
       const setActivation = (autocomplete.setActivation = spy());
+      const config = { a: 'b' };
+      stub(Selectors, 'config').returns(config);
       autocomplete.activationTargets = stub().returns(targets);
       autocomplete.isActive = stub().returns(true);
-      autocomplete.config = <any>{ autocomplete: { hoverAutoFill: false } };
+      autocomplete.select = stub().withArgs(config).returns(<any>{ autocomplete: { hoverAutoFill: false } });
       autocomplete.state.selected = -2;
 
       autocomplete.state.onHover(<any>{});
@@ -570,9 +605,11 @@ suite('Autocomplete', ({ expect, spy, stub, itShouldProvideAlias }) => {
 
     it('should call setActivation with updateQuery set to true', () => {
       const setActivation = (autocomplete.setActivation = spy());
+      const config = { a: 'b' };
+      stub(Selectors, 'config').returns(config);
       autocomplete.activationTargets = stub().returns(targets);
       autocomplete.isActive = stub().returns(true);
-      autocomplete.config = <any>{ autocomplete: { hoverAutoFill: true } };
+      autocomplete.select = stub().withArgs(config).returns(<any>{ autocomplete: { hoverAutoFill: true } });
       autocomplete.state.selected = -2;
 
       autocomplete.state.onHover(<any>{});
