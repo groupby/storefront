@@ -61,12 +61,9 @@ suite('SearchBox', ({ expect, spy, stub, itShouldConsumeAlias, itShouldProvideAl
           expect(event.preventUpdate).to.be.true;
         });
 
-        // tslint:disable-next-line max-line-length
-        it('should call actions.search() if autocomplete is not active on ENTER pressed and hoverAutoFill is true', () => {
+        it('should call actions.search() if autocomplete is not active on ENTER pressed', () => {
           const value = 'hula hoop';
           const search = spy();
-          // tslint:disable-next-line max-line-length
-          select = searchBox.select = stub().withArgs(Selectors.config).returns({ autocomplete: { hoverAutoFill: true } });
           searchBox.actions = <any>{ search };
           searchBox.services = <any>{ autocomplete: { hasActiveSuggestion: () => false } };
 
@@ -75,39 +72,8 @@ suite('SearchBox', ({ expect, spy, stub, itShouldConsumeAlias, itShouldProvideAl
           expect(search).to.be.calledWith(value);
         });
 
-        // tslint:disable-next-line max-line-length
-        it('should call actions.search() if autocomplete is not active on ENTER pressed and hoverAutoFill is false', () => {
-          const value = 'hula hoop';
-          const search = spy();
-          // tslint:disable-next-line max-line-length
-          select = searchBox.select = stub().withArgs(Selectors.config).returns({ autocomplete: { hoverAutoFill: false } });
-          searchBox.actions = <any>{ search };
-          searchBox.services = <any>{ autocomplete: { hasActiveSuggestion: () => false } };
-
-          searchBox.state.onKeyUp(<any>{ key: KEYS.ENTER, target: { value } });
-
-          expect(search).to.be.calledWith(value);
-        });
-
-        // tslint:disable-next-line max-line-length
-        it('should call actions.search() if autocomplete is active on ENTER pressed and hoverAutoFill is false', () => {
-          const value = 'hula hoop';
-          const search = spy();
-          // tslint:disable-next-line max-line-length
-          select = searchBox.select = stub().withArgs(Selectors.config).returns({ autocomplete: { hoverAutoFill: false } });
-          searchBox.actions = <any>{ search };
-          searchBox.services = <any>{ autocomplete: { hasActiveSuggestion: () => true } };
-
-          searchBox.state.onKeyUp(<any>{ key: KEYS.ENTER, target: { value } });
-
-          expect(search).to.be.calledWith(value);
-        });
-
-        // tslint:disable-next-line max-line-length
-        it('should call emit sayt:select_active if autocomplete is active on ENTER pressed and hoverAutoFill is true', () => {
+        it('should call emit sayt:select_active if autocomplete is active on ENTER pressed', () => {
           const emit = spy();
-          // tslint:disable-next-line max-line-length
-          select = searchBox.select = stub().withArgs(Selectors.config).returns({ autocomplete: { hoverAutoFill: true } });
           searchBox.flux = <any>{ emit };
           searchBox.services = <any>{ autocomplete: { hasActiveSuggestion: () => true } };
 
