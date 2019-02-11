@@ -22,7 +22,6 @@ class SearchBox {
       event.preventUpdate = true;
       switch (event.key) {
         case KEYS.ENTER:
-          // tslint:disable-next-line
           if (this.services.autocomplete.hasActiveSuggestion()) {
             return this.flux.emit('sayt:select_active');
           } else {
