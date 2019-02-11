@@ -6,7 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] [patch]
 ### Changed
-- SF-1279: Use a selector to access the config in `gb-autocomplete` `onHover`.
+- SF-1279: Add `isOnHover` boolean state to `gb-sayt-autocomplete` and toggle state property when activation is set.
+- SF-1279: Add `isActiveAndOnHover` method to `gb-sayt-autocomplete`.
+- SF-1279: Use a selector to access the config in `gb-sayt-autocomplete` `onHover`.
 
 ## [2.5.0] - 2019-02-04
 ### Changed

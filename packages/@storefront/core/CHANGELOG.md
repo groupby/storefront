@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased] [patch]
+### Changed
+- SF-1279: Modify autocomplete service's `hasActiveSuggestion` method to take into account whether
+`hoverAutoFill` configuration setting is set.
 ### Fixed
 - SF-1279: Fixed sending the wrong search term when `hoverAutoFill` is false in autocomplete service.
 
