@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] [patch]
+### Added
+- SF-1257: Added `onMount` method `gb-infinite-list`.
+  - `onMount` will invoke `this.set(true)`.
+  - This is a workaround for a riot.js issue (https://github.com/riot/riot/issues/2655) which prevents components from receiving accurate `props`.
+
 ## [2.5.0] - 2019-02-04
 ### Changed
 - Update `@storefront/core` to 2.5.0.
