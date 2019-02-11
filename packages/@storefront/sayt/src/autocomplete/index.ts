@@ -38,7 +38,7 @@ class Autocomplete {
       categoryValues,
       products,
       selected: -1,
-      isOnHover: false
+      isHovered: false
     };
   }
 
@@ -117,10 +117,10 @@ class Autocomplete {
       if (indexExists) {
         const data = this.parseTarget(target);
         if (updateQuery) {
-          this.state.isOnHover = false;
+          this.state.isHovered = false;
           this.updateQuery(data.query);
         } else {
-          this.state.isOnHover = true;
+          this.state.isHovered = true;
         }
         this.updateProducts(data);
       }
@@ -157,8 +157,8 @@ class Autocomplete {
     return this.state.selected !== -1;
   }
 
-  isActiveAndOnHover() {
-    return this.isActive() && this.state.isOnHover;
+  isActiveAndHovered() {
+    return this.isActive() && this.state.isHovered;
   }
 }
 
@@ -173,7 +173,7 @@ namespace Autocomplete {
     suggestions: Store.Autocomplete.Suggestion[];
     navigations: Store.Autocomplete.Navigation[];
     products: Store.ProductWithMetadata[];
-    isOnHover: boolean;
+    isHovered: boolean;
     onHover(event: MouseEvent): void;
   }
 

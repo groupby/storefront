@@ -47,7 +47,7 @@ suite('Autocomplete', ({ expect, spy, stub, itShouldProvideAlias }) => {
           suggestions: SUGGESTIONS,
           navigations: NAVIGATIONS,
           products: PRODUCTS,
-          isOnHover: false,
+          isHovered: false,
         });
       });
 
@@ -397,7 +397,7 @@ suite('Autocomplete', ({ expect, spy, stub, itShouldProvideAlias }) => {
       expect(parseTarget).to.be.calledWithExactly(target);
     });
 
-    it('should call updateQuery with the query string and set isOnHover', () => {
+    it('should call updateQuery with the query string and set isHovered', () => {
       const index = 0;
       const target = { classList: { add: () => null } };
       const query = 'foo';
@@ -408,10 +408,10 @@ suite('Autocomplete', ({ expect, spy, stub, itShouldProvideAlias }) => {
       autocomplete.setActivation(<any>[target], index, true, true);
 
       expect(updateQuery).to.be.calledWithExactly(query);
-      expect(autocomplete.state.isOnHover).to.be.false;
+      expect(autocomplete.state.isHovered).to.be.false;
     });
 
-    it('should call update products with the target data and set isOnHover', () => {
+    it('should call update products with the target data and set isHovered', () => {
       const index = 0;
       const query = 'foo';
       const refinement = 'bar';
@@ -423,7 +423,7 @@ suite('Autocomplete', ({ expect, spy, stub, itShouldProvideAlias }) => {
       autocomplete.setActivation(<any>[{ classList: { add: () => null } }], index, true, false);
 
       expect(updateProducts).to.be.calledWithExactly({ query,refinement, field, pastPurchase });
-      expect(autocomplete.state.isOnHover).to.be.true;
+      expect(autocomplete.state.isHovered).to.be.true;
     });
 
     it('should add gb-active to classList if activating and update state', () => {
@@ -554,33 +554,33 @@ suite('Autocomplete', ({ expect, spy, stub, itShouldProvideAlias }) => {
     });
   });
 
-  describe('isActiveAndOnHover()', () => {
-    it('should return true if isActive is true and state isOnHover is true', () => {
-      autocomplete.state = <any>{ isOnHover: true };
+  describe('isActiveAndHovered()', () => {
+    it('should return true if isActive is true and state isHovered is true', () => {
+      autocomplete.state = <any>{ isHovered: true };
       autocomplete.isActive = () => true;
 
-      expect(autocomplete.isActiveAndOnHover()).to.be.true;
+      expect(autocomplete.isActiveAndHovered()).to.be.true;
     });
 
-    it('should return false if isActive is true and state isOnHover is false', () => {
-      autocomplete.state = <any>{ isOnHover: false };
+    it('should return false if isActive is true and state isHovered is false', () => {
+      autocomplete.state = <any>{ isHovered: false };
       autocomplete.isActive = () => true;
 
-      expect(autocomplete.isActiveAndOnHover()).to.be.false;
+      expect(autocomplete.isActiveAndHovered()).to.be.false;
     });
 
-    it('should return false if isActive is false and state isOnHover is true', () => {
-      autocomplete.state = <any>{ isOnHover: true };
+    it('should return false if isActive is false and state isHovered is true', () => {
+      autocomplete.state = <any>{ isHovered: true };
       autocomplete.isActive = () => false;
 
-      expect(autocomplete.isActiveAndOnHover()).to.be.false;
+      expect(autocomplete.isActiveAndHovered()).to.be.false;
     });
 
-    it('should return false if both isActive and state isOnHover are false', () => {
-      autocomplete.state = <any>{ isOnHover: false };
+    it('should return false if both isActive and state isHovered are false', () => {
+      autocomplete.state = <any>{ isHovered: false };
       autocomplete.isActive = () => false;
 
-      expect(autocomplete.isActiveAndOnHover()).to.be.false;
+      expect(autocomplete.isActiveAndHovered()).to.be.false;
     });
   });
 
