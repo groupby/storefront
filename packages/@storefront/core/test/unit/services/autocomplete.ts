@@ -180,10 +180,10 @@ suite('Autocomplete Service', ({ expect, spy, stub, itShouldBeCore, itShouldExte
     });
 
     // tslint:disable-next-line max-line-length
-    it('should return true if hoverAutoFill is false and any autocomplete tag has an active selection and is not hovered', () => {
+    it('should return true if hoverAutoFill is false and any autocomplete tag both has an active selection and is not hovered', () => {
       const state = { a: 'b' };
       // tslint:disable-next-line max-line-length
-      service.registeredAutocompleteTags = <any>[{ isActiveAndOnHover: () => false }, { isActiveAndOnHover: () => true }, { isActiveAndOnHover: () => true }];
+      service.registeredAutocompleteTags = <any>[{ isActiveAndHovered: () => false }, { isActiveAndHovered: () => true }, { isActiveAndHovered: () => true }];
       service['app'] = <any>{ flux: { store: { getState: () => state } } };
       stub(Selectors, 'config').withArgs(state).returns({ autocomplete: { hoverAutoFill: false } });
 
@@ -191,10 +191,10 @@ suite('Autocomplete Service', ({ expect, spy, stub, itShouldBeCore, itShouldExte
     });
 
     // tslint:disable-next-line max-line-length
-    it('should return false if hoverAutoFill is false and no autocomplete tag has an active selection and is not hovered', () => {
+    it('should return false if hoverAutoFill is false and no autocomplete tag both has an active selection and is not hovered', () => {
       const state = { a: 'b' };
       // tslint:disable-next-line max-line-length
-      service.registeredAutocompleteTags = <any>[{ isActiveAndOnHover: () => true }, { isActiveAndOnHover: () => true }, { isActiveAndOnHover: () => true }];
+      service.registeredAutocompleteTags = <any>[{ isActiveAndHovered: () => true }, { isActiveAndHovered: () => true }, { isActiveAndHovered: () => true }];
       service['app'] = <any>{ flux: { store: { getState: () => state } } };
       stub(Selectors, 'config').withArgs(state).returns({ autocomplete: { hoverAutoFill: false } });
 

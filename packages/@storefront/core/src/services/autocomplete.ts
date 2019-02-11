@@ -56,7 +56,7 @@ class AutocompleteService extends LazyService {
     if (Selectors.config(this.app.flux.store.getState()).autocomplete.hoverAutoFill) {
       return this.registeredAutocompleteTags.some((tag) => tag.isActive());
     } else {
-      return this.registeredAutocompleteTags.some((tag) => !tag.isActiveAndOnHover());
+      return this.registeredAutocompleteTags.some((tag) => !tag.isActiveAndHovered());
     }
   }
 
@@ -86,5 +86,5 @@ export default AutocompleteService;
 
 export interface AutocompleteTag extends Tag {
   isActive(): boolean;
-  isActiveAndOnHover(): boolean;
+  isActiveAndHovered(): boolean;
 }
