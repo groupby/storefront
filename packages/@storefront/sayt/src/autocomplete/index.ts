@@ -30,7 +30,16 @@ class Autocomplete {
     const category = this.select(Selectors.autocompleteCategoryField);
     const categoryValues = this.select(Selectors.autocompleteCategoryValues);
     const navigations = this.select(Selectors.autocompleteNavigations);
-    this.state = { ...this.state, suggestions, navigations, category, categoryValues, products, selected: -1 };
+    this.state = {
+      ...this.state,
+      suggestions,
+      navigations,
+      category,
+      categoryValues,
+      products,
+      selected: -1,
+      isOnHover: false
+    };
   }
 
   init() {
@@ -60,7 +69,7 @@ class Autocomplete {
       }
       this.setActivation(targets, ++selected, true);
     }
-  };
+  }
 
   activatePrevious = () => {
     const targets = this.activationTargets();
@@ -69,7 +78,7 @@ class Autocomplete {
       this.setActivation(targets, selected, false);
       this.setActivation(targets, --selected, true);
     }
-  };
+  }
 
   selectActive = () => {
     if (this.isActive()) {
@@ -78,7 +87,7 @@ class Autocomplete {
       targets[this.state.selected].querySelector('a').click();
       this.set({ selected: -1 });
     }
-  };
+  }
 
   updateSuggestions = ({
     suggestions,
@@ -95,7 +104,7 @@ class Autocomplete {
     } else if (!this.select(Selectors.isFetching, 'search')) {
       this.flux.emit('sayt:show');
     }
-  };
+  }
 
   setActivation(targets: NodeListOf<HTMLElement>, index: number, activate: boolean, updateQuery: boolean = true) {
     const target = targets[index];
@@ -107,7 +116,12 @@ class Autocomplete {
       this.state.selected = index;
       if (indexExists) {
         const data = this.parseTarget(target);
-        if (updateQuery) this.updateQuery(data.query);
+        if (updateQuery) {
+          this.state.isOnHover = false;
+          this.updateQuery(data.query);
+        } else {
+          this.state.isOnHover = true;
+        }
         this.updateProducts(data);
       }
     }
@@ -142,6 +156,10 @@ class Autocomplete {
   isActive() {
     return this.state.selected !== -1;
   }
+
+  isActiveAndOnHover() {
+    return this.isActive() && this.state.isOnHover;
+  }
 }
 
 interface Autocomplete extends Tag<Autocomplete.Props, Autocomplete.State> {}
@@ -155,6 +173,7 @@ namespace Autocomplete {
     suggestions: Store.Autocomplete.Suggestion[];
     navigations: Store.Autocomplete.Navigation[];
     products: Store.ProductWithMetadata[];
+    isOnHover: boolean;
     onHover(event: MouseEvent): void;
   }
 
