@@ -66,11 +66,13 @@ class TrackerService extends BaseService<TrackerService.Options> {
   }
 
   sendEvent(method: keyof GbTracker, event: any) {
-    this.app.flux.emit(TRACKER_EVENT, { type: method, event });
-    try {
-      (<any>this.client[method])(event);
-    } catch (e) {
-      this.app.log.error('unable to send beaconing data', e);
+    if (!this.opts.disableTracker) {
+      this.app.flux.emit(TRACKER_EVENT, { type: method, event });
+      try {
+        (<any>this.client[method])(event);
+      } catch (e) {
+        this.app.log.error('unable to send beaconing data', e);
+      }
     }
   }
 
@@ -172,6 +174,7 @@ class TrackerService extends BaseService<TrackerService.Options> {
 namespace TrackerService {
   export interface Options {
     warnings?: boolean;
+    disableTracker?: boolean;
     sendSearchEvent?: Override<string, GbTracker.SearchEvent>;
     sendViewCartEvent?: Override<GbTracker.CartEvent, GbTracker.CartEvent>;
     sendAddToCartEvent?: Override<GbTracker.CartEvent, GbTracker.CartEvent>;

@@ -138,6 +138,7 @@ const DEFAULTS: Partial<Configuration> = {
     },
     tracker: {
       warnings: true,
+      disableTracker: false,
     },
   },
 

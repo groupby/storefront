@@ -136,8 +136,9 @@ suite('Tracker Service', ({ expect, spy, stub, itShouldExtendBaseService }) => {
   });
 
   describe('sendEvent()', () => {
+    const method = 'sendAutoSearchEvent';
+
     it('should emit TRACKER_EVENT and send event', () => {
-      const method = 'sendAutoSearchEvent';
       const event = { a: 'b' };
       const emit = app.flux.emit = spy();
       const send = service.client[method] = spy();
@@ -148,8 +149,18 @@ suite('Tracker Service', ({ expect, spy, stub, itShouldExtendBaseService }) => {
       expect(send).to.be.calledWith(event);
     });
 
+    it('should not emit TRACKER_EVENT and not send event if disableTracker opt is true', () => {
+      const emit = app.flux.emit = spy();
+      const send = service.client[method] = spy();
+      opts.disableTracker = true;
+
+      service.sendEvent(method, {});
+
+      expect(emit).to.not.be.called;
+      expect(send).to.not.be.called;
+    });
+
     it('should handle errors from tracker client', () => {
-      const method = 'sendAutoSearchEvent';
       const error = new Error();
       const logError = spy();
       app.flux.emit = () => null;
