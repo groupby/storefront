@@ -5,6 +5,36 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v2.5.2] - 2019-02-12
+
+Package versions:
+
+- `@storefront/breadcrumbs`: 2.6.0
+- `@storefront/collections`: 2.5.0
+- `@storefront/core`: 2.5.2
+- `@storefront/details`: 2.5.0
+- `@storefront/did-you-mean`: 2.5.0
+- `@storefront/flux-capacitor`: 1.71.0
+- `@storefront/infinite-scroll`: 2.5.0
+- `@storefront/navigation`: 2.5.0
+- `@storefront/page-size`: 2.5.0
+- `@storefront/paging`: 2.5.0
+- `@storefront/products`: 2.5.0
+- `@storefront/query`: 2.5.0
+- `@storefront/recommendations`: 2.5.0
+- `@storefront/record-count`: 2.5.0
+- `@storefront/related-queries`: 2.5.0
+- `@storefront/sayt`: 2.5.1
+- `@storefront/sort`: 2.5.0
+- `@storefront/structure`: 2.5.1
+- `@storefront/template`: 2.5.0
+
+### Added
+#### structure
+- SF-1257: Added `onMount` method `gb-infinite-list`.
+  - `onMount` will invoke `this.set(true)`.
+  - This is a workaround for a [riot.js issue](https://github.com/riot/riot/issues/2655) which prevents components from receiving accurate `props`.
+
 ## [v2.5.1] - 2019-02-11
 
 Package versions:
