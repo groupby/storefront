@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - SF-1257: Added `onMount` method `gb-infinite-list`.
   - `onMount` will invoke `this.set(true)`.
-  - This is a workaround for a riot.js issue (https://github.com/riot/riot/issues/2655) which prevents components from receiving accurate `props`.
+  - This is a workaround for a [riot.js issue](https://github.com/riot/riot/issues/2655) which prevents components from receiving accurate `props`.
 
 ## [2.5.0] - 2019-02-04
 ### Changed
