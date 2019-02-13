@@ -5,6 +5,7 @@ import Sayt from '../sayt';
 @tag('gb-sayt-autocomplete', require('./index.html'))
 class Autocomplete {
   state: Autocomplete.State = <any>{
+    pastSearches: [],
     onHover: (event: MouseEvent) => {
       const updateQuery = !!this.select(Selectors.config).autocomplete.hoverAutoFill;
       const targets = this.activationTargets();
@@ -30,15 +31,17 @@ class Autocomplete {
     const category = this.select(Selectors.autocompleteCategoryField);
     const categoryValues = this.select(Selectors.autocompleteCategoryValues);
     const navigations = this.select(Selectors.autocompleteNavigations);
+    const pastSearches = this.services.search.getPastSearchTerms();
     this.state = {
       ...this.state,
       suggestions,
       navigations,
       category,
       categoryValues,
+      pastSearches,
       products,
       selected: -1,
-      isHovered: false
+      isHovered: false,
     };
   }
 
@@ -51,6 +54,7 @@ class Autocomplete {
 
     this.services.autocomplete.registerAutocomplete(this);
     this.flux.on(Events.AUTOCOMPLETE_SUGGESTIONS_UPDATED, this.updateSuggestions);
+    this.flux.on(Events.DONE_SEARCH, this.updatePastSearches);
     this.subscribe('sayt:activate_next', this.activateNext);
     this.subscribe('sayt:activate_previous', this.activatePrevious);
     this.subscribe('sayt:select_active', this.selectActive);
@@ -88,6 +92,9 @@ class Autocomplete {
       this.set({ selected: -1 });
     }
   }
+
+  updatePastSearches = () =>
+    this.set({ pastSearches: this.services.search.getPastSearchTerms() })
 
   updateSuggestions = ({
     suggestions,
@@ -172,6 +179,7 @@ namespace Autocomplete {
     categoryValues: string[];
     suggestions: Store.Autocomplete.Suggestion[];
     navigations: Store.Autocomplete.Navigation[];
+    pastSearches: string[];
     products: Store.ProductWithMetadata[];
     isHovered: boolean;
     onHover(event: MouseEvent): void;

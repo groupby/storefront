@@ -2,6 +2,7 @@ import Service from '../core/service';
 import StoreFront from '../storefront';
 import autocomplete from './autocomplete';
 import collections from './collections';
+import cookie from './cookie';
 import details from './details';
 import logging from './logging';
 import pastPurchases from './pastPurchases';
@@ -18,6 +19,7 @@ const SERVICES: Service.Constructor.Map = {
   url,
   autocomplete,
   collections,
+  cookie,
   tracker,
   recommendations,
   redirect,
@@ -35,7 +37,7 @@ export interface ServiceConfiguration {
   logging?: Service.Options<logging.Options>;
   /**
    * Configuration for the search service.
-   * The search service listens to store updates and triggers a search request.
+   * The search service listens to store updates and triggers a search request. It also keeps a record of past searches.
    */
   search?: Service.Options<search.Options>;
   /**
@@ -58,6 +60,11 @@ export interface ServiceConfiguration {
    * The collections service listens to store updates and triggers a collections request.
    */
   collections?: Service.Options<any>;
+  /**
+   * Configuration for the cookie service.
+   * The cookie service exposes an API for interacting with browser cookies.
+   */
+  cookie?: Service.Options<cookie.Options>;
   /**
    * Configuration for the URL service.
    * The url service builds and parses the url from the store, handles browser history, and dispatches requests.
@@ -87,6 +94,7 @@ export interface CoreServices {
   pastPurchases: pastPurchases;
   autocomplete: autocomplete;
   collections: collections;
+  cookie: cookie;
   url: url;
   tracker: tracker;
   recommendations: recommendations;

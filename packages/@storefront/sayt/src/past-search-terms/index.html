@@ -1,0 +1,8 @@
+<h4>{props.label}</h4>
+<gb-list items="{props.pastSearches}" item-alias="pastSearch" item-props="{{_consumes: 'autocomplete', onClick: props.onClick}}">
+  <gb-link class="gb-autocomplete-target" data-query="{item}" onmouseenter="{$autocomplete.onHover}" on-click="{props.onClick(item)}" _consumes="sayt,pastSearch">
+    <yield>
+      <gb-raw content="{$sayt.highlight($pastSearch, '<b>$&</b>')}"></gb-raw>
+    </yield>
+  </gb-link>
+</gb-list>

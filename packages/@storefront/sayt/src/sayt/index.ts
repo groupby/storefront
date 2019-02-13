@@ -9,6 +9,7 @@ class Sayt {
   props: Sayt.Props = {
     labels: {
       trending: 'Trending',
+      pastSearches: 'Past Searches',
     },
   };
   state: Sayt.State = {
@@ -17,7 +18,7 @@ class Sayt {
     showProducts: true,
     highlight: (value, replacement) => {
       const query = this.select(Selectors.autocompleteQuery);
-      return value.replace(new RegExp(escapeRegexp(query), 'i'), replacement);
+      return query ? value.replace(new RegExp(escapeRegexp(query), 'i'), replacement) : value;
     },
   };
 
@@ -79,6 +80,7 @@ namespace Sayt {
 
   export interface Labels {
     trending?: string;
+    pastSearches?: string;
   }
 }
 

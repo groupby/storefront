@@ -4,6 +4,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] [minor]
+### Changed
+- SF-1200: Updated `SearchService` to record past searches.
+  - Past searches are captured as string literals.
+  - The following configuration options may be used to customize this behaviour:
+    - `maxPastSearchTerms`: The maximum number of past searches to capture (default: `0`).
+    - `storeDuplicateSearchTerms`: Whether or not duplicate search terms should be filtered out (default: `false`).
+  - Sample configuration:
+
+    ```js
+    ...
+    services: {
+      ...
+      search: {
+        maxPastSearchTerms: 5, // Store up to 5x terms.
+        storeDuplicateSearchTerms: true, // Store and display duplicate terms.
+      },
+      ...
+    }
+    ...
+    ```
+
+### Added
+- SF-1200: Added `CookieService`.
+  - Allows implementations to interact directly with browser cookies.
+  - Exposes `get()`, `set()`, and `remove()` methods.
+
 ## [2.5.2] - 2019-02-11
 ### Changed
 - SF-1279: Modify autocomplete service's `hasActiveSuggestion` method to take into account whether

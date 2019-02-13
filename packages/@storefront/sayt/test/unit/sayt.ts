@@ -13,7 +13,7 @@ suite('Sayt', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvideAlias
   describe('constructor()', () => {
     describe('props', () => {
       it('should set initial value', () => {
-        expect(sayt.props).to.eql({ labels: { trending: 'Trending' } });
+        expect(sayt.props).to.eql({ labels: { trending: 'Trending', pastSearches: 'Past Searches' } });
       });
     });
 
@@ -42,6 +42,15 @@ suite('Sayt', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvideAlias
           const highlighted = sayt.state.highlight('flamboyant YElLOw Tie', '<p>$&</p>');
 
           expect(highlighted).to.eq('flamboyant <p>YElLOw Tie</p>');
+        });
+
+        it('should not highlight if autocomplete query is not available', () => {
+          const term = 'flamboyant YElLOw Tie';
+          sayt.select = () => undefined;
+
+          const highlighted = sayt.state.highlight(term, '<p>$&</p>');
+
+          expect(highlighted).to.eq(term);
         });
       });
     });
