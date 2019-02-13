@@ -10,11 +10,13 @@ class Sayt {
     labels: {
       trending: 'Trending',
     },
+    previousSearchLimit: 5,
   };
   state: Sayt.State = {
     isActive: true,
     showRecommendations: false,
     showProducts: true,
+    showPrevious: false,
     highlight: (value, replacement) => {
       const query = this.select(Selectors.autocompleteQuery);
       return value.replace(new RegExp(escapeRegexp(query), 'i'), replacement);
@@ -27,6 +29,7 @@ class Sayt {
     this.subscribe('sayt:hide', this.setInactive);
     this.subscribe(Events.URL_UPDATED, this.setInactive);
     this.subscribe(Events.FETCHING_SEARCH, this.setInactive);
+    this.subscribe('previous:show', this.setPreviousActive);
     if (this.props.recommendations) {
       this.subscribe('sayt:show_recommendations', this.setRecommendationsActive);
       this.subscribe(Events.AUTOCOMPLETE_QUERY_UPDATED, this.setRecommendationsInactive);
@@ -55,6 +58,8 @@ class Sayt {
 
   setRecommendationsInactive = () => this.state.showRecommendations && this.set({ showRecommendations: false });
 
+  setPreviousActive = () => !this.state.showPrevious && this.set({ showPrevious: true });
+
   registerClickAwayHandler = () => utils.WINDOW().document.addEventListener('click', this.checkRootNode);
 
   unregisterClickAwayHandler = () => {
@@ -68,12 +73,14 @@ namespace Sayt {
   export interface Props extends Tag.Props {
     labels?: Labels;
     recommendations?: boolean;
+    previousSearchLimit?: number;
   }
 
   export interface State {
     isActive: boolean;
     showRecommendations: boolean;
     showProducts: boolean;
+    showPrevious: boolean;
     highlight: (value: string, replacement: string) => string;
   }
 

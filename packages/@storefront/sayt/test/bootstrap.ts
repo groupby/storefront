@@ -8,6 +8,7 @@ bootstrap(chai, __dirname, [
   '../src/navigations/index.html',
   '../src/past-purchases/index.html',
   '../src/past-purchase/index.html',
+  '../src/previous-search-terms/index.html',
   '../src/products/index.html',
   '../src/refinements/index.html',
   '../src/search-terms/index.html',
