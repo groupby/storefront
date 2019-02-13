@@ -32,6 +32,9 @@ suite('isFetching', ({ expect }) => {
     expectStartFetching(Actions.FETCH_MORE_REFINEMENTS, 'moreRefinements');
     expectDoneFetching(Actions.RECEIVE_MORE_REFINEMENTS, 'moreRefinements');
 
+    expectStartFetching(Actions.FETCH_MORE_PAST_PURCHASE_REFINEMENTS, 'moreRefinements');
+    expectDoneFetching(Actions.RECEIVE_MORE_PAST_PURCHASE_REFINEMENTS, 'moreRefinements');
+
     expectStartFetching(Actions.FETCH_MORE_PRODUCTS, 'moreProducts');
     expectDoneFetching(Actions.RECEIVE_MORE_PRODUCTS, 'moreProducts');
 
