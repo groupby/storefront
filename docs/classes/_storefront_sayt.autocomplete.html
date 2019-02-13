@@ -182,6 +182,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_storefront_sayt.autocomplete.html#unmount" class="tsd-kind-icon">unmount</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_storefront_sayt.autocomplete.html#update" class="tsd-kind-icon">update</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_storefront_sayt.autocomplete.html#updatealias" class="tsd-kind-icon">update<wbr>Alias</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_storefront_sayt.autocomplete.html#updatepastsearches" class="tsd-kind-icon">update<wbr>Past<wbr>Searches</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_storefront_sayt.autocomplete.html#updateproducts" class="tsd-kind-icon">update<wbr>Products</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_storefront_sayt.autocomplete.html#updatequery" class="tsd-kind-icon">update<wbr>Query</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_storefront_sayt.autocomplete.html#updatesuggestions" class="tsd-kind-icon">update<wbr>Suggestions</a></li>
@@ -202,7 +203,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/a5f5c4037/packages/@storefront/sayt/src/autocomplete/index.ts#L25">sayt/src/autocomplete/index.ts:25</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/9e7e6eafc/packages/@storefront/sayt/src/autocomplete/index.ts#L26">sayt/src/autocomplete/index.ts:26</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="_storefront_sayt.autocomplete.html" class="tsd-signature-type">Autocomplete</a></h4>
@@ -478,11 +479,11 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
 					<a name="state-1" class="tsd-anchor"></a>
 					<h3>state</h3>
-					<div class="tsd-signature tsd-kind-icon">state<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_storefront_sayt.autocomplete.state.html" class="tsd-signature-type">State</a><span class="tsd-signature-symbol"> =&nbsp;&lt;any&gt;{onHover: (event: MouseEvent) &#x3D;&gt; {const updateQuery &#x3D; !!this.select(Selectors.config).autocomplete.hoverAutoFill;const targets &#x3D; this.activationTargets();const index &#x3D; Array.from(targets).findIndex((element) &#x3D;&gt; element &#x3D;&#x3D;&#x3D; event.target);if (index &#x3D;&#x3D;&#x3D; this.state.selected) {return;}if (this.isActive()) {this.setActivation(targets, this.state.selected, false, updateQuery);}this.setActivation(targets,Array.from(targets).findIndex((element) &#x3D;&gt; element &#x3D;&#x3D;&#x3D; event.target),true,updateQuery);},}</span></div>
+					<div class="tsd-signature tsd-kind-icon">state<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_storefront_sayt.autocomplete.state.html" class="tsd-signature-type">State</a><span class="tsd-signature-symbol"> =&nbsp;&lt;any&gt;{pastSearches: [],onHover: (event: MouseEvent) &#x3D;&gt; {const updateQuery &#x3D; !!this.select(Selectors.config).autocomplete.hoverAutoFill;const targets &#x3D; this.activationTargets();const index &#x3D; Array.from(targets).findIndex((element) &#x3D;&gt; element &#x3D;&#x3D;&#x3D; event.target);if (index &#x3D;&#x3D;&#x3D; this.state.selected) {return;}if (this.isActive()) {this.setActivation(targets, this.state.selected, false, updateQuery);}this.setActivation(targets,Array.from(targets).findIndex((element) &#x3D;&gt; element &#x3D;&#x3D;&#x3D; event.target),true,updateQuery);},}</span></div>
 					<aside class="tsd-sources">
 						<p>Overrides Tag.state</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/groupby/storefront/blob/a5f5c4037/packages/@storefront/sayt/src/autocomplete/index.ts#L7">sayt/src/autocomplete/index.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/groupby/storefront/blob/9e7e6eafc/packages/@storefront/sayt/src/autocomplete/index.ts#L7">sayt/src/autocomplete/index.ts:7</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -515,7 +516,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/a5f5c4037/packages/@storefront/sayt/src/autocomplete/index.ts#L63">sayt/src/autocomplete/index.ts:63</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/9e7e6eafc/packages/@storefront/sayt/src/autocomplete/index.ts#L67">sayt/src/autocomplete/index.ts:67</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -532,7 +533,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/a5f5c4037/packages/@storefront/sayt/src/autocomplete/index.ts#L74">sayt/src/autocomplete/index.ts:74</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/9e7e6eafc/packages/@storefront/sayt/src/autocomplete/index.ts#L78">sayt/src/autocomplete/index.ts:78</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -549,7 +550,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/a5f5c4037/packages/@storefront/sayt/src/autocomplete/index.ts#L59">sayt/src/autocomplete/index.ts:59</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/9e7e6eafc/packages/@storefront/sayt/src/autocomplete/index.ts#L63">sayt/src/autocomplete/index.ts:63</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">NodeListOf</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">HTMLElement</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -642,7 +643,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Tag.init</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/a5f5c4037/packages/@storefront/sayt/src/autocomplete/index.ts#L45">sayt/src/autocomplete/index.ts:45</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/9e7e6eafc/packages/@storefront/sayt/src/autocomplete/index.ts#L48">sayt/src/autocomplete/index.ts:48</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -659,7 +660,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/a5f5c4037/packages/@storefront/sayt/src/autocomplete/index.ts#L156">sayt/src/autocomplete/index.ts:156</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/9e7e6eafc/packages/@storefront/sayt/src/autocomplete/index.ts#L163">sayt/src/autocomplete/index.ts:163</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -676,7 +677,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/a5f5c4037/packages/@storefront/sayt/src/autocomplete/index.ts#L160">sayt/src/autocomplete/index.ts:160</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/9e7e6eafc/packages/@storefront/sayt/src/autocomplete/index.ts#L167">sayt/src/autocomplete/index.ts:167</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -989,7 +990,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/a5f5c4037/packages/@storefront/sayt/src/autocomplete/index.ts#L130">sayt/src/autocomplete/index.ts:130</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/9e7e6eafc/packages/@storefront/sayt/src/autocomplete/index.ts#L137">sayt/src/autocomplete/index.ts:137</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1130,7 +1131,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/a5f5c4037/packages/@storefront/sayt/src/autocomplete/index.ts#L83">sayt/src/autocomplete/index.ts:83</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/9e7e6eafc/packages/@storefront/sayt/src/autocomplete/index.ts#L87">sayt/src/autocomplete/index.ts:87</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1171,7 +1172,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/a5f5c4037/packages/@storefront/sayt/src/autocomplete/index.ts#L109">sayt/src/autocomplete/index.ts:109</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/9e7e6eafc/packages/@storefront/sayt/src/autocomplete/index.ts#L116">sayt/src/autocomplete/index.ts:116</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1548,6 +1549,23 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="updatepastsearches" class="tsd-anchor"></a>
+					<h3>update<wbr>Past<wbr>Searches</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">update<wbr>Past<wbr>Searches<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/9e7e6eafc/packages/@storefront/sayt/src/autocomplete/index.ts#L96">sayt/src/autocomplete/index.ts:96</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="updateproducts" class="tsd-anchor"></a>
 					<h3>update<wbr>Products</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -1557,7 +1575,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/a5f5c4037/packages/@storefront/sayt/src/autocomplete/index.ts#L140">sayt/src/autocomplete/index.ts:140</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/9e7e6eafc/packages/@storefront/sayt/src/autocomplete/index.ts#L147">sayt/src/autocomplete/index.ts:147</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1594,7 +1612,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/a5f5c4037/packages/@storefront/sayt/src/autocomplete/index.ts#L136">sayt/src/autocomplete/index.ts:136</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/9e7e6eafc/packages/@storefront/sayt/src/autocomplete/index.ts#L143">sayt/src/autocomplete/index.ts:143</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1617,7 +1635,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/a5f5c4037/packages/@storefront/sayt/src/autocomplete/index.ts#L92">sayt/src/autocomplete/index.ts:92</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/9e7e6eafc/packages/@storefront/sayt/src/autocomplete/index.ts#L99">sayt/src/autocomplete/index.ts:99</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1907,6 +1925,9 @@
 								<a href="_storefront_sayt.autocomplete.html#updatealias" class="tsd-kind-icon">update<wbr>Alias</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_storefront_sayt.autocomplete.html#updatepastsearches" class="tsd-kind-icon">update<wbr>Past<wbr>Searches</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_storefront_sayt.autocomplete.html#updateproducts" class="tsd-kind-icon">update<wbr>Products</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
@@ -1927,6 +1948,9 @@
 					</li>
 					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-has-type-parameter">
 						<a href="_storefront_sayt.pastpurchase.html" class="tsd-kind-icon">Past<wbr>Purchase</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-has-type-parameter">
+						<a href="_storefront_sayt.pastsearchterms.html" class="tsd-kind-icon">Past<wbr>Search<wbr>Terms</a>
 					</li>
 					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-has-type-parameter">
 						<a href="_storefront_sayt.products.html" class="tsd-kind-icon">Products</a>
