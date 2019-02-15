@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] [minor]
 ### Changed
+- Update `@storefront/core` to 2.6.0.
 - SF-1200: Updated `Autocomplete` component to include `PastSearchTerms`.
 
 ### Added

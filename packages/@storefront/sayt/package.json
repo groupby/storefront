@@ -53,6 +53,6 @@
     "escape-string-regexp": "^1.0.5"
   },
   "peerDependencies": {
-    "@storefront/core": "~2.5.0"
+    "@storefront/core": "~2.6.0"
   }
 }
