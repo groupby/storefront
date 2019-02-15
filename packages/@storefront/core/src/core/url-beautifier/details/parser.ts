@@ -18,6 +18,13 @@ export class DetailsUrlParser extends UrlParser<UrlBeautifier.DetailsUrlState> {
     const title = path.shift();
     const id = path.pop();
     let variants = [];
+    const queryParams: {[key: string]: string} = {};
+
+    if (Object.keys(uri.query).length) {
+      const filteredQueryParams = DetailsUrlParser.extractFilteredQueryParams(uri.query);
+      queryParams.area = filteredQueryParams.area;
+      queryParams.collection = filteredQueryParams.collection;
+    }
 
     if (path.length !== 0) {
       if (!this.config.useReferenceKeys) {
@@ -28,7 +35,7 @@ export class DetailsUrlParser extends UrlParser<UrlBeautifier.DetailsUrlState> {
       }
     }
 
-    return { variants, data: { id, title }, id };
+    return { variants, data: { id, title }, id, ...queryParams };
   }
 
   static extractReferencesRefinements(path: string[], keysToVariants: { [key: string]: string }) {
@@ -61,6 +68,12 @@ export class DetailsUrlParser extends UrlParser<UrlBeautifier.DetailsUrlState> {
     }
 
     return variants;
+  }
+
+  static extractFilteredQueryParams(queryParams: {[key: string]: string}) {
+    const { area, collection } = queryParams;
+
+    return { area, collection };
   }
 }
 

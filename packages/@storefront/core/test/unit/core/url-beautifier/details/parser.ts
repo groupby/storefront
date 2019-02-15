@@ -97,6 +97,22 @@ suite('DetailsUrlParser', ({ expect }) => {
     expect(parsed.variants).to.eql(expectedDetail.variants);
   });
 
+  it('should extract query string parameters of a URL specifying "area" and "collection", and add them to the return object', () => {
+    const url = 'dress/293014?collection=joey&area=carlo';
+    const expectedDetail = {
+      variants: [],
+      collection: 'joey',
+      area: 'carlo',
+      data: {
+        id: '293014',
+        title: 'dress',
+      },
+      id: '293014',
+    };
+
+    expect(parser.parse(url)).to.eql(expectedDetail);
+  });
+
   describe('error states', () => {
     it('should throw an error if the path has less than two parts', () => {
       expect(() => parser.parse('/')).to.throw('path has too few parts');
