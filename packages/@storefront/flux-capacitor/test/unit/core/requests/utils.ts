@@ -479,6 +479,39 @@ suite('requests helpers', ({ expect, stub, spy }) => {
     });
   });
 
+  describe('productDetails()', () => {
+    const state: any = {
+      area: 'gurjoth',
+      collection: 'charles',
+    };
+
+    const request = {
+      area: 'joey',
+      collection: 'carlo',
+    };
+
+    const history = {
+      request: {
+        area: 'joey',
+        collection: 'carlo',
+      },
+    };
+
+    const overrides = request;
+
+    beforeEach(() => {
+      stub(RequestHelpers, 'search').withArgs(state, overrides).returns(request);
+
+      stub(Selectors, 'history').withArgs(state).returns(history);
+      stub(Selectors, 'area').withArgs(state).returns(state.area);
+      stub(Selectors, 'collection').withArgs(state).returns(state.collection);
+    });
+
+    it('should create a product details request', () => {
+      expect(RequestHelpers.productDetails(state)).to.eql(request);
+    });
+  });
+
   describe('products()', () => {
     const state: any = { a: 'b' };
     const searchRequest = { c: 'd' };

@@ -155,6 +155,15 @@ namespace RequestHelpers {
     return <Request>{ ...request, ...overrideRequest };
   };
 
+  export const productDetails: BuildFunction<Partial<Request>, Request> = (state, overrideRequest = {}) => {
+    const request: Request = RequestHelpers.search(state, {
+      area: Selectors.history(state).request.area || Selectors.area(state),
+      collection: Selectors.history(state).request.collection || Selectors.collection(state),
+    });
+
+    return <Request>{ ...request, ...overrideRequest };
+  };
+
   export const products: BuildFunction<Partial<Request>, Request> = (state, overrideRequest = {}) =>
     ({ ...RequestHelpers.realTimeBiasing(state, RequestHelpers.search(state)), ...overrideRequest });
 
