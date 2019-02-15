@@ -5,6 +5,120 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v2.6.0] - 2019-02-15
+
+Package versions:
+
+- `@storefront/breadcrumbs`: 2.7.0
+- `@storefront/collections`: 2.6.0
+- `@storefront/core`: 2.6.0
+- `@storefront/details`: 2.6.0
+- `@storefront/did-you-mean`: 2.6.0
+- `@storefront/flux-capacitor`: 1.71.0
+- `@storefront/infinite-scroll`: 2.6.0
+- `@storefront/navigation`: 2.6.0
+- `@storefront/page-size`: 2.6.0
+- `@storefront/paging`: 2.6.0
+- `@storefront/products`: 2.6.0
+- `@storefront/query`: 2.6.0
+- `@storefront/recommendations`: 2.6.0
+- `@storefront/record-count`: 2.6.0
+- `@storefront/related-queries`: 2.6.0
+- `@storefront/sayt`: 2.6.0
+- `@storefront/sort`: 2.6.0
+- `@storefront/structure`: 2.6.0
+- `@storefront/template`: 2.6.0
+
+### Changed
+#### breadcrumbs
+- Update `@storefront/core` to 2.6.0.
+
+#### collections
+- Update `@storefront/core` to 2.6.0.
+
+#### core
+- SF-1200: Updated `SearchService` to record past searches.
+  - Past searches are captured as string literals.
+  - The following configuration options may be used to customize this behaviour:
+    - `maxPastSearchTerms`: The maximum number of past searches to capture (default: `0`).
+    - `storeDuplicateSearchTerms`: Whether or not duplicate search terms should be filtered out (default: `false`).
+  - Sample configuration:
+
+    ```js
+    ...
+    services: {
+      ...
+      search: {
+        maxPastSearchTerms: 5, // Store up to 5x terms.
+        storeDuplicateSearchTerms: true, // Store and display duplicate terms.
+      },
+      ...
+    }
+    ...
+    ```
+
+#### details
+- Update `@storefront/core` to 2.6.0.
+
+#### did-you-mean
+- Update `@storefront/core` to 2.6.0.
+
+#### infinite-scroll
+- Update `@storefront/core` to 2.6.0.
+
+#### navigation
+- Update `@storefront/core` to 2.6.0.
+
+#### page-size
+- Update `@storefront/core` to 2.6.0.
+
+#### paging
+- Update `@storefront/core` to 2.6.0.
+
+#### products
+- Update `@storefront/core` to 2.6.0.
+
+#### query
+- Update `@storefront/core` to 2.6.0.
+
+#### recommendations
+- Update `@storefront/core` to 2.6.0.
+
+#### record-count
+- Update `@storefront/core` to 2.6.0.
+
+#### related-queries
+- Update `@storefront/core` to 2.6.0.
+
+#### sayt
+- Update `@storefront/core` to 2.6.0.
+- SF-1200: Updated `Autocomplete` component to include `PastSearchTerms`.
+
+#### sort
+- Update `@storefront/core` to 2.6.0.
+
+#### structure
+- Update `@storefront/core` to 2.6.0.
+
+#### template
+- Update `@storefront/core` to 2.6.0.
+
+### Added
+#### core
+- SF-1200: Added `CookieService`.
+  - Allows implementations to interact directly with browser cookies.
+  - Exposes `get()`, `set()`, and `remove()` methods.
+
+#### sayt
+- SF-1200: Added `PastSearchTerms` component.
+  - Component may be used to display the user's past searches.
+  - `PastSearchTerms` accepts the following props:
+    - `label`: An optional label which will be displayed above the past search terms.
+    - `pastSearches`: The array of past search terms to display.
+    - `onClick`: The callback function to invoke when a given past search term is clicked.
+- SF-1200: Added the `pastSearches` key to the `labels` prop in the `Sayt` component
+  - The label given by this key will be passed to `PastSearchTerms` as the `label` prop by default.
+
 ## [v2.5.2] - 2019-02-12
 
 Package versions:

@@ -115,7 +115,9 @@
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_storefront_core.searchservice.html#fetchproducts" class="tsd-kind-icon">fetch<wbr>Products</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_storefront_core.searchservice.html#getpastsearchterms" class="tsd-kind-icon">get<wbr>Past<wbr>Search<wbr>Terms</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="_storefront_core.searchservice.html#init" class="tsd-kind-icon">init</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_storefront_core.searchservice.html#pushsearchterm" class="tsd-kind-icon">push<wbr>Search<wbr>Term</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_storefront_core.searchservice.html#pushstate" class="tsd-kind-icon">push<wbr>State</a></li>
 							</ul>
 						</section>
@@ -135,7 +137,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_storefront_core.baseservice.html">BaseService</a>.<a href="_storefront_core.baseservice.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/a5f5c4037/packages/@storefront/core/src/services/search.ts#L8">core/src/services/search.ts:8</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/9e7e6eafc/packages/@storefront/core/src/services/search.ts#L10">core/src/services/search.ts:10</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -161,7 +163,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_storefront_core.baseservice.html">BaseService</a>.<a href="_storefront_core.baseservice.html#app">app</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/groupby/storefront/blob/a5f5c4037/packages/@storefront/core/src/core/service/index.ts#L10">core/src/core/service/index.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/groupby/storefront/blob/9e7e6eafc/packages/@storefront/core/src/core/service/index.ts#L10">core/src/core/service/index.ts:10</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -172,7 +174,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_storefront_core.baseservice.html">BaseService</a>.<a href="_storefront_core.baseservice.html#opts">opts</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/groupby/storefront/blob/a5f5c4037/packages/@storefront/core/src/core/service/index.ts#L10">core/src/core/service/index.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/groupby/storefront/blob/9e7e6eafc/packages/@storefront/core/src/core/service/index.ts#L10">core/src/core/service/index.ts:10</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -189,16 +191,46 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/a5f5c4037/packages/@storefront/core/src/services/search.ts#L25">core/src/services/search.ts:25</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/9e7e6eafc/packages/@storefront/core/src/services/search.ts#L70">core/src/services/search.ts:70</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Fetches products based on the values in the given state.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>urlState: <span class="tsd-signature-type">History</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The current history state.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getpastsearchterms" class="tsd-anchor"></a>
+					<h3>get<wbr>Past<wbr>Search<wbr>Terms</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Past<wbr>Search<wbr>Terms<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/9e7e6eafc/packages/@storefront/core/src/services/search.ts#L56">core/src/services/search.ts:56</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns an array of past search terms.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -213,10 +245,42 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_storefront_core.baseservice.html">BaseService</a>.<a href="_storefront_core.baseservice.html#init">init</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/a5f5c4037/packages/@storefront/core/src/services/search.ts#L16">core/src/services/search.ts:16</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/9e7e6eafc/packages/@storefront/core/src/services/search.ts#L18">core/src/services/search.ts:18</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="pushsearchterm" class="tsd-anchor"></a>
+					<h3>push<wbr>Search<wbr>Term</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">push<wbr>Search<wbr>Term<span class="tsd-signature-symbol">(</span>term<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/9e7e6eafc/packages/@storefront/core/src/services/search.ts#L38">core/src/services/search.ts:38</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Stores the given search term in a cookie.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>term: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The term to store.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4>
+							<p>The list of search terms stored.</p>
 						</li>
 					</ul>
 				</section>
@@ -230,9 +294,15 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/a5f5c4037/packages/@storefront/core/src/services/search.ts#L20">core/src/services/search.ts:20</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/9e7e6eafc/packages/@storefront/core/src/services/search.ts#L26">core/src/services/search.ts:26</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Stores the current search term, sends an event to hide sayt, and
+									pushes a search route to history.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -316,8 +386,14 @@
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_storefront_core.searchservice.html#fetchproducts" class="tsd-kind-icon">fetch<wbr>Products</a>
 							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_storefront_core.searchservice.html#getpastsearchterms" class="tsd-kind-icon">get<wbr>Past<wbr>Search<wbr>Terms</a>
+							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 								<a href="_storefront_core.searchservice.html#init" class="tsd-kind-icon">init</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_storefront_core.searchservice.html#pushsearchterm" class="tsd-kind-icon">push<wbr>Search<wbr>Term</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_storefront_core.searchservice.html#pushstate" class="tsd-kind-icon">push<wbr>State</a>
