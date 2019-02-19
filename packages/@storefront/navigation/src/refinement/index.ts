@@ -13,7 +13,12 @@ class Refinement {
     this.updateState();
   }
 
+  onMount() {
+    console.log('mount: ', this.root);
+  }
+
   onUpdate() {
+    console.log('update: ', this.root);
     this.updateState();
   }
 

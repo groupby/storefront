@@ -18,7 +18,15 @@ class RangeSelector {
         );
       }
     }
-  };
+  }
+
+  onMount() {
+    console.log('mount: ', this.root);
+  }
+
+  onUpdate() {
+    console.log('update: ', this.root);
+  }
 }
 
 interface RangeSelector extends Tag {}

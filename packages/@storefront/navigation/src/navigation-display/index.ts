@@ -46,7 +46,12 @@ class NavigationDisplay {
   }
 
   onUpdate() {
+    console.log('update: ', this.root);
     this.updateField(this.props.field);
+  }
+
+  onMount() {
+    console.log('mount: ', this.root);
   }
 
   onUnmount() {

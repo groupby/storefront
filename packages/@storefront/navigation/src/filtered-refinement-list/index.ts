@@ -7,6 +7,14 @@ class FilteredRefinementList extends RefinementList {
   get alias() {
     return 'filteredRefinements';
   }
+
+  onMount() {
+    console.log('mount: ', this.root);
+  }
+
+  onUpdate() {
+    console.log('update: ', this.root);
+  }
 }
 
 interface FilteredRefinementList extends RefinementList {}

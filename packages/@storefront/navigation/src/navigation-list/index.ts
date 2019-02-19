@@ -9,6 +9,14 @@ class NavigationList {
     itemProps: {},
   };
 
+  onMount() {
+    console.log('mount: ', this.root);
+  }
+
+  onUpdate() {
+    console.log('update: ', this.root);
+  }
+
   childProps() {
     const { itemProps, collapse } = this.props;
     return { collapse, ...itemProps };

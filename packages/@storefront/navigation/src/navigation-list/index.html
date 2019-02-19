@@ -1,5 +1,5 @@
-<gb-list items="{props.fields}" item-props="{childProps()}">
-  <yield>
-    <gb-navigation-display field="{item}" collapse="{props.collapse}"></gb-navigation-display>
-  </yield>
-</gb-list>
+<ul ref="wrapper" class="gb-list__wrapper gb-list__wrapper--grid">
+  <li data-is="gb-list-item" class="gb-list__item" each="{item, i in props.fields}">
+    <gb-navigation-display field="{item}" collapse="{parent.collapse}"></gb-navigation-display>
+  </li>
+</ul>

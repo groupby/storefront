@@ -33,6 +33,14 @@ class Navigation {
     }
   }
 
+  onMount() {
+    console.log('mount: ', this.root);
+  }
+
+  onUpdate() {
+    console.log('update: ', this.root);
+  }
+
   updateFields = (navigations: Store.Indexed<Store.Navigation>) => {
     const { collapse } = this.props;
     let isActive: boolean | number = true;

@@ -14,6 +14,14 @@ class RefinementList {
   init() {
     this.provide(this.alias, ({ refinements }) => refinements);
   }
+
+  onMount() {
+    console.log('mount: ', this.root);
+  }
+
+  onUpdate() {
+    console.log('update: ', this.root);
+  }
 }
 
 interface RefinementList extends Tag<RefinementList.Props> {}

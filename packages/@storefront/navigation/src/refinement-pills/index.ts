@@ -20,11 +20,19 @@ class RefinementPills {
     }
   }
 
+  onMount() {
+    console.log('mount: ', this.root);
+  }
+
+  onUpdate() {
+    console.log('update: ', this.root);
+  }
+
   updatePastPurchaseState = () => {
     const navState = this.updatePastPurchaseDisplayQuery();
     const displayState = this.updatePastPurchaseNavigations();
     this.set({ ...navState, ...displayState });
-  };
+  }
 
   updatePastPurchaseNavigations = () => {
     const navigations = this.select(Core.Selectors.pastPurchaseNavigations);
@@ -34,14 +42,14 @@ class RefinementPills {
     navigations.unshift(queryNavigation);
 
     return { navigations, queryNavigation };
-  };
+  }
 
   updatePastPurchaseDisplayQuery = () => {
     const displayQuery = this.select(Core.Selectors.pastPurchaseQuery);
     return displayQuery
       ? { displayQuery, displayCount: this.select(Core.Selectors.pastPurchaseCurrentRecordCount) }
       : {};
-  };
+  }
 
   buildPastPurchaseQueryNavigation = () => {
     const currentQuery = this.select(Core.Selectors.pastPurchaseQuery) || '';
@@ -81,7 +89,7 @@ class RefinementPills {
       selected: hasRefinementSelected ? [] : [displayQuery && !queriesAreEqual ? 1 : 0],
       refinements,
     };
-  };
+  }
 }
 
 interface RefinementPills extends Core.Tag<{}, RefinementPills.State> {}
