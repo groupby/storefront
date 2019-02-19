@@ -6,9 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] [minor]
 ### Added
-- SF-1125: Added option for parsing collection/area through URL on details pages.
+- SF-1125: Added option for parsing `collection` and `area` through URL on details pages.
   - This new option can be leveraged via query string as follows: `?collection=Production&area=productsLeaf`
-  - Note: collection and area may be individually specified.
+    - Where `Production` and `productsLeaf` are examples of collection and area, respectively.
+  - Collection and area may be independently specified.
 
 ## [2.6.0] - 2019-02-13
 ### Changed
