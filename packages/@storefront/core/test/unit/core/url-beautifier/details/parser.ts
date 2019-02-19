@@ -97,6 +97,7 @@ suite('DetailsUrlParser', ({ expect }) => {
     expect(parsed.variants).to.eql(expectedDetail.variants);
   });
 
+  // tslint:disable-next-line max-line-length
   it('should extract query string parameters of a URL specifying "area" and "collection", and add them to the return object', () => {
     const url = 'dress/293014?collection=joey&area=carlo';
     const expectedDetail = {
