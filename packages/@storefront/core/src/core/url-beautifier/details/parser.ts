@@ -18,10 +18,11 @@ export class DetailsUrlParser extends UrlParser<UrlBeautifier.DetailsUrlState> {
     const title = path.shift();
     const id = path.pop();
     let variants = [];
-    const queryParams: { [key: string]: string } = {
-      ...( uri.query.area ? { area: uri.query.area } : {} ),
-      ...( uri.query.collection ? { collection: uri.query.collection } : {} )
-    };
+    const queryParams: { [key: string]: string } = {};
+    const { area, collection } = uri.query;
+
+    if (area) queryParams.area = area;
+    if (collection) queryParams.collection = collection;
 
     if (path.length !== 0) {
       if (!this.config.useReferenceKeys) {
