@@ -97,13 +97,26 @@ suite('DetailsUrlParser', ({ expect }) => {
     expect(parsed.variants).to.eql(expectedDetail.variants);
   });
 
-  // tslint:disable-next-line max-line-length
-  it('should extract query string parameters of a URL specifying "area" and "collection", and add them to the return object', () => {
-    const url = 'dress/293014?collection=joey&area=carlo';
+  it('should extract query string parameters of a URL specifying "area" and add it to the return object', () => {
+    const url = 'dress/293014?area=Staging';
     const expectedDetail = {
       variants: [],
-      collection: 'joey',
-      area: 'carlo',
+      area: 'Staging',
+      data: {
+        id: '293014',
+        title: 'dress',
+      },
+      id: '293014',
+    };
+
+    expect(parser.parse(url)).to.eql(expectedDetail);
+  });
+
+  it('should extract query string parameters of a URL specifying "collection" and add it to the return object', () => {
+    const url = 'dress/293014?collection=StagingCollection';
+    const expectedDetail = {
+      variants: [],
+      collection: 'StagingCollection',
       data: {
         id: '293014',
         title: 'dress',
