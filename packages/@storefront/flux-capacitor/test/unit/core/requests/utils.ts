@@ -480,26 +480,27 @@ suite('requests helpers', ({ expect, stub, spy }) => {
   });
 
   describe('productDetails()', () => {
-    const state: any = {
-      area: 'oof',
-      collection: 'rab',
-    };
-
-    const request = {
-      area: 'foo',
-      collection: 'bar',
-    };
-
-    const history = {
-      request: {
-        area: 'foo',
-        collection: 'bar',
-      },
-    };
-
-    const overrides = request;
-
     it('should create a product details request using history', () => {
+      const state: any = { area: 'oof', collection: 'rab', };
+      const request = { area: 'foo', collection: 'bar', };
+      const history = { request: { area: 'foo', collection: 'bar', } };
+      const overrides = request;
+
+      stub(RequestHelpers, 'search').withArgs(state, overrides).returns(request);
+
+      stub(Selectors, 'history').withArgs(state).returns(history);
+      stub(Selectors, 'area').withArgs(state).returns(state.area);
+      stub(Selectors, 'collection').withArgs(state).returns(state.collection);
+
+      expect(RequestHelpers.productDetails(state)).to.eql(request);
+    });
+
+    it('should create a product details request using store fallbacks if history is not available', () => {
+      const state: any = { area: 'oof', collection: 'rab', };
+      const request: any = state;
+      const history = { request: {} };
+      const overrides = state;
+
       stub(RequestHelpers, 'search').withArgs(state, overrides).returns(request);
 
       stub(Selectors, 'history').withArgs(state).returns(history);
