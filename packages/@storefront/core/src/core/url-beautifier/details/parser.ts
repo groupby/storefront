@@ -18,7 +18,7 @@ export class DetailsUrlParser extends UrlParser<UrlBeautifier.DetailsUrlState> {
     const title = path.shift();
     const id = path.pop();
     let variants = [];
-    const queryParams: {[key: string]: string} = {};
+    const queryParams: { [key: string]: string } = {};
 
     if (Object.keys(uri.query).length) {
       const filteredQueryParams = DetailsUrlParser.extractFilteredQueryParams(uri.query);
@@ -70,7 +70,7 @@ export class DetailsUrlParser extends UrlParser<UrlBeautifier.DetailsUrlState> {
     return variants;
   }
 
-  static extractFilteredQueryParams(queryParams: {[key: string]: string}) {
+  static extractFilteredQueryParams(queryParams: { [key: string]: string} ) {
     const { area, collection } = queryParams;
 
     return { area, collection };
