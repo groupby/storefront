@@ -1,5 +1,5 @@
-<gb-list items="{props.refinements}" item-alias="refinement" item-props="{props.itemProps}">
-  <yield>
+<ul ref="wrapper" class="gb-list__wrapper gb-list__wrapper--grid">
+  <li data-is="gb-list-item" class="gb-list__item" each="{item, i in props.refinements}">
     <gb-refinement class="{gb-selected: item.selected}" _props="{item}"></gb-refinement>
-  </yield>
-</gb-list>
+  </li>
+</ul>
