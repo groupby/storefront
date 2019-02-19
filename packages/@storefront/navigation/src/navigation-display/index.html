@@ -1,12 +1,12 @@
 <yield>
   <h4 class="gb-navigation__label">{state.label}</h4>
-  <gb-button
+  <button
     if="{props.collapse}"
+    type="button"
     class="gb-navigation__collapse-toggle"
-    on-click="{onToggle}"
-    image="{state.isActive ? props.icons.toggleOpen : props.icons.toggleClosed}">
-    <gb-icon image="{props.image}"></gb-icon>
-  </gb-button>
+    onclick="{onToggle}">
+    <gb-icon image="{state.isActive ? props.icons.toggleOpen : props.icons.toggleClosed}"></gb-icon>
+  </button>
   <div
     data-is="gb-{state.display || 'value'}-refinement-controls"
     class="gb-refinement-controls {gb-active: state.isActive}"
