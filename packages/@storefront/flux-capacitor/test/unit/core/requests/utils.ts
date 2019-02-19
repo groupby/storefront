@@ -481,33 +481,31 @@ suite('requests helpers', ({ expect, stub, spy }) => {
 
   describe('productDetails()', () => {
     const state: any = {
-      area: 'gurjoth',
-      collection: 'charles',
+      area: 'oof',
+      collection: 'rab',
     };
 
     const request = {
-      area: 'joey',
-      collection: 'carlo',
+      area: 'foo',
+      collection: 'bar',
     };
 
     const history = {
       request: {
-        area: 'joey',
-        collection: 'carlo',
+        area: 'foo',
+        collection: 'bar',
       },
     };
 
     const overrides = request;
 
-    beforeEach(() => {
+    it('should create a product details request using history', () => {
       stub(RequestHelpers, 'search').withArgs(state, overrides).returns(request);
 
       stub(Selectors, 'history').withArgs(state).returns(history);
       stub(Selectors, 'area').withArgs(state).returns(state.area);
       stub(Selectors, 'collection').withArgs(state).returns(state.collection);
-    });
 
-    it('should create a product details request', () => {
       expect(RequestHelpers.productDetails(state)).to.eql(request);
     });
   });
