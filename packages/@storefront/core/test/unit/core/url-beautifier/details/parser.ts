@@ -5,7 +5,14 @@ import suite, { refinement } from '../../../_suite';
 suite('DetailsUrlParser', ({ expect }) => {
   let parser: DetailsUrlParser;
 
-  beforeEach(() => parser = new DetailsUrlParser(<any>{ config: { refinementMapping: [] } }));
+  beforeEach(() => parser = new DetailsUrlParser(<any>{
+    config: {
+      refinementMapping: [],
+      details: {
+        params: {},
+      },
+    },
+  }));
 
   it('should extend UrlParser', () => {
     expect(parser).to.be.an.instanceOf(UrlParser);
@@ -98,6 +105,7 @@ suite('DetailsUrlParser', ({ expect }) => {
   });
 
   it('should extract "area" query string parameter', () => {
+    parser.config.details.params.area = 'area';
     const url = 'dress/293014?area=Staging';
     const expectedDetail = {
       variants: [],
@@ -113,6 +121,7 @@ suite('DetailsUrlParser', ({ expect }) => {
   });
 
   it('should extract "collection" query string parameter', () => {
+    parser.config.details.params.collection = 'collection';
     const url = 'dress/293014?collection=StagingCollection';
     const expectedDetail = {
       variants: [],

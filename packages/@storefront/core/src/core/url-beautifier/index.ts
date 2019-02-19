@@ -81,6 +81,14 @@ namespace UrlBeautifier {
     suffix?: string;
     useReferenceKeys?: boolean;
     navigations?: any;
+    details?: UrlBeautifier.DetailsBeautifierParams;
+  }
+
+  export interface DetailsBeautifierParams {
+    params: {
+      area: string;
+      collection: string;
+    };
   }
 
   export interface Url {

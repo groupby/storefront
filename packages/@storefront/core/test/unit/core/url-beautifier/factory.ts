@@ -15,7 +15,7 @@ const URL_BEAUTIFIER: any = { a: 'b' };
 suite('BeautifierFactory', ({ expect, stub }) => {
   let config: any;
 
-  beforeEach(() => config = URL_BEAUTIFIER.config = {});
+  beforeEach(() => config = URL_BEAUTIFIER.config = { details: { params: {}}});
 
   describe('create()', () => {
     it('should create all beautifiers', () => {

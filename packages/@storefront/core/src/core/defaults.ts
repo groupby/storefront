@@ -127,6 +127,12 @@ const DEFAULTS: Partial<Configuration> = {
         suffix: '',
         useReferenceKeys: true,
         navigations: {},
+        details: {
+          params: {
+            area: 'area',
+            collection: 'collection',
+          },
+        },
       },
       redirects: {},
       routes: {
