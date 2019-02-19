@@ -1,3 +1,3 @@
-<yield>
-  <gb-navigation-list fields="{state.fields}" collapse="{props.collapse}"></gb-navigation-list>
-</yield>
+<virtual each="{item, i in state.fields}">
+  <gb-navigation-display field="{item}" collapse="{parent.props.collapse}"></gb-navigation-display>
+</virtual>

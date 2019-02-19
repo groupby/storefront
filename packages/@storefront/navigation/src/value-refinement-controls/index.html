@@ -1,4 +1,6 @@
 <yield>
-  <gb-refinement-list refinements="{state.refinements}"></gb-refinement-list>
+  <virtual each="{item, i in state.refinements}">
+    <gb-refinement class="{gb-selected: item.selected}" _props="{item}"></gb-refinement>
+  </virtual>
   <gb-button if="{state.more}" on-click="{state.moreRefinements}">more</gb-button>
 </yield>
