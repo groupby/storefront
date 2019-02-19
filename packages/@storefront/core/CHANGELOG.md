@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] [minor]
+### Added
+- SF-1125: Added option for parsing collection/area through URL on details pages.
+  - This new option can be leveraged via query string as follows: `?collection=Production&area=productsLeaf`
+  - Note: collection and area may be individually specified.
+
 ## [2.6.0] - 2019-02-13
 ### Changed
 - SF-1200: Updated `SearchService` to record past searches.
