@@ -97,7 +97,7 @@ suite('DetailsUrlParser', ({ expect }) => {
     expect(parsed.variants).to.eql(expectedDetail.variants);
   });
 
-  it('should extract query string parameters of a URL specifying "area" and add it to the return object', () => {
+  it('should extract "area" query string parameter', () => {
     const url = 'dress/293014?area=Staging';
     const expectedDetail = {
       variants: [],
@@ -112,7 +112,7 @@ suite('DetailsUrlParser', ({ expect }) => {
     expect(parser.parse(url)).to.eql(expectedDetail);
   });
 
-  it('should extract query string parameters of a URL specifying "collection" and add it to the return object', () => {
+  it('should extract "collection" query string parameter', () => {
     const url = 'dress/293014?collection=StagingCollection';
     const expectedDetail = {
       variants: [],

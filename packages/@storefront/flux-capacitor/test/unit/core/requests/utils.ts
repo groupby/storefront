@@ -485,9 +485,7 @@ suite('requests helpers', ({ expect, stub, spy }) => {
       const request = { area: 'foo', collection: 'bar', };
       const history = { request: { area: 'foo', collection: 'bar', } };
       const overrides = request;
-
       stub(RequestHelpers, 'search').withArgs(state, overrides).returns(request);
-
       stub(Selectors, 'history').withArgs(state).returns(history);
       stub(Selectors, 'area').withArgs(state).returns(state.area);
       stub(Selectors, 'collection').withArgs(state).returns(state.collection);
@@ -500,9 +498,7 @@ suite('requests helpers', ({ expect, stub, spy }) => {
       const request: any = state;
       const history = { request: {} };
       const overrides = state;
-
       stub(RequestHelpers, 'search').withArgs(state, overrides).returns(request);
-
       stub(Selectors, 'history').withArgs(state).returns(history);
       stub(Selectors, 'area').withArgs(state).returns(state.area);
       stub(Selectors, 'collection').withArgs(state).returns(state.collection);
