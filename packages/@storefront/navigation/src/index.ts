@@ -4,7 +4,6 @@ import NavigationDisplay from './navigation-display';
 import RangeRefinementControls from './range-refinement-controls';
 import './range-selector';
 import Refinement from './refinement';
-import './refinement-pill';
 import SliderRefinementControls from './slider-refinement-controls';
 import ValueRefinementControls from './value-refinement-controls';
 
