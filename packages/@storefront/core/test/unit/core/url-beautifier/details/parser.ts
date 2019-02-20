@@ -9,7 +9,10 @@ suite('DetailsUrlParser', ({ expect }) => {
     config: {
       refinementMapping: [],
       details: {
-        params: {},
+        params: {
+          area: 'area',
+          collection: 'collection',
+        },
       },
     },
   }));
@@ -105,7 +108,6 @@ suite('DetailsUrlParser', ({ expect }) => {
   });
 
   it('should extract "area" query string parameter', () => {
-    parser.config.details.params.area = 'area';
     const url = 'dress/293014?area=Staging';
     const expectedDetail = {
       variants: [],
@@ -121,11 +123,58 @@ suite('DetailsUrlParser', ({ expect }) => {
   });
 
   it('should extract "collection" query string parameter', () => {
-    parser.config.details.params.collection = 'collection';
     const url = 'dress/293014?collection=StagingCollection';
     const expectedDetail = {
       variants: [],
       collection: 'StagingCollection',
+      data: {
+        id: '293014',
+        title: 'dress',
+      },
+      id: '293014',
+    };
+
+    expect(parser.parse(url)).to.eql(expectedDetail);
+  });
+
+  it('should extract "myCustomArea" query string parameter', () => {
+    parser.config.details.params.area = 'myCustomArea';
+    const url = 'dress/293014?myCustomArea=Staging';
+    const expectedDetail = {
+      variants: [],
+      area: 'Staging',
+      data: {
+        id: '293014',
+        title: 'dress',
+      },
+      id: '293014',
+    };
+
+    expect(parser.parse(url)).to.eql(expectedDetail);
+  });
+
+  it('should extract "myCustomCollection" query string parameter', () => {
+    parser.config.details.params.collection = 'myCustomCollection';
+    const url = 'dress/293014?myCustomCollection=StagingCollection';
+    const expectedDetail = {
+      variants: [],
+      collection: 'StagingCollection',
+      data: {
+        id: '293014',
+        title: 'dress',
+      },
+      id: '293014',
+    };
+
+    expect(parser.parse(url)).to.eql(expectedDetail);
+  });
+
+  it('should not extract "area" nor "collection" query string parameters', () => {
+    parser.config.details.params.area = '';
+    parser.config.details.params.collection = '';
+    const url = 'dress/293014?area=Staging&collection=StagingCollection';
+    const expectedDetail = {
+      variants: [],
       data: {
         id: '293014',
         title: 'dress',
