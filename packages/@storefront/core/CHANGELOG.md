@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Where `Production` and `productsLeaf` are examples of collection and area, respectively.
   - Collection and area may be independently specified.
   - Area and collection may be referenced by custom key-names using the `details` property within the `beautifier` object.
+    - Conversely, parsing of area and collection may be independently disabled by providing `false` as the value for a custom key-name.
   - Sample configuration:
 
   ```js
