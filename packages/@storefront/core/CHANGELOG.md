@@ -4,6 +4,43 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] [minor]
+### Added
+- SF-1125: Added option for parsing `collection` and `area` through URL on details pages via configurable key-names.
+  - Where 'area' and 'collection' are the default key-names for `area` and `collection`, respectively.
+  - This new option can be leveraged via query string as follows: `?area=Production&collection=productsLeaf`
+    - Where `Production` and `productsLeaf` are examples of collection and area, respectively.
+  - Collection and area may be independently specified.
+  - Area and collection may be referenced by custom key-names using the `details` property within the `beautifier` object.
+    - Conversely, parsing of area and collection may be independently disabled by providing `false` as the value for a custom key-name.
+  - Sample configuration:
+
+  ```js
+  ...
+  services: {
+    ...
+    url: {
+      beautifier: {
+        ...
+        details: {
+          params: {
+            area: 'yourString',
+            collection: 'alsoYourString',
+          },
+        },
+      },
+    },
+    ...
+  }
+  ...
+  ```
+
+  - NOTE: This feature has been implemented in the default StoreFront parser.  To use this feature in a custom parser, the following must be returned:
+
+  ```js
+  { variants, data: { id, title }, id, area, collection }
+  ```
+
 ## [2.6.0] - 2019-02-13
 ### Changed
 - SF-1200: Updated `SearchService` to record past searches.

@@ -10,6 +10,7 @@ export class DetailsUrlParser extends UrlParser<UrlBeautifier.DetailsUrlState> {
     const path = uri.pathname.split('/')
       .filter((val) => val)
       .map((val) => utils.decodeChars(val));
+    const queryVariables = uri.query;
 
     if (path.length < 2) {
       throw new Error('path has too few parts');
@@ -18,6 +19,13 @@ export class DetailsUrlParser extends UrlParser<UrlBeautifier.DetailsUrlState> {
     const title = path.shift();
     const id = path.pop();
     let variants = [];
+    const queryParams: { [key: string]: string } = {};
+
+    const area = queryVariables[this.config.details.params.area];
+    const collection = queryVariables[this.config.details.params.collection];
+
+    if (area) queryParams.area = area;
+    if (collection) queryParams.collection = collection;
 
     if (path.length !== 0) {
       if (!this.config.useReferenceKeys) {
@@ -28,7 +36,7 @@ export class DetailsUrlParser extends UrlParser<UrlBeautifier.DetailsUrlState> {
       }
     }
 
-    return { variants, data: { id, title }, id };
+    return { variants, data: { id, title }, id, ...queryParams };
   }
 
   static extractReferencesRefinements(path: string[], keysToVariants: { [key: string]: string }) {
