@@ -1159,6 +1159,15 @@ namespace ActionCreators {
     return createAction(Actions.UPDATE_LOCATION, location);
   }
 
+  /**
+   * Set the sessionId in the store to the given id.
+   * @param sessionID- The sessionId to set.
+   * @return - Action with sessionId.
+   */
+  export function setSessionId(sessionId: Store.SessionId): Actions.SetSessionId {
+    return createAction(Actions.SET_SESSION_ID, sessionId);
+  }
+
   // app action creators
   /**
    * Fires the START_APP action.
