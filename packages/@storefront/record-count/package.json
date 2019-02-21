@@ -51,6 +51,6 @@
     "ext": "ts,json,html,css"
   },
   "peerDependencies": {
-    "@storefront/core": "~2.6.0"
+    "@storefront/core": "~2.7.0"
   }
 }
