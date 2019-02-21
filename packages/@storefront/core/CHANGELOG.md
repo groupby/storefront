@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased] [minor]
 ### Added
 - SF-1125: Added option for parsing `collection` and `area` through URL on details pages via configurable key-names.
+  - Where 'area' and 'collection' are the default key-names for `area` and `collection`, respectively.
   - This new option can be leveraged via query string as follows: `?area=Production&collection=productsLeaf`
     - Where `Production` and `productsLeaf` are examples of collection and area, respectively.
   - Collection and area may be independently specified.
