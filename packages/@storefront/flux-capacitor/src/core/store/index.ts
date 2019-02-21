@@ -398,6 +398,8 @@ namespace Store {
     longitude: number;
   }
 
+  export type SessionId = string;
+
   export interface Personalization {
     biasing: Personalization.Biasing;
   }
