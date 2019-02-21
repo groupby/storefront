@@ -5,6 +5,129 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v2.7.0] - 2019-02-21
+
+Package versions:
+
+- `@storefront/breadcrumbs`: 2.8.0
+- `@storefront/collections`: 2.7.0
+- `@storefront/core`: 2.7.0
+- `@storefront/details`: 2.7.0
+- `@storefront/did-you-mean`: 2.7.0
+- `@storefront/flux-capacitor`: 1.72.0
+- `@storefront/infinite-scroll`: 2.7.0
+- `@storefront/navigation`: 2.7.0
+- `@storefront/page-size`: 2.7.0
+- `@storefront/paging`: 2.7.0
+- `@storefront/products`: 2.7.0
+- `@storefront/query`: 2.7.0
+- `@storefront/recommendations`: 2.7.0
+- `@storefront/record-count`: 2.7.0
+- `@storefront/related-queries`: 2.7.0
+- `@storefront/sayt`: 2.7.0
+- `@storefront/sort`: 2.7.0
+- `@storefront/structure`: 2.7.0
+- `@storefront/template`: 2.7.0
+
+### Changed
+#### breadcrumbs
+- Update `@storefront/core` to 2.7.0.
+
+#### collections
+- Update `@storefront/core` to 2.7.0.
+
+#### core
+- Update `@storefront/flux-capacitor` to 1.72.0.
+
+#### details
+- Update `@storefront/core` to 2.7.0.
+
+#### did-you-mean
+- Update `@storefront/core` to 2.7.0.
+
+#### flux-capacitor
+- SF-1125: Details pages now leverage the new `RequestHelper`, `productDetails`.
+
+#### infinite-scroll
+- Update `@storefront/core` to 2.7.0.
+
+#### navigation
+- Update `@storefront/core` to 2.7.0.
+
+#### page-size
+- Update `@storefront/core` to 2.7.0.
+
+#### paging
+- Update `@storefront/core` to 2.7.0.
+
+#### products
+- Update `@storefront/core` to 2.7.0.
+
+#### query
+- Update `@storefront/core` to 2.7.0.
+
+#### recommendations
+- Update `@storefront/core` to 2.7.0.
+
+#### record-count
+- Update `@storefront/core` to 2.7.0.
+
+#### related-queries
+- Update `@storefront/core` to 2.7.0.
+
+#### sayt
+- Update `@storefront/core` to 2.7.0.
+
+#### sort
+- Update `@storefront/core` to 2.7.0.
+
+#### structure
+- Update `@storefront/core` to 2.7.0.
+
+#### template
+- Update `@storefront/core` to 2.7.0.
+
+### Added
+#### core
+- SF-1125: Added option for parsing `collection` and `area` through URL on details pages via configurable key-names.
+  - Where 'area' and 'collection' are the default key-names for `area` and `collection`, respectively.
+  - This new option can be leveraged via query string as follows: `?area=Production&collection=productsLeaf`
+    - Where `Production` and `productsLeaf` are examples of collection and area, respectively.
+  - Collection and area may be independently specified.
+  - Area and collection may be referenced by custom key-names using the `details` property within the `beautifier` object.
+    - Conversely, parsing of area and collection may be independently disabled by providing `false` as the value for a custom key-name.
+  - Sample configuration:
+
+  ```js
+  ...
+  services: {
+    ...
+    url: {
+      beautifier: {
+        ...
+        details: {
+          params: {
+            area: 'yourString',
+            collection: 'alsoYourString',
+          },
+        },
+      },
+    },
+    ...
+  }
+  ...
+  ```
+
+  - NOTE: This feature has been implemented in the default StoreFront parser.  To use this feature in a custom parser, the following must be returned:
+
+  ```js
+  { variants, data: { id, title }, id, area, collection }
+  ```
+
+#### flux-capacitor
+- SF-1125: `productDetails` (a new `RequestHelper`) was added to build requests on details pages, and accounts for a specified collection and area.
+  - Collection and area are specified by history state (set by parsing of optional collection and area query string parameters).
+
 ## [v2.6.0] - 2019-02-15
 
 Package versions:
