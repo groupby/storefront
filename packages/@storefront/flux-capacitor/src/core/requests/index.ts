@@ -30,6 +30,7 @@ export default class RequestBuilder<T = any, U = T> {
   composeRequest(state: Store.State, overrideRequest?: Partial<T>) {
     return RequestHelpers.chain(
       normalizeToFunction(this.build(state, overrideRequest)),
+      RequestHelpers.attachSessionId(state),
       this.override(this._override(state), this),
       this.setPastState(this)
     );

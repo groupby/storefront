@@ -180,8 +180,18 @@ namespace RequestHelpers {
     };
   };
 
-  export const chain = <T>(...fns: Array<(...obj: any[]) => T>): T =>
-    fns.reduce((final, fn) => fn(final) || final, <T>{});
+  export const chain = <T>(...fns: Array<(...obj: any[]) => T>): T => {
+    return fns.reduce((final, fn) => {
+      return fn(final) || final;
+    }, <T>{});
+  };
+
+  export const attachSessionId = <T>(state: Store.State): ((r: T) => T&{ sessionId: Store.SessionId }) => {
+    const sessionId = state.session.sessionId;
+    return (r) => {
+      return Object.assign({ sessionId }, r);
+    };
+  };
 }
 
 export default RequestHelpers;

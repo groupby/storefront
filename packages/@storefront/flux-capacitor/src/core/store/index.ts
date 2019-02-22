@@ -180,6 +180,7 @@ namespace Store {
     location?: Geolocation;
     origin?: Actions.Metadata.Tag;
     config?: Configuration;
+    sessionId?: SessionId;
   }
 
   export interface IsFetching {
