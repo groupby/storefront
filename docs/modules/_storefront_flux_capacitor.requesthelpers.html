@@ -83,6 +83,7 @@
 						<section class="tsd-index-section ">
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter"><a href="_storefront_flux_capacitor.requesthelpers.html#attachsessionid" class="tsd-kind-icon">attach<wbr>Session<wbr>Id</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_storefront_flux_capacitor.requesthelpers.html#autocompleteproducts" class="tsd-kind-icon">autocomplete<wbr>Products</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_storefront_flux_capacitor.requesthelpers.html#autocompletesuggestions" class="tsd-kind-icon">autocomplete<wbr>Suggestions</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_storefront_flux_capacitor.requesthelpers.html#buildpostbody" class="tsd-kind-icon">build<wbr>Post<wbr>Body</a></li>
@@ -108,7 +109,7 @@
 					<div class="tsd-signature tsd-kind-icon">Build<wbr>Function<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/groupby/storefront/blob/b6b08d50b/packages/@storefront/flux-capacitor/src/core/requests/utils.ts#L22">flux-capacitor/src/core/requests/utils.ts:22</a></li>
+							<li>Defined in <a href="https://github.com/groupby/storefront/blob/e5ebcd12a/packages/@storefront/flux-capacitor/src/core/requests/utils.ts#L22">flux-capacitor/src/core/requests/utils.ts:22</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -142,13 +143,63 @@
 					<div class="tsd-signature tsd-kind-icon">Request<wbr>Body<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_storefront_flux_capacitor.recommendationsadapter.recommendationsbody.html" class="tsd-signature-type">RecommendationsBody</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_storefront_flux_capacitor.recommendationsadapter.recommendationsrequest.html" class="tsd-signature-type">RecommendationsRequest</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_storefront_flux_capacitor.recommendationsadapter.pastpurchaserequest.html" class="tsd-signature-type">PastPurchaseRequest</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/groupby/storefront/blob/b6b08d50b/packages/@storefront/flux-capacitor/src/core/requests/utils.ts#L13">flux-capacitor/src/core/requests/utils.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/groupby/storefront/blob/e5ebcd12a/packages/@storefront/flux-capacitor/src/core/requests/utils.ts#L13">flux-capacitor/src/core/requests/utils.ts:13</a></li>
 						</ul>
 					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Functions</h2>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+					<a name="attachsessionid" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> attach<wbr>Session<wbr>Id</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">attach<wbr>Session<wbr>Id&lt;T&gt;<span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><a href="../interfaces/_storefront_flux_capacitor.store.state.html" class="tsd-signature-type">State</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/e5ebcd12a/packages/@storefront/flux-capacitor/src/core/requests/utils.ts#L186">flux-capacitor/src/core/requests/utils.ts:186</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>T</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>state: <a href="../interfaces/_storefront_flux_capacitor.store.state.html" class="tsd-signature-type">State</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">function</span></h4>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter-siganture">
+									<ul class="tsd-signatures tsd-kind-type-literal">
+										<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>r<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">object</span></li>
+									</ul>
+									<ul class="tsd-descriptions">
+										<li class="tsd-description">
+											<h4 class="tsd-parameters-title">Parameters</h4>
+											<ul class="tsd-parameters">
+												<li>
+													<h5>r: <span class="tsd-signature-type">T</span></h5>
+												</li>
+											</ul>
+											<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">T</span>
+												<span class="tsd-signature-symbol"> &amp; </span>
+												<span class="tsd-signature-type">object</span>
+											</h4>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
 					<a name="autocompleteproducts" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> autocomplete<wbr>Products</h3>
@@ -159,7 +210,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/b6b08d50b/packages/@storefront/flux-capacitor/src/core/requests/utils.ts#L139">flux-capacitor/src/core/requests/utils.ts:139</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/e5ebcd12a/packages/@storefront/flux-capacitor/src/core/requests/utils.ts#L139">flux-capacitor/src/core/requests/utils.ts:139</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -187,7 +238,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/b6b08d50b/packages/@storefront/flux-capacitor/src/core/requests/utils.ts#L126">flux-capacitor/src/core/requests/utils.ts:126</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/e5ebcd12a/packages/@storefront/flux-capacitor/src/core/requests/utils.ts#L126">flux-capacitor/src/core/requests/utils.ts:126</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -217,7 +268,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/b6b08d50b/packages/@storefront/flux-capacitor/src/core/requests/utils.ts#L17">flux-capacitor/src/core/requests/utils.ts:17</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/e5ebcd12a/packages/@storefront/flux-capacitor/src/core/requests/utils.ts#L17">flux-capacitor/src/core/requests/utils.ts:17</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -248,7 +299,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/b6b08d50b/packages/@storefront/flux-capacitor/src/core/requests/utils.ts#L183">flux-capacitor/src/core/requests/utils.ts:183</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/e5ebcd12a/packages/@storefront/flux-capacitor/src/core/requests/utils.ts#L183">flux-capacitor/src/core/requests/utils.ts:183</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -277,7 +328,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/b6b08d50b/packages/@storefront/flux-capacitor/src/core/requests/utils.ts#L54">flux-capacitor/src/core/requests/utils.ts:54</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/e5ebcd12a/packages/@storefront/flux-capacitor/src/core/requests/utils.ts#L54">flux-capacitor/src/core/requests/utils.ts:54</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -305,7 +356,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/b6b08d50b/packages/@storefront/flux-capacitor/src/core/requests/utils.ts#L158">flux-capacitor/src/core/requests/utils.ts:158</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/e5ebcd12a/packages/@storefront/flux-capacitor/src/core/requests/utils.ts#L158">flux-capacitor/src/core/requests/utils.ts:158</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -333,7 +384,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/b6b08d50b/packages/@storefront/flux-capacitor/src/core/requests/utils.ts#L167">flux-capacitor/src/core/requests/utils.ts:167</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/e5ebcd12a/packages/@storefront/flux-capacitor/src/core/requests/utils.ts#L167">flux-capacitor/src/core/requests/utils.ts:167</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -363,7 +414,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/b6b08d50b/packages/@storefront/flux-capacitor/src/core/requests/utils.ts#L171">flux-capacitor/src/core/requests/utils.ts:171</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/e5ebcd12a/packages/@storefront/flux-capacitor/src/core/requests/utils.ts#L171">flux-capacitor/src/core/requests/utils.ts:171</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -389,7 +440,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/b6b08d50b/packages/@storefront/flux-capacitor/src/core/requests/utils.ts#L91">flux-capacitor/src/core/requests/utils.ts:91</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/e5ebcd12a/packages/@storefront/flux-capacitor/src/core/requests/utils.ts#L91">flux-capacitor/src/core/requests/utils.ts:91</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -419,7 +470,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/b6b08d50b/packages/@storefront/flux-capacitor/src/core/requests/utils.ts#L113">flux-capacitor/src/core/requests/utils.ts:113</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/e5ebcd12a/packages/@storefront/flux-capacitor/src/core/requests/utils.ts#L113">flux-capacitor/src/core/requests/utils.ts:113</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -450,7 +501,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/b6b08d50b/packages/@storefront/flux-capacitor/src/core/requests/utils.ts#L72">flux-capacitor/src/core/requests/utils.ts:72</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/e5ebcd12a/packages/@storefront/flux-capacitor/src/core/requests/utils.ts#L72">flux-capacitor/src/core/requests/utils.ts:72</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -483,7 +534,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront/blob/b6b08d50b/packages/@storefront/flux-capacitor/src/core/requests/utils.ts#L24">flux-capacitor/src/core/requests/utils.ts:24</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront/blob/e5ebcd12a/packages/@storefront/flux-capacitor/src/core/requests/utils.ts#L24">flux-capacitor/src/core/requests/utils.ts:24</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -526,6 +577,9 @@
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
 						<a href="_storefront_flux_capacitor.requesthelpers.html#requestbody" class="tsd-kind-icon">Request<wbr>Body</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+						<a href="_storefront_flux_capacitor.requesthelpers.html#attachsessionid" class="tsd-kind-icon">attach<wbr>Session<wbr>Id</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
 						<a href="_storefront_flux_capacitor.requesthelpers.html#autocompleteproducts" class="tsd-kind-icon">autocomplete<wbr>Products</a>
