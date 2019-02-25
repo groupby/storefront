@@ -47,7 +47,4 @@ export const updateSection = (state: State, value: any, section: string) =>
   ({ ...state, [section]: value });
 
 export const setSessionId = (state: State, sessionId: Store.SessionId) =>
-  ({
-    ...state,
-    sessionId,
-  });
+  ({ ...state, sessionId });
