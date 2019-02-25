@@ -1,6 +1,6 @@
 {
   "name": "@storefront/recommendations",
-  "version": "2.7.0",
+  "version": "2.8.0",
   "description": "StoreFront recommendations component",
   "keywords": [
     "storefront",
@@ -50,6 +50,6 @@
     "ext": "ts,json,html,css"
   },
   "peerDependencies": {
-    "@storefront/core": "~2.7.0"
+    "@storefront/core": "~2.8.0"
   }
 }
