@@ -180,6 +180,7 @@ namespace Store {
     location?: Geolocation;
     origin?: Actions.Metadata.Tag;
     config?: Configuration;
+    sessionId?: SessionId;
   }
 
   export interface IsFetching {
@@ -397,6 +398,8 @@ namespace Store {
     latitude: number;
     longitude: number;
   }
+
+  export type SessionId = string;
 
   export interface Personalization {
     biasing: Personalization.Biasing;

@@ -59,11 +59,25 @@ suite('Tracker Service', ({ expect, spy, stub, itShouldExtendBaseService }) => {
   });
 
   describe('init()', () => {
+    const sessionId = 'foo';
+    const SET_SESSION_ID = 'SET_SESSION_ID';
+    let dispatch;
+
+    beforeEach(() => {
+      dispatch = spy();
+      app.flux = <any> {
+        on,
+        store: { dispatch },
+        actions: { setSessionId: stub().withArgs(sessionId).returns(SET_SESSION_ID) }
+      };
+    });
+
     it('should setup visitor information', () => {
       const autoSetVisitor = spy();
+      const getSessionId = spy();
       const visitorId = app.config.visitorId = '1234';
       opts.warnings = true;
-      service.client = <any>{ autoSetVisitor, disableWarnings: () => expect.fail() };
+      service.client = <any>{ autoSetVisitor, getSessionId, disableWarnings: () => expect.fail() };
 
       service.init();
 
@@ -72,12 +86,23 @@ suite('Tracker Service', ({ expect, spy, stub, itShouldExtendBaseService }) => {
 
     it('should disable warnings', () => {
       const disableWarnings = spy();
+      const getSessionId = spy();
       const visitorId = app.config.visitorId = '1234';
-      service.client = <any>{ disableWarnings, autoSetVisitor: () => null };
+      service.client = <any>{ disableWarnings, getSessionId, autoSetVisitor: () => null };
 
       service.init();
 
       expect(disableWarnings).to.be.called;
+    });
+
+    it('should dispatch a setSessionId action', () => {
+      const disableWarnings = spy();
+      const getSessionId = spy();
+      service.client = <any>{ disableWarnings, getSessionId, autoSetVisitor: () => null };
+
+      service.init();
+
+      expect(dispatch).to.be.calledWith(SET_SESSION_ID);
     });
   });
 

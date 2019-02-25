@@ -45,6 +45,7 @@ class TrackerService extends BaseService<TrackerService.Options> {
     }
 
     this.client.autoSetVisitor(this.app.config.visitorId);
+    this.app.flux.store.dispatch(this.app.flux.actions.setSessionId(this.client.getSessionId()));
   }
 
   applyOptsOverride<S, T>(defaultFn: (value: any, override?: Override<S, T>) => void, override: Override<S, T>) {

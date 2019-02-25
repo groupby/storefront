@@ -118,4 +118,18 @@ suite('session', ({ expect }) => {
       expect(reducer).to.eql(state);
     });
   });
+
+  describe('setSessionId', () => {
+    it('should update state with sessionId', () => {
+      const sessionId = 'foo';
+      const newState = {
+        ...state,
+        sessionId
+      };
+
+      const reducer = session(state, <any>{ type: Actions.SET_SESSION_ID, payload: sessionId });
+
+      expect(reducer).to.eql(newState);
+    });
+  });
 });

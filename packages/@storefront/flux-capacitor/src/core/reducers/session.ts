@@ -10,6 +10,7 @@ export default function updateSession(state: State = {}, action: Action): State 
   switch (action.type) {
     case Actions.UPDATE_LOCATION: return updateSection(state, action.payload, 'location');
     case Actions.UPDATE_SECURED_PAYLOAD: return updateSecuredPayload(state, action.payload);
+    case Actions.SET_SESSION_ID: return setSessionId(state, action.payload);
     default: {
       if (action.meta) {
         ['recallId', 'searchId', 'detailsId', 'pastPurchaseId'].forEach((section) => {
@@ -44,3 +45,6 @@ export const updateSecuredPayload = (state, securedPayload: Configuration.Recomm
 
 export const updateSection = (state: State, value: any, section: string) =>
   ({ ...state, [section]: value });
+
+export const setSessionId = (state: State, sessionId: Store.SessionId) =>
+  ({ ...state, sessionId });

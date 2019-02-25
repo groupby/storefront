@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] [minor]
+### Changed
+- SF-1271: `composeRequest()` now uses the `attachSessionId()` to add sessionIds to every StoreFront request.
+
+### Added
+- SF-1271: Create `setSessionId` action in order to update the application store with sessionId.
+
 ## [1.72.0] - 2019-02-21
 ### Changed
 - SF-1125: Details pages now leverage the new `RequestHelper`, `productDetails`.

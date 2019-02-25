@@ -572,12 +572,26 @@ suite('requests helpers', ({ expect, stub, spy }) => {
       )).to.eql({ a: 'b', c: 'd', e: 'f' });
     });
 
-    it('should merge source if tranformation returned falsey', () => {
+    it('should merge source if transformation returned falsey', () => {
       expect(RequestHelpers.chain(
         utils.normalizeToFunction(<any>{ a: 'b' }),
         (x) => null,
         utils.normalizeToFunction({ e: 'f' })
       )).to.eql({ a: 'b', e: 'f' });
+    });
+  });
+
+  describe('attachSessionId()', () => {
+    it('should return a function which applies the sessionId to the request', () => {
+      const req = { a: 'b' };
+      const sessionId = 'foo';
+      const state: any = { c: 'd', session: { sessionId } };
+
+      const attachSessionId = RequestHelpers.attachSessionId(state);
+      const requestWithSessionId = attachSessionId(req);
+
+      expect(attachSessionId).to.be.a('function');
+      expect(requestWithSessionId).to.eql({ ...req, sessionId });
     });
   });
 });

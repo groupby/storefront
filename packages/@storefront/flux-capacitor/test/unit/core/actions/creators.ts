@@ -1560,6 +1560,14 @@ suite('ActionCreators', ({ expect, spy, stub }) => {
     });
   });
 
+  describe('setSessionId()', () => {
+    it('should return an action', () => {
+      const sessionId: any = 'foo';
+
+      expectAction(ActionCreators.setSessionId(sessionId), Actions.SET_SESSION_ID, sessionId);
+    });
+  });
+
   describe('refreshState()', () => {
     it('should create a REFRESH_STATE action', () => {
       const payload = { a: 'b' };
