@@ -1161,7 +1161,7 @@ namespace ActionCreators {
 
   /**
    * Set the sessionId in the store to the given id.
-   * @param sessionID- The sessionId to set.
+   * @param sessionId - The sessionId to set.
    * @return - Action with sessionId.
    */
   export function setSessionId(sessionId: Store.SessionId): Actions.SetSessionId {
