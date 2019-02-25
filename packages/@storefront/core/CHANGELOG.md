@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] [minor]
 ### Changed
+- Update `@storefront/flux-capacitor` to 1.73.0.
 - SF-1271: The `tracker` service now dispatches a `setSessionId` action when it initializes.
 
 ## [2.7.0] - 2019-02-21
