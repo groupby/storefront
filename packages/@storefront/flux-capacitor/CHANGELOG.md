@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] [minor]
 ### Changed
-- SF-1271: The `composeRequest` function now uses the `attachSessionId` function to add sessionIds to every StoreFront request.
+- SF-1271: `composeRequest()` now uses the `attachSessionId()` to add sessionIds to every StoreFront request.
 
 ### Added
 - SF-1271: Create `setSessionId` action in order to update the application store with sessionId.
