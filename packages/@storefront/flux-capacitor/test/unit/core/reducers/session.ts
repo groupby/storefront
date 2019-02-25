@@ -126,6 +126,7 @@ suite('session', ({ expect }) => {
         ...state,
         sessionId
       };
+
       const reducer = session(state, <any>{ type: Actions.SET_SESSION_ID, payload: sessionId });
 
       expect(reducer).to.eql(newState);

@@ -61,11 +61,13 @@ suite('Tracker Service', ({ expect, spy, stub, itShouldExtendBaseService }) => {
   describe('init()', () => {
     const sessionId = 'foo';
     const SET_SESSION_ID = 'SET_SESSION_ID';
+    let dispatch;
 
     beforeEach(() => {
+      dispatch = spy();
       app.flux = <any> {
         on,
-        store: { dispatch: spy() },
+        store: { dispatch },
         actions: { setSessionId: stub().withArgs(sessionId).returns(SET_SESSION_ID) }
       };
     });
@@ -100,7 +102,7 @@ suite('Tracker Service', ({ expect, spy, stub, itShouldExtendBaseService }) => {
 
       service.init();
 
-      expect(app.flux.store.dispatch).to.be.calledWith(SET_SESSION_ID);
+      expect(dispatch).to.be.calledWith(SET_SESSION_ID);
     });
   });
 
