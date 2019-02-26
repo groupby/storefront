@@ -10,39 +10,44 @@ import * as SortsReducer from '../reducers/data/sorts';
 import Store from '../store';
 import { normalizeToFunction, GenericTransformer } from '../utils';
 
+declare var window;
+
 namespace ConfigurationAdapter {
 
-  export const initialState = (config: Configuration): Partial<Store.State> =>
-    ({
-      data: <any>{
-        present: {
-          area: ConfigurationAdapter.extractArea(config, AreaReducer.DEFAULT_AREA),
-          autocomplete: {
-            ...AutocompleteReducer.DEFAULTS,
-            category: {
-              ...AutocompleteReducer.DEFAULTS.category,
-              field: ConfigurationAdapter.extractSaytCategoryField(config),
-            },
+  export const initialState = (config: Configuration): Partial<Store.State> => {
+    const data = (window.__INITIAL_STATE__ || {}).data || <any>{
+      present: {
+        area: ConfigurationAdapter.extractArea(config, AreaReducer.DEFAULT_AREA),
+        autocomplete: {
+          ...AutocompleteReducer.DEFAULTS,
+          category: {
+            ...AutocompleteReducer.DEFAULTS.category,
+            field: ConfigurationAdapter.extractSaytCategoryField(config),
           },
-          fields: ConfigurationAdapter.extractFields(config),
-          collections: ConfigurationAdapter.extractCollections(config, CollectionsReducer.DEFAULT_COLLECTION),
-          sorts: ConfigurationAdapter.extractSearchSorts(config, SortsReducer.DEFAULTS),
+        },
+        fields: ConfigurationAdapter.extractFields(config),
+        collections: ConfigurationAdapter.extractCollections(config, CollectionsReducer.DEFAULT_COLLECTION),
+        sorts: ConfigurationAdapter.extractSearchSorts(config, SortsReducer.DEFAULTS),
+        page: {
+          ...PageReducer.DEFAULTS,
+          sizes: ConfigurationAdapter.extractPageSizes(config, PageReducer.DEFAULT_PAGE_SIZE)
+        },
+        pastPurchases: {
+          ...PastPurchaseReducer.DEFAULTS,
           page: {
-            ...PageReducer.DEFAULTS,
-            sizes: ConfigurationAdapter.extractPageSizes(config, PageReducer.DEFAULT_PAGE_SIZE)
+            ...PastPurchaseReducer.DEFAULTS.page,
+            sizes: ConfigurationAdapter.extractPageSizes(config, PastPurchaseReducer.DEFAULT_PAGE_SIZE)
           },
-          pastPurchases: {
-            ...PastPurchaseReducer.DEFAULTS,
-            page: {
-              ...PastPurchaseReducer.DEFAULTS.page,
-              sizes: ConfigurationAdapter.extractPageSizes(config, PastPurchaseReducer.DEFAULT_PAGE_SIZE)
-            },
-            sort: ConfigurationAdapter.extractPastPurchaseSorts(config, PastPurchaseReducer.PAST_PURCHASE_SORT),
-          }
+          sort: ConfigurationAdapter.extractPastPurchaseSorts(config, PastPurchaseReducer.PAST_PURCHASE_SORT),
         }
-      },
+      }
+    };
+
+    return ({
+      data,
       session: { config }
     });
+  };
 
   export const extractArea = (config: Configuration, defaultValue?: string) =>
     config.area || defaultValue;
