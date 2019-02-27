@@ -22,7 +22,7 @@ class SearchBox {
       event.preventUpdate = true;
       switch (event.key) {
         case KEYS.ENTER:
-          if (this.services.autocomplete.hasActiveSuggestion()) {
+          if (this.services.autocomplete.hasActiveSuggestion() && !this.refs.searchBox.value) {
             return this.flux.emit('sayt:select_active');
           } else {
             return this.actions.search(event.target.value);
