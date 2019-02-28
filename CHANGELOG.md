@@ -5,6 +5,35 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v2.8.1] - 2019-02-28
+
+Package versions:
+
+- `@storefront/breadcrumbs`: 2.9.0
+- `@storefront/collections`: 2.8.0
+- `@storefront/core`: 2.8.0
+- `@storefront/details`: 2.8.0
+- `@storefront/did-you-mean`: 2.8.0
+- `@storefront/flux-capacitor`: 1.73.0
+- `@storefront/infinite-scroll`: 2.8.0
+- `@storefront/navigation`: 2.8.0
+- `@storefront/page-size`: 2.8.0
+- `@storefront/paging`: 2.8.0
+- `@storefront/products`: 2.8.0
+- `@storefront/query`: 2.8.1
+- `@storefront/recommendations`: 2.8.0
+- `@storefront/record-count`: 2.8.0
+- `@storefront/related-queries`: 2.8.0
+- `@storefront/sayt`: 2.8.0
+- `@storefront/sort`: 2.8.0
+- `@storefront/structure`: 2.8.0
+- `@storefront/template`: 2.8.0
+
+### Fixed
+#### query
+- SF-1299: Fixed a bug where pressing enter did not result in a search.
+  - Ensure that SF sends a search action when the `enter` is pressed and the `SearchBox` input element has a truthy value.
+
 ## [v2.8.0] - 2019-02-25
 
 Package versions:
