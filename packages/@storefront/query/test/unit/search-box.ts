@@ -61,21 +61,25 @@ suite('SearchBox', ({ expect, spy, stub, itShouldConsumeAlias, itShouldProvideAl
           expect(event.preventUpdate).to.be.true;
         });
 
-        it('should call actions.search() if autocomplete is not active on ENTER pressed', () => {
+        // tslint:disable-next-line max-line-length
+        it('should call actions.search() if autocomplete is not active and the searchBox input element has a truthy value on ENTER pressed', () => {
           const value = 'hula hoop';
           const search = spy();
           searchBox.actions = <any>{ search };
           searchBox.services = <any>{ autocomplete: { hasActiveSuggestion: () => false } };
+          searchBox.refs = { searchBox: <any>{ value: 'doot' } };
 
           searchBox.state.onKeyUp(<any>{ key: KEYS.ENTER, target: { value } });
 
           expect(search).to.be.calledWith(value);
         });
 
-        it('should call emit sayt:select_active if autocomplete is active on ENTER pressed', () => {
+        // tslint:disable-next-line max-line-length
+        it('should call emit sayt:select_active if autocomplete is active and the searchBox input element has a falsey value on ENTER pressed', () => {
           const emit = spy();
           searchBox.flux = <any>{ emit };
           searchBox.services = <any>{ autocomplete: { hasActiveSuggestion: () => true } };
+          searchBox.refs = { searchBox: <any>{ value: '' } };
 
           searchBox.state.onKeyUp(<any>{ key: KEYS.ENTER });
 
