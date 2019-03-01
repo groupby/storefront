@@ -350,6 +350,10 @@ namespace Events {
    * INTERNAL EVENT: Used by logging service to indicate tag aliasing event has occurred.
    */
   export const TAG_ALIASING = 'tag:aliasing';
+  /**
+   *
+   */
+  export const TAG_SETTLED = 'tag:settled';
 
   // history events
   /**
