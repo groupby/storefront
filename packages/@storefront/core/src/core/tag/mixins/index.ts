@@ -8,10 +8,24 @@ import metadata from './metadata';
 import props from './props';
 import provideConsume from './provide-consume';
 import Pure from './pure';
+import settled from './settled';
 import stylish from './stylish';
 import sugar from './sugar';
 
-export { aliasing, fluxActions, lifecycle, props, provideConsume, Pure, stylish, sugar, logging, metadata, debug };
+export {
+  aliasing,
+  fluxActions,
+  lifecycle,
+  props,
+  provideConsume,
+  Pure,
+  settled,
+  stylish,
+  sugar,
+  logging,
+  metadata,
+  debug,
+};
 
 export function applyMixin(tag: Riot.TagInstance, mixin: () => void | object) {
   tag.mixin(typeof mixin === 'function' ? { init: mixin } : mixin);
