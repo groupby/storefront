@@ -14,14 +14,16 @@ export const POP_PHASES = [
 
 // module globals
 let inProgress = 0;
-let timeout: any = -1;
+let timeout;
 
 export default function settledMixin(this: Tag) {
   PUSH_PHASES.forEach((phase) => this.on(phase, () => {
     clearTimeout(timeout);
     ++inProgress;
+    console.log('DEBUG in progress', phase, inProgress, this.root.tagName);
   }));
   POP_PHASES.forEach((phase) => this.on(phase, () => {
-    if (!--inProgress) timeout = setTimeout(() => this.flux.emit(Events.TAG_SETTLED), 100);
+    if (!--inProgress) timeout = setTimeout(() => this.flux.emit(Events.TAG_SETTLED), 500);
+    console.log('DEBUG in progress', phase, inProgress, this.root.tagName);
   }));
 }
