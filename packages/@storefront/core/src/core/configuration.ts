@@ -57,6 +57,8 @@ interface Configuration extends FluxConfiguration {
      * You are encouraged to use the provide/consume pattern for new implementations.
      */
     legacyAliasing?: boolean;
+    // SF-1292
+    settledTimeout?: number;
     /**
      * If `true`, perform a search on any initial page load.
      * Search pages will perform a search regardless of the value of this option.

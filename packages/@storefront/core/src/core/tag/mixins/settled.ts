@@ -23,7 +23,7 @@ export default function settledMixin(this: Tag) {
     console.log('DEBUG in progress', phase, inProgress, this.root.tagName);
   }));
   POP_PHASES.forEach((phase) => this.on(phase, () => {
-    if (!--inProgress) timeout = setTimeout(() => this.flux.emit(Events.TAG_SETTLED), 500);
+    if (!--inProgress) timeout = setTimeout(() => this.flux.emit(Events.TAG_SETTLED), this.config.options.settledTimeout);
     console.log('DEBUG in progress', phase, inProgress, this.root.tagName);
   }));
 }
