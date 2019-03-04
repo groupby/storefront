@@ -149,6 +149,7 @@ const DEFAULTS: Partial<Configuration> = {
     ui: true,
     stylish: false,
     legacyAliasing: false,
+    settledTimeout: 300,
     initialSearch: false,
     globalMixin: true,
   },
