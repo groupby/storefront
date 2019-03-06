@@ -2,5 +2,5 @@
   <virtual each="{item, i in state.refinements}">
     <gb-refinement class="{gb-selected: item.selected}" _props="{item}"></gb-refinement>
   </virtual>
-  <button if="{state.more}" type="button" onclick="{state.moreRefinements}">more</button>
+  <button if="{state.more}" class="gb-more-refinements" type="button" onclick="{state.moreRefinements}">more</button>
 </yield>

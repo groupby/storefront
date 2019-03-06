@@ -12,7 +12,7 @@ class SliderRefinementControls extends RangeRefinementControls {
     } else {
       slider.moveHandle(slider.refs.upper, slider.props.high);
     }
-  };
+  }
 }
 
 export default SliderRefinementControls;
