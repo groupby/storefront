@@ -1,3 +1,4 @@
+import { Selectors } from '@storefront/flux-capacitor';
 import moize from 'moize';
 import StoreFront from '../../storefront';
 import Tag from '../tag';
@@ -80,4 +81,37 @@ export function origin(name: string) {
 
 export function configurable<P extends object>(target: TagConstructor) {
   utils.setMetadata(target, CONFIGURABLE_KEY, true);
+}
+
+export function uiState<P extends object = any, S extends object = any, A extends object = any>(
+  prop: string = 'uiValue',
+  resolver: (props: P, state: S, aliases: A[]) => any = (_, state) => state
+) {
+  return (target: TagConstructor) => {
+    const { onBeforeMount, onBeforeUnmount } = target.prototype;
+
+    target.prototype.onBeforeMount = function(...args: any) {
+      const storedState = this.select(Selectors.uiTagState, Tag.getMeta(this).name, this.props[prop]);
+
+      if (storedState) {
+        this.state = { ...this.state, ...storedState };
+      }
+
+      if (onBeforeMount && typeof onBeforeMount === 'function') {
+        return onBeforeMount.apply(this, args);
+      }
+    };
+
+    target.prototype.onBeforeUnmount = function(...args: any) {
+      this.actions.createComponentState(
+        Tag.getMeta(this).name,
+        this.props[prop],
+        resolver(this.props, this.state, Tag.findConsumes(this).map((a) => this[`$${a}`]))
+      );
+
+      if (onBeforeUnmount && typeof onBeforeUnmount === 'function') {
+        return onBeforeUnmount.apply(this, args);
+      }
+    };
+  };
 }

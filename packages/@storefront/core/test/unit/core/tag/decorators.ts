@@ -1,3 +1,4 @@
+import { Selectors } from '@storefront/flux-capacitor';
 import * as sinon from 'sinon';
 import Tag from '../../../../src/core/tag';
 import * as decorators from '../../../../src/core/tag/decorators';
@@ -132,6 +133,88 @@ suite('decorators', ({ expect, spy, stub }) => {
       decorators.configurable(tag);
 
       expect(setMetadata).to.be.calledWithExactly(tag, 'configurable', true);
+    });
+  });
+
+  describe('@uiState', () => {
+    const prop = 'ui';
+    const uiProp = 'uiProp';
+    const storedState = { c: 'd' };
+    const uiTagState = () => null;
+    const name = 'tagName';
+    const state = { a: 'b' };
+    let select;
+
+    beforeEach(() => {
+      select = stub().withArgs(uiTagState, name, uiProp).returns(storedState);
+      stub(Tag, 'getMeta').returns({ name });
+      stub(Selectors, 'uiTagState').returns(uiTagState);
+    });
+
+    it('should replace tag state with ui state in onBeforeMount', () => {
+      const tag: any = class {
+        props: any = { [prop]: uiProp };
+        state: any = state;
+        select: any = select;
+      };
+
+      decorators.uiState(prop)(tag);
+      const result = new tag();
+      result.onBeforeMount();
+
+      expect(result.state).to.eql({ ...state, ...storedState });
+    });
+
+    it('should call the original onBeforeMount method', () => {
+      const onBeforeMount = spy();
+      const tag: any = class {
+        props: any = { [prop]: uiProp };
+        state: any = state;
+        select: any = select;
+        onBeforeMount: any = onBeforeMount;
+      };
+
+      decorators.uiState(prop)(tag);
+      const result = new tag();
+      result.onBeforeMount();
+
+      expect(onBeforeMount).to.be.called;
+    });
+
+    it('should set up ui state onBeforeUnmount, using resolver', () => {
+      const props = { [prop]: uiProp };
+      const createComponentState = spy();
+      const tag: any = class {
+        props: any = props;
+        state: any = state;
+        actions: any = { createComponentState };
+      };
+      const uiState = { c: 'd' };
+      const resolver = stub().withArgs(props, state).returns(uiState);
+
+      decorators.uiState(prop, resolver)(tag);
+      const result = new tag();
+      result.onBeforeUnmount();
+
+      expect(createComponentState).to.be.calledWith(name, uiProp, uiState);
+    });
+
+    it('should use default prop and resolver if none is provided', () => {
+      const createComponentState = spy();
+      const tag: any = class {
+        props: any = { uiValue: uiProp };
+        state: any = state;
+        select: any = select;
+        actions: any = { createComponentState };
+      };
+
+      decorators.uiState()(tag);
+      const result = new tag();
+
+      result.onBeforeMount();
+      expect(result.state).to.eql({ ...state, ...storedState });
+      result.onBeforeUnmount();
+      expect(createComponentState).to.be.calledWith(name, uiProp, { ...state, ...storedState });
     });
   });
 });
