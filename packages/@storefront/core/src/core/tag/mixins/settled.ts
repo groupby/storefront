@@ -19,7 +19,6 @@ let timeout;
 export default function settledMixin(settledTimeout: number) {
   return function(this: Tag) {
     const initTimeout = () => {
-      console.log('DEBUG initTimeout', this.root.tagName, settledTimeout);
       return timeout = setTimeout(() => {
         const isFetchingData = this.select(this.flux.selectors.isFetching);
         const isFetching = Object.keys(isFetchingData).some((key) => isFetchingData[key]);
@@ -36,11 +35,9 @@ export default function settledMixin(settledTimeout: number) {
     PUSH_PHASES.forEach((phase) => this.on(phase, () => {
       clearTimeout(timeout);
       ++inProgress;
-      console.log('DEBUG in progress', phase, inProgress, this.root.tagName);
     }));
     POP_PHASES.forEach((phase) => this.on(phase, () => {
       if (!--inProgress) initTimeout();
-      console.log('DEBUG in progress', phase, inProgress, this.root.tagName);
     }));
   }
 }
