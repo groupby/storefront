@@ -16,28 +16,31 @@ export const POP_PHASES = [
 let inProgress = 0;
 let timeout;
 
-export default function settledMixin(this: Tag) {
-  const initTimeout = () => {
-    return timeout = setTimeout(() => {
-      const isFetchingData = this.select(this.flux.selectors.isFetching);
-      const isFetching = Object.keys(isFetchingData).some((key) => isFetchingData[key]);
+export default function settledMixin(settledTimeout: number) {
+  return function(this: Tag) {
+    const initTimeout = () => {
+      console.log('DEBUG initTimeout', this.root.tagName, settledTimeout);
+      return timeout = setTimeout(() => {
+        const isFetchingData = this.select(this.flux.selectors.isFetching);
+        const isFetching = Object.keys(isFetchingData).some((key) => isFetchingData[key]);
 
-      if (isFetching) {
-        clearTimeout(timeout);
-        initTimeout();
-      } else {
-        this.flux.emit(Events.TAG_SETTLED);
-      }
-    }, this.config.options.settledTimeout);
-  };
+        if (isFetching) {
+          clearTimeout(timeout);
+          initTimeout();
+        } else {
+          this.flux.emit(Events.TAG_SETTLED);
+        }
+      }, settledTimeout);
+    };
 
-  PUSH_PHASES.forEach((phase) => this.on(phase, () => {
-    clearTimeout(timeout);
-    ++inProgress;
-    console.log('DEBUG in progress', phase, inProgress, this.root.tagName);
-  }));
-  POP_PHASES.forEach((phase) => this.on(phase, () => {
-    if (!--inProgress) initTimeout();
-    console.log('DEBUG in progress', phase, inProgress, this.root.tagName);
-  }));
+    PUSH_PHASES.forEach((phase) => this.on(phase, () => {
+      clearTimeout(timeout);
+      ++inProgress;
+      console.log('DEBUG in progress', phase, inProgress, this.root.tagName);
+    }));
+    POP_PHASES.forEach((phase) => this.on(phase, () => {
+      if (!--inProgress) initTimeout();
+      console.log('DEBUG in progress', phase, inProgress, this.root.tagName);
+    }));
+  }
 }

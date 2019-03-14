@@ -159,7 +159,7 @@ namespace Tag {
         }
 
         Mixins.applyMixin(this, Mixins.sugar);
-        Mixins.applyMixin(this, Mixins.settled);
+        Mixins.applyMixin(this, Mixins.settled(config.options.settledTimeout));
         TagUtils.convertToMixin(Tag).call(this);
       },
     };
