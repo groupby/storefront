@@ -690,7 +690,7 @@ suite('URL Service', ({ expect, spy, stub }) => {
     });
 
     describe('mergeSearchQuery', () => {
-      it('should merge search query state properly when given a new request', () => {
+      it('should merge search query state', () => {
         const state: any = {
           data: {
             present: {
@@ -708,8 +708,7 @@ suite('URL Service', ({ expect, spy, stub }) => {
         });
       });
 
-      // tslint:disable-next-line max-line-length
-      it('should merge search query state properly when given a new request with a query property of empty string', () => {
+      it('should allow for query to be an empty string', () => {
         const state: any = {
           data: {
             present: {
@@ -727,7 +726,7 @@ suite('URL Service', ({ expect, spy, stub }) => {
         });
       });
 
-      it('should not merge search query state when given and invalid request', () => {
+      it('should not merge search query state when given an invalid request', () => {
         const state: any = {
           data: {
             present: {
