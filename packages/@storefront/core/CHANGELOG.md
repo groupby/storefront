@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - SF-1315: Allow users to set `query` to empty string within the application store.
   - Previously when users sent requests with the `query` property equal to empty string SF would fall back to a previous query.
-  - Now users can set `query` to empty string through a request object.
+  - The SF URL service now allows for the `query` to be set to a value of a empty string when returned within a request object from user's parsers.
 
 ## [2.8.0] - 2019-02-25
 ### Changed
