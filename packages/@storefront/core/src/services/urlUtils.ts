@@ -245,7 +245,7 @@ namespace UrlUtils {
 
   export const mergeSearchQueryState = (state: Store.State, request: UrlBeautifier.SearchUrlState) => ({
     ...state.data.present.query,
-    original: request.query || Selectors.query(state),
+    original: request.query === '' ? '' : request.query || Selectors.query(state),
   });
 
   export const mergeSearchPageState = (state: Store.State, request: UrlBeautifier.SearchUrlState) => {

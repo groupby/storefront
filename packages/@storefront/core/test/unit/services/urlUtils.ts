@@ -689,6 +689,60 @@ suite('URL Service', ({ expect, spy, stub }) => {
       });
     });
 
+    describe.only('mergeSearchQuery', () => {
+      it('should merge search query state properly when given a new request', () => {
+        const state: any = {
+          data: {
+            present: {
+              query: { a: 'b' }
+            }
+          }
+        };
+        const request: any = { query: 'foo' };
+
+        const newQueryState = Utils.mergeSearchQueryState(state, request);
+
+        expect(newQueryState).to.eql({
+          a: 'b',
+          original: 'foo'
+        });
+      });
+
+      it('should merge search query state properly when given a new request with a query property of empty string', () => {
+        const state: any = {
+          data: {
+            present: {
+              query: { a: 'b', original: 'foo' }
+            }
+          }
+        };
+        const request: any = { query: '' };
+
+        const newQueryState = Utils.mergeSearchQueryState(state, request);
+
+        expect(newQueryState).to.eql({
+          a: 'b',
+          original: ''
+        });
+      });
+
+      it('should not merge search query state when given and invalid request', () => {
+        const state: any = {
+          data: {
+            present: {
+              query: { a: 'b', original: 'foo' }
+            }
+          }
+        };
+        const queryState: any = { a: 'b', original: 'foo' };
+        const request: any = {};
+
+        const newQueryState = Utils.mergeSearchQueryState(state, request);
+
+        expect(newQueryState).to.eql(queryState);
+      });
+    });
+
     describe('mergePastPurchaseSortsState()', () => {
       it('should call `mergeSortsState()` with `Selectors.pastPurchaseSort`', () => {
         const pastPurchaseSort = { foo: 'bar' };
