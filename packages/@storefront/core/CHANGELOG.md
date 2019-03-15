@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] [patch]
+### Changed
+- SF-1315: Allow users to set `query` to `" å"` within the application store.
+  - Previously when users sent requests with the `query` property equal to `" "` SF would fall back to a previous query.
+  - Now users can set `query` to `" "` through a request object.
+
 ## [2.8.0] - 2019-02-25
 ### Changed
 - Update `@storefront/flux-capacitor` to 1.73.0.
