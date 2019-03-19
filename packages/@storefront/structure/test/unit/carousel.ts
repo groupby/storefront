@@ -34,6 +34,18 @@ suite('Carousel', ({ expect, spy, stub, itShouldProvideAlias }) => {
       ];
     });
 
+    describe('init()', () => {
+      it('should clone items into state', () => {
+        const items = ['a', 'b', 'c']; 
+        carousel.cloneItems = () => items;
+        carousel.state = <any>{ a: 'b', items: ['d', 'e', 'f'] };
+
+        carousel.init();
+        
+        expect(carousel.state).to.eql({ a: 'b', items });
+      });
+    });
+
     describe('onMount()', () => {
       it('should add event listener for window resize', () => {
         const addEventListener = spy();

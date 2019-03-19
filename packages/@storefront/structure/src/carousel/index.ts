@@ -26,6 +26,13 @@ class Carousel {
   };
   animationEndCallback: NodeJS.Timer = null;
 
+  init() {
+    this.state = {
+      ...this.state,
+      items: this.cloneItems(),
+    };
+  }
+
   onMount() {
     utils.WINDOW().addEventListener('resize', this.forceUpdate);
   }
