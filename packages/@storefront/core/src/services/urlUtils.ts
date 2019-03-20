@@ -245,7 +245,8 @@ namespace UrlUtils {
 
   export const mergeSearchQueryState = (state: Store.State, request: UrlBeautifier.SearchUrlState) => ({
     ...state.data.present.query,
-    original: request.query || Selectors.query(state),
+    // tslint:disable-next-line triple-equals
+    original: request.query == undefined ? Selectors.query(state) : request.query,
   });
 
   export const mergeSearchPageState = (state: Store.State, request: UrlBeautifier.SearchUrlState) => {
