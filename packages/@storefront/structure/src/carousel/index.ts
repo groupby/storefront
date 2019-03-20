@@ -29,7 +29,7 @@ class Carousel {
   onMount() {
     utils.WINDOW().addEventListener('resize', this.forceUpdate);
 
-    // this forces an update on mount which in turn sets 
+    // this forces an update on mount which in turn sets
     // items to state from props by calling cloneItems
     // so that items display within the carousel
     this.set(true);
