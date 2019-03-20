@@ -47,7 +47,7 @@ suite('Carousel', ({ expect, spy, stub, itShouldProvideAlias }) => {
 
       it('should force an update', () => {
         const set = carousel.set = spy();
-        stub(utils, 'WINDOW').returns({ addEventListener: () => null });  
+        stub(utils, 'WINDOW').returns({ addEventListener: () => null });
         
         carousel.onMount();
         
