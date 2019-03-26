@@ -29,11 +29,9 @@ class Carousel {
   onMount() {
     utils.WINDOW().addEventListener('resize', this.forceUpdate);
 
-    // this forces an update on mount which in turn sets
-    // items to state from props by calling cloneItems
-    // so that items display within the carousel. 
-    // we are doing this because on mount of gb-carousel, it is 
-    // not populating the carousel with the item data contained in state.
+    // forcing an update here instead of on init because 
+    // the items have a width of 0 if items are simply set on init. 
+    // this is done here to recalculate styles.
     this.set(true);
   }
 
