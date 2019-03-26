@@ -31,7 +31,9 @@ class Carousel {
 
     // this forces an update on mount which in turn sets
     // items to state from props by calling cloneItems
-    // so that items display within the carousel
+    // so that items display within the carousel. 
+    // We are doing this because on mount of gb-carousel, it is 
+    // not populating the carousel with the item data contained in state.
     this.set(true);
   }
 
