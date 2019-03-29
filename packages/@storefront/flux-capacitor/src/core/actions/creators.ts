@@ -55,6 +55,8 @@ namespace ActionCreators {
    * @return - Action with `{ request }`.
    */
   export function fetchProducts(options: Actions.Payload.Fetch.Override = {}): Actions.FetchProducts {
+    // console.time('FETCH_PRODUCTS_SAGA');
+    // console.time('FETCH_PRODUCTS');
     return createAction(Actions.FETCH_PRODUCTS, options);
   }
 
@@ -255,7 +257,7 @@ namespace ActionCreators {
    * and a request object for override.
    * @return - Action with `{ amount, forward }`.
    */
-   // tslint:disable-next-line max-line-length
+  // tslint:disable-next-line max-line-length
   export function fetchMorePastPurchaseProducts(amount: number, forward?: boolean): Actions.FetchMorePastPurchaseProducts;
   // tslint:disable-next-line typedef
   export function fetchMorePastPurchaseProducts(options, forward = true): Actions.FetchMorePastPurchaseProducts {
@@ -603,8 +605,8 @@ namespace ActionCreators {
         ...payload,
         config: Selectors.config(state).personalization.realTimeBiasing,
       }, {
-        payload: validators.isValidBias
-      });
+          payload: validators.isValidBias
+        });
   }
 
   export function updateSecuredPayload(payload: Configuration.Recommendations.SecuredPayload) {
@@ -638,6 +640,8 @@ namespace ActionCreators {
   export function receiveProducts(res: Results) {
     return (state: Store.State): Actions.Action<string, any>[] | Actions.ReceiveProducts => {
       const receiveProductsAction = createAction(Actions.RECEIVE_PRODUCTS, res);
+      console.time('RECEIVE_PRODUCTS');
+      // console.timeEnd('FETCH_PRODUCTS');
 
       return handleError(receiveProductsAction, () => {
         const limitedRecordCount = SearchAdapter.extractRecordCount(res.totalRecordCount);

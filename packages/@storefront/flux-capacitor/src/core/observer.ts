@@ -86,6 +86,7 @@ namespace Observer {
           }
         } else {
           emitProductsUpdated(SearchAdapter.extractData(oldState), SearchAdapter.extractData(newState), path);
+          console.timeEnd('RECEIVE_PRODUCTS');
         }
       })(emit(moreProductsAddedEvent), emit(productsUpdatedEvent));
   }

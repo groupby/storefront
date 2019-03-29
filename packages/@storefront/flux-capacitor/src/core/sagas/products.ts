@@ -14,10 +14,10 @@ import RequestsTasks from './requests';
 export namespace ProductsTasks {
   export function* fetchProducts(flux: FluxCapacitor, ignoreHistory: boolean = false, action: Actions.FetchProducts) {
     try {
-      let [result, navigations]: [Results, Store.Recommendations.Navigation[]] = yield effects.all([
-        effects.call(fetchProductsRequest, flux, action),
-        effects.call(fetchNavigations, flux, action)
-      ]);
+      let navigations;
+      let result = yield effects.call(fetchProductsRequest, flux, action);
+      // console.timeEnd('FETCH_PRODUCTS_SAGA');
+      // console.time('SAGA_LENGTH');
       const config = yield effects.select(Selectors.config);
 
       if (result.redirect) {
@@ -41,11 +41,14 @@ export namespace ProductsTasks {
         );
         actions.push(flux.actions.receiveProducts({ ...result, availableNavigation }));
 
-        yield effects.put(actions);
+        // console.time('RECEIVE_PRODUCTS_PUT');
+        yield effects.put(<any>flux.actions.receiveProducts({ ...result, availableNavigation }));
+        // console.timeEnd('RECEIVE_PRODUCTS_PUT');
 
         if (!ignoreHistory) {
           flux.replaceState(utils.Routes.SEARCH, action.payload.buildAndParse);
         }
+        // console.timeEnd('SAGA_LENGTH');
       }
     } catch (e) {
       yield effects.put(<any>flux.actions.receiveProducts(e));

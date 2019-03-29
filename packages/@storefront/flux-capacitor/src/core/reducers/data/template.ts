@@ -6,7 +6,9 @@ export type State = Store.Template;
 
 export default function updateTemplate(state: State = <any>{}, action: Action): State {
   switch (action.type) {
-    case Actions.RECEIVE_TEMPLATE: return action.payload;
+    case Actions.RECEIVE_TEMPLATE:
+      // console.timeEnd('RECEIVE_PRODUCTS');
+      return action.payload;
     default: return state;
   }
 }

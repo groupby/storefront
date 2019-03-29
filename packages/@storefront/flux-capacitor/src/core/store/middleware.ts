@@ -124,7 +124,7 @@ export namespace Middleware {
   export function checkPastPurchaseSkus(flux: FluxCapacitor): ReduxMiddleware {
     return (store) => (next) => (action) => {
       if (!PAST_PURCHASE_SKU_ACTIONS.includes(action.type) ||
-          Selectors.pastPurchases(flux.store.getState()).length > 0) {
+        Selectors.pastPurchases(flux.store.getState()).length > 0) {
         return next(action);
       }
       if (ConfigurationAdapter.extractSecuredPayload(Selectors.config(flux.store.getState()))) {
@@ -136,7 +136,7 @@ export namespace Middleware {
   export function personalizationAnalyzer({ getState, dispatch }: Store<any>) {
     return (next) => (action) => {
       if (ConfigurationAdapter.isRealTimeBiasEnabled(Selectors.config(getState())) &&
-          PERSONALIZATION_CHANGE_ACTIONS.includes(action.type)) {
+        PERSONALIZATION_CHANGE_ACTIONS.includes(action.type)) {
         const biasing = PersonalizationAdapter.extractBias(action, getState());
         if (biasing) {
           dispatch(ActionCreators.updateBiasing(biasing));
@@ -184,6 +184,26 @@ export namespace Middleware {
     };
   }
 
+  export function timeStart(actionType: string, value: string = actionType) {
+    return (store: Store<any>) => (next) => (action) => {
+      if (action.type === actionType) {
+        console.time(value);
+      }
+
+      return next(action);
+    };
+  }
+
+  export function timeEnd(actionType: string, value: string = actionType) {
+    return (store: Store<any>) => (next) => (action) => {
+      if (action.type === actionType) {
+        console.timeEnd(value);
+      }
+
+      return next(action);
+    };
+  }
+
   export function create(sagaMiddleware: any, flux: FluxCapacitor): any {
     const normalizingMiddleware = [
       thunkEvaluator,
@@ -191,6 +211,8 @@ export namespace Middleware {
       batchMiddleware,
     ];
     const middleware = [
+      // Middleware.timeStart(Actions.FETCH_PRODUCTS, Actions.FETCH_PRODUCTS),
+      // Middleware.timeStart(Actions.FETCH_COLLECTION_COUNT, Actions.FETCH_COLLECTION_COUNT),
       ...normalizingMiddleware,
       Middleware.updateHistory(flux),
       Middleware.saveStateAnalyzer(),
@@ -205,6 +227,8 @@ export namespace Middleware {
       sagaMiddleware,
       Middleware.personalizationAnalyzer,
       ...normalizingMiddleware,
+      // Middleware.timeEnd(Actions.RECEIVE_TEMPLATE, Actions.FETCH_PRODUCTS),
+      // Middleware.timeEnd(Actions.RECEIVE_COLLECTION_COUNT, Actions.FETCH_COLLECTION_COUNT),
     ];
 
     // tslint:disable-next-line max-line-length
