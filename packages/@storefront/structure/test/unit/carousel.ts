@@ -46,12 +46,12 @@ suite('Carousel', ({ expect, spy, stub, itShouldProvideAlias }) => {
       });
 
       it('should force an update', () => {
-        const set = carousel.set = spy();
+        const forceUpdate = carousel.forceUpdate = spy();
         stub(utils, 'WINDOW').returns({ addEventListener: () => null });
 
         carousel.onMount();
 
-        expect(set).to.be.calledWithExactly(true);
+        expect(forceUpdate).to.be.called;
       });
     });
 
