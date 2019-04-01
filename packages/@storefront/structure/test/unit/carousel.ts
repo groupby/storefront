@@ -37,7 +37,7 @@ suite('Carousel', ({ expect, spy, stub, itShouldProvideAlias }) => {
     describe('onMount()', () => {
       it('should add event listener for window resize', () => {
         const addEventListener = spy();
-        carousel.set = () => null;
+        carousel.forceUpdate = () => null;
         stub(utils, 'WINDOW').returns({ addEventListener });
 
         carousel.onMount();
