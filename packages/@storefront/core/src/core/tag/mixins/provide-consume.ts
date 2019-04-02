@@ -20,7 +20,7 @@ export namespace ProvideConsume {
       if (aliases) {
         Object.keys(aliases).forEach((alias) => {
           let hasUpdated = false;
-          const aliasTag = aliases[alias].tag;
+          let aliasTag = aliases[alias].tag;
           const markUpdated = () => (hasUpdated = true);
           const resetUpdated = () => (hasUpdated = false);
           const softUpdateDependant = () => {
@@ -34,10 +34,11 @@ export namespace ProvideConsume {
           this.one(Phase.UNMOUNT, () => {
             aliasTag.off(Phase.UPDATE, resetUpdated);
             aliasTag.off(Phase.UPDATED, softUpdateDependant);
+            this.off(Phase.UPDATE, markUpdated);
+            aliasTag = null;
           });
           aliasTag.on(Phase.UPDATE, resetUpdated);
           aliasTag.on(Phase.UPDATED, softUpdateDependant);
-          aliasTag.one(Phase.UNMOUNT, () => aliasTag.off(Phase.UPDATED, softUpdateDependant));
         });
       }
     });
