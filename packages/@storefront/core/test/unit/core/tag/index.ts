@@ -78,6 +78,18 @@ suite('Tag', ({ expect, spy, stub }) => {
 
         expect(resolver).to.be.calledWith(props, state, aliases);
       });
+
+      it('should return state if no resolver provided', () => {
+        const name = 'thing1';
+        const props = { a: 'b' };
+        const state = { c: 'd' };
+        const aliases = { e: 'f' };
+
+        tag.provide(name);
+        const result = tag._provides[name](props, state)(aliases);
+
+        expect(result).to.eq(state);
+      });
     });
   });
 
