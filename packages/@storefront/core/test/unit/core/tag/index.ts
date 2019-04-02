@@ -66,13 +66,17 @@ suite('Tag', ({ expect, spy, stub }) => {
     });
 
     describe('provide()', () => {
-      it('should call aliasing.expose()', () => {
+      it('should expose the provided resolver', () => {
         const name = 'thing1';
-        const generator = () => null;
+        const resolver = spy();
+        const props = { a: 'b' };
+        const state = { c: 'd' };
+        const aliases = { e: 'f' };
 
-        tag.provide(name, generator);
+        tag.provide(name, resolver);
+        tag._provides[name](props, state)(aliases);
 
-        expect(Object.keys(tag._provides)).to.include(name);
+        expect(resolver).to.be.calledWith(props, state, aliases);
       });
     });
   });
