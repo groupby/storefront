@@ -90,6 +90,27 @@ suite('Tag', ({ expect, spy, stub }) => {
 
         expect(result).to.eq(state);
       });
+
+      it('should throw error if provided resolver is not a function', () => {
+        const name = 'thing1';
+
+        const thunk = () => {
+          tag.provide(name, 'not a fxn');
+        };
+
+        expect(thunk).to.throw();
+      });
+
+      it('should throw error if tag has been initialized', () => {
+        const name = 'thing1';
+        tag.isInitialized = true;
+
+        const thunk = () => {
+          tag.provide(name);
+        };
+
+        expect(thunk).to.throw();
+      });
     });
   });
 
