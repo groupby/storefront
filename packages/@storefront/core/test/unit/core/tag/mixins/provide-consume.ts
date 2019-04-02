@@ -67,11 +67,13 @@ suite('Provide/Consume Mixin', ({ expect, sinon, spy, stub }) => {
       let aliases;
       let set;
       let off;
+      let tagOff;
 
       beforeEach(() => {
         aliasTagHandlers = {};
         const on = assignHandler(aliasTagHandlers);
         off = spy();
+        tagOff = tag.off = spy();
         aliases = { a: { tag: { on, one: on, off } } };
         set = tag.set = spy();
         stub(ProvideConsume, 'updateAliases')
@@ -119,17 +121,12 @@ suite('Provide/Consume Mixin', ({ expect, sinon, spy, stub }) => {
         expect(set).to.be.called;
       });
 
-      it('should remove alias event listeners on unmount', () => {
+      it('should remove event listeners on unmount', () => {
         handlers[Phase.UNMOUNT]();
 
         expect(off).to.be.calledWith(Phase.UPDATE, aliasTagHandlers[Phase.UPDATE]);
         expect(off).to.be.calledWith(Phase.UPDATED, aliasTagHandlers[Phase.UPDATED]);
-      });
-
-      it('should remove alias event listener on alias unmount', () => {
-        aliasTagHandlers[Phase.UNMOUNT]();
-
-        expect(off).to.be.calledWithExactly(Phase.UPDATED, aliasTagHandlers[Phase.UPDATED]);
+        expect(tagOff).to.be.calledWith(Phase.UPDATE, handlers[Phase.UPDATE]);
       });
     });
   });
