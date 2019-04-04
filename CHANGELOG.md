@@ -5,6 +5,34 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v2.8.3] - 2019-04-04
+
+Package versions:
+
+- `@storefront/breadcrumbs`: 2.9.0
+- `@storefront/collections`: 2.8.0
+- `@storefront/core`: 2.8.1
+- `@storefront/details`: 2.8.0
+- `@storefront/did-you-mean`: 2.8.0
+- `@storefront/flux-capacitor`: 1.73.0
+- `@storefront/infinite-scroll`: 2.8.0
+- `@storefront/navigation`: 2.8.0
+- `@storefront/page-size`: 2.8.0
+- `@storefront/paging`: 2.8.0
+- `@storefront/products`: 2.8.0
+- `@storefront/query`: 2.8.1
+- `@storefront/recommendations`: 2.8.0
+- `@storefront/record-count`: 2.8.0
+- `@storefront/related-queries`: 2.8.0
+- `@storefront/sayt`: 2.8.0
+- `@storefront/sort`: 2.8.0
+- `@storefront/structure`: 2.8.1
+- `@storefront/template`: 2.8.0
+
+### Fixed
+#### structure
+- SF-1317: Items now appear in `gb-carousel` on mount.
+
 ## [v2.8.2] - 2019-03-20
 
 Package versions:
