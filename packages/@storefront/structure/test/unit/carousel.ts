@@ -37,11 +37,21 @@ suite('Carousel', ({ expect, spy, stub, itShouldProvideAlias }) => {
     describe('onMount()', () => {
       it('should add event listener for window resize', () => {
         const addEventListener = spy();
+        carousel.forceUpdate = () => null;
         stub(utils, 'WINDOW').returns({ addEventListener });
 
         carousel.onMount();
 
         expect(addEventListener).to.be.calledWithExactly('resize', carousel.forceUpdate);
+      });
+
+      it('should force an update', () => {
+        const forceUpdate = carousel.forceUpdate = spy();
+        stub(utils, 'WINDOW').returns({ addEventListener: () => null });
+
+        carousel.onMount();
+
+        expect(forceUpdate).to.be.called;
       });
     });
 

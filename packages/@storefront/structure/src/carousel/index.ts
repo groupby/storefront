@@ -28,6 +28,9 @@ class Carousel {
 
   onMount() {
     utils.WINDOW().addEventListener('resize', this.forceUpdate);
+
+    // the items have a width of 0 if items are simply set on init, so do an update to recalculate styles
+    this.forceUpdate();
   }
 
   onUpdate() {
