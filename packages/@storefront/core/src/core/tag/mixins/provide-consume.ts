@@ -34,7 +34,6 @@ export namespace ProvideConsume {
           this.one(Phase.UNMOUNT, () => {
             aliasTag.off(Phase.UPDATE, resetUpdated);
             aliasTag.off(Phase.UPDATED, softUpdateDependant);
-            this.off(Phase.UPDATE, markUpdated);
             // allow alias tag to be garbage-collected
             aliasTag = null;
           });
