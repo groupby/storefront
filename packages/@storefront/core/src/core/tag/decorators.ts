@@ -1,4 +1,3 @@
-import moize from 'moize';
 import StoreFront from '../../storefront';
 import Tag from '../tag';
 import utils from './utils';
@@ -61,7 +60,7 @@ export function provide<P extends object = any, S extends object = any, A extend
   return (target: TagConstructor) => {
     utils.setMetadata(target, PROVIDES_KEY, {
       ...(utils.getMetadata(target, PROVIDES_KEY) as any),
-      [name]: moize((props: P, state: S) => (aliases: A) => resolver(props, state, aliases)),
+      [name]: (props: P, state: S) => (aliases: A) => resolver(props, state, aliases),
     });
   };
 }

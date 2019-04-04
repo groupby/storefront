@@ -119,17 +119,11 @@ suite('Provide/Consume Mixin', ({ expect, sinon, spy, stub }) => {
         expect(set).to.be.called;
       });
 
-      it('should remove alias event listeners on unmount', () => {
+      it('should remove event listeners on unmount', () => {
         handlers[Phase.UNMOUNT]();
 
         expect(off).to.be.calledWith(Phase.UPDATE, aliasTagHandlers[Phase.UPDATE]);
         expect(off).to.be.calledWith(Phase.UPDATED, aliasTagHandlers[Phase.UPDATED]);
-      });
-
-      it('should remove alias event listener on alias unmount', () => {
-        aliasTagHandlers[Phase.UNMOUNT]();
-
-        expect(off).to.be.calledWithExactly(Phase.UPDATED, aliasTagHandlers[Phase.UPDATED]);
       });
     });
   });

@@ -53,8 +53,8 @@ class Autocomplete {
       : this.updateProducts.bind(this);
 
     this.services.autocomplete.registerAutocomplete(this);
-    this.flux.on(Events.AUTOCOMPLETE_SUGGESTIONS_UPDATED, this.updateSuggestions);
-    this.flux.on(Events.DONE_SEARCH, this.updatePastSearches);
+    this.subscribe(Events.AUTOCOMPLETE_SUGGESTIONS_UPDATED, this.updateSuggestions);
+    this.subscribe(Events.DONE_SEARCH, this.updatePastSearches);
     this.subscribe('sayt:activate_next', this.activateNext);
     this.subscribe('sayt:activate_previous', this.activatePrevious);
     this.subscribe('sayt:select_active', this.selectActive);

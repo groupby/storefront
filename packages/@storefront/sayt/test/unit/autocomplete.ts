@@ -105,26 +105,21 @@ suite('Autocomplete', ({ expect, spy, stub, itShouldProvideAlias }) => {
 
   describe('init()', () => {
     let subscribe;
-    let on;
     let registerAutocomplete;
 
     beforeEach(() => {
-      on = spy();
       registerAutocomplete = spy();
       subscribe = autocomplete.subscribe = spy();
-      autocomplete.flux = <any>{ on };
       autocomplete.services = <any>{ autocomplete: { registerAutocomplete } };
     });
 
     it('should listen for flux events', () => {
       autocomplete.init();
 
-      expect(on)
-        .to.have.callCount(2)
-        .and.calledWith(Events.AUTOCOMPLETE_SUGGESTIONS_UPDATED, autocomplete.updateSuggestions)
-        .and.calledWith(Events.DONE_SEARCH, autocomplete.updatePastSearches);
       expect(subscribe)
-        .to.have.callCount(3)
+        .to.have.callCount(5)
+        .and.calledWith(Events.AUTOCOMPLETE_SUGGESTIONS_UPDATED, autocomplete.updateSuggestions)
+        .and.calledWith(Events.DONE_SEARCH, autocomplete.updatePastSearches)
         .and.calledWith('sayt:activate_next', autocomplete.activateNext)
         .and.calledWith('sayt:activate_previous', autocomplete.activatePrevious)
         .and.calledWith('sayt:select_active', autocomplete.selectActive);

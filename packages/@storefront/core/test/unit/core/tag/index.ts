@@ -66,13 +66,50 @@ suite('Tag', ({ expect, spy, stub }) => {
     });
 
     describe('provide()', () => {
-      it('should call aliasing.expose()', () => {
+      it('should expose the provided resolver', () => {
         const name = 'thing1';
-        const generator = () => null;
+        const resolver = spy();
+        const props = { a: 'b' };
+        const state = { c: 'd' };
+        const aliases = { e: 'f' };
 
-        tag.provide(name, generator);
+        tag.provide(name, resolver);
+        tag._provides[name](props, state)(aliases);
 
-        expect(Object.keys(tag._provides)).to.include(name);
+        expect(resolver).to.be.calledWith(props, state, aliases);
+      });
+
+      it('should return state if no resolver provided', () => {
+        const name = 'thing1';
+        const props = { a: 'b' };
+        const state = { c: 'd' };
+        const aliases = { e: 'f' };
+
+        tag.provide(name);
+        const result = tag._provides[name](props, state)(aliases);
+
+        expect(result).to.eq(state);
+      });
+
+      it('should throw error if provided resolver is not a function', () => {
+        const name = 'thing1';
+
+        const thunk = () => {
+          tag.provide(name, 'not a fxn');
+        };
+
+        expect(thunk).to.throw();
+      });
+
+      it('should throw error if tag has been initialized', () => {
+        const name = 'thing1';
+        tag.isInitialized = true;
+
+        const thunk = () => {
+          tag.provide(name);
+        };
+
+        expect(thunk).to.throw();
       });
     });
   });
@@ -218,22 +255,71 @@ suite('Tag', ({ expect, spy, stub }) => {
     });
   });
 
+  describe('_removeEventHandlers()', () => {
+    it('should call off for each registered handler', () => {
+      const off = spy();
+      const eventA = 'a';
+      const eventB = 'b';
+      const cbA = () => null;
+      const cbB = () => null;
+      tag._eventHandlers = [
+        [eventA, cbA],
+        [eventB, cbB],
+      ];
+      tag.flux = { off };
+
+      tag._removeEventHandlers();
+
+      expect(off).to.be.calledTwice;
+      expect(off).to.be.calledWith(eventA, cbA);
+      expect(off).to.be.calledWith(eventB, cbB);
+    });
+
+    it('should remove all handlers', () => {
+      tag._eventHandlers = [
+        ['a', () => null],
+        ['b', () => null],
+        ['c', () => null],
+        ['d', () => null],
+        ['e', () => null],
+      ];
+      tag.flux = { off: () => null };
+
+      tag._removeEventHandlers();
+
+      expect(tag._eventHandlers).to.be.empty;
+    });
+  });
+
   describe('_removeLookups()', () => {
     it('should call allOff for each lookup', () => {
-       const events = ['a', 'b', 'c', 'd', 'e', 'f'];
-       const cb = () => null;
-       const cb2 = () => null;
-       const cb3 = () => null;
-       tag._lookups = [
-         [[events[0], events[1]], cb],
-         [[events[2]], cb2],
-         [[events[3], events[4], events[5]], cb3]
-       ];
-       tag.flux = { allOff: spy() };
+      const events = ['a', 'b', 'c', 'd', 'e', 'f'];
+      const cb = () => null;
+      const cb2 = () => null;
+      const cb3 = () => null;
+      const lookups = tag._lookups = [
+        [[events[0], events[1]], cb],
+        [[events[2]], cb2],
+        [[events[3], events[4], events[5]], cb3]
+      ];
+      tag.flux = { allOff: spy() };
 
-       tag._removeLookups();
+      tag._removeLookups();
 
-       expect(tag.flux.allOff.args).to.eql(tag._lookups);
+      expect(tag.flux.allOff.args).to.eql(lookups);
+    });
+
+    it('should remove all lookups', () => {
+      tag._lookups = [
+        [['a', 'b'], () => null],
+        [['c'], () => null],
+        [['d', 'e', 'f'], () => null],
+      ];
+      tag.flux = { allOff: () => null };
+
+      tag._removeLookups();
+
+      expect(tag._lookups).to.be.empty;
     });
   });
 });

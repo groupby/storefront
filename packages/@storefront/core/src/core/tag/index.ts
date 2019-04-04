@@ -1,5 +1,4 @@
 import FluxCapacitor, { Actions, ActionCreators, Events, Store } from '@storefront/flux-capacitor';
-import moize from 'moize';
 import * as Riot from 'riot';
 import { SystemServices } from '../../services';
 import StoreFront from '../../storefront';
@@ -86,7 +85,7 @@ class Tag<P extends object = any, S extends object = any, A extends object = any
       throw new Error('must provide a callback function to calculate alias value');
     }
 
-    this._provides[alias] = moize((p: P, s: S) => (a: A) => resolve(p, s, a));
+    this._provides[alias] = (p: P, s: S) => (a: A) => resolve(p, s, a);
   }
 
   consume(alias: string) {
@@ -99,9 +98,17 @@ class Tag<P extends object = any, S extends object = any, A extends object = any
     }
   }
 
-  _removeEventHandlers = () => this._eventHandlers.forEach(([event, handler]) => this.flux.off(event, handler));
+  _removeEventHandlers = () => {
+    this._eventHandlers.forEach(([event, handler]) => this.flux.off(event, handler));
+    // allow event handlers to be garbage-collected
+    this._eventHandlers = [];
+  }
 
-  _removeLookups = () => this._lookups.forEach(([events, handler]) => this.flux.allOff(events, handler));
+  _removeLookups = () => {
+    this._lookups.forEach(([events, handler]) => this.flux.allOff(events, handler));
+    // allow event handlers to be garbage-collected
+    this._lookups = [];
+  }
 }
 
 interface Tag<P extends object, S extends object, A extends object>
