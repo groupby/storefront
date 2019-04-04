@@ -104,7 +104,11 @@ class Tag<P extends object = any, S extends object = any, A extends object = any
     this._eventHandlers = [];
   }
 
-  _removeLookups = () => this._lookups.forEach(([events, handler]) => this.flux.allOff(events, handler));
+  _removeLookups = () => {
+    this._lookups.forEach(([events, handler]) => this.flux.allOff(events, handler));
+    // allow event handlers to be garbage-collected
+    this._lookups = [];
+  }
 }
 
 interface Tag<P extends object, S extends object, A extends object>
