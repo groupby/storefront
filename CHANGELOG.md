@@ -5,6 +5,39 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v2.8.4] - 2019-04-04
+
+Package versions:
+
+- `@storefront/breadcrumbs`: 2.9.0
+- `@storefront/collections`: 2.8.0
+- `@storefront/core`: 2.8.2
+- `@storefront/details`: 2.8.0
+- `@storefront/did-you-mean`: 2.8.0
+- `@storefront/flux-capacitor`: 1.73.0
+- `@storefront/infinite-scroll`: 2.8.0
+- `@storefront/navigation`: 2.8.0
+- `@storefront/page-size`: 2.8.0
+- `@storefront/paging`: 2.8.0
+- `@storefront/products`: 2.8.0
+- `@storefront/query`: 2.8.1
+- `@storefront/recommendations`: 2.8.0
+- `@storefront/record-count`: 2.8.0
+- `@storefront/related-queries`: 2.8.0
+- `@storefront/sayt`: 2.8.1
+- `@storefront/sort`: 2.8.0
+- `@storefront/structure`: 2.8.1
+- `@storefront/template`: 2.8.0
+
+### Fixed
+#### core
+- SF-1296: Resolved memory leak issue with aliasing.
+  - Dangling references to Riot tags (and indirectly, DOM nodes) are now being freed properly.
+
+#### sayt
+- SF-1296: Resolved memory leak issue with autocomplete component.
+  - `subscribe` is used instead of `flux.on` to unregister event handlers automatically on unmount.
+
 ## [v2.8.3] - 2019-04-04
 
 Package versions:
