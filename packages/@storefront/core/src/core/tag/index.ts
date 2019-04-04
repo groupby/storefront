@@ -100,6 +100,7 @@ class Tag<P extends object = any, S extends object = any, A extends object = any
 
   _removeEventHandlers = () => {
     this._eventHandlers.forEach(([event, handler]) => this.flux.off(event, handler));
+    // allow event handlers to be garbage-collected
     this._eventHandlers = [];
   }
 
