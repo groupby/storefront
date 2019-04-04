@@ -255,6 +255,42 @@ suite('Tag', ({ expect, spy, stub }) => {
     });
   });
 
+  describe('_removeEventHandlers()', () => {
+    it('should call off for each registered handler', () => {
+      const off = spy();
+      const eventA = 'a';
+      const eventB = 'b';
+      const cbA = () => null;
+      const cbB = () => null;
+      tag._eventHandlers = [
+        [eventA, cbA],
+        [eventB, cbB],
+      ];
+      tag.flux = { off };
+
+      tag._removeEventHandlers();
+
+      expect(off).to.be.calledTwice;
+      expect(off).to.be.calledWith(eventA, cbA);
+      expect(off).to.be.calledWith(eventB, cbB);
+    });
+
+    it('should remove all handlers', () => {
+      tag._eventHandlers = [
+        ['a', () => null],
+        ['b', () => null],
+        ['c', () => null],
+        ['d', () => null],
+        ['e', () => null],
+      ];
+      tag.flux = { off: () => null };
+
+      tag._removeEventHandlers();
+
+      expect(tag._eventHandlers).to.be.empty;
+    });
+  });
+
   describe('_removeLookups()', () => {
     it('should call allOff for each lookup', () => {
       const events = ['a', 'b', 'c', 'd', 'e', 'f'];
