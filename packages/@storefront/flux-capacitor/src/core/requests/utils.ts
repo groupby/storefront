@@ -183,8 +183,8 @@ namespace RequestHelpers {
   export const chain = <T>(...fns: Array<(...obj: any[]) => T>): T =>
     fns.reduce((final, fn) => fn(final) || final, <T>{});
 
-  export const attachSessionId = <T>(state: Store.State): ((r: T) => T & { sessionId: Store.SessionId }) =>
-    (r) => Object.assign({ sessionId: state.session.sessionId }, r);
+  export const extractSessionId = (state: Store.State): Store.SessionId =>
+    state.session.sessionId;
 }
 
 export default RequestHelpers;

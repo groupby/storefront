@@ -581,17 +581,14 @@ suite('requests helpers', ({ expect, stub, spy }) => {
     });
   });
 
-  describe('attachSessionId()', () => {
-    it('should return a function which applies the sessionId to the request', () => {
-      const req = { a: 'b' };
+  describe('extractSessionId()', () => {
+    it('should return sessionId', () => {
       const sessionId = 'foo';
       const state: any = { c: 'd', session: { sessionId } };
 
-      const attachSessionId = RequestHelpers.attachSessionId(state);
-      const requestWithSessionId = attachSessionId(req);
+      const extractedSessionId = RequestHelpers.extractSessionId(state);
 
-      expect(attachSessionId).to.be.a('function');
-      expect(requestWithSessionId).to.eql({ ...req, sessionId });
+      expect(extractedSessionId).to.eql(sessionId);
     });
   });
 });
