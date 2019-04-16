@@ -7,4 +7,4 @@
       - The `attachSesssionId` function needs to be updated to just pull the sessionId out of the store and return it. Otherwise we can potentially remove this function and just add sessionId directly within the `search` function itself in the `utils.ts` file.
 
 - 2019-04-16
-  - As of this date you only need to use the `extractSessionId` method to include `sessionId` with the search request object.
+  - Need to update the version of `api-javascript` being pulled into the StoreFront project.

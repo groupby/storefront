@@ -35,11 +35,15 @@ suite('requests helpers', ({ expect, stub, spy }) => {
     const query = 'dress';
     const collection = 'alternate';
     const refinements = [{ a: 'b' }, { c: 'd' }];
+    let state;
+    let sessionId;
     let sortSelector: sinon.SinonStub;
     let requestSortAdapter: sinon.SinonStub;
     let pastPurchaseBiasingAdapter: sinon.SinonStub;
 
     beforeEach(() => {
+      state = <any>{ session: { sessionId: 'foo' } };
+      sessionId = <any>RequestHelpers.extractSessionId(state);
       sortSelector = stub(Selectors, 'sort');
       requestSortAdapter = stub(RequestAdapter, 'extractSort');
       pastPurchaseBiasingAdapter = stub(ConfigAdapter, 'shouldAddPastPurchaseBias');
@@ -55,13 +59,14 @@ suite('requests helpers', ({ expect, stub, spy }) => {
     it('should build out request', () => {
       stub(Selectors, 'config').returns({});
 
-      expect(RequestHelpers.search(<any>{})).to.eql({
+      expect(RequestHelpers.search(state)).to.eql({
         pageSize: remainingRecords,
         area,
         fields,
         query,
         collection,
         refinements,
+        sessionId,
         skip: originalSkip
       });
     });
@@ -69,7 +74,7 @@ suite('requests helpers', ({ expect, stub, spy }) => {
     it('should decrease page size to prevent exceeding MAX_RECORDS', () => {
       stub(Selectors, 'config').returns({ search: {} });
 
-      const { pageSize, skip } = RequestHelpers.search(<any>{});
+      const { pageSize, skip } = RequestHelpers.search(state);
 
       expect(pageSize).to.eq(remainingRecords);
       expect(skip).to.eq(originalSkip);
@@ -80,7 +85,7 @@ suite('requests helpers', ({ expect, stub, spy }) => {
       const extractLanguage = stub(ConfigAdapter, 'extractLanguage').returns(language);
       stub(Selectors, 'config').returns({ search: {} });
 
-      const request = RequestHelpers.search(<any>{});
+      const request = RequestHelpers.search(state);
 
       expect(request.language).to.eq(language);
     });
@@ -91,14 +96,13 @@ suite('requests helpers', ({ expect, stub, spy }) => {
       requestSortAdapter.returns(sort);
       stub(Selectors, 'config').returns({ search: {} });
 
-      const request = RequestHelpers.search(<any>{});
+      const request = RequestHelpers.search(state);
 
       expect(request.sort).to.eq(sort);
     });
 
     it('should add past purchase biasing', () => {
       const biasing = { c: 'd' };
-      const state: any = { e: 'f' };
       const config: any = { search: {} };
       const pastPurchaseBiasing = stub(PastPurchaseAdapter, 'pastPurchaseBiasing').returns(biasing);
       pastPurchaseBiasingAdapter.returns(true);
@@ -116,7 +120,7 @@ suite('requests helpers', ({ expect, stub, spy }) => {
       const overrideRequest = { pageSize, skip };
       stub(Selectors, 'config').returns({});
 
-      const request = RequestHelpers.search(<any>{}, overrideRequest);
+      const request = RequestHelpers.search(state, overrideRequest);
 
       expect(request.pageSize).to.eq(pageSize);
       expect(request.skip).to.eq(skip);

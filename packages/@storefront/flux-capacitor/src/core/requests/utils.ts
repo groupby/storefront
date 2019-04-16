@@ -27,13 +27,15 @@ namespace RequestHelpers {
     const page = Selectors.page(state);
     const pageSize = Selectors.pageSize(state);
     const skip = RequestAdapter.extractSkip(page, pageSize);
-    const request: Partial<Request> = {
+    const sessionId = RequestHelpers.extractSessionId(state);
+    const request: any = {
       pageSize: RequestAdapter.clampPageSize(page, pageSize),
       area: Selectors.area(state),
       fields: Selectors.fields(state),
       query: Selectors.query(state),
       collection: Selectors.collection(state),
       refinements: Selectors.selectedRefinements(state),
+      sessionId,
       skip
     };
 
