@@ -42,8 +42,8 @@ suite('requests helpers', ({ expect, stub, spy }) => {
     let pastPurchaseBiasingAdapter: sinon.SinonStub;
 
     beforeEach(() => {
-      state = <any>{ session: { sessionId: 'foo' } };
-      sessionId = <any>RequestHelpers.extractSessionId(state);
+      sessionId = 'foo';
+      state = <any>{ session: { sessionId } };
       sortSelector = stub(Selectors, 'sort');
       requestSortAdapter = stub(RequestAdapter, 'extractSort');
       pastPurchaseBiasingAdapter = stub(ConfigAdapter, 'shouldAddPastPurchaseBias');
@@ -54,6 +54,7 @@ suite('requests helpers', ({ expect, stub, spy }) => {
       stub(Selectors, 'selectedRefinements').returns(refinements);
       stub(Selectors, 'page').returns(page);
       stub(Selectors, 'pageSize').returns(originalPageSize);
+      stub(RequestHelpers, 'extractSessionId').returns(sessionId);
     });
 
     it('should build out request', () => {
@@ -74,7 +75,7 @@ suite('requests helpers', ({ expect, stub, spy }) => {
     it('should decrease page size to prevent exceeding MAX_RECORDS', () => {
       stub(Selectors, 'config').returns({ search: {} });
 
-      const { pageSize, skip } = RequestHelpers.search(state);
+      const { pageSize, skip } = RequestHelpers.search(<any> {});
 
       expect(pageSize).to.eq(remainingRecords);
       expect(skip).to.eq(originalSkip);
@@ -85,7 +86,7 @@ suite('requests helpers', ({ expect, stub, spy }) => {
       const extractLanguage = stub(ConfigAdapter, 'extractLanguage').returns(language);
       stub(Selectors, 'config').returns({ search: {} });
 
-      const request = RequestHelpers.search(state);
+      const request = RequestHelpers.search(<any> {});
 
       expect(request.language).to.eq(language);
     });
@@ -96,13 +97,14 @@ suite('requests helpers', ({ expect, stub, spy }) => {
       requestSortAdapter.returns(sort);
       stub(Selectors, 'config').returns({ search: {} });
 
-      const request = RequestHelpers.search(state);
+      const request = RequestHelpers.search(<any>{});
 
       expect(request.sort).to.eq(sort);
     });
 
     it('should add past purchase biasing', () => {
       const biasing = { c: 'd' };
+      const state: any = { e: 'f' };
       const config: any = { search: {} };
       const pastPurchaseBiasing = stub(PastPurchaseAdapter, 'pastPurchaseBiasing').returns(biasing);
       pastPurchaseBiasingAdapter.returns(true);
@@ -120,7 +122,7 @@ suite('requests helpers', ({ expect, stub, spy }) => {
       const overrideRequest = { pageSize, skip };
       stub(Selectors, 'config').returns({});
 
-      const request = RequestHelpers.search(state, overrideRequest);
+      const request = RequestHelpers.search(<any> {}, overrideRequest);
 
       expect(request.pageSize).to.eq(pageSize);
       expect(request.skip).to.eq(skip);
@@ -590,9 +592,7 @@ suite('requests helpers', ({ expect, stub, spy }) => {
       const sessionId = 'foo';
       const state: any = { c: 'd', session: { sessionId } };
 
-      const extractedSessionId = RequestHelpers.extractSessionId(state);
-
-      expect(extractedSessionId).to.eql(sessionId);
+      expect(RequestHelpers.extractSessionId(state)).to.eql(sessionId);
     });
   });
 });
