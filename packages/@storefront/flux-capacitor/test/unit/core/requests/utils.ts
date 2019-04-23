@@ -75,7 +75,7 @@ suite('requests helpers', ({ expect, stub, spy }) => {
     it('should decrease page size to prevent exceeding MAX_RECORDS', () => {
       stub(Selectors, 'config').returns({ search: {} });
 
-      const { pageSize, skip } = RequestHelpers.search(<any> {});
+      const { pageSize, skip } = RequestHelpers.search(<any>{});
 
       expect(pageSize).to.eq(remainingRecords);
       expect(skip).to.eq(originalSkip);
@@ -86,7 +86,7 @@ suite('requests helpers', ({ expect, stub, spy }) => {
       const extractLanguage = stub(ConfigAdapter, 'extractLanguage').returns(language);
       stub(Selectors, 'config').returns({ search: {} });
 
-      const request = RequestHelpers.search(<any> {});
+      const request = RequestHelpers.search(<any>{});
 
       expect(request.language).to.eq(language);
     });
@@ -122,7 +122,7 @@ suite('requests helpers', ({ expect, stub, spy }) => {
       const overrideRequest = { pageSize, skip };
       stub(Selectors, 'config').returns({});
 
-      const request = RequestHelpers.search(<any> {}, overrideRequest);
+      const request = RequestHelpers.search(<any>{}, overrideRequest);
 
       expect(request.pageSize).to.eq(pageSize);
       expect(request.skip).to.eq(skip);
