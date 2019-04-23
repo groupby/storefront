@@ -6,9 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] [patch]
 ### Changed
-- SF-1335: `sessionId` will now only be included in `search` request objects.
+- SF-1335: `sessionId` will now only sent with `search` requests.
   - `attachSessionId()` has been changed to `extractSessionId()`.
-  - The `BuildFunction()` in the case of `search` now uses `extractSessionId()` to retrieve the `sessionId` from the app store.
+  - The `search` request builder now uses `extractSessionId()` to retrieve the `sessionId` from the application store.
 
 ## [1.73.0] - 2019-02-25
 ### Changed
