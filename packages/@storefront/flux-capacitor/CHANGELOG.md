@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] [patch]
+### Changed
+- SF-1335: `sessionId` will now only be included in `search` request objects.
+  - `attachSessionId()` has been changed to `extractSessionId()`.
+  - The `BuildFunction()` in the case of `search` now uses `extractSessionId()` to retrieve the `sessionId` from the app store.
+
 ## [1.73.0] - 2019-02-25
 ### Changed
 - SF-1271: `composeRequest()` now uses the `attachSessionId()` to add sessionIds to every StoreFront request.
