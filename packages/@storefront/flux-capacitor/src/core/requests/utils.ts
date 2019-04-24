@@ -27,6 +27,7 @@ namespace RequestHelpers {
     const page = Selectors.page(state);
     const pageSize = Selectors.pageSize(state);
     const skip = RequestAdapter.extractSkip(page, pageSize);
+    const sessionId = RequestHelpers.extractSessionId(state);
     const request: Partial<Request> = {
       pageSize: RequestAdapter.clampPageSize(page, pageSize),
       area: Selectors.area(state),
@@ -34,6 +35,7 @@ namespace RequestHelpers {
       query: Selectors.query(state),
       collection: Selectors.collection(state),
       refinements: Selectors.selectedRefinements(state),
+      sessionId,
       skip
     };
 
@@ -183,8 +185,8 @@ namespace RequestHelpers {
   export const chain = <T>(...fns: Array<(...obj: any[]) => T>): T =>
     fns.reduce((final, fn) => fn(final) || final, <T>{});
 
-  export const attachSessionId = <T>(state: Store.State): ((r: T) => T & { sessionId: Store.SessionId }) =>
-    (r) => Object.assign({ sessionId: state.session.sessionId }, r);
+  export const extractSessionId = (state: Store.State): Store.SessionId =>
+    state.session.sessionId;
 }
 
 export default RequestHelpers;

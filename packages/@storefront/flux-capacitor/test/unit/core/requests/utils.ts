@@ -35,11 +35,13 @@ suite('requests helpers', ({ expect, stub, spy }) => {
     const query = 'dress';
     const collection = 'alternate';
     const refinements = [{ a: 'b' }, { c: 'd' }];
+    let sessionId;
     let sortSelector: sinon.SinonStub;
     let requestSortAdapter: sinon.SinonStub;
     let pastPurchaseBiasingAdapter: sinon.SinonStub;
 
     beforeEach(() => {
+      sessionId = 'foo';
       sortSelector = stub(Selectors, 'sort');
       requestSortAdapter = stub(RequestAdapter, 'extractSort');
       pastPurchaseBiasingAdapter = stub(ConfigAdapter, 'shouldAddPastPurchaseBias');
@@ -50,6 +52,7 @@ suite('requests helpers', ({ expect, stub, spy }) => {
       stub(Selectors, 'selectedRefinements').returns(refinements);
       stub(Selectors, 'page').returns(page);
       stub(Selectors, 'pageSize').returns(originalPageSize);
+      stub(RequestHelpers, 'extractSessionId').returns(sessionId);
     });
 
     it('should build out request', () => {
@@ -62,6 +65,7 @@ suite('requests helpers', ({ expect, stub, spy }) => {
         query,
         collection,
         refinements,
+        sessionId,
         skip: originalSkip
       });
     });
@@ -581,17 +585,12 @@ suite('requests helpers', ({ expect, stub, spy }) => {
     });
   });
 
-  describe('attachSessionId()', () => {
-    it('should return a function which applies the sessionId to the request', () => {
-      const req = { a: 'b' };
+  describe('extractSessionId()', () => {
+    it('should return sessionId', () => {
       const sessionId = 'foo';
       const state: any = { c: 'd', session: { sessionId } };
 
-      const attachSessionId = RequestHelpers.attachSessionId(state);
-      const requestWithSessionId = attachSessionId(req);
-
-      expect(attachSessionId).to.be.a('function');
-      expect(requestWithSessionId).to.eql({ ...req, sessionId });
+      expect(RequestHelpers.extractSessionId(state)).to.eql(sessionId);
     });
   });
 });

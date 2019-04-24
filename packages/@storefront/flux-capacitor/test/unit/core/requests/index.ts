@@ -78,7 +78,6 @@ suite('RequestBuilder', ({ expect, stub, spy }) => {
    it('should combine build, and override, and call setPastState', () => {
      const req = { a: 'b' };
      const normalizedReq = { c: 'd' };
-     const attachSessionId = () => ({ g: 'h' });
      const oFn = (s) => s;
      const o = () => ({ e: 'f' });
      const setPastState = () => null;
@@ -90,11 +89,10 @@ suite('RequestBuilder', ({ expect, stub, spy }) => {
      requestBuilder.override = stub().withArgs(oFn, requestBuilder).returns(o);
      requestBuilder.setPastState = stub().withArgs(requestBuilder).returns(setPastState);
      stub(utils, 'normalizeToFunction').withArgs(req).returns(normalizedReq);
-     stub(RequestHelpers, 'attachSessionId').withArgs(state).returns(attachSessionId);
 
      requestBuilder.composeRequest(state, overrideRequest);
 
-     expect(requestChain).to.be.calledWithExactly(normalizedReq, attachSessionId, o, setPastState);
+     expect(requestChain).to.be.calledWithExactly(normalizedReq, o, setPastState);
    });
  });
 });
