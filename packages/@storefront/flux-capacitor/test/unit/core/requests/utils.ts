@@ -35,7 +35,6 @@ suite('requests helpers', ({ expect, stub, spy }) => {
     const query = 'dress';
     const collection = 'alternate';
     const refinements = [{ a: 'b' }, { c: 'd' }];
-    let state;
     let sessionId;
     let sortSelector: sinon.SinonStub;
     let requestSortAdapter: sinon.SinonStub;
@@ -43,7 +42,6 @@ suite('requests helpers', ({ expect, stub, spy }) => {
 
     beforeEach(() => {
       sessionId = 'foo';
-      state = <any>{ session: { sessionId } };
       sortSelector = stub(Selectors, 'sort');
       requestSortAdapter = stub(RequestAdapter, 'extractSort');
       pastPurchaseBiasingAdapter = stub(ConfigAdapter, 'shouldAddPastPurchaseBias');
@@ -60,7 +58,7 @@ suite('requests helpers', ({ expect, stub, spy }) => {
     it('should build out request', () => {
       stub(Selectors, 'config').returns({});
 
-      expect(RequestHelpers.search(state)).to.eql({
+      expect(RequestHelpers.search(<any>{})).to.eql({
         pageSize: remainingRecords,
         area,
         fields,
