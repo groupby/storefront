@@ -48,7 +48,7 @@
     "ext": "ts,json,html,css"
   },
   "dependencies": {
-    "@storefront/flux-capacitor": "1.73.0",
+    "@storefront/flux-capacitor": "1.73.1",
     "@types/clone": "^0.1.30",
     "@types/deep-assign": "^0.1.0",
     "@types/js-cookie": "^2.0.28",
