@@ -1581,4 +1581,16 @@ suite('ActionCreators', ({ expect, spy, stub }) => {
       expectAction(ActionCreators.startApp(), Actions.START_APP);
     });
   });
+
+  describe('startRedirect()', () => {
+    it('should return an action', () => {
+      expectAction(ActionCreators.startRedirect(), Actions.START_REDIRECT);
+    });
+  });
+
+  describe('stopRedirect()', () => {
+    it('should return an action', () => {
+      expectAction(ActionCreators.stopRedirect(), Actions.DONE_REDIRECT);
+    });
+  });
 });

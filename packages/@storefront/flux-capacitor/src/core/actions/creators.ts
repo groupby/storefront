@@ -1176,6 +1176,23 @@ namespace ActionCreators {
   export function startApp(): Actions.StartApp {
     return createAction(Actions.START_APP, undefined);
   }
+
+  // navigation action creators
+  /**
+   * Fires the START_REDIRECT action.
+   * @return - Action with undefined.
+   */
+  export function startRedirect(): Actions.StartRedirect {
+    return createAction(Actions.START_REDIRECT, undefined);
+  }
+
+  /**
+   * Fires the DONE_REDIRECT action.
+   * @return - Action with undefined.
+   */
+  export function stopRedirect(): Actions.DoneRedirect {
+    return createAction(Actions.DONE_REDIRECT, undefined);
+  }
 }
 
 export default ActionCreators;
