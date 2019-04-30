@@ -196,8 +196,10 @@ suite('URL Service', ({ expect, spy, stub, itShouldBeCore, itShouldExtendBaseSer
     });
 
     it('should use the opts redirects if it is a function', () => {
+      const noop = () => null;
       const redirectsResult = 'www.redirect.com';
       const redirects = stub().withArgs(url).returns(redirectsResult);
+      service['app'] = <any>{ flux: { store: { dispatch: noop }, actions: { startRedirect: noop } } };
       service['opts'] = <any>{ redirects };
 
       service.pushState(null, null, url);
@@ -206,7 +208,9 @@ suite('URL Service', ({ expect, spy, stub, itShouldBeCore, itShouldExtendBaseSer
     });
 
     it('should use the opts redirects if it is an object', () => {
+      const noop = () => null;
       const redirectsResult = 'www.redirect.com';
+      service['app'] = <any>{ flux: { store: { dispatch: noop }, actions: { startRedirect: noop } } };
       service['opts'] = <any>{
         redirects: {
           [url]: redirectsResult

@@ -82,7 +82,9 @@ class UrlService extends BaseService<UrlService.Options> {
           ? this.opts.redirects(url)
           : this.opts.redirects[url];
         if (redirectFnResult) {
-          return WINDOW().location.assign(redirectFnResult);
+          WINDOW().location.assign(redirectFnResult);
+          this.app.flux.store.dispatch(this.app.flux.actions.startRedirect());
+          return;
         } else {
           try {
             return this.history.pushState(data, title, url);
