@@ -26,11 +26,14 @@ import suite from '../../_suite';
 
 suite('Middleware', ({ expect, spy, stub }) => {
   let next: sinon.SinonSpy;
+  let redirectAnalyzer;
   let saveStateAnalyzer;
 
   beforeEach(() => {
     next = spy();
+    redirectAnalyzer = Middleware.redirectAnalyzer();
     saveStateAnalyzer = Middleware.saveStateAnalyzer();
+    stub(Middleware, 'redirectAnalyzer').returns(redirectAnalyzer);
     stub(Middleware, 'saveStateAnalyzer').returns(saveStateAnalyzer);
   });
 
@@ -45,6 +48,7 @@ suite('Middleware', ({ expect, spy, stub }) => {
       Middleware.thunkEvaluator,
       Middleware.arrayMiddleware,
       batchMiddleware,
+      redirectAnalyzer,
       updateHistoryMiddleware,
       saveStateAnalyzer,
       Middleware.injectStateIntoRehydrate,
@@ -83,6 +87,7 @@ suite('Middleware', ({ expect, spy, stub }) => {
       const applyMiddleware = stub(redux, 'applyMiddleware');
       applyMiddleware.withArgs(
         ...normalizingMiddleware,
+        redirectAnalyzer,
         updateHistoryMiddleware,
         saveStateAnalyzer,
         Middleware.injectStateIntoRehydrate,
@@ -424,6 +429,27 @@ suite('Middleware', ({ expect, spy, stub }) => {
       expect(next).to.be.calledWith(action);
       expect(extract).to.be.calledWithExactly(action, state);
       expect(updateBiasing).to.be.calledWithExactly(extracted);
+    });
+  });
+
+  describe('redirectAnalyzer()', () => {
+    it('should exit early if the action is of type START_REDIRECT', () => {
+      const next: any = sinon.spy();
+      const action = { type: 'START_REDIRECT' };
+
+      const result = redirectAnalyzer()(next)(action);
+
+      expect(result).to.be.undefined;
+      expect(next).not.to.be.called;
+    });
+
+    it('should invoke the next middleware if the action is of type `DONE_REDIRECT`', () => {
+      const next: any = sinon.spy();
+      const action = { type: 'DONE_REDIRECT' };
+
+      redirectAnalyzer()(next)(action);
+
+      expect(next).to.be.calledWithExactly(action);
     });
   });
 

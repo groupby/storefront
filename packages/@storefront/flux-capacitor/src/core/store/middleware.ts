@@ -147,6 +147,24 @@ export namespace Middleware {
     };
   }
 
+  export function redirectAnalyzer() {
+    let isRedirecting = false;
+
+    return () => (next) => (action) => {
+      if (action.type === Actions.START_REDIRECT) {
+        isRedirecting = true;
+      } else if (action.type === Actions.DONE_REDIRECT) {
+        isRedirecting = false;
+      }
+
+      if (isRedirecting) {
+        return;
+      } else {
+        return next(action);
+      }
+    };
+  }
+
   export function saveStateAnalyzer() {
     let hasDispatched = false;
     let batchLevel = 0;
@@ -192,6 +210,7 @@ export namespace Middleware {
     ];
     const middleware = [
       ...normalizingMiddleware,
+      Middleware.redirectAnalyzer(),
       Middleware.updateHistory(flux),
       Middleware.saveStateAnalyzer(),
       Middleware.injectStateIntoRehydrate,
