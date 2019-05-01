@@ -433,8 +433,21 @@ suite('Middleware', ({ expect, spy, stub }) => {
   });
 
   describe('redirectAnalyzer()', () => {
-    it('should exit early if the action is of type START_REDIRECT', () => {
-      const next: any = sinon.spy();
+    let next;
+
+    beforeEach(() => {
+      next = sinon.spy();
+    });
+
+    it('should invoke the next middleware by default', () => {
+      const action = { type: 'FOO' };
+
+      redirectAnalyzer()(next)(action);
+
+      expect(next).to.be.calledWithExactly(action);
+    });
+
+    it('should not invoke the next middleware if the action is of type START_REDIRECT', () => {
       const action = { type: 'START_REDIRECT' };
 
       const result = redirectAnalyzer()(next)(action);
@@ -443,8 +456,16 @@ suite('Middleware', ({ expect, spy, stub }) => {
       expect(next).not.to.be.called;
     });
 
-    it('should invoke the next middleware if the action is of type `DONE_REDIRECT`', () => {
-      const next: any = sinon.spy();
+    it('should not invoke the next middleware if the START_REDIRECT action has been dispatched previously', () => {
+      const action = { type: 'START_REDIRECT' };
+
+      redirectAnalyzer()(next)(action);
+      redirectAnalyzer()(next)({ type: 'SOME_OTHER_ACTION' });
+
+      expect(next).not.to.be.called;
+    });
+
+    it('should invoke the next middleware if the action is of type DONE_REDIRECT', () => {
       const action = { type: 'DONE_REDIRECT' };
 
       redirectAnalyzer()(next)(action);
