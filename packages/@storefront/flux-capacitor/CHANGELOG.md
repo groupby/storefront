@@ -9,7 +9,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - SF-1355:
   - Added `START_REDIRECT` and `DONE_REDIRECT` actions.
   - Added `startRedirect()` and `stopRedirect()` action creators.
-- <Describe additions>
 
 ### Fixed
 - SF-1355: Fixed an issue where navigating via redirect resulted in a 'dropped' browser history entry.
