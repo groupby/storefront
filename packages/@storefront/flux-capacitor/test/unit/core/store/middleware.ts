@@ -445,14 +445,18 @@ suite('Middleware', ({ expect, spy, stub }) => {
     it('should suppress subsequent middleware upon receipt of the START_REDIRECT action, until the DONE_REDIRECT action is received', () => {
       const startRedirectAction = { type: Actions.START_REDIRECT };
       const doneRedirectAction = { type: Actions.DONE_REDIRECT };
+      const finalAction = { type: 'QUUX' };
 
       redirectAnalyzer()(next)(startRedirectAction);
       redirectAnalyzer()(next)({ type: 'FOO' });
       redirectAnalyzer()(next)({ type: 'BAR' });
       redirectAnalyzer()(next)({ type: 'BAZ' });
       redirectAnalyzer()(next)(doneRedirectAction);
+      redirectAnalyzer()(next)(finalAction);
 
-      expect(next).to.have.callCount(1);
+      expect(next).to.have.callCount(2)
+        .and.calledWithExactly(doneRedirectAction)
+        .and.calledWithExactly(finalAction);
     });
   });
 
