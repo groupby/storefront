@@ -157,11 +157,7 @@ export namespace Middleware {
         isRedirecting = false;
       }
 
-      if (isRedirecting) {
-        return;
-      } else {
-        return next(action);
-      }
+      if (!isRedirecting) return next(action);
     };
   }
 
