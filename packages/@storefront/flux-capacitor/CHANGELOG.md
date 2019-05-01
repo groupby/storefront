@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] [minor]
 ### Added
-- SF-1355:
+- SF-1355: Added support for marking the beginning and end of a redirect.
   - Added `START_REDIRECT` and `DONE_REDIRECT` actions.
   - Added `startRedirect()` and `stopRedirect()` action creators.
 
