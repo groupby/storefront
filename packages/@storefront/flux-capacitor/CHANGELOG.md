@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Added `startRedirect()` and `stopRedirect()` action creators.
 
 ### Fixed
-- SF-1355: Fixed an issue where navigating via redirect resulted in a 'dropped' browser history entry.
+- SF-1355: Fixed an issue where navigating via redirect resulted in a "dropped" browser history entry.
 
 ## [1.73.1] - 2019-04-24
 ### Changed
