@@ -441,30 +441,18 @@ suite('Middleware', ({ expect, spy, stub }) => {
       expect(next).to.be.calledWithExactly(action);
     });
 
-    it('should not invoke the next middleware if the action is of type START_REDIRECT', () => {
-      const action = { type: 'START_REDIRECT' };
+    // tslint:disable-next-line max-line-length
+    it('should suppress subsequent middleware upon receipt of the START_REDIRECT action, until the DONE_REDIRECT action is received', () => {
+      const startRedirectAction = { type: Actions.START_REDIRECT };
+      const doneRedirectAction = { type: Actions.DONE_REDIRECT };
 
-      const result = redirectAnalyzer()(next)(action);
+      redirectAnalyzer()(next)(startRedirectAction);
+      redirectAnalyzer()(next)({ type: 'FOO' });
+      redirectAnalyzer()(next)({ type: 'BAR' });
+      redirectAnalyzer()(next)({ type: 'BAZ' });
+      redirectAnalyzer()(next)(doneRedirectAction);
 
-      expect(result).to.be.undefined;
-      expect(next).not.to.be.called;
-    });
-
-    it('should not invoke the next middleware if the START_REDIRECT action has been dispatched previously', () => {
-      const action = { type: 'START_REDIRECT' };
-
-      redirectAnalyzer()(next)(action);
-      redirectAnalyzer()(next)({ type: 'SOME_OTHER_ACTION' });
-
-      expect(next).not.to.be.called;
-    });
-
-    it('should invoke the next middleware if the action is of type DONE_REDIRECT', () => {
-      const action = { type: 'DONE_REDIRECT' };
-
-      redirectAnalyzer()(next)(action);
-
-      expect(next).to.be.calledWithExactly(action);
+      expect(next).to.have.callCount(1);
     });
   });
 
