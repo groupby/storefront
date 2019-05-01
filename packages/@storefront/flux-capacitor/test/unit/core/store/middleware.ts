@@ -433,12 +433,6 @@ suite('Middleware', ({ expect, spy, stub }) => {
   });
 
   describe('redirectAnalyzer()', () => {
-    let next;
-
-    beforeEach(() => {
-      next = sinon.spy();
-    });
-
     it('should invoke the next middleware by default', () => {
       const action = { type: 'FOO' };
 
