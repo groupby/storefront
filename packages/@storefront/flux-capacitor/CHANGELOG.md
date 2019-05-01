@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] [major|minor|patch]
+### Added
+- SF-1355:
+  - Added `START_REDIRECT` and `DONE_REDIRECT` actions.
+  - Added `startRedirect()` and `stopRedirect()` action creators.
+- <Describe additions>
+
+### Fixed
+- SF-1355: Fixed an issue where navigating via redirect resulted in a 'dropped' browser history entry.
+
 ## [1.73.1] - 2019-04-24
 ### Changed
 - SF-1335: `sessionId` will now only be sent with `search` requests.
