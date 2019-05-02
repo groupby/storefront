@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] [patch]
+### Fixed
+- SF-970: Prevent unnecessary update of the `Sayt` component on mount.
+
 ## [2.8.1] - 2019-04-04
 ### Fixed
 - SF-1296: Resolved memory leak issue with autocomplete component.
