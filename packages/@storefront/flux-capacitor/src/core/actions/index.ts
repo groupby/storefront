@@ -241,6 +241,12 @@ namespace Actions {
   export type RefreshState = Action<typeof REFRESH_STATE, any>;
   export const SAVE_STATE = 'SAVE_STATE';
   export type SaveState = Action<typeof SAVE_STATE, any>;
+
+  // navigation actions
+  export const START_REDIRECT = 'START_REDIRECT';
+  export type StartRedirect = Action<typeof START_REDIRECT, undefined>;
+  export const DONE_REDIRECT = 'DONE_REDIRECT';
+  export type DoneRedirect = Action<typeof DONE_REDIRECT, undefined>;
   // tslint:enable max-line-length
 }
 
