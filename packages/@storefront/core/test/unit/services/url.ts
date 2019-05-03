@@ -12,6 +12,7 @@ suite('URL Service', ({ expect, spy, stub, itShouldBeCore, itShouldExtendBaseSer
   const beautifier = { refinementMapping: [], queryToken: 'q' };
   const docTitle = 'a title';
   const href = 'www.href.com';
+  const noop = () => null;
   let service: Service;
   let urlBeautifier;
   let addEventListener;
@@ -198,6 +199,7 @@ suite('URL Service', ({ expect, spy, stub, itShouldBeCore, itShouldExtendBaseSer
     it('should use the opts redirects if it is a function', () => {
       const redirectsResult = 'www.redirect.com';
       const redirects = stub().withArgs(url).returns(redirectsResult);
+      service['app'] = <any>{ flux: { store: { dispatch: noop }, actions: { startRedirect: noop } } };
       service['opts'] = <any>{ redirects };
 
       service.pushState(null, null, url);
@@ -207,6 +209,7 @@ suite('URL Service', ({ expect, spy, stub, itShouldBeCore, itShouldExtendBaseSer
 
     it('should use the opts redirects if it is an object', () => {
       const redirectsResult = 'www.redirect.com';
+      service['app'] = <any>{ flux: { store: { dispatch: noop }, actions: { startRedirect: noop } } };
       service['opts'] = <any>{
         redirects: {
           [url]: redirectsResult
@@ -232,12 +235,29 @@ suite('URL Service', ({ expect, spy, stub, itShouldBeCore, itShouldExtendBaseSer
       const pushState = () => {
         throw new DOMException('here be SecurityError', CoreUtils.DOMEXCEPTION_NAMES.SECURITY_ERROR);
       };
+      service['app'] = <any>{ flux: { store: { dispatch: noop }, actions: { startRedirect: noop } } };
       service['opts'] = <any>{ redirects: {} };
       service.history = <any>{ pushState };
 
       service.pushState(data, title, url);
 
       expect(assign).to.be.calledWithExactly(url);
+    });
+
+    it('should dispatch a START_REDIRECT action when a SecurityError is thrown', () => {
+      const action = { foo: 'bar' };
+      const dispatch = spy();
+      const startRedirect = () => action;
+      const pushState = () => {
+        throw new DOMException('Foo', CoreUtils.DOMEXCEPTION_NAMES.SECURITY_ERROR);
+      };
+      service['app'] = <any>{ flux: { store: { dispatch }, actions: { startRedirect } } };
+      service['opts'] = <any>{ redirects: {} };
+      service.history = <any>{ pushState };
+
+      service.pushState(data, title, url);
+
+      expect(dispatch).to.be.calledWithExactly(action);
     });
 
     it('should rethrow any exception other than SecurityError', () => {
@@ -271,10 +291,27 @@ suite('URL Service', ({ expect, spy, stub, itShouldBeCore, itShouldExtendBaseSer
         throw new DOMException('here be SecurityError',CoreUtils.DOMEXCEPTION_NAMES.SECURITY_ERROR);
       };
       service.history = <any>{ replaceState };
+      service['app'] = <any> { flux: { store: { dispatch: noop }, actions: { startRedirect: noop } } };
 
       service.replaceState(data, title, url);
 
       expect(replace).to.be.calledWithExactly(url);
+    });
+
+    it('should dispatch a START_REDIRECT action when a SecurityError is thrown', () => {
+      const action = { foo: 'bar' };
+      const dispatch = spy();
+      const startRedirect = () => action;
+      const replaceState = () => {
+        throw new DOMException('Foo', CoreUtils.DOMEXCEPTION_NAMES.SECURITY_ERROR);
+      };
+      service['app'] = <any>{ flux: { store: { dispatch }, actions: { startRedirect } } };
+      service['opts'] = <any>{ redirects: {} };
+      service.history = <any>{ replaceState };
+
+      service.replaceState(data, title, url);
+
+      expect(dispatch).to.be.calledWithExactly(action);
     });
 
     it('should rethrow any exception other than SecurityError', () => {

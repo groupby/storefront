@@ -19,7 +19,7 @@ suite('Sayt', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvideAlias
 
     describe('state', () => {
       it('should set initial value', () => {
-        expect(sayt.state.isActive).to.be.true;
+        expect(sayt.state.isActive).to.be.false;
         expect(sayt.state.showRecommendations).to.be.false;
         expect(sayt.state.showProducts).to.be.true;
       });
@@ -128,12 +128,12 @@ suite('Sayt', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvideAlias
   });
 
   describe('onMount()', () => {
-    it('should inactivate sayt', () => {
-      const setInactive = (sayt.setInactive = spy());
+    it('should call unregisterClickAwayHandler', () => {
+      const unregisterClickAwayHandler = sayt.unregisterClickAwayHandler = spy();
 
       sayt.onMount();
 
-      expect(setInactive).to.be.called;
+      expect(unregisterClickAwayHandler).to.be.called;
     });
   });
 
