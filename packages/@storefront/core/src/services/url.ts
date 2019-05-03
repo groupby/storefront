@@ -82,7 +82,9 @@ class UrlService extends BaseService<UrlService.Options> {
           ? this.opts.redirects(url)
           : this.opts.redirects[url];
         if (redirectFnResult) {
-          return WINDOW().location.assign(redirectFnResult);
+          WINDOW().location.assign(redirectFnResult);
+          this.app.flux.store.dispatch(this.app.flux.actions.startRedirect());
+          return;
         } else {
           try {
             return this.history.pushState(data, title, url);
@@ -90,7 +92,9 @@ class UrlService extends BaseService<UrlService.Options> {
             if (e.name === DOMEXCEPTION_NAMES.SECURITY_ERROR) {
               // if a SecurityError is thrown, the URL is probably not in the same origin
               // hard-navigate to the URL instead
-              return WINDOW().location.assign(url);
+              WINDOW().location.assign(url);
+              this.app.flux.store.dispatch(this.app.flux.actions.startRedirect());
+              return;
             } else {
               // rethrow the error for all other cases to prevent infinite loops
               throw e;
@@ -109,7 +113,9 @@ class UrlService extends BaseService<UrlService.Options> {
         if (e.name === DOMEXCEPTION_NAMES.SECURITY_ERROR) {
           // if a SecurityError is thrown, the URL is probably not in the same origin
           // hard-navigate to the URL instead
-          return WINDOW().location.replace(url);
+          WINDOW().location.replace(url);
+          this.app.flux.store.dispatch(this.app.flux.actions.startRedirect());
+          return;
         } else {
           // rethrow the error for all other cases to prevent infinite loops
           throw e;

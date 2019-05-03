@@ -26,11 +26,14 @@ import suite from '../../_suite';
 
 suite('Middleware', ({ expect, spy, stub }) => {
   let next: sinon.SinonSpy;
+  let redirectAnalyzer;
   let saveStateAnalyzer;
 
   beforeEach(() => {
     next = spy();
+    redirectAnalyzer = Middleware.redirectAnalyzer();
     saveStateAnalyzer = Middleware.saveStateAnalyzer();
+    stub(Middleware, 'redirectAnalyzer').returns(redirectAnalyzer);
     stub(Middleware, 'saveStateAnalyzer').returns(saveStateAnalyzer);
   });
 
@@ -45,6 +48,7 @@ suite('Middleware', ({ expect, spy, stub }) => {
       Middleware.thunkEvaluator,
       Middleware.arrayMiddleware,
       batchMiddleware,
+      redirectAnalyzer,
       updateHistoryMiddleware,
       saveStateAnalyzer,
       Middleware.injectStateIntoRehydrate,
@@ -83,6 +87,7 @@ suite('Middleware', ({ expect, spy, stub }) => {
       const applyMiddleware = stub(redux, 'applyMiddleware');
       applyMiddleware.withArgs(
         ...normalizingMiddleware,
+        redirectAnalyzer,
         updateHistoryMiddleware,
         saveStateAnalyzer,
         Middleware.injectStateIntoRehydrate,
@@ -424,6 +429,34 @@ suite('Middleware', ({ expect, spy, stub }) => {
       expect(next).to.be.calledWith(action);
       expect(extract).to.be.calledWithExactly(action, state);
       expect(updateBiasing).to.be.calledWithExactly(extracted);
+    });
+  });
+
+  describe('redirectAnalyzer()', () => {
+    it('should invoke the next middleware by default', () => {
+      const action = { type: 'FOO' };
+
+      redirectAnalyzer()(next)(action);
+
+      expect(next).to.be.calledWithExactly(action);
+    });
+
+    // tslint:disable-next-line max-line-length
+    it('should suppress subsequent middleware upon receipt of the START_REDIRECT action, until the DONE_REDIRECT action is received', () => {
+      const startRedirectAction = { type: Actions.START_REDIRECT };
+      const doneRedirectAction = { type: Actions.DONE_REDIRECT };
+      const finalAction = { type: 'QUUX' };
+
+      redirectAnalyzer()(next)(startRedirectAction);
+      redirectAnalyzer()(next)({ type: 'FOO' });
+      redirectAnalyzer()(next)({ type: 'BAR' });
+      redirectAnalyzer()(next)({ type: 'BAZ' });
+      redirectAnalyzer()(next)(doneRedirectAction);
+      redirectAnalyzer()(next)(finalAction);
+
+      expect(next).to.have.callCount(2)
+        .and.calledWithExactly(doneRedirectAction)
+        .and.calledWithExactly(finalAction);
     });
   });
 
