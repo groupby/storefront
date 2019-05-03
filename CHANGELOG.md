@@ -5,6 +5,98 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v2.9.0] - 2019-05-03
+
+Package versions:
+
+- `@storefront/breadcrumbs`: 2.10.0
+- `@storefront/collections`: 2.9.0
+- `@storefront/core`: 2.9.0
+- `@storefront/details`: 2.9.0
+- `@storefront/did-you-mean`: 2.9.0
+- `@storefront/flux-capacitor`: 1.74.0
+- `@storefront/infinite-scroll`: 2.9.0
+- `@storefront/navigation`: 2.9.0
+- `@storefront/page-size`: 2.9.0
+- `@storefront/paging`: 2.9.0
+- `@storefront/products`: 2.9.0
+- `@storefront/query`: 2.9.0
+- `@storefront/recommendations`: 2.9.0
+- `@storefront/record-count`: 2.9.0
+- `@storefront/related-queries`: 2.9.0
+- `@storefront/sayt`: 2.9.0
+- `@storefront/sort`: 2.9.0
+- `@storefront/structure`: 2.9.0
+- `@storefront/template`: 2.9.0
+
+### Changed
+#### breadcrumbs
+- Update `@storefront/core` to 2.9.0.
+
+#### collections
+- Update `@storefront/core` to 2.9.0.
+
+#### core
+- Update `@storefront/flux-capacitor` to 1.74.0.
+
+#### details
+- Update `@storefront/core` to 2.9.0.
+
+#### did-you-mean
+- Update `@storefront/core` to 2.9.0.
+
+#### infinite-scroll
+- Update `@storefront/core` to 2.9.0.
+
+#### navigation
+- Update `@storefront/core` to 2.9.0.
+
+#### page-size
+- Update `@storefront/core` to 2.9.0.
+
+#### paging
+- Update `@storefront/core` to 2.9.0.
+
+#### products
+- Update `@storefront/core` to 2.9.0.
+
+#### query
+- Update `@storefront/core` to 2.9.0.
+
+#### recommendations
+- Update `@storefront/core` to 2.9.0.
+
+#### record-count
+- Update `@storefront/core` to 2.9.0.
+
+#### related-queries
+- Update `@storefront/core` to 2.9.0.
+
+#### sayt
+- Update `@storefront/core` to 2.9.0.
+
+#### sort
+- Update `@storefront/core` to 2.9.0.
+
+#### structure
+- Update `@storefront/core` to 2.9.0.
+
+#### template
+- Update `@storefront/core` to 2.9.0.
+
+### Added
+#### flux-capacitor
+- SF-1355: Added support for marking the beginning and end of a redirect.
+  - Added `START_REDIRECT` and `DONE_REDIRECT` actions.
+  - Added `startRedirect()` and `stopRedirect()` action creators.
+
+### Fixed
+#### flux-capacitor
+- SF-1355: Fixed an issue where navigating via redirect resulted in a "dropped" browser history entry.
+
+#### sayt
+- SF-970: Prevent unnecessary update of the `Sayt` component on mount.
+
 ## [v2.8.5] - 2019-04-24
 
 Package versions:
