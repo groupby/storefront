@@ -13,7 +13,7 @@ class Sayt {
     },
   };
   state: Sayt.State = {
-    isActive: true,
+    isActive: false,
     showRecommendations: false,
     showProducts: true,
     highlight: (value, replacement) => {
@@ -35,8 +35,8 @@ class Sayt {
   }
 
   onMount() {
-    // initialize as active to initialize child component
-    this.setInactive();
+    // initialize listener for AUTOCOMPLETE_QUERY_UPDATED
+    this.unregisterClickAwayHandler();
   }
 
   setActive = () => !this.state.isActive && this.set({ isActive: true });
