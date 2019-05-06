@@ -51,7 +51,7 @@
     "@storefront/flux-capacitor": "1.74.0",
     "@types/clone": "^0.1.30",
     "@types/deep-assign": "^0.1.0",
-    "@types/js-cookie": "^2.0.28",
+    "@types/js-cookie": "^2.2.2",
     "@types/lodash": "^4.14.70",
     "@types/loglevel": "~1.4.29",
     "@types/riot": "^3.6.1",
