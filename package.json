@@ -47,10 +47,10 @@
     "husky": "^0.14.3",
     "istanbul": "^0.4.5",
     "mocha": "^5.2.0",
-    "nodemon": "^1.18.5",
+    "nodemon": "^1.18.11",
     "nyc": "^13.1.0",
     "source-map-loader": "^0.2.4",
-    "source-map-support": "^0.5.9",
+    "source-map-support": "^0.5.12",
     "string.prototype.startswith": "^0.2.0",
     "to-string-loader": "^1.1.5",
     "ts-node": "^7.0.1",
@@ -63,7 +63,7 @@
     "uglifyjs-webpack-plugin": "^1.0.0",
     "webpack": "^3.0.0",
     "webpack-bundle-analyzer": "^3.0.3",
-    "webpack-cli": "^3.1.2",
+    "webpack-cli": "^3.3.1",
     "webpack-md5-hash": "^0.0.6"
   }
 }
