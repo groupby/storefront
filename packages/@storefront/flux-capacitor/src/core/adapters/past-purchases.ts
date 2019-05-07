@@ -30,7 +30,8 @@ namespace PastPurchasesAdapter {
     }, {});
   };
 
-  export const sortSkus = (skus: Store.PastPurchases.PastPurchaseProduct[], field: string) => {
+  // tslint:disable-next-line max-line-length
+  export const sortSkus = (skus: Store.PastPurchases.PastPurchaseProduct[], field: 'quantity'|'lastPurchased') => {
     return [...skus].sort(({ [field]: lhs }, { [field]: rhs }) => rhs - lhs);
   };
 
