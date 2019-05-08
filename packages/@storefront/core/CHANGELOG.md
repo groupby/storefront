@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] [patch]
 ### Changed
+- Update `loglevel` to 1.6.1.
 - Update `url-parse` to 1.4.6.
 
 ## [2.9.0] - 2019-05-03
