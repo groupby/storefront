@@ -6461,9 +6461,9 @@ tslib@^1.8.0, tslib@^1.8.1:
   integrity sha512-4krF8scpejhaOgqzBEcGM7yDIEfi0/8+8zDRZhNZZ2kjmHJ4hv3zCbQWxoJGz1iw5U0Jl0nma13xzHXcncMavQ==
 
 tslint-config-groupby@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/tslint-config-groupby/-/tslint-config-groupby-1.0.0.tgz#1d7ee5683e4876e75bd26712048f75bd2041d91a"
-  integrity sha1-HX7laD5Idudb0mcSBI91vSBB2Ro=
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/tslint-config-groupby/-/tslint-config-groupby-1.1.0.tgz#26cc484bf5b5abf2cb86bf22a008441a7e29f11e"
+  integrity sha512-N6EyLg/Xab57o04blBFPft4Udn01HNOXZ1k4IEI9I8NR/rKC0RJ159gGSnLIcoy+8I7+xw178S3MTE1XGUM7XQ==
   dependencies:
     tslint-eslint-rules "^3.2.3"
 
