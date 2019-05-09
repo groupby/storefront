@@ -80,42 +80,33 @@
 					<p>This module is meant to be used in a <code>node</code> environment which is bundled for use in the browser.</p>
 					<h3 id="installing">Installing</h3>
 					<p>Use <code>npm</code> or <code>yarn</code> to install in a <code>node</code> project that uses <code>webpack</code>, <code>browserify</code> or similar.</p>
-					<pre><code class="lang-sh"><span class="hljs-built_in">npm</span> install --save @storefront/recommendations
+					<pre><code class="language-sh"><span class="hljs-built_in">npm</span> install --save @storefront/recommendations
 <span class="hljs-comment"># or</span>
-yarn add @storefront/recommendations
-</code></pre>
+yarn add @storefront/recommendations</code></pre>
 					<h2 id="usage">Usage</h2>
 					<p>This module provides the <code>&lt;gb-recommendations&gt;</code> component for use with StoreFront.</p>
 					<h3 id="mount-tag">Mount tag</h3>
-					<pre><code class="lang-html"><span class="hljs-comment">&lt;!-- index.html --&gt;</span>
+					<pre><code class="language-html"><span class="hljs-comment">&lt;!-- index.html --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">gb-recommendations</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">gb-recommendations</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
-</code></pre>
-					<pre><code class="lang-js"><span class="hljs-comment">// index.js</span>
-<span class="hljs-selector-tag">storefront</span><span class="hljs-selector-class">.mount</span>(<span class="hljs-string">'gb-recommendations'</span>);
-</code></pre>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span></code></pre>
+					<pre><code class="language-js"><span class="hljs-comment">// index.js</span>
+<span class="hljs-selector-tag">storefront</span><span class="hljs-selector-class">.mount</span>(<span class="hljs-string">'gb-recommendations'</span>);</code></pre>
 					<h3 id="building-the-package">Building the package</h3>
 					<p>To build an individual package, run the following command:</p>
-					<pre><code class="lang-sh"><span class="hljs-attribute">yarn build</span>
-</code></pre>
+					<pre><code class="language-sh"><span class="hljs-attribute">yarn build</span></code></pre>
 					<p>To build an individual package in response to changes within the <code>src</code> directory, run the following command:</p>
-					<pre><code class="lang-sh"><span class="hljs-attribute">yarn dev</span>
-</code></pre>
+					<pre><code class="language-sh"><span class="hljs-attribute">yarn dev</span></code></pre>
 					<h3 id="running-tests">Running tests</h3>
 					<p>To test an individual packages, run the following command:</p>
-					<pre><code class="lang-sh">yarn <span class="hljs-built_in">test</span>
-</code></pre>
+					<pre><code class="language-sh">yarn <span class="hljs-built_in">test</span></code></pre>
 					<p>To test an individual package in response to changes within the <code>src</code> and <code>test</code> directories, run the following command:</p>
-					<pre><code class="lang-sh"><span class="hljs-attribute">yarn tdd</span>
-</code></pre>
+					<pre><code class="language-sh"><span class="hljs-attribute">yarn tdd</span></code></pre>
 					<h3 id="linting">Linting</h3>
 					<p>To lint a package, run the following command:</p>
-					<pre><code class="lang-sh"><span class="hljs-attribute">yarn lint</span>
-</code></pre>
+					<pre><code class="language-sh"><span class="hljs-attribute">yarn lint</span></code></pre>
 					<p>To programmatically fix lint errors within a package, run the following command:</p>
-					<pre><code class="lang-sh">yarn lint:<span class="hljs-built_in">fix</span>
-</code></pre>
+					<pre><code class="language-sh">yarn lint:<span class="hljs-built_in">fix</span></code></pre>
 					<h2 id="contributing">Contributing</h2>
 					<p>Read the <a href="../../../CONTRIBUTING.md">contributing</a> file to learn about how to contribute to the StoreFront project.</p>
 					<h2 id="license">License</h2>
@@ -203,8 +194,71 @@ yarn add @storefront/recommendations
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-has-type-parameter">
-						<a href="../classes/_storefront_recommendations.recommendations.html" class="tsd-kind-icon">Recommendations</a>
+					<li class=" tsd-kind-external-module">
+						<a href="_storefront_breadcrumbs.html" class="tsd-kind-icon">@storefront/breadcrumbs</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_storefront_collections.html" class="tsd-kind-icon">@storefront/collections</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_storefront_core.html" class="tsd-kind-icon">@storefront/core</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_storefront_details.html" class="tsd-kind-icon">@storefront/details</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_storefront_did_you_mean.html" class="tsd-kind-icon">@storefront/did-<wbr>you-<wbr>mean</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_storefront_flux_capacitor.html" class="tsd-kind-icon">@storefront/flux-<wbr>capacitor</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_storefront_infinite_scroll.html" class="tsd-kind-icon">@storefront/infinite-<wbr>scroll</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_storefront_navigation.html" class="tsd-kind-icon">@storefront/navigation</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_storefront_page_size.html" class="tsd-kind-icon">@storefront/page-<wbr>size</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_storefront_paging.html" class="tsd-kind-icon">@storefront/paging</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_storefront_products.html" class="tsd-kind-icon">@storefront/products</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_storefront_query.html" class="tsd-kind-icon">@storefront/query</a>
+					</li>
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-external-module">
+						<a href="_storefront_recommendations.html" class="tsd-kind-icon">@storefront/recommendations</a>
+						<ul>
+							<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-has-type-parameter">
+								<a href="../classes/_storefront_recommendations.recommendations.html" class="tsd-kind-icon">Recommendations</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+					<li class=" tsd-kind-external-module">
+						<a href="_storefront_record_count.html" class="tsd-kind-icon">@storefront/record-<wbr>count</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_storefront_related_queries.html" class="tsd-kind-icon">@storefront/related-<wbr>queries</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_storefront_sayt.html" class="tsd-kind-icon">@storefront/sayt</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_storefront_sort.html" class="tsd-kind-icon">@storefront/sort</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_storefront_structure.html" class="tsd-kind-icon">@storefront/structure</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_storefront_template.html" class="tsd-kind-icon">@storefront/template</a>
 					</li>
 				</ul>
 			</nav>
