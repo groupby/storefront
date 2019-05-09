@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] [patch]
+### Changed
+- Update `loglevel` to 1.6.1.
+- Update `url-parse` to 1.4.6.
+
 ## [2.9.0] - 2019-05-03
 ### Changed
 - Update `@storefront/flux-capacitor` to 1.74.0.
