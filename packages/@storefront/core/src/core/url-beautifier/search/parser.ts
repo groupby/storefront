@@ -9,6 +9,10 @@ export default class SearchUrlParser extends UrlParser<UrlBeautifier.SearchUrlSt
   suffixPattern: RegExp = RegExp(`${this.config.suffix}$`);
 
   parse = (url: string): UrlBeautifier.SearchUrlState => {
+    // FIXME: url-parse@>=1.4.5 introduces a change that causes `uri` to
+    // contain an unexpected pathname when `url` does not contain at
+    // least one segment. url-parse@<=1.4.4 does not have this behavior
+    // and works as expected.
     const uri = URLparse(url, true);
     const path = uri.pathname.replace(this.suffixPattern, '')
       .split('/').filter((val) => val);
