@@ -5,6 +5,37 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v2.9.3] - 2019-09-13
+
+Package versions:
+
+- `@storefront/breadcrumbs`: 2.10.0
+- `@storefront/collections`: 2.9.0
+- `@storefront/core`: 2.9.3
+- `@storefront/details`: 2.9.0
+- `@storefront/did-you-mean`: 2.9.0
+- `@storefront/flux-capacitor`: 1.74.1
+- `@storefront/infinite-scroll`: 2.9.0
+- `@storefront/navigation`: 2.9.0
+- `@storefront/page-size`: 2.9.0
+- `@storefront/paging`: 2.9.0
+- `@storefront/products`: 2.9.0
+- `@storefront/query`: 2.9.0
+- `@storefront/recommendations`: 2.9.0
+- `@storefront/record-count`: 2.9.0
+- `@storefront/related-queries`: 2.9.0
+- `@storefront/sayt`: 2.9.0
+- `@storefront/sort`: 2.9.0
+- `@storefront/structure`: 2.9.0
+- `@storefront/template`: 2.9.0
+
+### Changed
+#### core
+- Update `@storefront/flux-capacitor` to 1.74.1.
+
+#### flux-capacitor
+- SF-1370: Update `sayt` to 0.2.0.
+
 ## [v2.9.2] - 2019-05-10
 
 Package versions:
