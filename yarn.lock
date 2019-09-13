@@ -810,11 +810,6 @@
   resolved "https://registry.yarnpkg.com/@types/deep-equal/-/deep-equal-0.0.30.tgz#c14df825c9201a1804980e7ebc3ef30e137bb64c"
   integrity sha1-wU34JckgGhgEmA5+vD7zDhN7tkw=
 
-"@types/es6-shim@^0.31.33":
-  version "0.31.38"
-  resolved "https://registry.yarnpkg.com/@types/es6-shim/-/es6-shim-0.31.38.tgz#47a5031158dff8bf166ba4e61de522907faa5bc0"
-  integrity sha512-uyQvkK8q5Ivsnn7TSzdGd3XI+y/y0bchUEwEzYYF7JJtnsXqlniXR8SPfj8DQycsHXQ8SPRjQdyE2zjLwESwwg==
-
 "@types/estree@*":
   version "0.0.39"
   resolved "https://registry.yarnpkg.com/@types/estree/-/estree-0.0.39.tgz#e177e699ee1b8c22d23174caaa7422644389509f"
@@ -891,10 +886,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.1.tgz#da61b64a2930a80fa708e57c45cd5441eb379d5b"
   integrity sha512-i1sl+WCX2OCHeUi9oi7PiCNUtYFrpWhpcx878vpeq/tlZTKzcFdHePlyFHVbWqeuKN0SRPl/9ZFDSTsfv9h7VQ==
 
-"@types/node@^7.0.14":
-  version "7.10.0"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-7.10.0.tgz#9a42f16e2b264cb63903989c5d1d0a7c5eb901c2"
-  integrity sha512-yF75IZxur7xs90zpmoE+ktRJGJIauORo4qblVFvfKTYSSBFRRWlrl2dO/tE4vetSS4KAvFumS+1thTf3mMZhaA==
+"@types/node@^12.6.1":
+  version "12.7.5"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.7.5.tgz#e19436e7f8e9b4601005d73673b6dc4784ffcc2f"
+  integrity sha512-9fq4jZVhPNW8r+UYKnxF1e2HkDWOWKM5bC2/7c9wPV835I0aOrVbS/Hw/pWPk2uKrNXQqg9Z959Kz+IYDd5p3w==
 
 "@types/node@^8.0.18":
   version "8.10.36"
@@ -5820,13 +5815,12 @@ sax@^1.2.4:
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
   integrity sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==
 
-sayt@^0.1.8:
-  version "0.1.8"
-  resolved "https://registry.yarnpkg.com/sayt/-/sayt-0.1.8.tgz#7a8705a195f73157d8b4c1d1e7e2e0eb49eee148"
-  integrity sha1-eocFoZX3MVfYtMHR5+Lg60nu4Ug=
+sayt@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/sayt/-/sayt-0.2.0.tgz#85b63bbc8df2d75a936539c9105dc6e36bea1af9"
+  integrity sha512-Nw39vQlfMQHKjrP/LT1njJrNTI9oEaBQsHOZXRylBQq7d+AoBrCeJDeEgWjg2lXkmJtZrs49OOEVRK5UtMYaTg==
   dependencies:
-    "@types/es6-shim" "^0.31.33"
-    "@types/node" "^7.0.14"
+    "@types/node" "^12.6.1"
     es6-object-assign "^1.0.3"
     es6-promise "^4.1.0"
     filter-object "^2.1.0"
