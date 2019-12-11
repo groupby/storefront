@@ -59,7 +59,7 @@
     "gb-tracker-client": "^3.5.5",
     "js-cookie": "^2.2.0",
     "lodash.camelcase": "^4.3.0",
-    "lodash.merge": "^4.6.0",
+    "lodash.merge": "^4.6.2",
     "loglevel": "~1.6.1",
     "moize": "^5.2.3",
     "riot": "^3.9.5",
