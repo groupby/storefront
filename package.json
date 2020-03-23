@@ -35,7 +35,7 @@
     "@storefront/testing": "^1.2.1",
     "@strictsoftware/typedoc-plugin-monorepo": "^0.2.1",
     "@types/node": "^8.0.18",
-    "babel-loader": "^8.0.4",
+    "babel-loader": "^8.1.0",
     "bowser": "^1.7.1",
     "chai": "^4.1.0",
     "codecov": "^3.6.5",
