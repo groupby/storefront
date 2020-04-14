@@ -31,8 +31,8 @@ export const DEFAULT_FETCHING = {
 export default function updateIsFetching(state: State = DEFAULT_FETCHING, action: Action): State {
   switch (action.type) {
     case Actions.FETCH_MORE_REFINEMENTS: return startFetching(state, 'moreRefinements');
-    case Actions.FETCH_MORE_PAST_PURCHASE_REFINEMENTS: return startFetching(state, 'moreRefinements');
     case Actions.RECEIVE_MORE_REFINEMENTS: return doneFetching(state, 'moreRefinements');
+    case Actions.FETCH_MORE_PAST_PURCHASE_REFINEMENTS: return startFetching(state, 'moreRefinements');
     case Actions.RECEIVE_MORE_PAST_PURCHASE_REFINEMENTS: return doneFetching(state, 'moreRefinements');
     case Actions.FETCH_MORE_PRODUCTS: return startFetching(state, 'moreProducts');
     case Actions.RECEIVE_MORE_PRODUCTS: return doneFetching(state, 'moreProducts');
