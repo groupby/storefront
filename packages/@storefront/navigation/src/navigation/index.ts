@@ -1,6 +1,5 @@
 import { configurable, origin, provide, tag, Events, Selectors, Store, StoreSections, Tag } from '@storefront/core';
 import NavigationDisplay from '../navigation-display';
-import NavigationList from '../navigation-list';
 
 @configurable
 @provide('navigation')
@@ -52,14 +51,14 @@ class Navigation {
         alwaysShowTotals: this.props.alwaysShowTotals,
       })),
     });
-  };
+  }
 }
 
 interface Navigation extends Tag<Navigation.Props, Navigation.State> {}
 namespace Navigation {
   export interface Props extends Tag.Props {
     alwaysShowTotals: boolean;
-    display: NavigationList.DisplayMap;
+    display: any;
     labels: { [key: string]: string };
     collapse:
       | boolean

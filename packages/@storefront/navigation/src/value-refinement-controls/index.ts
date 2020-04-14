@@ -32,6 +32,7 @@ class ValueRefinementControls extends RefinementControls<RefinementControls.Prop
   transformNavigation<T extends RefinementControls.SelectedNavigation>(
     navigation: RefinementControls.SelectedNavigation
   ): T {
+    super.transformNavigation(navigation);
     return <any>{
       ...navigation,
       refinements: navigation.refinements.map((refinement) => ({

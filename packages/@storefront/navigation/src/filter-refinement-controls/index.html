@@ -1,4 +1,6 @@
 <yield>
-  <gb-filtered-refinement-list refinements="{state.refinements}" placeholder="{'Filter ' + state.label}" on-filter-focus="{fetchMoreRefinements}" on-select-all="{selectMatchedRefinements}" enable-select-all="{enableSelectAll()}"></gb-filtered-refinement-list>
-  <gb-button if="{state.more}" on-click="{fetchMoreRefinements}">more</gb-button>
+  <gb-filtered-list items="{state.refinements}" item-alias="refinement" placeholder="{'Filter ' + state.label}" paginate="{!state.more}" on-filter-focus="{fetchMoreRefinements}" on-select-all="{selectMatchedRefinements}" enable-select-all="{enableSelectAll()}">
+    <gb-refinement class="{gb-selected: item.selected, gb-matches-term: item.matchesTerm}" _props="{item}"></gb-refinement>
+  </gb-filtered-list>
+  <button if="{state.more}" class="gb-more-refinements" type="button" onclick="{fetchMoreRefinements}">more</button>
 </yield>

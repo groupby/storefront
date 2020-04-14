@@ -1,4 +1,4 @@
 <input ref="low" type="number" placeholder="{props.labels.low}" riot-value="{/\d+/.test(props.values.low) ? props.values.low : ''}" min="{props.values.min}" max="{props.values.max}" onkeyup="{props.onChange}">
 <span>to</span>
 <input ref="high" type="number" placeholder="{props.labels.high}" riot-value="{/\d+/.test(props.values.high) ? props.values.high : ''}" min="{props.values.min}" max="{props.values.max}" onkeyup="{props.onChange}">
-<gb-button on-click="{onClick}" submit="{props.labels.submit}">{props.submit}</gb-button>
+<button if="{state.more}" type="button" onclick="{onClick}">{props.labels.submit}</button>

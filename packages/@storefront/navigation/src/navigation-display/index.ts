@@ -2,7 +2,7 @@ import { provide, tag, Events, Selectors, Store, StoreSections, Tag } from '@sto
 import RefinementControls from '../refinement-controls';
 
 @provide('navigationDisplay')
-@tag('gb-navigation-display', require('./index.html'))
+@tag('gb-navigation-display', require('./index.html'), require('./index.css'))
 class NavigationDisplay {
   props: NavigationDisplay.Props = {
     icons: {

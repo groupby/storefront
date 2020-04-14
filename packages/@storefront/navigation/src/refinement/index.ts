@@ -1,6 +1,4 @@
-import { provide, tag, Selectors, Store, Tag } from '@storefront/core';
-import RefinementList from '../refinement-list';
-import ValueRefinementControls from '../value-refinement-controls';
+import { provide, tag, Selectors, Tag } from '@storefront/core';
 
 @provide('refinementDisplay')
 @tag('gb-refinement', require('./index.html'))

@@ -35,7 +35,7 @@ class RangeRefinementControls extends RefinementControls<RangeRefinementControls
   onChange = (event: KeyboardEvent) => {
     const rangeSelector = this.tags['gb-range-selector'];
     this.updateSelected(parseFloat(rangeSelector.refs.low.value), parseFloat(rangeSelector.refs.high.value));
-  };
+  }
 
   updateSelected = (low: number, high: number) => this.set({ low, high });
 }
