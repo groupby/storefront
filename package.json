@@ -61,7 +61,7 @@
     "typedoc-plugin-nojekyll": "^1.0.1",
     "typescript": "^3.4.5",
     "uglifyjs-webpack-plugin": "^1.0.0",
-    "webpack": "^3.0.0",
+    "webpack": "^4.44.1",
     "webpack-bundle-analyzer": "^3.0.3",
     "webpack-cli": "^3.3.1",
     "webpack-md5-hash": "^0.0.6"
