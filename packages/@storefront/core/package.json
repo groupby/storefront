@@ -52,7 +52,7 @@
     "@types/clone": "^0.1.30",
     "@types/deep-assign": "^0.1.0",
     "@types/js-cookie": "^2.2.2",
-    "@types/lodash": "^4.14.123",
+    "@types/lodash": "^4.14.159",
     "@types/loglevel": "~1.4.29",
     "@types/riot": "^3.6.1",
     "clone": "^2.1.1",
