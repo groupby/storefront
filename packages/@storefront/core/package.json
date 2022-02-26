@@ -63,7 +63,7 @@
     "loglevel": "~1.6.1",
     "moize": "^5.2.3",
     "riot": "^3.9.5",
-    "url-parse": "1.4.4"
+    "url-parse": "1.5.8"
   },
   "peerDependencies": {
     "groupby-api": "^2.5.0"
